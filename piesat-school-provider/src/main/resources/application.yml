@@ -1,0 +1,117 @@
+spring:
+  profiles:
+    active: @profiles.active@
+  application:
+    name: @artifactId@
+  main:
+    allow-bean-definition-overriding: true
+  #autoconfigure:
+  #  exclude:
+  #    - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration #使用Smartwork-kafka-starter必须exclude
+  #    - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+  #    - com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  #data:
+  #  elasticsearch:
+  #    repositories:
+  #      enabled: true
+  #elasticsearch:
+  #  rest:
+  #    uris: localhost:9200
+  #redissons:
+    #book:
+    #  nodeAddresses:
+    #    - "redis://192.168.0.155:6379"
+    #    - "redis://192.168.0.155:6380"
+    #    - "redis://192.168.0.155:6381"
+    #    - "redis://192.168.0.155:6382"
+    #    - "redis://192.168.0.155:6383"
+    #    - "redis://192.168.0.155:6384"
+    #  password:
+    #  file: classpath:redisson/redisson.yml.bak
+    #content:
+    #  address: redis://${val-redis-content-hostname}:${val-redis-content-port}
+    #  password: ${val-redis-content-password}
+    #  database: 0
+    #  file: classpath:redisson/redisson.yml.bak
+#  autoconfigure:
+#    #由于引入了springdata redis 但又期望使用redission，所以忽略掉RedisAutoConfiguration的初始化
+#    exclude: org.redisson.spring.starter.RedissonAutoConfiguration
+
+dubbo:
+  application:
+    #id: sbt-provider
+    name: ${spring.application.name}
+    logger: slf4j
+  scan:
+    base-packages: com.piesat.school.provider.serv
+  protocols:
+    dubbo:
+      name: dubbo
+      port: -1
+  registries:
+    school_registry:
+      #register: false #表示服务不注册到注册中心(此时下面的地址不会使用，因为comsume走直连)
+      address: ${var.dubbo.registry.zookeeper}
+    pieengine_registry:
+      #register: false #表示服务不注册到注册中心(此时下面的地址不会使用，因为comsume走直连)
+      address: ${var.dubbo.registry.pieegine.zookeeper}
+#      serialization: kryo
+      #host: 192.168.1.155
+    #rest:
+    #  name: rest
+    #  port: 9090
+    #  server: netty
+  #registry:
+    #   The Spring Cloud Dubbo's registry extension
+  #  address: ${var.dubbo.registry.zookeeper}
+  #   The traditional Dubbo's registry
+  #   address: zookeeper://127.0.0.1:2181
+  #  cloud:
+  #    subscribed-services: /
+  #consumer:
+  #  check: false
+    #validation: smartworkDubboValidation
+  consumers:
+    pieengine:
+      init: true
+      check: false
+      #parameters:
+      #  .appKey: ${var.pieengine.appKey}
+      #  .appSecret: ${var.pieengine.appSecret}
+      #validation: smartworkDubboValidation
+      version: 1.0.0
+      retries: 1
+      timeout: 5000
+      group: ${var.pieengine.dubbo.group}
+      registryIds: pieengine_registry
+  provider:
+    loadbalance: roundrobin
+    cluster: failfast # 集群方式,可选: failover/failfast/failsafe/failback/forking
+    retries: 0 # 远程服务调用重试次数, 不包括第一次调用, 不需要重试请设为0
+    timeout: 600000 # 远程服务调用超时时间(毫秒)
+    #token: true # 令牌验证, 为空表示不开启, 如果为true, 表示随机生成动态令牌
+    dynamic: true # 服务是否动态注册, 如果设为false, 注册后将显示后disable状态, 需人工启用, 并且服务提供者停止时, 也不会自动取消册, 需人工禁用.
+    delay: -1 # 延迟注册服务时间(毫秒)- , 设为-1时, 表示延迟到Spring容器初始化完成时暴露服务
+    version: 1.0.0 # 服务版本
+    validation: smartworkDubboValidation
+    filter: -exception
+    registryIds: school_registry
+    #validation: true # 是否启用JSR303标准注解验证, 如果启用, 将对方法参数上的注解进行校验
+    #    filter: -exception # 服务提供方远程调用过程拦截器名称, 多个名称用逗号分隔
+
+#feign:
+#  hystrix:
+#    enabled: true
+
+# 禁止Actuator监控Redis连接
+management:
+  health:
+    redis:
+      enabled: false
+#log:
+#  path: ${log-path}
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: @logging.output.path@/rpc

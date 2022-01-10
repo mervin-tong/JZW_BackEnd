@@ -1,0 +1,36 @@
+spring:
+  # Kafka 配置项，对应 KafkaProperties 配置类
+  kafka:
+    bootstrap-servers: ${var.kafka.servers} # 指定 Kafka Broker 地址，可以设置多个，以逗号分隔
+    # Kafka Producer 配置项
+    producer:
+      acks: 1 # 0-不应答。1-leader 应答。all-所有 leader 和 follower 应答。
+      retries: 2 # 发送失败时，重试发送的次数
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer # 消息的 key 的序列化
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer # 消息的 value 的序列化
+      #value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    # Kafka Consumer 配置项
+    consumer:
+      auto-offset-reset: earliest # 设置消费者分组最初的消费进度为 earliest
+      max-poll-records: 20
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      #value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.piesat.school.provider.kafka.payload.*
+            #平台的移动端登录消息JSON序列化内没有header，所以此处指定默认type。
+            value:
+              default:
+                type: com.piesat.school.provider.kafka.payload.account.PieAccountActionMessage
+      #value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    # Kafka Consumer Listener 监听器配置
+    listener:
+      missing-topics-fatal: false # 消费监听接口监听的主题不存在时，默认会报错。所以通过设置为 false ，解决报错
+      type: BATCH
+      ack-mode: MANUAL_IMMEDIATE
+      concurrent-thread:
+        enable: true

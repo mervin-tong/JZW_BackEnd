@@ -1,0 +1,27 @@
+var:
+  dubbo:
+    registry:
+      zookeeper: zookeeper://localhost:2181
+      #pieegine:
+      #  zookeeper: zookeeper://192.168.10.192:2181
+  #pieengine:
+  #  appKey: 40217655fefcd9bc776af2b8910ac5f0
+  #  appSecret: a3e59e48265cd6513f94ce9ee820f6e1
+  #  dubbo:
+  #    group: test
+  server:
+    contextpath: /piesat-school
+    port: 8080
+  #redis:
+  #  ucontext:
+  #    address: redis://localhost:6390
+#demo:
+#  welcome: Happy1
+#zk
+#dubbo-registry-zookeeper-url: zookeeper://localhost:2181
+#server
+#val-server-servlet-contextpath: /school
+#val-server-port: 9080
+
+#log:
+#  path: /Users/tangzichao/logs

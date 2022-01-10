@@ -1,0 +1,106 @@
+spring:
+  profiles:
+    active: @profiles.active@
+  i18n:
+    basenames:
+      - "classpath:i18n/school/messages"
+  application:
+    name: @artifactId@
+    #inetutils:
+    #  preferred-networks: 192 #限定选择前缀为 192 的 ip
+  main:
+    allow-bean-definition-overriding: true
+  mvc: # springmvc 404 error 抛 NoHandlerFoundException 可以被ControllerAdvice捕获
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false # 配合 springmvc 404 error 抛 NoHandlerFoundException 可以被ControllerAdvice捕获，否则不生效
+  #profiles:
+  #  active: @profiles.active@
+
+server:
+  servlet:
+    context-path: ${var.server.contextpath}
+  # 服务http端口 缺省不配置也是8080
+  port: ${var.server.port}
+  shutdown: graceful
+  # tomcat配置
+  tomcat:
+    # 队列长度
+    accept-count: 50
+    # 最大链接数
+    max-connections: 300
+    #链接建立超时时间
+    connection-timeout: 20000
+    threads:
+      # 最大线程数
+      max: 100
+      # 最小线程数
+      min-spare: 15
+    uri-encoding: UTF-8
+
+#dubbo:
+  #protocols:
+  #  dubbo:
+  #    host: 192.168.1.155
+  #registry:
+  #  address: ${var.dubbo.registry.zookeeper}
+  #consumer:
+  #  check: false
+    #validation: smartworkDubboValidation
+    #validation: true # 是否启用JSR303标准注解验证, 如果启用, 将对方法参数上的注解进行校验
+  #  version: 1.0.0
+
+#dubbo:
+  #protocols:
+  #  dubbo:
+  #    host: 192.168.1.155
+  #registry:
+  #  address: ${var.dubbo.registry.zookeeper}
+  #consumer:
+  #  check: false
+  #  validation: smartworkDubboValidation
+  #validation: true # 是否启用JSR303标准注解验证, 如果启用, 将对方法参数上的注解进行校验
+  #  version: 1.0.0
+
+dubbo:
+  registries:
+    school_registry:
+      #register: false #表示服务不注册到注册中心(此时下面的地址不会使用，因为comsume走直连)
+      address: ${var.dubbo.registry.zookeeper}
+    #pieengine_registry:
+      #register: false #表示服务不注册到注册中心(此时下面的地址不会使用，因为comsume走直连)
+      #address: zookeeper://zk-cs.pie-engine-infra.svc.cluster.local:2181
+      #address: ${var.dubbo.registry.pieegine.zookeeper}
+  consumers:
+    school:
+      #isDefault: true
+      check: false
+      validation: smartworkDubboValidation
+      version: 1.0.0
+      registryIds: school_registry
+    #pieengine:
+    #  init: true
+    #  check: false
+      #parameters:
+      #  .appKey: ${var.pieengine.appKey}
+      #  .appSecret: ${var.pieengine.appSecret}
+      #validation: smartworkDubboValidation
+    #  version: 1.0.0
+    #  retries: 1
+    #  timeout: 5000
+    #  group: ${var.pieengine.dubbo.group}
+    #  registryIds: pieengine_registry
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: @logging.output.path@/rest

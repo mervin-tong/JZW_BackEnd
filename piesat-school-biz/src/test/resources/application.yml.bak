@@ -1,0 +1,81 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  autoconfigure:
+    exclude:
+      - com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+      #- com.alibaba.cloud.seata.GlobalTransactionAutoConfiguration
+  #数据源
+  datasource:
+    dynamic:
+      primary: master
+      #seata: true #开启seata
+      #seata: false
+      datasource:
+        druid:
+          initial-size: 3 #初始连接数量
+          max-active: 8 #最大连接数量
+          min-idle: 2 #最小连接数量
+          max-wait: -1 #配置获取连接等待超时的时间
+          min-evictable-idle-time-millis: 30000
+          max-evictable-idle-time-millis: 30000
+          time-between-eviction-runs-millis: 0
+          validation-query: select 1
+          validation-query-timeout: -1
+          test-on-borrow: false
+          test-on-return: false
+          test-while-idle: true
+          pool-prepared-statements: true
+          max-open-prepared-statements: 100
+          filters: stat,wall
+          share-prepared-statements: true
+        master:
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${mysql-uaas-master-url:localhost:3306}/lawliet_uaas?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+        elasticsearchtest:
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${mysql-uaas-master-url:localhost:3306}/elasticsearch_test?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+        #slave_uaas_1:
+        #  username: root
+        #  password: 123456
+        #  driver-class-name: com.mysql.cj.jdbc.Driver
+        #  url: jdbc:mysql://${mysql-uaas-slave1-url:localhost:3307}/lawliet_uaas?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+        #slave_uaas_2:
+        #  username: root
+        #  password: 123456
+        #  driver-class-name: com.mysql.cj.jdbc.Driver
+        #  url: jdbc:mysql://${mysql-uaas-slave2-url:localhost:3308}/lawliet_uaas?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+        #test:
+        #  username: root
+        #  password: 123456
+        #  driver-class-name: com.mysql.cj.jdbc.Driver
+        #  url: jdbc:mysql://${mysql-uaas-master-url:localhost:3306}/lawliet_test?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+  #profiles:
+  #  active: @profiles.active@
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+  elasticsearch:
+    rest:
+      uris:
+        - localhost:9200
+
+mybatis-plus:
+  mapper-locations:  classpath:mapper/**/*.xml
+  type-aliases-package: com.wordoor.lawliet.*.biz.*.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.baomidou.dynamic: debug
+
+
+
+
+

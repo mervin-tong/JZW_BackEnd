@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    # 动态数据源配置
+    dynamic:
+      datasource:
+        master:
+          type: com.zaxxer.hikari.HikariDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${var.datasource.master}/piesat_school?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          username: ${var.datasource.username}
+          password: ${var.datasource.password}
+        slave_1:
+          type: com.zaxxer.hikari.HikariDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${var.datasource.slave1}/piesat_school?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          username: ${var.datasource.username}
+          password: ${var.datasource.password}
+        slave_2:
+          type: com.zaxxer.hikari.HikariDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${var.datasource.slave2}/piesat_school?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          username: ${var.datasource.username}
+          password: ${var.datasource.password}
+#        wallet:
+#          type: com.zaxxer.hikari.HikariDataSource
+#          username: root
+#          password: vLLwsZlRAoJ0@
+#          driver-class-name: com.mysql.cj.jdbc.Driver
+#          url: jdbc:mysql://121.43.132.227:3306/smartwork_demo_wallet?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+      # 指定默认数据源名称
+      primary: master
+
+

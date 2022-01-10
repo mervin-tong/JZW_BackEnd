@@ -1,0 +1,18 @@
+var:
+  dubbo:
+    registry:
+      zookeeper: zookeeper://localhost:2181
+  server:
+    contextpath: /piesat-school
+    port: 8080
+
+#demo:
+#  welcome: Happy1
+##zk
+#dubbo-registry-zookeeper-url: zookeeper://zk.school.dev.clu:2181
+##server
+#val-server-servlet-contextpath: /school
+#val-server-port: 8080
+
+#log:
+#  path: /Users/tangzichao/logs

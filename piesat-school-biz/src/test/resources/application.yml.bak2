@@ -1,0 +1,177 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  #autoconfigure:
+  #  exclude:
+  #    - com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+      #- com.alibaba.cloud.seata.GlobalTransactionAutoConfiguration
+  datasource:
+    # 动态数据源配置
+    dynamic:
+      datasource:
+        master_uaas:
+          type: com.zaxxer.hikari.HikariDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/lawliet_uaas?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true
+          username: root
+          password: 123456
+        slave_uaas1:
+          type: com.zaxxer.hikari.HikariDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/lawliet_uaas?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true
+          username: root
+          password: 123456
+        slave_uaas2:
+          type: com.zaxxer.hikari.HikariDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/lawliet_uaas?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true
+          username: root
+          password: 123456
+        test:
+          type: com.zaxxer.hikari.HikariDataSource
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/lawliet_test?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+      # 指定默认数据源名称
+      primary: master_uaas
+  # ShardingSphere 配置项
+  shardingsphere:
+    # 数据源配置
+    datasource:
+      # 所有数据源的名字
+      names: ds-master-0, ds-m0-slave-0, ds-m0-slave-1, ds-master-1, ds-m1-slave-0, ds-m1-slave-1
+      #common:
+      #  type: com.zaxxer.hikari.HikariDataSource # 使用 Hikari 数据库连接池
+      #  driver-class-name: com.mysql.cj.jdbc.Driver
+      #  username: root
+      #  password: 123456
+      # lawliet_uaas_0主库的数据源配置
+      ds-master-0:
+        type: com.zaxxer.hikari.HikariDataSource # 使用 Hikari 数据库连接池
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/lawliet_uaas_0?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: 123456
+      # lawliet_uaas_0 从库0数据源配置
+      ds-m0-slave-0:
+        type: com.zaxxer.hikari.HikariDataSource # 使用 Hikari 数据库连接池
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3307/lawliet_uaas_0?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: 123456
+      # lawliet_uaas_0 从库1数据源配置
+      ds-m0-slave-1:
+        type: com.zaxxer.hikari.HikariDataSource # 使用 Hikari 数据库连接池
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3308/lawliet_uaas_0?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: 123456
+      # lawliet_uaas_1主库的数据源配置
+      ds-master-1:
+        type: com.zaxxer.hikari.HikariDataSource # 使用 Hikari 数据库连接池
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/lawliet_uaas_1?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: 123456
+      # lawliet_uaas_1 从库0数据源配置
+      ds-m1-slave-0:
+        type: com.zaxxer.hikari.HikariDataSource # 使用 Hikari 数据库连接池
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3307/lawliet_uaas_1?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: 123456
+      # lawliet_uaas_1 从库1数据源配置
+      ds-m1-slave-1:
+        type: com.zaxxer.hikari.HikariDataSource # 使用 Hikari 数据库连接池
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3308/lawliet_uaas_1?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: 123456
+    sharding:
+      # 读写分离配置，对应 YamlMasterSlaveRuleConfiguration 配置类
+      master-slave-rules:
+        ds0:
+          master-data-source-name: ds-master-0
+          slave-data-source-names: ds-m0-slave-0, ds-m0-slave-1
+          #如果从数据源有多个，可以使用内置负载均衡算法，指定内置负载均衡算法的类型 ROUND_ROBIN轮循，RANDOM随机
+          load-balance-algorithm-type: ROUND_ROBIN
+        ds1:
+          master-data-source-name: ds-master-1
+          slave-data-source-names: ds-m1-slave-0, ds-m1-slave-1
+          load-balance-algorithm-type: ROUND_ROBIN
+      #配置分库分表规则
+      tables:
+        t_users:
+          actual-data-nodes: ds$->{0..1}.t_users_$->{0..2}
+          key-generator: # 分布式主键生成策略
+            column: id
+            type: SNOWFLAKE #雪花分布式自增ID算法；强依赖时钟，时钟回拨时会造成ID重复
+          database-strategy:
+            inline:
+              algorithm-expression: ds$->{id % 2}
+              sharding-column: id
+          table-strategy:
+            inline:
+              algorithm-expression: t_users_$->{id % 3}
+              sharding-column: id
+    #masterslave:
+    #  name: ms # 名字，任意，需要保证唯一
+    #  master-data-source-name: ds-master # 主库数据源
+    #  slave-data-source-names: ds-slave-1, ds-slave-2 # 从库数据源
+    # 拓展属性配置
+    props:
+      sql:
+        show: true # 打印 SQL
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+  elasticsearch:
+    rest:
+      uris:
+        - localhost:9200
+
+jetcache:
+  statIntervalMinutes: 1
+  areaInCacheName: false
+  local:
+    default:
+      type: caffeine
+      keyConvertor: fastjson
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      uri:
+        - redis://127.0.0.1:6379
+      #host: 127.0.0.1
+      #port: 6379
+
+
+mybatis-plus:
+  mapper-locations:  classpath:mapper/**/*.xml
+  type-aliases-package: com.wordoor.lawliet.*.biz.*.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下。
+  global-config:
+    db-config:
+      id-type: none # 虽然 MyBatis Plus 也提供 ID 生成策略，但是还是使用 Sharding-JDBC 的
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+logging:
+  level:
+    com.baomidou.dynamic: debug
+
+
+
+
+

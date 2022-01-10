@@ -1,0 +1,98 @@
+var:
+  dubbo:
+    registry:
+      zookeeper: zookeeper://localhost:2181
+      pieegine:
+        zookeeper: zookeeper://localhost:2181
+  pieengine:
+    appKey: 40217655fefcd9bc776af2b8910ac5f0
+    appSecret: a3e59e48265cd6513f94ce9ee820f6e1
+    dubbo:
+      group: test
+  datasource:
+    username: root
+    password: vLLwsZlRAoJ0@
+    master: 68.79.5.94:3306
+    slave1: 68.79.5.94:3306
+    slave2: 68.79.5.94:3306
+  jpush:
+    masterSecret: 78b5a100ade7b01dafe0e6f6
+    appKey: dc9d599c9047437068fd7fba
+    apnsProduction: true
+  #jetcache:
+  #  remote:
+  #    redis:
+  #      address:
+  #        - redis://localhost:6390
+  #      password:
+  #  policy:
+  #    redis:
+  #      host: localhost
+  #      port: 6390
+  #redis:
+  #  ucontext:
+  #    address: redis://localhost:6390
+  #    password:
+  kafka:
+    servers: localhost:9092
+
+jetcache:
+  statIntervalMinutes: 5
+  areaInCacheName: false
+  local:
+    default:
+      type: caffeine
+      keyConvertor: fastjson
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      uri:
+        - redis://localhost:6379
+#
+##zk
+#dubbo-registry-zookeeper-url: zookeeper://localhost:2181
+##datasource
+#val-datasource-dynamic-username: root
+#val-datasource-dynamic-password: vLLwsZlRAoJ0@
+#val-datasource-dynamic-master-uri: 68.79.5.94:3306
+#val-datasource-dynamic-slave1-uri: 68.79.5.94:3306
+#
+##redis
+#val-redis-content-hostname: localhost
+#val-redis-content-port: 6379
+#val-redis-content-password:
+#
+#mysql-uaas-master-url: localhost:3306
+#mysql-uaas-slave1-url: localhost:3307
+#mysql-uaas-slave2-url: localhost:3308
+#
+#piecloud-kafka-servers: localhost:9092
+
+#kafka-bootstrap-servers: localhost:9092
+
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印控制台SQL
+
+#logpath: /Users/tangzichao/logs
+#logfile:
+#  path: /Users/tangzichao/logs
+#log-path: /Users/tangzichao/logs
+
+#logging:
+#  level:
+#    com.baomidou.dynamic: debug
+#uaas:
+#  kafka:
+#    topic: uaas_business_msg
+#    consumer-group-id: uaas-consumer-group
+
+
+

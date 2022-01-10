@@ -1,0 +1,11 @@
+smartwork:
+  redissons:
+    ucontext:
+      config: |
+        #codec: !<org.redisson.codec.JsonJacksonCodec> {}
+        singleServerConfig:
+          address: redis://localhost:6390
+          database: 1
+          #password: ${var.redis.ucontext.password}
+      #primary: true
+      #file: classpath:redisson/redisson.yml.bak 文件方式也支持(文件方式不容易适配多环境，需要多个环境文件)

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.piesat</groupId>
+        <artifactId>piesat-school</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>piesat-school-biz</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!--common dynamic shardingsphere -->
+        <!--
+        <dependency>
+            <groupId>com.smartwork</groupId>
+            <artifactId>smartwork-ds-dynamic-sharding-starter</artifactId>
+            <version>${smartwork.core.ds.dynamic.sharding.starter.version}</version>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>com.smartwork</groupId>
+            <artifactId>smartwork-ds-dynamic-starter</artifactId>
+            <version>${smartwork.core.ds.dynamic.starter.version}</version>
+        </dependency>
+        <!--
+        <dependency>
+            <groupId>com.smartwork</groupId>
+            <artifactId>smartwork-redisson-starter</artifactId>
+            <version>${smartwork.core.redisson.starter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.piesat</groupId>
+            <artifactId>uav-management-security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        -->
+        <!--smartwork cache -->
+        <dependency>
+            <groupId>com.smartwork</groupId>
+            <artifactId>smartwork-jetcache-starter</artifactId>
+            <version>${smartwork.core.jetcache.starter.version}</version>
+        </dependency>
+
+
+        <!--common redisson-->
+        <!--
+        <dependency>
+            <groupId>com.smartwork</groupId>
+            <artifactId>smartwork-redisson-starter</artifactId>
+            <version>${smartwork.core.redisson.starter.version}</version>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>com.piesat</groupId>
+            <artifactId>piesat-school-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.piesat</groupId>
+            <artifactId>piesat-school-security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- smartwork jpush api -->
+        <dependency>
+            <groupId>com.smartwork</groupId>
+            <artifactId>smartwork-jpush-starter</artifactId>
+            <version>${smartwork.core.jpush.starter.version}</version>
+        </dependency>
+        <!--
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
+        -->
+
+        <!--
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-elasticsearch</artifactId>
+            <version>${spring-data-elasticsearch.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.elasticsearch</groupId>
+                    <artifactId>elasticsearch</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        -->
+
+        <!--
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.hsr</groupId>
+            <artifactId>geohash</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        -->
+        <!--
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        -->
+        <!--
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+        </dependency>-->
+        <!-- 模板引擎
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>${velocity-engine-core.version}</version>
+        </dependency>
+        -->
+        <!-- excel
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>${easyexcel.version}</version>
+        </dependency>
+        -->
+        <!--
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-sts</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-iam</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk16</artifactId>
+            <version>1.45</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-kms</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.piesat.engine</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>

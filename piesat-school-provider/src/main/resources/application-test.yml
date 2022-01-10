@@ -1,0 +1,43 @@
+var:
+  dubbo:
+    registry:
+      zookeeper: zookeeper://zk-0.zk-hs.pie-engine-queue.svc.cluster.local:2181,zk-1.zk-hs.pie-engine-queue.svc.cluster.local:2181,zk-2.zk-hs.pie-engine-queue.svc.cluster.local:2181
+      pieegine:
+        zookeeper: zookeeper://zk-0.zk-hs.pie-engine-queue.svc.cluster.local:2181,zk-1.zk-hs.pie-engine-queue.svc.cluster.local:2181,zk-2.zk-hs.pie-engine-queue.svc.cluster.local:2181
+  pieengine:
+    appKey: 40217655fefcd9bc776af2b8910ac5f0
+    appSecret: a3e59e48265cd6513f94ce9ee820f6e1
+    dubbo:
+      group: test
+  datasource:
+    username: root
+    password: hthtroot
+    master: mysql-single.pie-base.svc.cluster.local:3306
+    slave1: mysql-single.pie-base.svc.cluster.local:3306
+    slave2: mysql-single.pie-base.svc.cluster.local:3306
+  jpush:
+    masterSecret: 78b5a100ade7b01dafe0e6f6
+    appKey: dc9d599c9047437068fd7fba
+    apnsProduction: true
+  kafka:
+    servers: kafka-0.kafka-hs.pie-engine-queue.svc.cluster.local:9093,kafka-1.kafka-hs.pie-engine-queue.svc.cluster.local:9093,kafka-2.kafka-hs.pie-engine-queue.svc.cluster.local:9093
+
+jetcache:
+  statIntervalMinutes: 60
+  areaInCacheName: false
+  local:
+    default:
+      type: caffeine
+      keyConvertor: fastjson
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: 5
+        maxIdle: 20
+        maxTotal: 50
+      uri:
+        - redis://redis.pie-engine-infra.svc.cluster.local:6379

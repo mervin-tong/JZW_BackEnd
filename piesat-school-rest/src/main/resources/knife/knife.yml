@@ -1,0 +1,31 @@
+knife4j:
+  enable: true    # 是否开启Knife4j增强模式，默认值为false
+  cors: true     # 是否开启一个默认的跨域配置,该功能配合自定义Host使用，默认值为false
+  production: false     # 对Knife4j提供的资源提供BasicHttp校验,保护文档
+  basic:
+    enable: true       # 关闭BasicHttp功能，默认为false
+    username: admin    # basic用户名
+    password: smart-school    # basic密码
+  setting:            # 前端Ui的个性化配置属性
+    #language: en-US                   # Ui默认显示语言,目前主要有两种:中文(zh-CN)、英文(en-US)，默认为中文
+    #enableSwaggerModels: true         # 是否显示界面中SwaggerModel功能，默认是true
+    #enableDocumentManage: true        # 是否显示界面中"文档管理"功能，默认是true
+    #swaggerModelName: 实体类列表       # 重命名SwaggerModel名称
+    #enableVersion: false              # 是否开启界面中对某接口的版本控制,如果开启，后端变化后Ui界面会存在小蓝点
+    #enableReloadCacheParameter: false # 是否在每个Debug调试栏后显示刷新变量按钮,默认不显示
+    #enableAfterScript: true           # 调试Tab是否显示AfterScript功能,默认开启
+    #enableFilterMultipartApiMethodType: POST    # 具体接口的过滤类型，默认为POST
+    #enableFilterMultipartApis: false  # 针对RequestMapping的接口请求类型,在不指定参数类型的情况下,如果不过滤,默认会显示7个类型的接口地址参数,如果开启此配置,默认展示一个Post类型的接口地址
+    #enableRequestCache: true          # 是否开启请求参数缓存
+    enableHost: true                 # 是否启用Host，默认为false
+    enableHostText: 68.79.6.90:30825                # 主机描述
+    #enableHomeCustom: true            # 是否开启自定义主页内容，默认为false
+    #homeCustomLocation: classpath:markdown/home.md    # 主页内容Markdown文件路径
+    #enableSearch: false             # 是否禁用Ui界面中的搜索框，默认为false
+    #enableFooter: false             # 是否显示Footer，默认为true
+    #enableFooterCustom: true        # 是否开启自定义Footer，默认为false
+    #footerCustomContent: Apache License 2.0           # 自定义Footer内容
+    #enableDynamicParameter: false   # 是否开启动态参数调试功能，默认为false
+    #enableDebug: true               # 启用调试，默认为true
+    #enableOpenApi: false            # 显示OpenAPI规范，默认为true
+    #enableGroup: false               # 显示服务分组，默认为true

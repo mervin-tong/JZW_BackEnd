@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.smartwork</groupId>
+        <artifactId>smartwork-cloud</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.piesat</groupId>
+    <artifactId>piesat-school</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <java.version>1.8</java.version>
+
+        <smartwork.core.base.starter.version>0.0.1-SNAPSHOT</smartwork.core.base.starter.version>
+        <smartwork.core.ds.dynamic.sharding.starter.version>0.0.1-SNAPSHOT</smartwork.core.ds.dynamic.sharding.starter.version>
+        <smartwork.core.ds.dynamic.starter.version>0.0.1-SNAPSHOT</smartwork.core.ds.dynamic.starter.version>
+        <smartwork.core.jetcache.starter.version>0.0.1-SNAPSHOT</smartwork.core.jetcache.starter.version>
+        <smartwork.core.mybatisplus.starter.version>0.0.1-SNAPSHOT</smartwork.core.mybatisplus.starter.version>
+        <smartwork.core.redisson.starter.version>0.0.1-SNAPSHOT</smartwork.core.redisson.starter.version>
+        <smartwork.core.web.starter.version>0.0.1-SNAPSHOT</smartwork.core.web.starter.version>
+        <smartwork.core.jpush.starter.version>0.0.1-SNAPSHOT</smartwork.core.jpush.starter.version>
+        <smartwork.core.dubbo.starter.version>0.0.1-SNAPSHOT</smartwork.core.dubbo.starter.version>
+        <smartwork.core.kafka.starter.version>0.0.1-SNAPSHOT</smartwork.core.kafka.starter.version>
+        <smartwork.core.kafka.concurrent.starter.version>0.0.1-SNAPSHOT</smartwork.core.kafka.concurrent.starter.version>
+        <smartwork.pieengine.dubbo.api.version>0.0.1-SNAPSHOT</smartwork.pieengine.dubbo.api.version>
+        <smartwork.api.version>0.0.1-SNAPSHOT</smartwork.api.version>
+
+        <pieengine.message.dubbo.api.version>1.0.0-SNAPSHOT</pieengine.message.dubbo.api.version>
+
+        <swagger.version>2.10.5</swagger.version>
+        <knife.version>2.0.9</knife.version>
+        <velocity.version>2.0</velocity.version>
+        <!--
+        <spring-data-redis.version>2.3.7.RELEASE</spring-data-redis.version>
+        <smartwork.pieengine.gateway.api.starter.version>0.0.1-SNAPSHOT</smartwork.pieengine.gateway.api.starter.version>
+        <smartwork.pieengine.dubbo.api.version>0.0.1-SNAPSHOT</smartwork.pieengine.dubbo.api.version>
+
+        <spring.boot.version>2.3.4.RELEASE</spring.boot.version>
+        <spring.cloud.version>Hoxton.SR10</spring.cloud.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <fastjson.version>1.2.75</fastjson.version>
+        <spring.kafka.version>2.6.7</spring.kafka.version>
+        <kafka.client.version>2.6.1</kafka.client.version>
+        -->
+        <!--
+        <easyexcel.version>2.2.10</easyexcel.version>
+        -->
+        <!--
+        <spring-data-elasticsearch.version>4.0.2.RELEASE</spring-data-elasticsearch.version>
+        <elasticsearch.version>7.6.2</elasticsearch.version>
+        -->
+        <!--
+        <velocity-engine-core.version>2.0</velocity-engine-core.version>
+        -->
+        <!--
+        <qiniu.version>7.2.18</qiniu.version>
+        -->
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>pie</id>
+            <name>Pie Repositories</name>
+            <url>http://rapdevplus.piesat.cn:8090/repository/pie_maven_public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>pie</id>
+            <name>Pie Plugin Repositories</name>
+            <url>http://rapdevplus.piesat.cn:8090/repository/pie_maven_public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <!--
+    <distributionManagement>
+        <snapshotRepository>
+            <id>pie-snapshots</id>
+            <name>Pie Porject Snapshot</name>
+            <url>http://rapdevplus.piesat.cn:8090/repository/pie_snapshots/</url>
+            <uniqueVersion>true</uniqueVersion>
+        </snapshotRepository>
+        <repository>
+            <id>pie-releases</id>
+            <name>Pie Porject Release</name>
+            <url>http://rapdevplus.piesat.cn:8090/repository/pie_releases/</url>
+        </repository>
+    </distributionManagement>
+    -->
+    <!--
+    <distributionManagement>
+        <snapshotRepository>
+            <id>pie-snapshots</id>
+            <name>Pie Porject Snapshot</name>
+            <url>http://rapdevplus.piesat.cn:8090/repository/pie_snapshots/</url>
+            <uniqueVersion>true</uniqueVersion>
+        </snapshotRepository>
+        <repository>
+            <id>pie-releases</id>
+            <name>Pie Porject Release</name>
+            <url>http://rapdevplus.piesat.cn:8090/repository/pie_releases/</url>
+        </repository>
+    </distributionManagement>
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- knife4j -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- lombok -->
+        <!--
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        -->
+    </dependencies>
+
+    <modules>
+        <module>piesat-school-api</module>
+        <module>piesat-school-biz</module>
+        <module>piesat-school-provider</module>
+        <module>piesat-school-rest</module>
+        <module>piesat-school-security</module>
+    </modules>
+
+    <build>
+        <finalName>${project.name}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <configuration>
+                        <finalName>${project.build.finalName}</finalName>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- 指定jdk版本，和指定编码 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>local</profiles.active>
+                <logging.output.path>./logs</logging.output.path>
+            </properties>
+            <activation>
+                <!-- 默认环境 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>dev</profiles.active>
+                <logging.output.path>/data/logs/school.piesat.com</logging.output.path>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>test</profiles.active>
+                <logging.output.path>/data/logs/school.piesat.com</logging.output.path>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>prod</profiles.active>
+                <logging.output.path>/data/logs/school.piesat.com</logging.output.path>
+            </properties>
+        </profile>
+    </profiles>
+</project>
