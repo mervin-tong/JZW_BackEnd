@@ -1,30 +1,30 @@
 package com.piesat.school.biz.ds.user.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.piesat.school.biz.ds.user.bulider.UserBulider;
 import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.biz.ds.user.service.IUserService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.piesat.school.user.vto.UserVTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
-import static java.util.stream.Collectors.toMap;
 
 /**
  * <p>
  *  服务实现类
  * </p>
  *
- * @author lawliet
- * @since 2021-06-24
+ * @author 唐子超
+ * @since 2022-01-16
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+
+    @Autowired
+    private UserMapper userMapper;
     @Override
-    public Map<String, User> usersMap(List<String> userIds){
-        List<User> users = this.listByIds(userIds);
-        return users.stream().collect(toMap(User::getId, Function.identity(), (v1, v2)->v2));
+    public UserVTO getUser() {
+        User user = userMapper.getUser();
+        return UserBulider.toUserVTO(user);
     }
 }
