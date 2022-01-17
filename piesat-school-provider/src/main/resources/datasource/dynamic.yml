@@ -6,19 +6,19 @@ spring:
         master:
           type: com.zaxxer.hikari.HikariDataSource
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://${var.datasource.master}/piesat_school?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          url: jdbc:mysql://${var.datasource.master}/school?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
           username: ${var.datasource.username}
           password: ${var.datasource.password}
         slave_1:
           type: com.zaxxer.hikari.HikariDataSource
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://${var.datasource.slave1}/piesat_school?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          url: jdbc:mysql://${var.datasource.slave1}/school?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
           username: ${var.datasource.username}
           password: ${var.datasource.password}
         slave_2:
           type: com.zaxxer.hikari.HikariDataSource
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://${var.datasource.slave2}/piesat_school?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          url: jdbc:mysql://${var.datasource.slave2}/school?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
           username: ${var.datasource.username}
           password: ${var.datasource.password}
 #        wallet:
