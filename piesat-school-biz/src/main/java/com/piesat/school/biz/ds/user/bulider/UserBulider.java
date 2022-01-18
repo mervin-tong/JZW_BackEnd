@@ -15,9 +15,7 @@ public class UserBulider {
         UserVTO userVTO = new UserVTO();
         Optional.ofNullable(user).ifPresent(
                 _user-> {
-                    System.out.println(_user);
                     BeanUtils.copyProperties(_user,userVTO);
-                    System.out.println(userVTO);
                 });
 
         return userVTO;

@@ -26,7 +26,6 @@ public class UserController
     private IRUserService userService;
     @GetMapping("/getuser")
     public Result<UserVTO> getUser(){
-
         return userService.getUser();
     }
 
