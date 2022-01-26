@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.school.biz.ds.datainf.mapper.DatainfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.datainf.entity.Datainf">
+        <result column="id" property="id" />
+        <result column="data_name" property="dataName" />
+        <result column="maker" property="maker" />
+        <result column="data_unit" property="dataUnit" />
+        <result column="address" property="address" />
+        <result column="topic" property="topic" />
+        <result column="class_id" property="classId" />
+        <result column="content" property="content" />
+        <result column="meas" property="meas" />
+        <result column="ratio" property="ratio" />
+        <result column="doi" property="doi" />
+        <result column="pic" property="pic" />
+        <result column="status" property="status" />
+        <result column="introduction" property="introduction" />
+        <result column="origin" property="origin" />
+        <result column="solution" property="solution" />
+        <result column="con_id" property="conId" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="kick_count" property="kickCount" />
+        <result column="dow_count" property="dowCount" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        data_name, maker, data_unit, address, topic, class_id, content, meas, ratio, doi, pic, status, introduction, origin, solution, con_id, created_at, updated_at, kick_count, dow_count
+    </sql>
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.school.biz.ds.dataclass.mapper.DataclassMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.dataclass.entity.Dataclass">
+        <result column="id" property="id" />
+        <result column="first_class" property="firstClass" />
+        <result column="sec_class" property="secClass" />
+        <result column="updated_at" property="updatedAt" />
+        <result column="created_at" property="createdAt" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        first_class, sec_class, updated_at, created_at
+    </sql>
+
+</mapper>
