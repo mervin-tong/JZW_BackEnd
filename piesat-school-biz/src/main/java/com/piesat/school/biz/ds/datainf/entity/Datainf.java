@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @since 2022-01-17
  */
 @Data
-@TableName("t_datainf")
+@TableName("t_data_inf")
 public class Datainf implements Serializable {
 
     private static final long serialVersionUID = 1L;
