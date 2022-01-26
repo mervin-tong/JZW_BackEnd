@@ -11,7 +11,7 @@ var:
   #    group: test
   server:
     contextpath: /piesat-school
-    port: 8080
+    port: 8081
   #redis:
   #  ucontext:
   #    address: redis://localhost:6390

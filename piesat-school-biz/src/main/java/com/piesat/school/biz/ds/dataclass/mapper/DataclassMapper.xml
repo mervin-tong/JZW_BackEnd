@@ -16,5 +16,8 @@
         id,
         first_class, sec_class, updated_at, created_at
     </sql>
+    <select id="getAllDataClass" resultType="com.piesat.school.biz.ds.dataclass.entity.Dataclass">
+        select * from t_data_class
+    </select>
 
 </mapper>

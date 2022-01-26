@@ -2,6 +2,9 @@ package com.piesat.school.biz.ds.dataclass.service;
 
 import com.piesat.school.biz.ds.dataclass.entity.Dataclass;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.piesat.school.dataclass.vto.DataClassVTO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-01-17
  */
 public interface IDataclassService extends IService<Dataclass> {
+    List<DataClassVTO> getAllDataClass();
 
 }
