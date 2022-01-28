@@ -32,5 +32,8 @@
         id,
         data_name, maker, data_unit, address, topic, class_id, content, meas, ratio, doi, pic, status, introduction, origin, solution, con_id, created_at, updated_at, kick_count, dow_count
     </sql>
+    <select id="getAllDatainf" resultType="com.piesat.school.biz.ds.datainf.entity.Datainf">
+        select * from t_data_inf
+    </select>
 
 </mapper>
