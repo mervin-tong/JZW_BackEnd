@@ -53,7 +53,7 @@ public class CodeGenerator {
         //模块名称
         String modelName="clockin";
         //数据库表名 区分大小写
-        String tableName="t_messages";
+        String tableName="t_permission";
         //对应子系统名字
         String proj="operation";
         //项目路径

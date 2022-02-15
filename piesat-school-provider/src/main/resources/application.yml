@@ -81,7 +81,7 @@ dubbo:
       #validation: smartworkDubboValidation
       version: 1.0.0
       retries: 1
-      timeout: 5000
+      timeout: 10000
       group: ${var.pieengine.dubbo.group}
       registryIds: pieengine_registry
   provider:

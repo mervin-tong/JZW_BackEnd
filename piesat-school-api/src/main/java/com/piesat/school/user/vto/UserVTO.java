@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author suweipeng
@@ -11,6 +13,12 @@ import java.util.Date;
  */
 @Data
 public class UserVTO implements Serializable {
+
+    /**
+     * 用户编号
+     */
+    private Integer id;
+
     /**
      * 姓名（实名）
      */
@@ -70,6 +78,9 @@ public class UserVTO implements Serializable {
      * 账户状态（0正常 1停用）
      */
     private String status;
+
+    private Set<RoleVTO> roles = new HashSet<RoleVTO>(0);
+
 
     @Override
     public String toString() {

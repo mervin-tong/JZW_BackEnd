@@ -1,15 +1,23 @@
 package com.piesat.school.user.iservice;
 
 
+import com.piesat.school.user.vto.PermissionVTO;
 import com.piesat.school.user.vto.UserVTO;
-import com.smartwork.api.Result;
+
+import java.util.List;
+import java.util.Set;
 
 /**
- * @author lawliet
- * @date 2021-06-07
  * <p>
- * Remote Service Interface
+ *  服务类
+ * </p>
+ *
+ * @author 苏炜鹏
+ * @since 2022-02-11
  */
 public interface IRUserService {
-    Result<UserVTO> getUser();
+    UserVTO findUserByPhone(String phone);
+
+    List<PermissionVTO> getPermissionByUrl(String path);
+
 }

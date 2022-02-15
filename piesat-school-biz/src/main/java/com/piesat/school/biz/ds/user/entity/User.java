@@ -21,6 +21,11 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 用户编号
+     */
+    private Integer id;
+
+    /**
      * 姓名（实名）
      */
     private String name;
