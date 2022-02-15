@@ -2,6 +2,7 @@ package com.piesat.school.provider.serv.dataclass;
 
 import com.piesat.school.biz.ds.dataclass.service.IDataclassService;
 import com.piesat.school.dataclass.iservice.IRDataClassService;
+import com.piesat.school.dataclass.param.DataClassParamData;
 import com.piesat.school.dataclass.vto.DataClassVTO;
 import com.smartwork.api.Result;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -22,5 +23,10 @@ public class RDataClassService implements IRDataClassService {
     @Override
     public Result<List<DataClassVTO>> getAllDataClass() {
         return Result.ofSuccess(iDataclassService.getAllDataClass());
+    }
+
+    @Override
+    public Result<DataClassVTO> saveDataClass(DataClassParamData paramData) {
+        return Result.ofSuccess(iDataclassService.saveDataClass(paramData));
     }
 }

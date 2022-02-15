@@ -2,13 +2,12 @@ package com.piesat.school.rest.controller.app.dataclass;
 
 
 import com.piesat.school.dataclass.iservice.IRDataClassService;
+import com.piesat.school.dataclass.param.DataClassParamData;
 import com.piesat.school.dataclass.vto.DataClassVTO;
 import com.smartwork.api.Result;
 import io.swagger.annotations.Api;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,4 +27,8 @@ public class DataClassController {
     public Result<List<DataClassVTO>> getAllDataClass(){
         return dataclassService.getAllDataClass();
     };
+    @PostMapping("/save")
+    public Result<DataClassVTO> saveDataClass(@RequestBody DataClassParamData paramData){
+        return dataclassService.saveDataClass(paramData);
+    }
 }
