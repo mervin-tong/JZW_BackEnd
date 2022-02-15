@@ -1,11 +1,11 @@
 package com.piesat.school.biz.ds.datainf.service.impl;
 
-import com.piesat.school.biz.ds.dataclass.bulider.DataClassBuilder;
-import com.piesat.school.biz.ds.dataclass.entity.Dataclass;
+import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.piesat.school.datainf.vto.DataInfVTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * </p>
  *
  * @author 周悦尧
- * @since 2022-01-17
+ * @since 2022-01-27
  */
 @Service
 public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> implements IDatainfService {
@@ -25,8 +25,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     @Autowired
     private DatainfMapper datainfMapper;
     @Override
-    public List<Datainf> getAllDatainf() {
+    public List<DataInfVTO> getAllDatainf() {
         List<Datainf> datas = datainfMapper.getAllDatainf();
-        return DataClassBuilder.toDataClassVtos(datas);
+        return DatainfBuilder.toDataInfVtos(datas);
     }
 }

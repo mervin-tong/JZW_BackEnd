@@ -12,6 +12,57 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.joining;
 
 public interface BizEnumType {
+	/**
+	 * 公开状态
+	 */
+	enum PublicStatus  {
+		FullOpen(1, "完全公开"),
+		HalfOpen(2, "申请获取"),
+		NoOpen(3,"保护期内"),
+		;
+		static Map<Integer, PublicStatus> allTypes;
+		private int key;
+		private String name;
+
+		PublicStatus(Integer key, String name) {
+			this.key = key;
+			this.name = name;
+		}
+
+		public int getKey() {
+			return key;
+		}
+
+		public void setKey(int key) {
+			this.key = key;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public static boolean isOpen(int key){
+			if(FullOpen.getKey() == key) return true;
+			return false;
+		}
+		public static PublicStatus fromKey(Integer key) {
+			if (key == null) return null;
+			return allTypes.get(key);
+		}
+
+		static {
+			allTypes = new HashMap<>();
+			PublicStatus[] types = values();
+			for (PublicStatus type : types) {
+				allTypes.put(type.getKey(), type);
+			}
+		}
+
+	}
 
 	/**
 	 * 通用状态
