@@ -26,8 +26,4 @@ public class RUserService implements IRUserService {
         return userFacadeService.findUserByPhone(email);
     }
 
-//    @Override
-//    public List<PermissionVTO> getPermissionByUrl(String path) {
-//        return userFacadeService.getPermissionVTOsByUrl(path);
-//    }
 }
