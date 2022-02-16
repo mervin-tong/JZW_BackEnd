@@ -25,7 +25,7 @@ public class UserController {
     @Secured("ROLE_ADMIN")
     @GetMapping
     public JsonResult getUser() {
-        UserVTO userByPhone = userService.findUserByPhone("1234567");
+        UserVTO userByPhone = userService.findUserByPhone("zhangsan@163.com");
         return ResultTool.success(userByPhone);
     }
 
