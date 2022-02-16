@@ -13,6 +13,8 @@ import java.util.Optional;
 public class UserBulider {
     public static UserVTO toUserVTO(User user){
         UserVTO userVTO = new UserVTO();
+        //ofNullable(T value)不会throw Exception，ofNullable(T value)直接返回一个EMPTY对象。
+        //如果user不为空把user复制给userVTO
         Optional.ofNullable(user).ifPresent(
                 _user-> {
                     BeanUtils.copyProperties(_user,userVTO);

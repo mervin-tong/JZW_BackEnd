@@ -7,11 +7,13 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 //@EnableMethodCache(basePackages = "com.company.mypackage")
+
 @EnableCreateCacheAnnotation
 @ComponentScan(basePackages = {"com.piesat.school"})
 @MapperScan("com.piesat.school.biz.**.mapper")
@@ -34,5 +36,6 @@ public class SchoolProviderApplication {
                 .web(WebApplicationType.NONE)
                 .run(args);
     }
+
 
 }

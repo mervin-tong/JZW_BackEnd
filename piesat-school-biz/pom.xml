@@ -47,6 +47,9 @@
         </dependency>
 
 
+
+
+
         <!--common redisson-->
         <!--
         <dependency>
@@ -62,11 +65,11 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.piesat</groupId>
-            <artifactId>piesat-school-security</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.piesat</groupId>-->
+<!--            <artifactId>piesat-school-security</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--        </dependency>-->
 
         <!-- smartwork jpush api -->
         <dependency>

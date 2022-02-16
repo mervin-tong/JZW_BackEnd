@@ -3,9 +3,12 @@ package com.piesat.school.rest;
 import com.smartwork.base.factory.YamlPropertySourceFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+//@MapperScan("com.piesat.school.security")
 @SpringBootApplication
 //@EnableConfigurationProperties(UserRestRuntimeProperties.class)
 @ComponentScan(basePackages = {"com.piesat.school"})
@@ -27,5 +30,7 @@ public class SchoolRestApplication {
         new SpringApplicationBuilder(SchoolRestApplication.class)
                 .run(args);
     }
+
+
 
 }
