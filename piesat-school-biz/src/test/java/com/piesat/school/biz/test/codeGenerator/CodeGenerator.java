@@ -53,9 +53,9 @@ public class CodeGenerator {
         //模块名称
         String modelName="clockin";
         //数据库表名 区分大小写
-        String tableName="t_messages";
+        String tableName="t_method";
         //对应子系统名字
-        String proj="operation";
+        String proj="method";
         //项目路径
         String projPath="com.piesat.school.biz.ds."+proj;
         //模块存储路径
@@ -108,7 +108,7 @@ public class CodeGenerator {
         // XML columList
         gc.setBaseColumnList(true);
         // 作者
-        gc.setAuthor("唐子超");
+        gc.setAuthor("周悦尧");
         mpg.setGlobalConfig(gc);
         mpg.setDataSource(dsc);
 
