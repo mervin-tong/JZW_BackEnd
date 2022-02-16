@@ -3,15 +3,9 @@ package com.piesat.school.provider.serv.user;
 import com.piesat.school.biz.ds.user.facade.UserFacadeService;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.user.iservice.IRUserService;
-import com.piesat.school.user.vto.PermissionVTO;
 import com.piesat.school.user.vto.UserVTO;
-import com.smartwork.api.Result;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.Resource;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author suweipeng
@@ -27,13 +21,13 @@ public class RUserService implements IRUserService {
     private UserFacadeService userFacadeService;
 
     @Override
-    public UserVTO findUserByPhone(String phone) {
+    public UserVTO findUserByPhone(String email) {
 
-        return userFacadeService.findUserByPhone(phone);
+        return userFacadeService.findUserByPhone(email);
     }
 
-    @Override
-    public List<PermissionVTO> getPermissionByUrl(String path) {
-        return userFacadeService.getPermissionVTOsByUrl(path);
-    }
+//    @Override
+//    public List<PermissionVTO> getPermissionByUrl(String path) {
+//        return userFacadeService.getPermissionVTOsByUrl(path);
+//    }
 }

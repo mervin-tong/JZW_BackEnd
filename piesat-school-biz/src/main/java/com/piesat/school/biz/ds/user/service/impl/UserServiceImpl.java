@@ -26,9 +26,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private UserMapper userMapper;
     @Override
-    public UserVTO findUserByPhone(String phone) {
+    public UserVTO findUserByPhone(String email) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("phone",phone);
+        queryWrapper.eq("email",email);
         User user = userMapper.selectList(queryWrapper).get(0);
 
         return UserBulider.toUserVTO(user);

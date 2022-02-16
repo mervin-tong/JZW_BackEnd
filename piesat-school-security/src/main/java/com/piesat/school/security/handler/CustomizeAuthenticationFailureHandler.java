@@ -15,9 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @Author: Hutengfei
+ * @Author: suweipeng
  * @Description: 登录失败处理逻辑
- * @Date Create in 2019/9/3 15:52
  */
 @Component
 public class CustomizeAuthenticationFailureHandler implements AuthenticationFailureHandler {

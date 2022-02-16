@@ -1,11 +1,7 @@
 package com.piesat.school.user.iservice;
 
 
-import com.piesat.school.user.vto.PermissionVTO;
 import com.piesat.school.user.vto.UserVTO;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * <p>
@@ -16,8 +12,7 @@ import java.util.Set;
  * @since 2022-02-11
  */
 public interface IRUserService {
-    UserVTO findUserByPhone(String phone);
-
-    List<PermissionVTO> getPermissionByUrl(String path);
+    //通过邮箱查询用户信息
+    UserVTO findUserByPhone(String email);
 
 }

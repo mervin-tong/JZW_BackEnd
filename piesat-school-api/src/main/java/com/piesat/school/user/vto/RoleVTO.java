@@ -47,10 +47,6 @@ public class RoleVTO implements Serializable {
      */
     private Date updatedAt;
 
-    /**
-     * 更新时间
-     */
-    private Set<PermissionVTO> permissions = new HashSet<PermissionVTO>(0);
 
 
 
