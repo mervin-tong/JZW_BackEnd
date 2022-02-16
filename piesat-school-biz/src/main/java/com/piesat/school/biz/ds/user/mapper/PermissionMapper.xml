@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.school.biz.ds.user.mapper.PermissionMapper">
+    <select id="getPermissionByRoleId"
+            resultType="com.piesat.school.biz.ds.user.entity.Permission"
+            parameterType="int">
+        SELECT
+            p.*
+        FROM
+            t_role_permission rp
+            LEFT JOIN t_permission p ON rp.permission_id = p.id
+        WHERE
+            rp.role_id = #{id};
+
+    </select>
+    <select id="getPermissionByUrl"
+            resultType="com.piesat.school.biz.ds.user.entity.Permission"
+            parameterType="string">
+        SELECT
+            pe.*
+        FROM
+            t_permission pe
+        LEFT JOIN t_request_path_permission_relation re ON re.permission_id = pe.id
+        LEFT JOIN t_request_path pa ON pa.id = re.url_id
+        WHERE pa.url = #{path}
+
+    </select>
+</mapper>
