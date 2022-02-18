@@ -5,6 +5,7 @@ import com.piesat.school.datainf.vto.DataInfVTO;
 import com.smartwork.api.Result;
 import io.swagger.annotations.Api;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import java.util.List;
 public class DataInfController {
     @DubboReference
     private IRDataInfService irDataInfService;
+    @Secured("ROLE_ADMIN")
     @GetMapping("/datamenu")
     public Result<List<DataInfVTO>> getAllDataInf(){return irDataInfService.getAllDatainf();}
 }

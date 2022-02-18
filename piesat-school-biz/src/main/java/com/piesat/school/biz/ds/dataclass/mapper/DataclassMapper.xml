@@ -9,15 +9,16 @@
         <result column="sec_class" property="secClass" />
         <result column="updated_at" property="updatedAt" />
         <result column="created_at" property="createdAt" />
+        <result column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        first_class, sec_class, updated_at, created_at
+        first_class, sec_class, updated_at, created_at, status
     </sql>
     <select id="getAllDataClass" resultType="com.piesat.school.biz.ds.dataclass.entity.Dataclass">
-        select * from t_data_class
+        select * from t_data_class where status = "1"
     </select>
 
 </mapper>

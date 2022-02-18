@@ -38,6 +38,11 @@ public class Dataclass implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     private Date createdAt;
 
+    /**
+     * '逻辑删除'
+     */
+    private Integer status;
+
 
 
     @Override

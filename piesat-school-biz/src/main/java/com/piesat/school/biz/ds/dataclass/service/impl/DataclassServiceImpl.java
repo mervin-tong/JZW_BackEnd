@@ -1,17 +1,28 @@
 package com.piesat.school.biz.ds.dataclass.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.common.helper.BizCommonValidateHelper;
 import com.piesat.school.biz.ds.dataclass.bulider.DataClassBuilder;
 import com.piesat.school.biz.ds.dataclass.entity.Dataclass;
 import com.piesat.school.biz.ds.dataclass.mapper.DataclassMapper;
 import com.piesat.school.biz.ds.dataclass.service.IDataclassService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.piesat.school.dataclass.param.DataClassDelParamData;
 import com.piesat.school.dataclass.param.DataClassParamData;
+import com.piesat.school.dataclass.param.DataClassQueryParamData;
 import com.piesat.school.dataclass.vto.DataClassVTO;
+import com.piesat.school.emuerlation.BizEnumType;
+import com.smartwork.api.support.page.CommonPage;
+import com.smartwork.api.support.page.TailPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -34,22 +45,51 @@ public class DataclassServiceImpl extends ServiceImpl<DataclassMapper, Dataclass
     }
 
     @Override
+    public TailPage<DataClassVTO> pageDataClass(DataClassQueryParamData paramData) {
+        QueryWrapper<Dataclass> wrapper = new QueryWrapper<Dataclass>().
+                eq("id", paramData.getId()).
+                eq(paramData.getStatus() != 0,"status", paramData.getStatus()).
+                orderByDesc("updated_at");
+//        Optional.ofNullable(paramData.getPointType()).ifPresent(type->{
+//            wrapper.eq("point_type", type.getId());
+//        });
+        Page<Dataclass> page = super.page(new Page<>(paramData.getPn(), paramData.getPs()), wrapper);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),DataClassBuilder.toDataClassVtos(page.getRecords()));
+    }
+
+    @Override
     public DataClassVTO saveDataClass(DataClassParamData paramData) {
         Long id = paramData.getId();
-        Dataclass dataclass = null;
-        if(id == null){
-            dataclass = new Dataclass();
-            dataclass.setFirstClass(paramData.getFirstClass());
-            dataclass.setSecClass(paramData.getFirstClass());
-            this.save(dataclass);
-        }else{
-            dataclass = BizCommonValidateHelper.valdiateGetById(id,this);
-            dataclass.setFirstClass(paramData.getFirstClass());
-            dataclass.setSecClass(paramData.getSecClass());
-            this.updateById(dataclass);
+        Dataclass dataclass = new Dataclass();
+        dataclass.setFirstClass(paramData.getFirstClass());
+        dataclass.setSecClass(paramData.getFirstClass());
+        dataclass.setStatus(BizEnumType.CommonStatus.Valid.getKey());
+        this.save(dataclass);
 
-        }
 
         return DataClassBuilder.toDataClassVto(dataclass);
     }
+
+    @Override
+    public Boolean delDataClass(DataClassDelParamData paramData) {
+        if(CollectionUtils.isEmpty(paramData.getIds()) && !paramData.isClear()){
+            return Boolean.FALSE;
+        }
+        UpdateWrapper<Dataclass> wrapper = new UpdateWrapper<Dataclass>()
+                .set("status", BizEnumType.CommonStatus.Invalid.getKey())
+//                .eq("id", paramData.getUserId())
+                .eq("status", BizEnumType.CommonStatus.Valid.getKey())
+                .in(!paramData.isClear(), "id", paramData.getIds());
+        return this.update(wrapper);
+    }
+
+    @Override
+    public DataClassVTO updataDataClass(DataClassParamData paramData) {
+        Dataclass dataclass = BizCommonValidateHelper.valdiateGetById(paramData.getId(),this);
+        dataclass.setFirstClass(paramData.getFirstClass());
+        dataclass.setSecClass(paramData.getSecClass());
+        this.updateById(dataclass);
+        return DataClassBuilder.toDataClassVto(dataclass);
+    }
+
 }
