@@ -104,6 +104,16 @@ public class Datainf implements Serializable {
     private Long conId;
 
     /**
+     * 数据所属开始时间
+     */
+    private Date startAt;
+
+    /**
+     * 数据所属结束时间
+     */
+    private Date endAt;
+
+    /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)

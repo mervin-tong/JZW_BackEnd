@@ -25,12 +25,14 @@
         <result column="updated_at" property="updatedAt" />
         <result column="kick_count" property="kickCount" />
         <result column="dow_count" property="dowCount" />
+        <result column="start_at" property="startAt"/>
+        <result column="end_at" property="endAt"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        data_name, maker, data_unit, address, topic, class_id, content, meas, ratio, doi, pic, status, introduction, origin, solution, con_id, created_at, updated_at, kick_count, dow_count
+        data_name, maker,start_at,end_at, data_unit, address, topic, class_id, content, meas, ratio, doi, pic, status, introduction, origin, solution, con_id, created_at, updated_at, kick_count, dow_count
     </sql>
     <select id="getAllDatainf" resultType="com.piesat.school.biz.ds.datainf.entity.Datainf">
         select * from t_data_inf

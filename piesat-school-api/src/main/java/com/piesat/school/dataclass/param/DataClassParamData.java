@@ -16,6 +16,5 @@ public class DataClassParamData extends UIDParamData {
     private String firstClass;
 
     @ApiModelProperty(value = "第二类别")
-    @NotBlank(message = "第二类别不能为空")
     private String secClass;
 }
