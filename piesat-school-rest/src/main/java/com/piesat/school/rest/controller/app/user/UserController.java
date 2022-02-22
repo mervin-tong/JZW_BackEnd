@@ -4,30 +4,40 @@ import com.piesat.school.rest.constants.DubboConstant;
 import com.piesat.school.security.JsonResult;
 import com.piesat.school.security.ResultTool;
 import com.piesat.school.user.iservice.IRUserService;
+import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.UserVTO;
+import io.swagger.annotations.Api;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
+import com.smartwork.api.Result;
 import java.util.List;
 
 /**
  * @author suweipeng
  * @data 2022/2/15 16:13
  */
+@Api(tags = "用户模块")
 @RestController
-@RequestMapping("/getUser")
+@RequestMapping("/app/user")
 public class UserController {
     @DubboReference(consumer = DubboConstant.CONSUMER_NAME)
     private IRUserService userService;
-    @Secured("ROLE_ADMIN")
-    @GetMapping
+    @Secured({"ROLE_ADMIN","ROLE_EGCADMIN"})
+    @GetMapping("/getUserInfo")
     public JsonResult getUser() {
         UserVTO userByPhone = userService.findUserByPhone("zhangsan@163.com");
         return ResultTool.success(userByPhone);
     }
+
+    @PostMapping("/addUser")
+    public Result<UserVTO> addUser(@RequestBody UserParamData userParamData){
+        return userService.addUser(userParamData);
+    }
+
+
 
 
 }

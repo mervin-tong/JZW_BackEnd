@@ -22,7 +22,7 @@ public class RoleServiceImpl implements IRoleService {
     @Autowired
     private RoleMapper roleMapper;
     @Override
-    public Set<RoleVTO> getRolesByUserId(Integer id) {
+    public Set<RoleVTO> getRolesByUserId(Long id) {
         Set<Role> roles = roleMapper.getRolesByUserId(id);
         HashSet<RoleVTO> roleVTOS = new HashSet<>();
         for (Role role : roles) {

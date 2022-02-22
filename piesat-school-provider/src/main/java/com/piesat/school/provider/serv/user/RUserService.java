@@ -3,7 +3,9 @@ package com.piesat.school.provider.serv.user;
 import com.piesat.school.biz.ds.user.facade.UserFacadeService;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.user.iservice.IRUserService;
+import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.UserVTO;
+import com.smartwork.api.Result;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,4 +28,8 @@ public class RUserService implements IRUserService {
         return userFacadeService.findUserByPhone(email);
     }
 
+    @Override
+    public Result<UserVTO> addUser(UserParamData userParamData) {
+        return Result.ofSuccess(userFacadeService.addUser(userParamData));
+    }
 }

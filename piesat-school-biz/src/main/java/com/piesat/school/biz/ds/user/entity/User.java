@@ -1,5 +1,7 @@
 package com.piesat.school.biz.ds.user.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -23,7 +25,8 @@ public class User implements Serializable {
     /**
      * 用户编号
      */
-    private Integer id;
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 姓名（实名）

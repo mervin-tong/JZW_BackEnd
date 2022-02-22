@@ -16,6 +16,7 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 //springSecurity配置类
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //登录成功处理逻辑
     @Autowired
@@ -31,6 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //登录信息
     @Autowired
     private SpringSecurisyUserService springSecurisyUserService;
+    //异常处理(权限拒绝、登录失效等)
+    @Autowired
+    private CustomizeAuthenticationEntryPoint authenticationEntryPoint;
+    @Autowired
+    private CustomizeAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
@@ -45,18 +51,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
+//                .antMatchers("/app/user/getUserInfo").hasAnyAuthority("ROLE_ADMIN","ROLE_EGCADMIN")
+                .antMatchers("/app/user/addUser").permitAll()//不需要权限直接访问
                 .and()
-                .logout().
-                permitAll().//允许所有用户
-                logoutSuccessHandler(logoutSuccessHandler).//登出成功处理逻辑
-                deleteCookies("JSESSIONID").//登出之后删除cookie
-                and()
+                .logout()
+                .permitAll()//允许所有用户
+                .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理逻辑
+                .deleteCookies("JSESSIONID")//登出之后删除cookie
+                .and()
                 .formLogin()
                 .permitAll()
                 .successHandler(authenticationSuccessHandler)//登录成功处理逻辑
-                .failureHandler(authenticationFailureHandler)//登录失败处理逻辑
-                .and()
-                .logout().permitAll(); //注销行为任意访问
+                .failureHandler(authenticationFailureHandler);//登录失败处理逻辑
+
+                //异常处理(权限拒绝、登录失效等)
+                http.exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler)//权限拒绝处理逻辑
+                .authenticationEntryPoint(authenticationEntryPoint);//匿名用户访问无权限资源时的异常处理
 //        http.addFilterBefore(securityInterceptor, FilterSecurityInterceptor.class);
 
     }

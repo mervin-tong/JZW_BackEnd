@@ -17,7 +17,7 @@ public class UserVTO implements Serializable {
     /**
      * 用户编号
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 姓名（实名）

@@ -70,6 +70,17 @@
             <version>2.7.8</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>3.3.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.smartwork</groupId>
+            <artifactId>smartwork-web-starter</artifactId>
+            <version>${smartwork.core.web.starter.version}</version>
+        </dependency>
 
     </dependencies>
 </project>

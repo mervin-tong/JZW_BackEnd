@@ -1,9 +1,11 @@
 package com.piesat.school.biz.ds.user.bulider;
 
 import com.piesat.school.biz.ds.user.entity.User;
+import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.UserVTO;
 import org.springframework.beans.BeanUtils;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 /**
@@ -21,5 +23,12 @@ public class UserBulider {
                 });
 
         return userVTO;
+    }
+    public static User toUser(UserParamData userParamData){
+        User user = new User();
+        Optional.ofNullable(userParamData).ifPresent(_userParamData->{
+            BeanUtils.copyProperties(_userParamData,user);
+        });
+        return user;
     }
 }

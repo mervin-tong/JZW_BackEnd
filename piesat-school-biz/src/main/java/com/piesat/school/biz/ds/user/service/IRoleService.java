@@ -6,5 +6,8 @@ import com.piesat.school.user.vto.RoleVTO;
 import java.util.Set;
 
 public interface IRoleService {
-    public Set<RoleVTO>  getRolesByUserId(Integer id);
+    //通过id获取角色集合
+    Set<RoleVTO>  getRolesByUserId(Long id);
+
+
 }

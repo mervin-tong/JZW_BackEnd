@@ -20,7 +20,7 @@ public class RoleVTO implements Serializable {
     /**
      * 角色编号
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 角色名称

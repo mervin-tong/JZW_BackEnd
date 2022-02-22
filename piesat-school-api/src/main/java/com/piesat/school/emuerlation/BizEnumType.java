@@ -309,4 +309,55 @@ public interface BizEnumType {
 			}
 		}
 	}
+	/**
+	 * 公开状态
+	 */
+	enum RoleStatus  {
+		ADMIN(1L, "系统管理员"),
+		EGCADMIN(2L, "EGC管理员"),
+		USER(3L,"普通用户"),
+		;
+		static Map<Long, RoleStatus> allTypes;
+		private Long key;
+		private String name;
+
+		RoleStatus(Long key, String name) {
+			this.key = key;
+			this.name = name;
+		}
+
+		public Long getKey() {
+			return key;
+		}
+
+		public void setKey(Long key) {
+			this.key = key;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public static boolean isUSER(Long key){
+			if(ADMIN.getKey() == key) return true;
+			return false;
+		}
+		public static RoleStatus fromKey(Integer key) {
+			if (key == null) return null;
+			return allTypes.get(key);
+		}
+
+		static {
+			allTypes = new HashMap<>();
+			RoleStatus[] types = values();
+			for (RoleStatus type : types) {
+				allTypes.put(type.getKey(), type);
+			}
+		}
+
+	}
 }

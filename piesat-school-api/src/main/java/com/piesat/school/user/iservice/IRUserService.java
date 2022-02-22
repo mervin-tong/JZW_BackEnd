@@ -1,7 +1,9 @@
 package com.piesat.school.user.iservice;
 
 
+import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.UserVTO;
+import com.smartwork.api.Result;
 
 /**
  * <p>
@@ -14,5 +16,7 @@ import com.piesat.school.user.vto.UserVTO;
 public interface IRUserService {
     //通过邮箱查询用户信息
     UserVTO findUserByPhone(String email);
+
+    Result<UserVTO> addUser(UserParamData userParamData);
 
 }
