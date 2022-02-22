@@ -9,7 +9,7 @@ import com.piesat.school.user.vto.UserVTO;
  */
 public interface IUserService {
      //通过email查找用户
-     UserVTO findUserByPhone(String email);
+     UserVTO findUserByphoneOrEmail(String phoneOrEmail);
      //注册普通用户
-     UserVTO addUser(UserParamData userParamData);
+     UserVTO addUser(UserParamData userParamData) ;
 }

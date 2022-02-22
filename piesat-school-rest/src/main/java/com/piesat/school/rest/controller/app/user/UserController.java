@@ -28,13 +28,20 @@ public class UserController {
     @Secured({"ROLE_ADMIN","ROLE_EGCADMIN"})
     @GetMapping("/getUserInfo")
     public JsonResult getUser() {
-        UserVTO userByPhone = userService.findUserByPhone("zhangsan@163.com");
+        UserVTO userByPhone = userService.findUserByphoneOrEmail("zhangsan@163.com");
         return ResultTool.success(userByPhone);
     }
 
+    //注册用户
     @PostMapping("/addUser")
     public Result<UserVTO> addUser(@RequestBody UserParamData userParamData){
         return userService.addUser(userParamData);
+    }
+
+    //发送邮箱验证码
+    @GetMapping("/sendEmail")
+    public Result sendEmail(String email){
+        return userService.sendEmail(email);
     }
 
 

@@ -15,8 +15,12 @@ import com.smartwork.api.Result;
  */
 public interface IRUserService {
     //通过邮箱查询用户信息
-    UserVTO findUserByPhone(String email);
+    UserVTO findUserByphoneOrEmail(String phoneOrEmail);
 
     Result<UserVTO> addUser(UserParamData userParamData);
+    //发送邮箱验证码
+    Result sendEmail(String email);
+    //验证邮箱验证码
+    boolean verificationEmail(Integer code);
 
 }

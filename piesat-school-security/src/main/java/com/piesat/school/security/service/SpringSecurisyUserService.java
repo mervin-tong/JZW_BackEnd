@@ -27,8 +27,8 @@ public class SpringSecurisyUserService implements UserDetailsService {
     private IRUserService irUserService;
     //根据用户名查询数据库获取用户信息
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserVTO userVTO = irUserService.findUserByPhone(email);
+    public UserDetails loadUserByUsername(String phoneOrEmail) throws UsernameNotFoundException {
+        UserVTO userVTO = irUserService.findUserByphoneOrEmail(phoneOrEmail);
         if (userVTO == null){
             //用户名不存在
             return null;
@@ -41,7 +41,7 @@ public class SpringSecurisyUserService implements UserDetailsService {
             list.add(new SimpleGrantedAuthority(role.getKeyword()));
         }
 
-        User securityUser = new User(email,userVTO.getPassword(),list);
+        User securityUser = new User(phoneOrEmail,userVTO.getPassword(),list);
         return securityUser;
     }
 }
