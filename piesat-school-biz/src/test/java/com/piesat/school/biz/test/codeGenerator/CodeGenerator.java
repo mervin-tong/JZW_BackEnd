@@ -54,9 +54,9 @@ public class CodeGenerator {
         String modelName="clockin";
         //数据库表名 区分大小写
 
-        String tableName="t_permission";
+        String tableName="t_key";
         //对应子系统名字
-        String proj="method";
+        String proj="key";
         //项目路径
         String projPath="com.piesat.school.biz.ds."+proj;
         //模块存储路径
@@ -69,7 +69,7 @@ public class CodeGenerator {
         dsc.setUrl("jdbc:mysql://47.100.53.132:3306/school?useUnicode=true&characterEncoding=utf-8&useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&serverTimezone=UTC");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("root");
+        dsc.setPassword("okmijn");
         dsc.setDbType(DbType.MYSQL)
                 .setTypeConvert(new PostgreSqlTypeConvert(){
                     @Override

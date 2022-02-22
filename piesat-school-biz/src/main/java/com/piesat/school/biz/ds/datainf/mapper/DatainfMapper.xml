@@ -27,6 +27,7 @@
         <result column="dow_count" property="dowCount" />
         <result column="start_at" property="startAt"/>
         <result column="end_at" property="endAt"/>
+        <result column="key_id" property="keyId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

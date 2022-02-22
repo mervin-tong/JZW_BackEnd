@@ -7,7 +7,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 @Data
-public class DataClassDelParamData extends UIDParamData {
+public class DataClassDelParamData {
     @ApiModelProperty(value = "删除id")
     private List<Long> ids;
 

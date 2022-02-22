@@ -1,6 +1,7 @@
 package com.piesat.school.biz.ds.datainf.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -106,12 +107,19 @@ public class Datainf implements Serializable {
     /**
      * 数据所属开始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date startAt;
 
     /**
      * 数据所属结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date endAt;
+
+    /**
+     * 数据所属结束时间
+     */
+    private String keyId;
 
     /**
      * 创建时间
