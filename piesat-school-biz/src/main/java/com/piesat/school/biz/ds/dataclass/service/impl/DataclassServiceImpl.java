@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.dataclass.param.DataClassDelParamData;
 import com.piesat.school.dataclass.param.DataClassParamData;
 import com.piesat.school.dataclass.param.DataClassQueryParamData;
+import com.piesat.school.dataclass.param.DataClassSaveParamData;
 import com.piesat.school.dataclass.vto.DataClassVTO;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.smartwork.api.support.page.CommonPage;
@@ -58,12 +59,12 @@ public class DataclassServiceImpl extends ServiceImpl<DataclassMapper, Dataclass
     }
 
     @Override
-    public DataClassVTO saveDataClass(DataClassParamData paramData) {
-        Long id = paramData.getId();
+    public DataClassVTO saveDataClass(DataClassSaveParamData paramData) {
         Dataclass dataclass = new Dataclass();
         dataclass.setFirstClass(paramData.getFirstClass());
-        dataclass.setSecClass(paramData.getFirstClass());
+        dataclass.setSecClass(paramData.getSecClass());
         dataclass.setStatus(BizEnumType.CommonStatus.Valid.getKey());
+        //dataclassMapper.insert(dataclass);
         this.save(dataclass);
 
 

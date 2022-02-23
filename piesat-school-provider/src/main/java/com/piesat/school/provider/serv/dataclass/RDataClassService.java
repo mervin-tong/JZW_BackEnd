@@ -6,6 +6,7 @@ import com.piesat.school.dataclass.iservice.IRDataClassService;
 import com.piesat.school.dataclass.param.DataClassDelParamData;
 import com.piesat.school.dataclass.param.DataClassParamData;
 import com.piesat.school.dataclass.param.DataClassQueryParamData;
+import com.piesat.school.dataclass.param.DataClassSaveParamData;
 import com.piesat.school.dataclass.vto.DataClassVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
@@ -35,9 +36,10 @@ public class RDataClassService implements IRDataClassService {
     }
 
     @Override
-    public Result<DataClassVTO> saveDataClass(DataClassParamData paramData) {
+    public Result<DataClassVTO> saveDataClass(DataClassSaveParamData paramData) {
         return Result.ofSuccess(iDataclassService.saveDataClass(paramData));
     }
+
 
     @Override
     public Result<Boolean> delDataClass(DataClassDelParamData paramData) {

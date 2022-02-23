@@ -5,6 +5,7 @@ import com.piesat.school.dataclass.iservice.IRDataClassService;
 import com.piesat.school.dataclass.param.DataClassDelParamData;
 import com.piesat.school.dataclass.param.DataClassParamData;
 import com.piesat.school.dataclass.param.DataClassQueryParamData;
+import com.piesat.school.dataclass.param.DataClassSaveParamData;
 import com.piesat.school.dataclass.vto.DataClassVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
@@ -31,7 +32,7 @@ public class DataClassController {
         return dataclassService.getAllDataClass();
     }
     @PostMapping("/save")
-    public Result<DataClassVTO> saveDataClass(@RequestBody DataClassParamData paramData){
+    public Result<DataClassVTO> saveDataClass(@RequestBody DataClassSaveParamData paramData){
         return dataclassService.saveDataClass(paramData);
     }
     @PostMapping("/del")
