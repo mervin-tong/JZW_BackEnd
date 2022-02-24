@@ -63,7 +63,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         updateWrapper.set("password",passwordEncoder.encode(password));
         updateWrapper.eq("email",email);
-
         return this.update(updateWrapper);
     }
 }

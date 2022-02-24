@@ -1,7 +1,11 @@
-package com.piesat.school.biz.ds.orderFrom.service;
+package com.piesat.school.biz.ds.orderfrom.service;
 
-import com.piesat.school.biz.ds.orderFrom.entity.OrderFrom;
+import com.piesat.school.biz.ds.orderfrom.entity.OrderFrom;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.piesat.school.orderfrom.param.OrderFromParamData;
+import com.piesat.school.orderfrom.vto.OrderFromVTO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IOrderFromService extends IService<OrderFrom> {
 
+    List<OrderFromVTO> orderFromMenu(Long dataType, Long downloadUserId);
+
+    OrderFromVTO orderFromCreate(OrderFromParamData orderFromParamData);
 }

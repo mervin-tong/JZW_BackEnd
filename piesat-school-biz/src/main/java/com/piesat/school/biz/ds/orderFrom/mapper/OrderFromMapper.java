@@ -1,7 +1,10 @@
-package com.piesat.school.biz.ds.orderFrom.mapper;
+package com.piesat.school.biz.ds.orderfrom.mapper;
 
-import com.piesat.school.biz.ds.orderFrom.entity.OrderFrom;
+import com.piesat.school.biz.ds.orderfrom.entity.OrderFrom;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.piesat.school.orderfrom.vto.OrderFromVTO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface OrderFromMapper extends BaseMapper<OrderFrom> {
 
+    List<OrderFromVTO> orderFromMenu(Long dataType, Long downloadUserId);
 }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.piesat.school.biz.ds.orderFrom.mapper.OrderFromMapper">
+<mapper namespace="com.piesat.school.biz.ds.orderfrom.mapper.OrderFromMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.orderFrom.entity.OrderFrom">
+    <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.orderfrom.entity.OrderFrom">
         <result column="id" property="id" />
-        <result column="data_id" property="dataId" />
         <result column="data_type" property="dataType" />
         <result column="download_user_id" property="downloadUserId" />
-        <result column="auditor_id" property="auditorId" />
+        <result column="auditor_user_id" property="auditorUserId" />
+        <result column="data_info_id" property="dataInfoId" />
         <result column="created_at" property="createdAt" />
         <result column="updated_at" property="updatedAt" />
     </resultMap>
@@ -16,7 +16,25 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        data_id, data_type, download_user_id, auditor_id, created_at, updated_at
+        data_type, download_user_id, auditor_user_id, data_info_id, created_at, updated_at
     </sql>
+    <select id="orderFromMenu" resultType="com.piesat.school.orderfrom.vto.OrderFromVTO">
+        SELECT
+            o.data_type,
+            o.download_user_id,
+            d.data_name,
+            d.pic,
+            d.`status`
+        FROM
+            t_order_from o
+            LEFT JOIN t_data_inf d ON o.data_info_id = d.id
+        WHERE
+            o.download_user_id = #{downloadUserId}
+        <if test="dataType != null and dataType != 0" >
+            AND data_type = #{dataType}
+        </if>
+    </select>
+
+
 
 </mapper>
