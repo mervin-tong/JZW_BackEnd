@@ -50,24 +50,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .authorizeRequests()
-//                .antMatchers("/app/user/getUserInfo").hasAnyAuthority("ROLE_ADMIN","ROLE_EGCADMIN")
-                .antMatchers("/app/user/addUser").permitAll()//不需要权限直接访问
-                .and()
-                .logout()
-                .permitAll()//允许所有用户
-                .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理逻辑
-                .deleteCookies("JSESSIONID")//登出之后删除cookie
-                .and()
                 .formLogin()
+                .loginProcessingUrl("/login")
                 .permitAll()
                 .successHandler(authenticationSuccessHandler)//登录成功处理逻辑
-                .failureHandler(authenticationFailureHandler);//登录失败处理逻辑
+                .failureHandler(authenticationFailureHandler)//登录失败处理逻辑
+                .and()
+                .authorizeRequests()//指定那些接口需要认证
+                .antMatchers("/app/user/addUser","/app/user/sendEmail","/app/user/forgetPassword").permitAll()//不需要权限直接访问
+                .anyRequest().authenticated()//所有请求都需要认证
+                .and()
+                .logout()
+                .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理逻辑
+                .deleteCookies("JSESSIONID");//登出之后删除cookie
+
+
+
 
                 //异常处理(权限拒绝、登录失效等)
                 http.exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler)//权限拒绝处理逻辑
                 .authenticationEntryPoint(authenticationEntryPoint);//匿名用户访问无权限资源时的异常处理
+
 //        http.addFilterBefore(securityInterceptor, FilterSecurityInterceptor.class);
 
     }

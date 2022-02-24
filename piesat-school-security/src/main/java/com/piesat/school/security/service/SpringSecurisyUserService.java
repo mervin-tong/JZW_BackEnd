@@ -4,6 +4,7 @@ import com.piesat.school.user.iservice.IRUserService;
 import com.piesat.school.user.vto.RoleVTO;
 import com.piesat.school.user.vto.UserVTO;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -25,6 +26,7 @@ public class SpringSecurisyUserService implements UserDetailsService {
     //使用Dubbo通过网络远程调用服务提供方获取数据库中的用户信息
     @DubboReference
     private IRUserService irUserService;
+
     //根据用户名查询数据库获取用户信息
     @Override
     public UserDetails loadUserByUsername(String phoneOrEmail) throws UsernameNotFoundException {

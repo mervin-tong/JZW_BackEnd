@@ -1,6 +1,7 @@
 package com.piesat.school.biz.ds.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.piesat.school.biz.ds.user.bulider.UserBulider;
 import com.piesat.school.biz.ds.user.check.CheckPhoneOrEmail;
 import com.piesat.school.biz.ds.user.entity.User;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -38,6 +40,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             user = userMapper.selectList(queryWrapper).get(0);
             return UserBulider.toUserVTO(user);
         }
+        //如果不是手机号用邮箱查询
         queryWrapper.eq("email",phoneOrEmail);
         user = userMapper.selectList(queryWrapper).get(0);
         return UserBulider.toUserVTO(user);
@@ -46,9 +49,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public UserVTO addUser(UserParamData userParamData)  {
         User user = UserBulider.toUser(userParamData);
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPassword(passwordEncoder.encode(userParamData.getPassword()));
         this.save(user);
         return UserBulider.toUserVTO(user);
+    }
+
+    @Override
+    public Boolean alterPassword(String email, String password) {
+        if (email == null && password == null){
+            return Boolean.FALSE;
+        }
+
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("password",passwordEncoder.encode(password));
+        updateWrapper.eq("email",email);
+
+        return this.update(updateWrapper);
     }
 }

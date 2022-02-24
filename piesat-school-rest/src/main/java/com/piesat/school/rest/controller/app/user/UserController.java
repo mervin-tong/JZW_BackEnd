@@ -4,6 +4,7 @@ import com.piesat.school.rest.constants.DubboConstant;
 import com.piesat.school.security.JsonResult;
 import com.piesat.school.security.ResultTool;
 import com.piesat.school.user.iservice.IRUserService;
+import com.piesat.school.user.param.ForgetPasswordParamData;
 import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.UserVTO;
 import io.swagger.annotations.Api;
@@ -27,9 +28,9 @@ public class UserController {
     private IRUserService userService;
     @Secured({"ROLE_ADMIN","ROLE_EGCADMIN"})
     @GetMapping("/getUserInfo")
-    public JsonResult getUser() {
-        UserVTO userByPhone = userService.findUserByphoneOrEmail("zhangsan@163.com");
-        return ResultTool.success(userByPhone);
+    //获取用户
+    public Result<UserVTO> getUser() {
+        return Result.ofSuccess(userService.findUserByphoneOrEmail("zhangsan@163.com"));
     }
 
     //注册用户
@@ -40,8 +41,14 @@ public class UserController {
 
     //发送邮箱验证码
     @GetMapping("/sendEmail")
-    public Result sendEmail(String email){
+    public Result<Boolean> sendEmail(String email){
         return userService.sendEmail(email);
+    }
+
+    //忘记密码
+    @PostMapping("/forgetPassword")
+    public Result<Boolean> forgetPassword(@RequestBody ForgetPasswordParamData forgetPasswordParamData){
+        return userService.forgetPassword(forgetPasswordParamData);
     }
 
 

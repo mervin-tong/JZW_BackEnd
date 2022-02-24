@@ -12,4 +12,8 @@ public interface IUserService {
      UserVTO findUserByphoneOrEmail(String phoneOrEmail);
      //注册普通用户
      UserVTO addUser(UserParamData userParamData) ;
+     //修改密码
+     Boolean alterPassword(String email,String password);
+
+
 }

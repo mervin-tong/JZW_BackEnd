@@ -32,5 +32,4 @@ public class UserParamData extends UIDParamData {
     String profession;
     @ApiModelProperty(value = "验证码")
     Integer userVerificationCode;
-
 }
