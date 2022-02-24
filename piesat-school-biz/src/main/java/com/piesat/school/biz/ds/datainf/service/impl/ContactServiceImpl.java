@@ -1,8 +1,8 @@
-package com.piesat.school.biz.ds.contact.service.impl;
+package com.piesat.school.biz.ds.datainf.service.impl;
 
-import com.piesat.school.biz.ds.contact.entity.Contact;
-import com.piesat.school.biz.ds.contact.mapper.ContactMapper;
-import com.piesat.school.biz.ds.contact.service.IContactService;
+import com.piesat.school.biz.ds.datainf.entity.Contact;
+import com.piesat.school.biz.ds.datainf.mapper.ContactMapper;
+import com.piesat.school.biz.ds.datainf.service.IContactService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

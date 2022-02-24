@@ -1,6 +1,6 @@
-package com.piesat.school.biz.ds.contact.service;
+package com.piesat.school.biz.ds.datainf.service;
 
-import com.piesat.school.biz.ds.contact.entity.Contact;
+import com.piesat.school.biz.ds.datainf.entity.Contact;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

@@ -1,6 +1,6 @@
-package com.piesat.school.biz.ds.contact.mapper;
+package com.piesat.school.biz.ds.datainf.mapper;
 
-import com.piesat.school.biz.ds.contact.entity.Contact;
+import com.piesat.school.biz.ds.datainf.entity.Contact;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

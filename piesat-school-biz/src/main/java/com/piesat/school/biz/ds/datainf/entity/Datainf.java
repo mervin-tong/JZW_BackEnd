@@ -119,7 +119,7 @@ public class Datainf implements Serializable {
     /**
      * 数据所属结束时间
      */
-    private String keyId;
+    private Integer keyId;
 
     /**
      * 创建时间

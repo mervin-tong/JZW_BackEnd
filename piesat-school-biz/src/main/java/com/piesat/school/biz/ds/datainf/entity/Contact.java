@@ -1,4 +1,4 @@
-package com.piesat.school.biz.ds.contact.entity;
+package com.piesat.school.biz.ds.datainf.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

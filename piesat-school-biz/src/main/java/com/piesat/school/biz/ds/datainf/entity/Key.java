@@ -21,24 +21,18 @@ public class Key implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id",type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 关键字
      */
     private String keyword;
 
-    /**
-     * 创建时间
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private Date createdAt;
-
-    /**
-     * 更新时间
-     */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updatedAt;
+
+    @TableField(fill = FieldFill.INSERT)
+    private Date createdAt;
 
 
 }

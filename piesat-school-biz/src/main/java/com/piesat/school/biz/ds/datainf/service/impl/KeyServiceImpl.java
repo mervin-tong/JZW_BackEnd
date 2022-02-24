@@ -1,4 +1,4 @@
-package com.piesat.school.biz.ds.datainf.service;
+package com.piesat.school.biz.ds.datainf.service.impl;
 
 import com.piesat.school.biz.ds.datainf.entity.Key;
 import com.piesat.school.biz.ds.datainf.mapper.KeyMapper;
