@@ -1,6 +1,7 @@
 package com.piesat.school.biz.ds.orderfrom.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
 import com.piesat.school.biz.ds.orderfrom.bulider.OrderFromBulider;
@@ -9,9 +10,13 @@ import com.piesat.school.biz.ds.orderfrom.mapper.OrderFromMapper;
 import com.piesat.school.biz.ds.orderfrom.service.IOrderFromService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.i18n.ResponseErrorCode;
+import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
 import com.piesat.school.orderfrom.param.OrderFromParamData;
+import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
 import com.piesat.school.orderfrom.vto.OrderFromVTO;
 import com.smartwork.api.exception.SmartworkI18nException;
+import com.smartwork.api.support.page.CommonPage;
+import com.smartwork.api.support.page.TailPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +40,11 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
     private DatainfMapper datainfMapper;
     //获取订单列表
     @Override
-    public List<OrderFromVTO> orderFromMenu(Long dataType, Long downloadUserId) {
-        return orderFromMapper.orderFromMenu(dataType,downloadUserId);
+    public TailPage<OrderFromVTO> orderFromMenu(OrderFromMenuPageParamData orderFromMenuPageParamData) {
+        Page<OrderFrom> page = new Page<>(orderFromMenuPageParamData.getPn(),orderFromMenuPageParamData.getPs());
+        List<OrderFromVTO> list = orderFromMapper.orderFromMenu(orderFromMenuPageParamData, page);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+
     }
     //创建订单
     @Override
@@ -58,5 +66,10 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         }
         this.save(orderFrom);
         return OrderFromBulider.toOrderFromVTO(orderFrom);
+    }
+
+    @Override
+    public OrderFromInfoVTO orderFromInfo(Long orderFromId) {
+        return orderFromMapper.orderFromInfo(orderFromId);
     }
 }

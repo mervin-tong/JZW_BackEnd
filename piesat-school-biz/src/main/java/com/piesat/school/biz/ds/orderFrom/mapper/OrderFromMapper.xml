@@ -18,7 +18,8 @@
         id,
         data_type, download_user_id, auditor_user_id, data_info_id, created_at, updated_at
     </sql>
-    <select id="orderFromMenu" resultType="com.piesat.school.orderfrom.vto.OrderFromVTO">
+    <select id="orderFromMenu" resultType="com.piesat.school.orderfrom.vto.OrderFromVTO"
+            parameterType="com.piesat.school.orderfrom.param.OrderFromMenuPageParamData">
         SELECT
             o.data_type,
             o.download_user_id,
@@ -28,11 +29,25 @@
         FROM
             t_order_from o
             LEFT JOIN t_data_inf d ON o.data_info_id = d.id
+<!--        WHERE-->
+<!--            o.download_user_id = #{downloadUserId}-->
+<!--        <if test="dataType != null and dataType != 0" >-->
+<!--            AND data_type = #{dataType}-->
+<!--        </if>-->
+    </select>
+    
+    <select id="orderFromInfo" parameterType="long" resultType="com.piesat.school.orderfrom.vto.OrderFromInfoVTO">
+        SELECT
+        o.data_type,
+        o.download_user_id,
+        d.data_name,
+        d.`status`,
+        o.created_at
+        FROM
+        t_order_from o
+        LEFT JOIN t_data_inf d ON o.data_info_id = d.id
         WHERE
-            o.download_user_id = #{downloadUserId}
-        <if test="dataType != null and dataType != 0" >
-            AND data_type = #{dataType}
-        </if>
+        o.id = #{orderFromId}
     </select>
 
 

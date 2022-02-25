@@ -8,10 +8,10 @@ import java.util.Date;
 
 /**
  * @author suweipeng
- * @data 2022/2/24 10:28
+ * @data 2022/2/25 11:13
  */
 @Data
-public class OrderFromVTO implements Serializable {
+public class OrderFromInfoVTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -29,17 +29,15 @@ public class OrderFromVTO implements Serializable {
      */
     private String dataName;
 
-    /**
-     * 图片地址
-     */
-    private String pic;
 
     /**
      * 公开状态（1.完全公开 2.申请获取 3.保护期内）
      */
     private Integer status;
 
-
-
-
+    /**
+     * 订单创建时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Date createdAt;
 }
