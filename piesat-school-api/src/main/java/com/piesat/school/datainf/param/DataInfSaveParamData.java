@@ -1,6 +1,7 @@
 package com.piesat.school.datainf.param;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.piesat.school.emuerlation.BizEnumType;
 import com.smartwork.api.param.UIDParamData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -30,6 +31,9 @@ public class DataInfSaveParamData extends UIDParamData {
     @ApiModelProperty(value = "数据所属单位")
     private String dataUnit;
 
+    @ApiModelProperty(value = "公开状态")
+    private BizEnumType.PublicStatus status;
+
     /**
      * 数据地址
      */
@@ -53,6 +57,24 @@ public class DataInfSaveParamData extends UIDParamData {
      */
     @ApiModelProperty(value = "分辨率")
     private String ratio;
+
+    /**
+     * 数据摘要
+     */
+    @ApiModelProperty(value = "数据摘要")
+    private String introduction;
+
+    /**
+     * 数据来源
+     */
+    @ApiModelProperty(value = "数据来源")
+    private String origin;
+
+    /**
+     * 数据制作方法
+     */
+    @ApiModelProperty(value = "数据制作方法")
+    private String solution;
 
     /**
      * 唯一标识符

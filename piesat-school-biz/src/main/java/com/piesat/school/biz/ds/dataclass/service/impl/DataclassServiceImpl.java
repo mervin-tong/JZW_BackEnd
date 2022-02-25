@@ -54,8 +54,9 @@ public class DataclassServiceImpl extends ServiceImpl<DataclassMapper, Dataclass
 //        Optional.ofNullable(paramData.getPointType()).ifPresent(type->{
 //            wrapper.eq("point_type", type.getId());
 //        });
+        Page<Dataclass> page = super.page(new Page<>(paramData.getPn(), paramData.getPs()), wrapper);
 
-        return null;
+        return CommonPage.buildPage(page.getCurrent(), page.getSize(), page.getTotal(), DataClassBuilder.toDataClassVtos(page.getRecords()));
     }
 
     @Override

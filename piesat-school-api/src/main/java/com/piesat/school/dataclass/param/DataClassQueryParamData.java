@@ -7,7 +7,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 @Data
-public class DataClassQueryParamData {
+public class DataClassQueryParamData extends PageQueryParamData{
 
     @ApiModelProperty(value = "分类id ，更新添加数据必传")
     private Long id;

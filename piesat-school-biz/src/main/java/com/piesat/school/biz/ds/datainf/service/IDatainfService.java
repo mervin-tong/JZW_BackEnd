@@ -1,9 +1,12 @@
 package com.piesat.school.biz.ds.datainf.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.piesat.school.datainf.param.DataInfListParamData;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.vto.DataInfVTO;
+import com.smartwork.api.support.page.TailPage;
 
 import java.util.List;
 
@@ -18,5 +21,6 @@ import java.util.List;
 public interface IDatainfService extends IService<Datainf> {
     List<DataInfVTO> getAllDatainf();
     DataInfVTO saveDataInf(DataInfSaveParamData paramData);
+    TailPage<DataInfVTO> listDataInf(DataInfListParamData paramData);
 
 }

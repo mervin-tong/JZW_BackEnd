@@ -50,9 +50,9 @@ public class Datainf implements Serializable {
     private String topic;
 
     /**
-     * 类别编号
+     * 数据分类
      */
-    private Long classId;
+    private String dataClass;
 
     /**
      * 数据存放地址
@@ -121,9 +121,7 @@ public class Datainf implements Serializable {
      */
     private Integer keyId;
 
-    /**
-     * 创建时间
-     */
+
     @TableField(fill = FieldFill.INSERT)
     private Date createdAt;
 

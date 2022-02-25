@@ -10,7 +10,7 @@
         <result column="data_unit" property="dataUnit" />
         <result column="address" property="address" />
         <result column="topic" property="topic" />
-        <result column="class_id" property="classId" />
+        <result column="data_class" property="dataClass" />
         <result column="content" property="content" />
         <result column="meas" property="meas" />
         <result column="ratio" property="ratio" />
@@ -33,7 +33,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        data_name, maker,start_at,end_at, data_unit, address, topic, class_id, content, meas, ratio, doi, pic, status, introduction, origin, solution, con_id, created_at, updated_at, kick_count, dow_count
+        data_name, maker,start_at,end_at, data_unit, address, topic, data_class, content, meas, ratio, doi, pic, status, introduction, origin, solution, con_id, created_at, updated_at, kick_count, dow_count
     </sql>
     <select id="getAllDatainf" resultType="com.piesat.school.biz.ds.datainf.entity.Datainf">
         select * from t_data_inf

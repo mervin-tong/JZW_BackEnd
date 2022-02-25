@@ -32,7 +32,7 @@ public class RDataClassService implements IRDataClassService {
 
     @Override
     public Result<TailPage<DataClassVTO>> pageDataClass(DataClassQueryParamData paramData) {
-        return null;
+        return Result.ofSuccess(iDataclassService.pageDataClass(paramData));
     }
 
     @Override
