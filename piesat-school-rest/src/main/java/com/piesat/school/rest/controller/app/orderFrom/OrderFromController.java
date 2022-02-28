@@ -2,6 +2,7 @@ package com.piesat.school.rest.controller.app.orderFrom;
 
 import com.piesat.school.datainf.vto.DataInfVTO;
 import com.piesat.school.orderfrom.iservice.IROrderFromService;
+import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
 import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
 import com.piesat.school.orderfrom.param.OrderFromParamData;
 import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
@@ -41,11 +42,11 @@ public class OrderFromController {
     public Result<OrderFromInfoVTO> orderFromInfo(Long orderFromId){
         return irOrderFromService.orderFromInfo(orderFromId);
     }
-//    @ApiOperation(value = "关注列表")
-//    @GetMapping("/attentionList")
-//    public Result<List<OrderFromAttentionVTO>> attentionList(Long userId){
-//        return irOrderFromService.attentionList(userId);
-//    }
+    @ApiOperation(value = "关注列表")
+    @PostMapping("/attentionList")
+    public Result<TailPage<OrderFromAttentionVTO>> attentionList(@RequestBody OrderFromAttentionParamData orderFromAttentionParamData){
+        return irOrderFromService.attentionList(orderFromAttentionParamData);
+    }
 
 
 }

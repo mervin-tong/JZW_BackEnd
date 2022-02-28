@@ -10,8 +10,10 @@ import com.piesat.school.biz.ds.orderfrom.mapper.OrderFromMapper;
 import com.piesat.school.biz.ds.orderfrom.service.IOrderFromService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.i18n.ResponseErrorCode;
+import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
 import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
 import com.piesat.school.orderfrom.param.OrderFromParamData;
+import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
 import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
 import com.piesat.school.orderfrom.vto.OrderFromVTO;
 import com.smartwork.api.exception.SmartworkI18nException;
@@ -41,7 +43,8 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
     //获取订单列表
     @Override
     public TailPage<OrderFromVTO> orderFromMenu(OrderFromMenuPageParamData orderFromMenuPageParamData) {
-        Page<OrderFrom> page = new Page<>(orderFromMenuPageParamData.getPn(),orderFromMenuPageParamData.getPs());
+        Page<OrderFromVTO> page = new Page<>(orderFromMenuPageParamData.getPn(),orderFromMenuPageParamData.getPs());
+        page.setOptimizeCountSql(false);
         List<OrderFromVTO> list = orderFromMapper.orderFromMenu(orderFromMenuPageParamData, page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
 
@@ -71,5 +74,13 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
     @Override
     public OrderFromInfoVTO orderFromInfo(Long orderFromId) {
         return orderFromMapper.orderFromInfo(orderFromId);
+    }
+
+    @Override
+    public TailPage<OrderFromAttentionVTO> attentionList(OrderFromAttentionParamData orderFromAttentionParamData) {
+        Page<OrderFromAttentionVTO> page = new Page<>(orderFromAttentionParamData.getPn(),orderFromAttentionParamData.getPs());
+        page.setOptimizeCountSql(false);//关闭mybatis自动优化
+        List<OrderFromAttentionVTO> list = orderFromMapper.attentionList(orderFromAttentionParamData, page);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 }

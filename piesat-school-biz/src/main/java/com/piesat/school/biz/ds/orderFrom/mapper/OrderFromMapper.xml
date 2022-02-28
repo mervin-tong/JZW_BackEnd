@@ -18,8 +18,7 @@
         id,
         data_type, download_user_id, auditor_user_id, data_info_id, created_at, updated_at
     </sql>
-    <select id="orderFromMenu" resultType="com.piesat.school.orderfrom.vto.OrderFromVTO"
-            parameterType="com.piesat.school.orderfrom.param.OrderFromMenuPageParamData">
+    <select id="orderFromMenu" resultType="com.piesat.school.orderfrom.vto.OrderFromVTO">
         SELECT
             o.data_type,
             o.download_user_id,
@@ -29,11 +28,11 @@
         FROM
             t_order_from o
             LEFT JOIN t_data_inf d ON o.data_info_id = d.id
-<!--        WHERE-->
-<!--            o.download_user_id = #{downloadUserId}-->
-<!--        <if test="dataType != null and dataType != 0" >-->
-<!--            AND data_type = #{dataType}-->
-<!--        </if>-->
+        WHERE
+            o.download_user_id = #{orderFromMenuPageParamData.downloadUserId}
+        <if test="orderFromMenuPageParamData.dataType != null and orderFromMenuPageParamData.dataType != 0" >
+            AND data_type = #{orderFromMenuPageParamData.dataType}
+        </if>
     </select>
     
     <select id="orderFromInfo" parameterType="long" resultType="com.piesat.school.orderfrom.vto.OrderFromInfoVTO">
@@ -48,6 +47,19 @@
         LEFT JOIN t_data_inf d ON o.data_info_id = d.id
         WHERE
         o.id = #{orderFromId}
+    </select>
+
+    <select id="attentionList" resultType="com.piesat.school.orderfrom.vto.OrderFromAttentionVTO">
+        SELECT
+            d.data_name,
+
+            d.address
+        FROM
+            t_user u
+            LEFT JOIN t_attention a ON u.id = a.user_id
+            LEFT JOIN t_data_inf d ON a.data_id = d.id
+        WHERE
+            u.id = #{orderFromAttentionParamData.id}
     </select>
 
 

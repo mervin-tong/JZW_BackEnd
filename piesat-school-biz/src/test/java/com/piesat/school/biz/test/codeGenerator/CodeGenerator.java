@@ -54,9 +54,9 @@ public class CodeGenerator {
         String modelName="clockin";
         //数据库表名 区分大小写
 
-        String tableName="t_key";
+        String tableName="t_upload_permisssions";
         //对应子系统名字
-        String proj="key";
+        String proj="uploadpermissions";
         //项目路径
         String projPath="com.piesat.school.biz.ds."+proj;
         //模块存储路径
