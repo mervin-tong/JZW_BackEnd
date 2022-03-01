@@ -19,4 +19,16 @@
         name, email, work_address, major, application_time, status
     </sql>
 
+    <select id="uploadPermissionsList" resultType="com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO">
+        SELECT
+            u.`name` as name,
+            u.email as email,
+            u.unit_address as unitAddress,
+            u.profession as profession,
+            up.created_at as createdAt
+        FROM
+            t_upload_permisssions up
+            LEFT JOIN t_user u ON u.id = up.applicat_id
+    </select>
+
 </mapper>

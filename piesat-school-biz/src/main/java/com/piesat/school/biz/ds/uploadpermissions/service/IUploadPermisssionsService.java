@@ -20,4 +20,8 @@ public interface IUploadPermisssionsService extends IService<UploadPermisssions>
 
 
     TailPage<UploadPermissionsVTO> uploadPermissionsList(UploadPermissionsParamData uploadPermissionsParamData);
+
+    Boolean createPermissions(Long userId);
+
+    Boolean checkPermissions(Long uploadId,Integer status);
 }

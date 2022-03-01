@@ -1,5 +1,7 @@
 package com.piesat.school.uploadpermissions.vto;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,6 +9,7 @@ import java.util.Date;
  * @author suweipeng
  * @data 2022/2/28 16:17
  */
+@Data
 public class UploadPermissionsVTO implements Serializable {
     private static final long serialVersionUID = 1L;
     //申请人
@@ -14,11 +17,11 @@ public class UploadPermissionsVTO implements Serializable {
     //邮箱
     private String email;
     //工作地址
-    private String wordAddress;
+    private String unitAddress;
     //从事专业
-    private String major;
+    private String profession;
     //申请时间
-    private Date applicationTime;
+    private Date createdAt;
 
 
 

@@ -65,6 +65,64 @@ public interface BizEnumType {
 	}
 
 	/**
+	 * 权限申请状态
+	 */
+	enum UploadPermissionsStatus {
+		CreatePermissions(0, "申请权限"),
+		Pass(1, "权限通过"),
+		Reject(2, "权限申请不通过"),
+		;
+		static Map<Integer, UploadPermissionsStatus> allTypes;
+		private int key;
+		private String name;
+		UploadPermissionsStatus(Integer key, String name) {
+			this.key = key;
+			this.name = name;
+		}
+		public int getKey() {
+			return key;
+		}
+
+		public void setKey(int key) {
+			this.key = key;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public static boolean isNotPermissions(int key){
+			if(CreatePermissions.getKey() == key) return true;
+			return false;
+		}
+
+		public static UploadPermissionsStatus fromKey(Integer key) {
+			if (key == null) return null;
+			return allTypes.get(key);
+		}
+
+		static {
+			allTypes = new HashMap<>();
+			UploadPermissionsStatus[] types = values();
+			for (UploadPermissionsStatus type : types) {
+				allTypes.put(type.getKey(), type);
+			}
+		}
+
+
+
+
+	}
+
+
+
+
+
+	/**
 	 * 通用状态
 	 */
 	enum CommonStatus {

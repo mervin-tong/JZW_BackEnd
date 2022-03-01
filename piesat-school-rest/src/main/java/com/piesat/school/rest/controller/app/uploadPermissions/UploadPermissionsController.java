@@ -8,11 +8,9 @@ import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author suweipeng
@@ -25,10 +23,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class UploadPermissionsController {
     @DubboReference(consumer = DubboConstant.CONSUMER_NAME)
     private IRUploadPermissionsService irUploadPermissionsService;
+    @ApiOperation(value = "获取上传权限列表")
     @PostMapping(value = "uploadpermissionsList")
     public Result<TailPage<UploadPermissionsVTO>> uploadPermissionsList(@RequestBody UploadPermissionsParamData uploadPermissionsParamData){
         return irUploadPermissionsService.uploadPermissionsList(uploadPermissionsParamData);
     }
+
+    @ApiOperation(value = "申请上传权限")
+    @GetMapping(value = "createPermissions")
+    public Result<Boolean> createPermissions(Long userId){
+        return irUploadPermissionsService.createPermissions(userId);
+    }
+
+    @ApiOperation(value = "处理上传权限")
+    @GetMapping(value = "checkPermissions")
+    public Result<Boolean> checkPermissions(Long uploadId,Integer status){
+        return irUploadPermissionsService.checkPermissions(uploadId,status);
+    }
+
 
 
 }

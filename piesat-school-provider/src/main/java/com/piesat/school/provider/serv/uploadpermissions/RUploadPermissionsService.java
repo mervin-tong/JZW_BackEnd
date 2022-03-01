@@ -17,8 +17,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RUploadPermissionsService implements IRUploadPermissionsService {
     @Autowired
     private IUploadPermisssionsService iUploadPermisssionsService;
+    //申请上传权限列表
     @Override
     public Result<TailPage<UploadPermissionsVTO>> uploadPermissionsList(UploadPermissionsParamData uploadPermissionsParamData) {
         return Result.ofSuccess(iUploadPermisssionsService.uploadPermissionsList(uploadPermissionsParamData));
+    }
+    //申请上传权限
+    @Override
+    public Result<Boolean> createPermissions(Long userId) {
+        return Result.ofSuccess(iUploadPermisssionsService.createPermissions(userId));
+    }
+    //处理上传权限
+    @Override
+    public Result<Boolean> checkPermissions(Long uploadId,Integer status) {
+        return Result.ofSuccess(iUploadPermisssionsService.checkPermissions(uploadId,status));
     }
 }

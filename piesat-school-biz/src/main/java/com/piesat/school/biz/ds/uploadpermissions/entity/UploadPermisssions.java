@@ -1,6 +1,10 @@
 package com.piesat.school.biz.ds.uploadpermissions.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -12,99 +16,42 @@ import java.io.Serializable;
  * @author suweipeng
  * @since 2022-02-28
  */
+@Data
 @TableName("t_upload_permisssions")
 public class UploadPermisssions implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 申请者
+     * 编号
      */
-    private String name;
-
-    /**
-     * 邮箱
-     */
-    private String email;
-
-    /**
-     * 工作地址
-     */
-    private String workAddress;
-
-    /**
-     * 从事专业
-     */
-    private String major;
+    @TableId(type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 申请时间
      */
-    private Date applicationTime;
+    private Date createdAt;
+
+    /**
+     * 修改时间
+     */
+    private Date updatedAt;
 
     /**
      * 状态（0 = 为操作，1 = 通过，2 = 拒绝）
      */
     private Integer status;
 
+    /**
+     * 申请者id
+     */
+    private Long applicatId;
 
-    public String getName() {
-        return name;
-    }
+    /**
+     * 版本控制
+     */
+    private Integer version;
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getWorkAddress() {
-        return workAddress;
-    }
-
-    public void setWorkAddress(String workAddress) {
-        this.workAddress = workAddress;
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major;
-    }
-
-    public Date getApplicationTime() {
-        return applicationTime;
-    }
-
-    public void setApplicationTime(Date applicationTime) {
-        this.applicationTime = applicationTime;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "UploadPermisssions{" +
-        "name=" + name +
-        ", email=" + email +
-        ", workAddress=" + workAddress +
-        ", major=" + major +
-        ", applicationTime=" + applicationTime +
-        ", status=" + status +
-        "}";
-    }
 }

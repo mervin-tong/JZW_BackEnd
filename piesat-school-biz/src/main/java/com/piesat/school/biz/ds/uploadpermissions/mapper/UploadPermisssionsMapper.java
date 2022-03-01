@@ -1,5 +1,6 @@
 package com.piesat.school.biz.ds.uploadpermissions.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermisssions;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
@@ -18,6 +19,6 @@ import java.util.List;
  */
 public interface UploadPermisssionsMapper extends BaseMapper<UploadPermisssions> {
 
-    List<UploadPermissionsVTO> uploadPermissionsList(UploadPermissionsParamData uploadPermissionsParamData);
+    List<UploadPermissionsVTO> uploadPermissionsList(Page<UploadPermissionsVTO> page);
 
 }
