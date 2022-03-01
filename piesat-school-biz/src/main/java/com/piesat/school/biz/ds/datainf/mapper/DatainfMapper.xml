@@ -39,5 +39,20 @@
         select * from t_data_inf
     </select>
 
+    <select id="searchByKeyword" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
+        select
+            a.data_name,
+            a.dow_count,
+            a.pic,
+            a.start_at,
+            a.end_at,
+            a.`status`
+        from
+            t_data_inf a
+            left join t_key b on (a.key_id = b.id and b.keyword like #{searchByKeyParamData.keyword})
+            order by a.start_at desc
+
+    </select>
+
 
 </mapper>

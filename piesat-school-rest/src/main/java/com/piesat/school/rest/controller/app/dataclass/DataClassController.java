@@ -10,6 +10,7 @@ import com.piesat.school.dataclass.vto.DataClassVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,14 +32,17 @@ public class DataClassController {
     public Result<List<DataClassVTO>> getAllDataClass(){
         return dataclassService.getAllDataClass();
     }
+    @ApiOperation(value = "新增数据分类")
     @PostMapping("/save")
     public Result<DataClassVTO> saveDataClass(@RequestBody DataClassSaveParamData paramData){
         return dataclassService.saveDataClass(paramData);
     }
+    @ApiOperation(value = "逻辑删除数据分类")
     @PostMapping("/del")
     public Result<Boolean> delDataClass(@RequestBody DataClassDelParamData paramData){
         return dataclassService.delDataClass(paramData);
     }
+    @ApiOperation(value = "更新数据分类")
     @PostMapping("/update")
     public Result<DataClassVTO> updateDataClass(@RequestBody DataClassParamData paramData){
         return dataclassService.updataDataClass(paramData);
