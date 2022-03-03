@@ -29,7 +29,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -90,8 +92,6 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
         this.save(datainf);
         return DatainfBuilder.toDataInfVto(datainf);
-
-
     }
 
     @Override
@@ -113,43 +113,12 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     //上传文件
     @Override
     public DataInfVTO uploadDataInf(MultipartFile file, Long dataid) throws IOException {
-        //就算什么也不传，controller层的file也不为空，但是originalFilename会为空（亲测）
-//        String originalFilename = file.getOriginalFilename();
-//
-//        if(originalFilename == null || "".equals(originalFilename)) {
-//            throw new Exception( "上传文件不能为空");
-//        }
+        //拿到上传文件的二进制数组inputStream
         Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataid,this);
         String fileLocation = FileUploadUtils.upload(file);
         datainf.setContent(fileLocation);
         this.updateById(datainf);
         return DatainfBuilder.toDataInfVto(datainf);
 
-//        //检测是否上传过同样的文件，如果有的话就删除。（这边可根据个人的情况修改逻辑）
-//        QueryWrapper<UploadEntity> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.eq("old_name", originalFilename);
-//        UploadEntity oldEntity = uploadMapper.selectOne(queryWrapper);
-//
-//        //新的文件
-//        UploadEntity uploadEntity = new UploadEntity();
-//        uploadEntity.setCreateTime(new Date());
-//        uploadEntity.setUpdateTime(new Date());
-//        uploadEntity.setOldName(file.getOriginalFilename());        //这边可以根据业务修改，项目中不要写死
-//        uploadEntity.setName("上传模板");
-//        String fileLocation = null ;
-//        if(baseDir != null) {
-//            fileLocation = FileUploadUtils.upload(baseDir, file);
-//        }else {
-
-
-
-//        uploadEntity.setLocation(fileLocation);
-//        uploadMapper.insert(uploadEntity);
-//
-//        if(oldEntity != null) {
-//            //确保新的文件保存成功后，删除原有的同名文件(实体文件 and 数据库文件)
-//            FileUtils.deleteFile(oldEntity.getLocation());
-//            uploadMapper.deleteById(oldEntity.getId());
-//        }
     }
 }
