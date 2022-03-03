@@ -3,6 +3,7 @@ package com.piesat.school.rest.controller.app.datainf;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.piesat.school.datainf.iservice.IRDataInfService;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
+import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
@@ -36,9 +37,14 @@ public class DataInfController {
     public Result<TailPage<DataInfListVTO>> searchByKeyword(@RequestBody SearchByKeyParamData searchByKeyParamData){
         return irDataInfService.searchByKeyword(searchByKeyParamData);
     }
+    @ApiOperation(value = "根据类名返回数据列表")
+    @PostMapping("/classsearch")
+    public Result<TailPage<DataInfListVTO>> searchByClass(@RequestBody SearchByClassParamData searchByClassParamData){
+        return irDataInfService.searchByClass(searchByClassParamData);
+    }
     @ApiOperation(value = "上传文件")
     @PostMapping("/uploaddata")
-    public Result<DataInfVTO> uploadDataInf(MultipartFile file, Long dataid) throws Exception {
+    public Result<DataInfVTO> uploadDataInf(@RequestParam("file") MultipartFile file, Long dataid) throws Exception {
         return irDataInfService.uploadDataInf(file,dataid);
     }
 }

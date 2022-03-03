@@ -10,7 +10,8 @@
         <result column="data_unit" property="dataUnit" />
         <result column="address" property="address" />
         <result column="topic" property="topic" />
-        <result column="data_class" property="dataClass" />
+        <result column="first_class" property="firstClass" />
+        <result column="sec_class" property="secClass"/>
         <result column="content" property="content" />
         <result column="meas" property="meas" />
         <result column="ratio" property="ratio" />
@@ -33,7 +34,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        data_name, maker,start_at,end_at, data_unit, address, topic, data_class, content, meas, ratio, doi, pic, status, introduction, origin, solution, con_id, created_at, updated_at, kick_count, dow_count
+        data_name, maker,start_at,end_at, data_unit, address, topic, first_class,sec_class, content, meas, ratio, doi, pic, status, introduction, origin, solution, con_id, created_at, updated_at, kick_count, dow_count
     </sql>
     <select id="getAllDatainf" resultType="com.piesat.school.biz.ds.datainf.entity.Datainf">
         select * from t_data_inf
@@ -51,6 +52,20 @@
             t_data_inf a
             left join t_key b on (a.key_id = b.id and b.keyword like #{searchByKeyParamData.keyword})
             order by a.start_at desc
+
+    </select>
+    <select id="searchByClass" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
+        SELECT
+            a.data_name,
+            a.dow_count,
+            a.pic,
+            a.start_at,
+            a.end_at,
+            a.`status`
+        FROM
+            t_data_inf a
+        WHERE (a.first_class = #{searchByClassParamData.firstClass}AND a.sec_class = #{searchByClassParamData.secClass})
+            ORDER BY a.start_at DESC
 
     </select>
 

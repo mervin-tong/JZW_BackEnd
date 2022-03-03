@@ -50,9 +50,14 @@ public class Datainf implements Serializable {
     private String topic;
 
     /**
-     * 数据分类
+     * 数据第一分类
      */
-    private String dataClass;
+    private String firstClass;
+
+    /**
+     * 数据第二分类
+     */
+    private String secClass;
 
     /**
      * 数据存放地址

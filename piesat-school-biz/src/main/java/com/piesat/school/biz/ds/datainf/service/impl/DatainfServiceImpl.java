@@ -17,6 +17,7 @@ import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.datainf.param.DataInfListParamData;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
+import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
@@ -76,8 +77,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         datainf.setStartAt(paramData.getStartAt());
         datainf.setStatus(paramData.getStatus().getKey());
         datainf.setEndAt(paramData.getEndAt());
-        datainf.setDataClass(paramData.getFirstClass()+","+paramData.getSecClass());
-
+        datainf.setFirstClass(paramData.getFirstClass());
+        datainf.setSecClass(paramData.getSecClass());
     //        BeanUtils.copyProperties(datainf,paramData);
 
         Key key = new Key();
@@ -93,15 +94,6 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         this.save(datainf);
         return DatainfBuilder.toDataInfVto(datainf);
     }
-
-    @Override
-    public TailPage<DataInfVTO> listDataInf(DataInfListParamData paramData) {
-        QueryWrapper<Datainf> wrapper = new QueryWrapper<Datainf>();
-//                .like(!StringUtils.isNullOrEmpty(paramData.getKeyword()),"keyword",paramData.getKeyword())
-
-        return null;
-    }
-
     //关键词查找
     @Override
     public TailPage<DataInfListVTO> searchByKeyword(SearchByKeyParamData searchByKeyParamData) {
@@ -110,6 +102,15 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         List<DataInfListVTO> list = datainfMapper.searchByKeyword(searchByKeyParamData,page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
+
+    @Override
+    public TailPage<DataInfListVTO> searchByClass(SearchByClassParamData searchByClassParamData) {
+        Page<DataInfListVTO> page = new Page<>(searchByClassParamData.getPn(),searchByClassParamData.getPs());
+        page.setOptimizeCountSql(false);
+        List<DataInfListVTO> list = datainfMapper.searchByClass(searchByClassParamData,page);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+    }
+
     //上传文件
     @Override
     public DataInfVTO uploadDataInf(MultipartFile file, Long dataid) throws IOException {
@@ -119,6 +120,6 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         datainf.setContent(fileLocation);
         this.updateById(datainf);
         return DatainfBuilder.toDataInfVto(datainf);
-
     }
+
 }
