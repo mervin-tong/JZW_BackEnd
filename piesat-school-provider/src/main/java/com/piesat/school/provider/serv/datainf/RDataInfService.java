@@ -34,7 +34,7 @@ public class RDataInfService implements IRDataInfService {
     }
 
     @Override
-    public Result<DataInfVTO> uploadDataInf(MultipartFile file, Long dataid) throws IOException {
+    public Result<DataInfVTO> uploadDataInf(String file, Long dataid) throws IOException {
         return Result.ofSuccess(iDatainfService.uploadDataInf(file,dataid));
     }
 }

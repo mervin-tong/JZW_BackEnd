@@ -15,5 +15,5 @@ public interface IRDataInfService {
     Result<List<DataInfVTO>> getAllDatainf();
     Result<DataInfVTO> saveDataInf(DataInfSaveParamData paramData);
     Result<TailPage<DataInfListVTO>> searchByKeyword(SearchByKeyParamData searchByKeyParamData);
-    Result<DataInfVTO> uploadDataInf(MultipartFile file, Long dataid) throws IOException;
+    Result<DataInfVTO> uploadDataInf(String file, Long dataid) throws IOException;
 }
