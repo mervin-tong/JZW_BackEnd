@@ -1,8 +1,8 @@
-package com.piesat.school.biz.common.utils;
+package com.piesat.school.rest.utils;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import com.piesat.school.biz.common.utils.MimeTypeUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;

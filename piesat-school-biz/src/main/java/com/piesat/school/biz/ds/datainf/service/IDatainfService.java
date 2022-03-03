@@ -27,7 +27,11 @@ public interface IDatainfService extends IService<Datainf> {
     List<DataInfVTO> getAllDatainf();
     DataInfVTO saveDataInf(DataInfSaveParamData paramData);
     TailPage<DataInfListVTO> searchByKeyword(SearchByKeyParamData searchByKeyParamData);
+
     TailPage<DataInfListVTO> searchByClass(SearchByClassParamData searchByClassParamData);
     DataInfVTO uploadDataInf(MultipartFile file,Long dataid) throws IOException;
+
+    DataInfVTO uploadDataInf(String file,Long dataid) throws IOException;
+
 
 }

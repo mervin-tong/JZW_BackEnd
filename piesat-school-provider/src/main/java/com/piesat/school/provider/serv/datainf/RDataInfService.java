@@ -35,12 +35,20 @@ public class RDataInfService implements IRDataInfService {
     }
 
     @Override
+
     public Result<TailPage<DataInfListVTO>> searchByClass(SearchByClassParamData searchByClassParamData) {
         return Result.ofSuccess(iDatainfService.searchByClass(searchByClassParamData));
     }
 
     @Override
     public Result<DataInfVTO> uploadDataInf(MultipartFile file, Long dataid) throws IOException {
+        return null;
+    }
+
+    @Override
+
+    public Result<DataInfVTO> uploadDataInf(String file, Long dataid) throws IOException {
+
         return Result.ofSuccess(iDatainfService.uploadDataInf(file,dataid));
     }
 }

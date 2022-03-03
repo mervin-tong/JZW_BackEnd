@@ -1,11 +1,8 @@
 package com.piesat.school.biz.ds.datainf.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.mysql.cj.util.StringUtils;
 import com.piesat.school.biz.common.helper.BizCommonValidateHelper;
-import com.piesat.school.biz.common.utils.FileUploadUtils;
 import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
 import com.piesat.school.biz.ds.datainf.entity.Contact;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
@@ -21,18 +18,14 @@ import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
-import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
+import javax.annotation.Resource;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -46,11 +39,11 @@ import java.util.List;
 @Service
 public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> implements IDatainfService {
 
-    @Autowired
+    @Resource
     private DatainfMapper datainfMapper;
-    @Autowired
+    @Resource
     private KeyMapper keyMapper;
-    @Autowired
+    @Resource
     private ContactMapper contactMapper;
 
     @Override
@@ -113,11 +106,11 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
     //上传文件
     @Override
-    public DataInfVTO uploadDataInf(MultipartFile file, Long dataid) throws IOException {
+    public DataInfVTO uploadDataInf(String file, Long dataid) throws IOException {
         //拿到上传文件的二进制数组inputStream
         Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataid,this);
-        String fileLocation = FileUploadUtils.upload(file);
-        datainf.setContent(fileLocation);
+//        String fileLocation = FileUploadUtils.upload(file);
+        datainf.setContent(file);
         this.updateById(datainf);
         return DatainfBuilder.toDataInfVto(datainf);
     }

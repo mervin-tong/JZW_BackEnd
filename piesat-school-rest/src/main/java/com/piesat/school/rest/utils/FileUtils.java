@@ -1,4 +1,4 @@
-package com.piesat.school.biz.common.utils;
+package com.piesat.school.rest.utils;
 
 import java.io.*;
 

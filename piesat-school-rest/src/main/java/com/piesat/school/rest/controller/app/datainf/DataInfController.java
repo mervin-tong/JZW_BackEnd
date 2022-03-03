@@ -7,6 +7,7 @@ import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
+import com.piesat.school.rest.utils.FileUploadUtils;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.Api;
@@ -44,7 +45,12 @@ public class DataInfController {
     }
     @ApiOperation(value = "上传文件")
     @PostMapping("/uploaddata")
-    public Result<DataInfVTO> uploadDataInf(@RequestParam("file") MultipartFile file, Long dataid) throws Exception {
-        return irDataInfService.uploadDataInf(file,dataid);
+
+
+    public Result<DataInfVTO> uploadDataInf(MultipartFile file, Long dataid) throws Exception {
+        String fileLocation = FileUploadUtils.upload(file);
+
+        return irDataInfService.uploadDataInf(fileLocation,dataid);
+
     }
 }
