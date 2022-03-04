@@ -3,6 +3,7 @@ package com.piesat.school.biz.test.service;
 import com.piesat.school.biz.test.SchoolBizTestApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -16,6 +17,7 @@ import java.util.Date;
 @SuppressWarnings("all")
 @Slf4j
 public class BannerServiceTest {
+
     @Test
     public void testString() throws IOException {
         Resource resource = new ClassPathResource("biz/config.yml");
@@ -31,5 +33,10 @@ public class BannerServiceTest {
     public Date getDateAfterDays(int afterDays) throws InterruptedException {
         Thread.sleep(afterDays * 24 * 3600 * 1000l);
         return new Date();
+    }
+    @Test
+    public void test(){
+        Date date = new Date();
+        String timestamp = String.valueOf(date.getTime()/1000);
     }
 }

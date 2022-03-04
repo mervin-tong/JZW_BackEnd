@@ -10,10 +10,11 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
-
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 //@EnableMethodCache(basePackages = "com.company.mypackage")
-
+@EnableScheduling
 @EnableCreateCacheAnnotation
 @ComponentScan(basePackages = {"com.piesat.school"})
 @MapperScan("com.piesat.school.biz.**.mapper")

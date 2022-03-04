@@ -35,10 +35,16 @@ public class UploadPermissionsController {
         return irUploadPermissionsService.createPermissions(userId);
     }
 
+    @ApiOperation(value = "锁定上传权限申请")
+    @GetMapping(value = "setApprover")
+    public Result<Boolean> setApprover(Long approver,Long uploadId){
+        return irUploadPermissionsService.setApprover(approver,uploadId);
+    }
+
     @ApiOperation(value = "处理上传权限")
     @GetMapping(value = "checkPermissions")
-    public Result<Boolean> checkPermissions(Long uploadId,Integer status){
-        return irUploadPermissionsService.checkPermissions(uploadId,status);
+    public Result<Boolean> checkPermissions(Long uploadId,Integer status,Long approver){
+        return irUploadPermissionsService.checkPermissions(uploadId,status,approver);
     }
 
 

@@ -13,12 +13,12 @@ spring:
   #  rest:
   #    uris:
   #      - localhost:9200
-  #redissons:
-  #  user:
-  #    address: redis://localhost:6379
-  #    password:
-  #    database: 0
-  #    file: classpath:redisson/redisson.yml
+  redissons:
+    user:
+      address: redis://localhost:6379
+      password:12345
+      database: 0
+      file: classpath:redisson/redisson.yml
 
 
 jetcache:

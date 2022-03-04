@@ -29,7 +29,12 @@ public class RUploadPermissionsService implements IRUploadPermissionsService {
     }
     //处理上传权限
     @Override
-    public Result<Boolean> checkPermissions(Long uploadId,Integer status) {
-        return Result.ofSuccess(iUploadPermisssionsService.checkPermissions(uploadId,status));
+    public Result<Boolean> checkPermissions(Long uploadId,Integer status,Long approver) {
+        return Result.ofSuccess(iUploadPermisssionsService.checkPermissions(uploadId,status,approver));
+    }
+    //锁定上传权限申请
+    @Override
+    public Result<Boolean> setApprover(Long approver, Long uploadId) {
+        return Result.ofSuccess(iUploadPermisssionsService.setApprover(approver,uploadId));
     }
 }

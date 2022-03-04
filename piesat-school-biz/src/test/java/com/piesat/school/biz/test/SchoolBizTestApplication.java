@@ -3,7 +3,9 @@ package com.piesat.school.biz.test;
 //import com.alibaba.cloud.seata.GlobalTransactionAutoConfiguration;
 
 import com.smartwork.base.factory.YamlPropertySourceFactory;
+import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -35,5 +37,11 @@ public class SchoolBizTestApplication {
                 .web(WebApplicationType.NONE)
                 .run(args);
     }
+
+
+//    @Test
+//    public void test1(){
+//        redisUtil.set("1","2");
+//    }
 
 }

@@ -23,5 +23,7 @@ public interface IUploadPermisssionsService extends IService<UploadPermisssions>
 
     Boolean createPermissions(Long userId);
 
-    Boolean checkPermissions(Long uploadId,Integer status);
+    Boolean checkPermissions(Long uploadId,Integer status,Long approver);
+
+    Boolean setApprover(Long approver, Long uploadId);
 }

@@ -48,10 +48,11 @@ public class UploadPermisssions implements Serializable {
      */
     private Long applicatId;
 
+
     /**
-     * 版本控制
+     * 审批人
      */
-    private Integer version;
+    private Long approver;
 
 
 }

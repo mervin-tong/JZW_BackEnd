@@ -13,5 +13,8 @@ public interface IRUploadPermissionsService {
     Result<Boolean> createPermissions(Long userId);
 
     //处理上传权限
-    Result<Boolean> checkPermissions(Long uploadId,Integer status);
+    Result<Boolean> checkPermissions(Long uploadId,Integer status,Long approver);
+
+    //管理员受理上传权限申请
+    Result<Boolean> setApprover(Long approver, Long uploadId);
 }
