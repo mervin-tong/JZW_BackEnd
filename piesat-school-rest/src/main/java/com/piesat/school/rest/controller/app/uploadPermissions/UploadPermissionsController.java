@@ -37,8 +37,8 @@ public class UploadPermissionsController {
 
     @ApiOperation(value = "锁定上传权限申请")
     @GetMapping(value = "setApprover")
-    public Result<Boolean> setApprover(Long approver,Long uploadId){
-        return irUploadPermissionsService.setApprover(approver,uploadId);
+    public Result<Boolean> setApprover(Long approver,Long uploadId,Long limit){
+        return irUploadPermissionsService.setApprover(approver,uploadId,limit);
     }
 
     @ApiOperation(value = "处理上传权限")

@@ -24,6 +24,9 @@ public class DataInfVTO implements Serializable{
     private Integer downCount;
     @ApiModelProperty("公开状态")
     private Integer status;
+    @ApiModelProperty("文件路径")
+    private String content;
+
 
 
 }

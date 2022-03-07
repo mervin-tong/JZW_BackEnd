@@ -71,22 +71,7 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermisssion
         uploadPermisssions.setStatus(BizEnumType.UploadPermissionsStatus.CreatePermissions.getKey());
         uploadPermisssions.setApplicatId(userId);
         uploadPermisssions.setCreatedAt(new Date());
-        uploadPermisssions.setApprover(0L);
-
-//        // 设置字符串
-//        RBucket<String> keyObj = redissonClient.getBucket("k2");
-//
-//        RSetMultimap<String, String> map = redissonClient.getSetMultimap("myMultimap");
-//        map.put("11","22");
-//        map.put("11","33");
-//        map.put("11","44");
-//        RSet<String> strings = map.get("11");
-//        scheduleTask.test();
-
-
-//        RList<Object> list = redissonClient.getList("1646297657");
-//        RKeys keys = redissonClient.getKeys();
-
+        uploadPermisssions.setApprover(0L);//0代表该申请没有管理员审核
         if (uploadPermisssionsMapper.insert(uploadPermisssions) >= 1){
             return Boolean.TRUE;
         }
@@ -97,23 +82,27 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermisssion
      * 审批人锁定申请
      * @param approver 审批人
      * @param uploadId 上传权限id
+     * @param limit 锁定的时间（秒）
      * @return true 申请成功
      */
 
     @Override
-    public Boolean setApprover(Long approver, Long uploadId) {
+    public Boolean setApprover(Long approver, Long uploadId,Long limit) {
+        if(approver == null || uploadId == null || limit == null){
+            return Boolean.FALSE;
+        }
+        //在redis创建map类型
         RSetMultimap<String, String> map = redissonClient.getSetMultimap("timestampUploadId");
         UpdateWrapper<UploadPermisssions> updateWrapper = new UpdateWrapper<>();
         updateWrapper.set("approver",approver);
         updateWrapper.eq("id",uploadId);
-        updateWrapper.eq("approver",0L);
-        long timestamp = System.currentTimeMillis()/1000;
-        long limit = 20L;
-        String limitTimestamp = String.valueOf(timestamp+limit);
+        updateWrapper.eq("approver",0L); //如果该申请已经被锁定则锁定失败
+        long timestamp = System.currentTimeMillis()/1000;//以秒为单位的时间戳
+        String limitTimestamp = String.valueOf(timestamp+limit);//到期的时间戳
         boolean isUpdate = this.update(updateWrapper);
-        if (isUpdate){
+        if (isUpdate){ //是否锁定成功
             log.info("到期时间 "+limitTimestamp+" "+isUpdate);
-            map.put(limitTimestamp,String.valueOf(uploadId));
+            map.put(limitTimestamp,String.valueOf(uploadId));//把到期时间和 订单编号放入缓存
         }
         return isUpdate;
     }

@@ -18,12 +18,12 @@ import java.util.List;
  */
 public interface IUploadPermisssionsService extends IService<UploadPermisssions> {
 
-
+    //获取权限申请列表
     TailPage<UploadPermissionsVTO> uploadPermissionsList(UploadPermissionsParamData uploadPermissionsParamData);
-
+    //创建权限申请
     Boolean createPermissions(Long userId);
-
+    //审批人处理申请
     Boolean checkPermissions(Long uploadId,Integer status,Long approver);
-
-    Boolean setApprover(Long approver, Long uploadId);
+    //审批人锁定申请
+    Boolean setApprover(Long approver, Long uploadId,Long limit);
 }

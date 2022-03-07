@@ -9,7 +9,9 @@ import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 public interface IRDataInfService {
@@ -22,4 +24,7 @@ public interface IRDataInfService {
 
     Result<DataInfVTO> uploadDataInf(String file, Long dataid) throws IOException;
 
+    DataInfVTO getFilePath(Long dataId);
+
+    Boolean addDownCount(int downCount,Long dataId);
 }

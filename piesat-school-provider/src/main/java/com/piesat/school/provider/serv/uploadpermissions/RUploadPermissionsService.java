@@ -34,7 +34,7 @@ public class RUploadPermissionsService implements IRUploadPermissionsService {
     }
     //锁定上传权限申请
     @Override
-    public Result<Boolean> setApprover(Long approver, Long uploadId) {
-        return Result.ofSuccess(iUploadPermisssionsService.setApprover(approver,uploadId));
+    public Result<Boolean> setApprover(Long approver, Long uploadId, Long limit) {
+        return Result.ofSuccess(iUploadPermisssionsService.setApprover(approver,uploadId,limit));
     }
 }

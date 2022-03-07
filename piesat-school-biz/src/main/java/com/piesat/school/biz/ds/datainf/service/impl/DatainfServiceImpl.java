@@ -1,6 +1,7 @@
 package com.piesat.school.biz.ds.datainf.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.common.helper.BizCommonValidateHelper;
 import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
@@ -20,12 +21,19 @@ import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
+import org.apache.commons.io.IOUtils;
+import org.mapstruct.Context;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.IOException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -115,4 +123,22 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         return DatainfBuilder.toDataInfVto(datainf);
     }
 
+    @Override
+    public DataInfVTO uploadDataInf(MultipartFile file, Long dataid) throws IOException {
+        return null;
+    }
+
+    @Override
+    public DataInfVTO getFilePath(Long dataId) {
+        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
+        return DatainfBuilder.toDataInfVto(datainf);
+    }
+
+    @Override
+    public Boolean addDownCount(int downCount,Long dataId) {
+        UpdateWrapper<Datainf> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("dow_count",downCount);
+        updateWrapper.eq("id",dataId);
+        return this.update(updateWrapper);
+    }
 }

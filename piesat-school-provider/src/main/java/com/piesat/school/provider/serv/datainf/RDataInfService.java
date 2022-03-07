@@ -10,9 +10,11 @@ import com.piesat.school.datainf.vto.DataInfVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.mapstruct.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 @DubboService
@@ -50,5 +52,16 @@ public class RDataInfService implements IRDataInfService {
     public Result<DataInfVTO> uploadDataInf(String file, Long dataid) throws IOException {
 
         return Result.ofSuccess(iDatainfService.uploadDataInf(file,dataid));
+    }
+
+
+    @Override
+    public DataInfVTO getFilePath(Long dataId) {
+        return iDatainfService.getFilePath(dataId);
+    }
+
+    @Override
+    public Boolean addDownCount(int downCount,Long dataId) {
+        return iDatainfService.addDownCount(downCount,dataId);
     }
 }

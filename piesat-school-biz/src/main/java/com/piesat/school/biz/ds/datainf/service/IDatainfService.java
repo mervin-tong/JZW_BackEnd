@@ -10,9 +10,14 @@ import com.piesat.school.datainf.param.SearchByKeyParamData;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
 import com.smartwork.api.support.page.TailPage;
+import org.mapstruct.Context;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -34,4 +39,7 @@ public interface IDatainfService extends IService<Datainf> {
     DataInfVTO uploadDataInf(String file,Long dataid) throws IOException;
 
 
+    DataInfVTO getFilePath(Long dataId);
+
+    Boolean addDownCount(int downCount,Long dataId);
 }
