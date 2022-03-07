@@ -17,6 +17,7 @@ import com.piesat.school.datainf.param.DataInfListParamData;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
+import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
 import com.smartwork.api.support.page.CommonPage;
@@ -80,12 +81,10 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         datainf.setEndAt(paramData.getEndAt());
         datainf.setFirstClass(paramData.getFirstClass());
         datainf.setSecClass(paramData.getSecClass());
+        datainf.setTopic(paramData.getTopic());
     //        BeanUtils.copyProperties(datainf,paramData);
 
-        Key key = new Key();
-        key.setKeyword(paramData.getKeywords().getKeyword());
-        keyMapper.insert(key);
-        datainf.setKeyId(key.getId());
+
 
         Contact contact = new Contact();
         BeanUtils.copyProperties(contact,paramData.getContact());
@@ -104,6 +103,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 
+    //根据类名查找
     @Override
     public TailPage<DataInfListVTO> searchByClass(SearchByClassParamData searchByClassParamData) {
         Page<DataInfListVTO> page = new Page<>(searchByClassParamData.getPn(),searchByClassParamData.getPs());
@@ -115,7 +115,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     //上传文件
     @Override
     public DataInfVTO uploadDataInf(String file, Long dataid) throws IOException {
-        //拿到上传文件的二进制数组inputStream
+
         Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataid,this);
 //        String fileLocation = FileUploadUtils.upload(file);
         datainf.setContent(file);
@@ -123,10 +123,6 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         return DatainfBuilder.toDataInfVto(datainf);
     }
 
-    @Override
-    public DataInfVTO uploadDataInf(MultipartFile file, Long dataid) throws IOException {
-        return null;
-    }
 
     @Override
     public DataInfVTO getFilePath(Long dataId) {
@@ -141,4 +137,10 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         updateWrapper.eq("id",dataId);
         return this.update(updateWrapper);
     }
+
+    public DataInfDetailVTO dataInfDetail(Long dataInfId) {
+        return datainfMapper.dataInfDetail(dataInfId);
+    }
+
+
 }

@@ -50,7 +50,7 @@
             a.`status`
         from
             t_data_inf a
-            left join t_key b on (a.key_id = b.id and b.keyword like #{searchByKeyParamData.keyword})
+            where a.topic like #{searchByKeyParamData.keyword}
             order by a.start_at desc
 
     </select>
@@ -67,6 +67,14 @@
         WHERE (a.first_class = #{searchByClassParamData.firstClass}AND a.sec_class = #{searchByClassParamData.secClass})
             ORDER BY a.start_at DESC
 
+    </select>
+    <select id="dataInfDetail" parameterType="long" resultType="com.piesat.school.datainf.vto.DataInfDetailVTO">
+        select
+            a.data_name,a.data_unit,a.maker,a.address,a.topic,a.doi,a.first_class,a.sec_class,
+            a.introduction,a.meas,a.`status`,a.start_at,a.solution,a.origin,a.end_at,a.ratio,b.con_name,b.con_address,b.email,b.mobile,b.con_unit
+        from t_data_inf a
+        LEFT JOIN t_contact b on b.id = a.con_id
+        where a.id = #{dataInfId}
     </select>
 
 
