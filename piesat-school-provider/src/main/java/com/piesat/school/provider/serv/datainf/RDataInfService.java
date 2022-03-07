@@ -53,4 +53,14 @@ public class RDataInfService implements IRDataInfService {
     public Result<DataInfDetailVTO> dataInfDetailVTO(Long dataInfId) {
         return Result.ofSuccess(iDatainfService.dataInfDetail(dataInfId));
     }
+
+    @Override
+    public DataInfVTO getFilePath(Long dataId) {
+        return iDatainfService.getFilePath(dataId);
+    }
+
+    @Override
+    public Boolean addDownCount(int downCount,Long dataId) {
+        return iDatainfService.addDownCount(downCount,dataId);
+    }
 }
