@@ -8,8 +8,8 @@
         <result column="con_name" property="conName" />
         <result column="mobile" property="mobile" />
         <result column="email" property="email" />
-        <result column="unit" property="unit" />
-        <result column="address" property="address" />
+        <result column="con_unit" property="conUnit" />
+        <result column="con_address" property="conAddress" />
         <result column="updated_at" property="updatedAt" />
         <result column="created_at" property="createdAt" />
     </resultMap>
@@ -17,7 +17,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        con_name, mobile, email, unit, address, updated_at, created_at
+        con_name, mobile, email, con_unit, con_address, updated_at, created_at
     </sql>
 
 </mapper>

@@ -83,7 +83,10 @@ public class DataInfSaveParamData extends UIDParamData {
     private String doi;
 
     @ApiModelProperty(value = "关键字")
-    private KeyParamData keywords ;
+    private String topic ;
+
+//    @ApiModelProperty(value = "关键字")
+//    private KeyParamData keywords ;
 
     @ApiModelProperty(value = "联系人")
     private ContactParamData contact;

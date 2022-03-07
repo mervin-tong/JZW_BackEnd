@@ -5,6 +5,7 @@ import com.piesat.school.datainf.iservice.IRDataInfService;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
+import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
 import com.piesat.school.rest.utils.FileUploadUtils;
@@ -34,23 +35,24 @@ public class DataInfController {
         return irDataInfService.saveDataInf(paramData);
     }
     @ApiOperation(value = "根据关键词返回数据列表")
-    @PostMapping("/keysearch")
+    @PostMapping("/keySearch")
     public Result<TailPage<DataInfListVTO>> searchByKeyword(@RequestBody SearchByKeyParamData searchByKeyParamData){
         return irDataInfService.searchByKeyword(searchByKeyParamData);
     }
     @ApiOperation(value = "根据类名返回数据列表")
-    @PostMapping("/classsearch")
+    @PostMapping("/classSearch")
     public Result<TailPage<DataInfListVTO>> searchByClass(@RequestBody SearchByClassParamData searchByClassParamData){
         return irDataInfService.searchByClass(searchByClassParamData);
     }
     @ApiOperation(value = "上传文件")
-    @PostMapping("/uploaddata")
-
-
+    @PostMapping("/uploadData")
     public Result<DataInfVTO> uploadDataInf(MultipartFile file, Long dataid) throws Exception {
         String fileLocation = FileUploadUtils.upload(file);
-
         return irDataInfService.uploadDataInf(fileLocation,dataid);
-
+    }
+    @ApiOperation(value = "数据详情")
+    @GetMapping("/dataInfDetail")
+    public Result<DataInfDetailVTO> dataInfDetail(Long dataInfId){
+        return irDataInfService.dataInfDetailVTO(dataInfId);
     }
 }

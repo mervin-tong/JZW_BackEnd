@@ -7,6 +7,7 @@ import com.piesat.school.datainf.param.DataInfListParamData;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
+import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
 import com.smartwork.api.support.page.TailPage;
@@ -29,9 +30,10 @@ public interface IDatainfService extends IService<Datainf> {
     TailPage<DataInfListVTO> searchByKeyword(SearchByKeyParamData searchByKeyParamData);
 
     TailPage<DataInfListVTO> searchByClass(SearchByClassParamData searchByClassParamData);
-    DataInfVTO uploadDataInf(MultipartFile file,Long dataid) throws IOException;
 
     DataInfVTO uploadDataInf(String file,Long dataid) throws IOException;
+
+    DataInfDetailVTO dataInfDetail(Long dataInfId);
 
 
 }

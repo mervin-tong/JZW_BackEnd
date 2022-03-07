@@ -41,12 +41,12 @@ public class Contact implements Serializable {
     /**
      * 单位
      */
-    private String unit;
+    private String conUnit;
 
     /**
      * 地址
      */
-    private String address;
+    private String conAddress;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updatedAt;
@@ -55,16 +55,4 @@ public class Contact implements Serializable {
     private Date createdAt;
 
 
-    @Override
-    public String toString() {
-        return "Contact{" +
-        "name=" + conName +
-        ", mobile=" + mobile +
-        ", email=" + email +
-        ", unit=" + unit +
-        ", address=" + address +
-        ", updatedAt=" + updatedAt +
-        ", createdAt=" + createdAt +
-        "}";
-    }
 }
