@@ -3,9 +3,11 @@ package com.piesat.school.provider.serv.orderfrom;
 import com.piesat.school.biz.ds.orderfrom.service.IOrderFromService;
 import com.piesat.school.orderfrom.iservice.IROrderFromService;
 import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
+import com.piesat.school.orderfrom.param.OrderFromHistoryDownLoadParamData;
 import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
 import com.piesat.school.orderfrom.param.OrderFromParamData;
 import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
+import com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO;
 import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
 import com.piesat.school.orderfrom.vto.OrderFromVTO;
 import com.piesat.school.user.iservice.IRUserService;
@@ -40,9 +42,15 @@ public class ROrderFromService implements IROrderFromService{
     public Result<OrderFromInfoVTO> orderFromInfo(Long orderFromId) {
         return Result.ofSuccess(iOrderFromService.orderFromInfo(orderFromId));
     }
+
     //关注列表
     @Override
     public Result<TailPage<OrderFromAttentionVTO>> attentionList(OrderFromAttentionParamData orderFromAttentionParamData) {
         return Result.ofSuccess(iOrderFromService.attentionList(orderFromAttentionParamData));
+    }
+
+    @Override
+    public Result<TailPage<OrderFromHistoryDownLoadVTO>> historyDownload(OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData) {
+        return Result.ofSuccess(iOrderFromService.historyDownload(orderFromHistoryDownLoadParamData));
     }
 }

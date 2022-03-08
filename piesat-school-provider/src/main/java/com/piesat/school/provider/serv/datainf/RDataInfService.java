@@ -63,4 +63,9 @@ public class RDataInfService implements IRDataInfService {
     public Boolean addDownCount(int downCount,Long dataId) {
         return iDatainfService.addDownCount(downCount,dataId);
     }
+
+    @Override
+    public Boolean addhistory(Long dataId, Long userId) {
+        return iDatainfService.addhistory(dataId,userId);
+    }
 }

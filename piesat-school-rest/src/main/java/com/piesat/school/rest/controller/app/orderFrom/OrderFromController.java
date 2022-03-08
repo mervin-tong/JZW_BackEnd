@@ -1,10 +1,11 @@
 package com.piesat.school.rest.controller.app.orderFrom;
 
-import com.piesat.school.datainf.vto.DataInfVTO;
 import com.piesat.school.orderfrom.iservice.IROrderFromService;
 import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
+import com.piesat.school.orderfrom.param.OrderFromHistoryDownLoadParamData;
 import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
 import com.piesat.school.orderfrom.param.OrderFromParamData;
+import com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO;
 import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
 import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
 import com.piesat.school.orderfrom.vto.OrderFromVTO;
@@ -14,8 +15,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author suweipeng
@@ -48,5 +47,9 @@ public class OrderFromController {
         return irOrderFromService.attentionList(orderFromAttentionParamData);
     }
 
-
+    @ApiOperation(value = "历史下载列表")
+    @PostMapping("/historydownload")
+    public Result<TailPage<OrderFromHistoryDownLoadVTO>> historydownload(@RequestBody OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData){
+        return irOrderFromService.historyDownload(orderFromHistoryDownLoadParamData);
+    }
 }

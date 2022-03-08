@@ -144,6 +144,6 @@ public class Datainf implements Serializable {
     /**
      * 下载次数
      */
-    private Integer dowCount;
+    private Integer downCount;
 
 }

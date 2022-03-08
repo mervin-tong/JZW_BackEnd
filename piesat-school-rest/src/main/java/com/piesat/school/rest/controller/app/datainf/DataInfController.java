@@ -15,6 +15,7 @@ import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.mapstruct.Context;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -59,16 +60,19 @@ public class DataInfController{
     public Result<DataInfDetailVTO> dataInfDetail(Long dataInfId){
         return irDataInfService.dataInfDetailVTO(dataInfId);
     }
+    Boolean isAddDownCount;
 
     @ApiOperation(value = "文件下载")
     @GetMapping("/download")
-    public Result<Boolean> Download(Long dataId,HttpServletResponse response) throws IOException {
+    public Result<Boolean> Download(Long dataId,HttpServletResponse response,Long userId) throws IOException {
     
         DataInfVTO datainf = irDataInfService.getFilePath(dataId);
         Boolean isDownload = FileDownloadUtils.download(datainf,response);
-        Boolean isAddDownCount = null;
+
+
         if (isDownload){
-            irDataInfService.addDownCount(datainf.getDownCount()+1,dataId);
+            irDataInfService.addhistory(dataId,userId);
+            isAddDownCount = irDataInfService.addDownCount(datainf.getDownCount()+1,dataId);
         }
         return Result.ofSuccess(isAddDownCount);
     }

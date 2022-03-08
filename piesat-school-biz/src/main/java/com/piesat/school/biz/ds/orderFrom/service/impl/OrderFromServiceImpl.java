@@ -11,9 +11,11 @@ import com.piesat.school.biz.ds.orderfrom.service.IOrderFromService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.i18n.ResponseErrorCode;
 import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
+import com.piesat.school.orderfrom.param.OrderFromHistoryDownLoadParamData;
 import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
 import com.piesat.school.orderfrom.param.OrderFromParamData;
 import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
+import com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO;
 import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
 import com.piesat.school.orderfrom.vto.OrderFromVTO;
 import com.smartwork.api.exception.SmartworkI18nException;
@@ -38,8 +40,6 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
 
     @Autowired
     private OrderFromMapper orderFromMapper;
-    @Autowired
-    private DatainfMapper datainfMapper;
     //获取订单列表
     @Override
     public TailPage<OrderFromVTO> orderFromMenu(OrderFromMenuPageParamData orderFromMenuPageParamData) {
@@ -81,6 +81,14 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         Page<OrderFromAttentionVTO> page = new Page<>(orderFromAttentionParamData.getPn(),orderFromAttentionParamData.getPs());
         page.setOptimizeCountSql(false);//关闭mybatis自动优化
         List<OrderFromAttentionVTO> list = orderFromMapper.attentionList(orderFromAttentionParamData, page);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+    }
+
+    @Override
+    public TailPage<OrderFromHistoryDownLoadVTO> historyDownload(OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData) {
+        Page<OrderFromHistoryDownLoadVTO> page = new Page<>(orderFromHistoryDownLoadParamData.getPn(),orderFromHistoryDownLoadParamData.getPs());
+        page.setOptimizeCountSql(false);//关闭mybatis自动优化
+        List<OrderFromHistoryDownLoadVTO> list = orderFromMapper.historyDownload(orderFromHistoryDownLoadParamData, page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 }

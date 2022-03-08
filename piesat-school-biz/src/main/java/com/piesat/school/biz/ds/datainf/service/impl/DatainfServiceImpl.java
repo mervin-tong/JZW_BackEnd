@@ -13,6 +13,8 @@ import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
 import com.piesat.school.biz.ds.datainf.mapper.KeyMapper;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.piesat.school.biz.ds.orderfrom.entity.HistoryDownload;
+import com.piesat.school.biz.ds.orderfrom.mapper.HistoryDownloadMapper;
 import com.piesat.school.datainf.param.DataInfListParamData;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
@@ -26,6 +28,7 @@ import org.apache.commons.io.IOUtils;
 import org.mapstruct.Context;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -54,6 +57,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     private KeyMapper keyMapper;
     @Resource
     private ContactMapper contactMapper;
+    @Resource
+    private HistoryDownloadMapper historyDownloadMapper;
 
     @Override
     public List<DataInfVTO> getAllDatainf() {
@@ -133,7 +138,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     @Override
     public Boolean addDownCount(int downCount,Long dataId) {
         UpdateWrapper<Datainf> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set("dow_count",downCount);
+        updateWrapper.set("down_count",downCount);
         updateWrapper.eq("id",dataId);
         return this.update(updateWrapper);
     }
@@ -142,5 +147,16 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         return datainfMapper.dataInfDetail(dataInfId);
     }
 
-
+    @Override
+    public Boolean addhistory(Long dataId, Long userId) {
+        HistoryDownload historyDownload = new HistoryDownload();
+        historyDownload.setDataId(dataId);
+        historyDownload.setUserId(userId);
+        try {
+            int insert = historyDownloadMapper.insert(historyDownload);
+        }catch (DataAccessException e){
+            return false;
+        }
+        return true;
+    }
 }

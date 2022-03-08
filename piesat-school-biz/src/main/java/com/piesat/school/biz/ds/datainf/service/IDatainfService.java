@@ -44,4 +44,6 @@ public interface IDatainfService extends IService<Datainf> {
     DataInfVTO getFilePath(Long dataId);
 
     Boolean addDownCount(int downCount,Long dataId);
+
+    Boolean addhistory(Long dataId, Long userId);
 }

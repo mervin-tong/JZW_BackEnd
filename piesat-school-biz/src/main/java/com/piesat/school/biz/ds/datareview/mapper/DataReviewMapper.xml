@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.datareview.entity.DataReview">
+        <result column="id" property="id" />
+        <result column="status" property="status" />
+        <result column="data_id" property="dataId" />
+        <result column="admin_judge_id" property="adminJudgeId" />
+        <result column="user_judge_id" property="userJudgeId" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        status, data_id, admin_judge_id, user_judge_id, created_at, updated_at
+    </sql>
+
+    <select id="dataReview" resultType="com.piesat.school.datareview.vto.DataReviewVTO">
+        SELECT
+            di.data_name dataName,
+            di.start_at startAt,
+            di.end_at endAt,
+            di.address address,
+            c.con_name conName,
+            di.data_unit dataUnit,
+            di.created_at createdAt,
+            dr.`status` status
+        FROM
+            t_data_review dr
+            LEFT JOIN t_data_inf di ON dr.data_id = di.id
+            LEFT JOIN t_contact c ON di.con_id = c.id
+    </select>
+
+</mapper>
