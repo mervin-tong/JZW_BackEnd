@@ -132,7 +132,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.piesat.school.provider.schoolProviderApplication</mainClass>
+                    <mainClass>com.piesat.school.provider.SchoolProviderApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

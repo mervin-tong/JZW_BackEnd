@@ -21,22 +21,22 @@ spring:
   #    file: classpath:redisson/redisson.yml
 
 
-jetcache:
-  statIntervalMinutes: 5
-  areaInCacheName: false
-  local:
-    default:
-      type: caffeine
-      keyConvertor: fastjson
-  remote:
-    default:
-      type: redis.lettuce
-      keyConvertor: fastjson
-      valueEncoder: java
-      valueDecoder: java
-      poolConfig:
-        minIdle: 5
-        maxIdle: 20
-        maxTotal: 50
-      uri:
-        - redis://localhost:6379
+#jetcache:
+#  statIntervalMinutes: 5
+#  areaInCacheName: false
+#  local:
+#    default:
+#      type: caffeine
+#      keyConvertor: fastjson
+#  remote:
+#    default:
+#      type: redis.lettuce
+#      keyConvertor: fastjson
+#      valueEncoder: java
+#      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      uri:
+#        - redis://localhost:6379

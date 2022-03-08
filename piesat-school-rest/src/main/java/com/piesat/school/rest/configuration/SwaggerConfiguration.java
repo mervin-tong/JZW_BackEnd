@@ -19,6 +19,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ import java.util.List;
 public class SwaggerConfiguration implements WebMvcConfigurer {
     @Autowired
     private Environment environment;
-    @Autowired
+    @Resource
     private OpenApiExtensionResolver openApiExtensionResolver;
     //@Profile({"dev","test"})
     private ApiInfo apiInfo() {
@@ -73,7 +74,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
                 .enable(flag)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.piesat.school.rest.controller.management"))
+                .apis(RequestHandlerSelectors.basePackage("com.piesat.school.rest.controller.app"))
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(globalParameters())

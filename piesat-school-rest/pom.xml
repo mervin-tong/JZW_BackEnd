@@ -121,7 +121,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.piesat.school.rest.schoolRestApplication</mainClass>
+                    <mainClass>com.piesat.school.rest.SchoolRestApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
