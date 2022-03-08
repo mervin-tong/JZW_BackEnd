@@ -1,5 +1,6 @@
 package com.piesat.school.biz.ds.user.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.user.bulider.RoleBulider;
 import com.piesat.school.biz.ds.user.entity.Role;
 import com.piesat.school.biz.ds.user.mapper.RoleMapper;
@@ -18,7 +19,7 @@ import java.util.Set;
  */
 
 @Service
-public class RoleServiceImpl implements IRoleService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper,Role> implements IRoleService {
     @Autowired
     private RoleMapper roleMapper;
     @Override
