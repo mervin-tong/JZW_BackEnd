@@ -64,7 +64,21 @@
             a.`status`
         FROM
             t_data_inf a
-        WHERE (a.first_class = #{searchByClassParamData.firstClass}AND a.sec_class = #{searchByClassParamData.secClass})
+        WHERE (a.first_class = #{searchByClassParamData.firstClass} AND a.sec_class = #{searchByClassParamData.secClass})
+            ORDER BY a.start_at DESC
+
+    </select>
+    <select id="searchByTime" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
+        SELECT
+            a.data_name,
+            a.down_count,
+            a.pic,
+            a.start_at,
+            a.end_at,
+            a.`status`
+        FROM
+            t_data_inf a
+        WHERE (a.start_at > #{searchByTimeParamData.startAt} AND #{searchByTimeParamData.endAt} > a.end_at )
             ORDER BY a.start_at DESC
 
     </select>

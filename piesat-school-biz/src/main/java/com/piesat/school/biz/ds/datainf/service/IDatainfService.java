@@ -3,10 +3,7 @@ package com.piesat.school.biz.ds.datainf.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.piesat.school.datainf.param.DataInfListParamData;
-import com.piesat.school.datainf.param.DataInfSaveParamData;
-import com.piesat.school.datainf.param.SearchByClassParamData;
-import com.piesat.school.datainf.param.SearchByKeyParamData;
+import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
@@ -36,6 +33,8 @@ public interface IDatainfService extends IService<Datainf> {
 
     TailPage<DataInfListVTO> searchByClass(SearchByClassParamData searchByClassParamData);
 
+    TailPage<DataInfListVTO> searchByTime(SearchByTimeParamData searchByTimeParamData);
+
     DataInfVTO uploadDataInf(String file,Long dataid) throws IOException;
 
     DataInfDetailVTO dataInfDetail(Long dataInfId);
@@ -45,5 +44,9 @@ public interface IDatainfService extends IService<Datainf> {
 
     Boolean addDownCount(int downCount,Long dataId);
 
+<<<<<<< HEAD
     Boolean addhistory(Long dataId, Long userId);
+=======
+
+>>>>>>> 768caf2a73987207de61e232311b69fd80e7f30c
 }

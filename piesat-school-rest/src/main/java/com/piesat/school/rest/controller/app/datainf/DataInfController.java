@@ -5,6 +5,7 @@ import com.piesat.school.datainf.iservice.IRDataInfService;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
+import com.piesat.school.datainf.param.SearchByTimeParamData;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
@@ -48,6 +49,11 @@ public class DataInfController{
     @PostMapping("/classSearch")
     public Result<TailPage<DataInfListVTO>> searchByClass(@RequestBody SearchByClassParamData searchByClassParamData){
         return irDataInfService.searchByClass(searchByClassParamData);
+    }
+    @ApiOperation(value = "根据时间范围返回数据列表")
+    @PostMapping("/timeSearch")
+    public Result<TailPage<DataInfListVTO>> searchByTime(@RequestBody SearchByTimeParamData searchByTimeParamData){
+        return irDataInfService.searchByTime(searchByTimeParamData);
     }
     @ApiOperation(value = "上传文件")
     @PostMapping("/uploadData")

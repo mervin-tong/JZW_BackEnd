@@ -13,12 +13,16 @@ import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
 import com.piesat.school.biz.ds.datainf.mapper.KeyMapper;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+<<<<<<< HEAD
 import com.piesat.school.biz.ds.orderfrom.entity.HistoryDownload;
 import com.piesat.school.biz.ds.orderfrom.mapper.HistoryDownloadMapper;
 import com.piesat.school.datainf.param.DataInfListParamData;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
+=======
+import com.piesat.school.datainf.param.*;
+>>>>>>> 768caf2a73987207de61e232311b69fd80e7f30c
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
@@ -114,6 +118,14 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         Page<DataInfListVTO> page = new Page<>(searchByClassParamData.getPn(),searchByClassParamData.getPs());
         page.setOptimizeCountSql(false);
         List<DataInfListVTO> list = datainfMapper.searchByClass(searchByClassParamData,page);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+    }
+
+    @Override
+    public TailPage<DataInfListVTO> searchByTime(SearchByTimeParamData searchByTimeParamData) {
+        Page<DataInfListVTO> page = new Page<>(searchByTimeParamData.getPn(),searchByTimeParamData.getPs());
+        page.setOptimizeCountSql(false);
+        List<DataInfListVTO> list = datainfMapper.searchByTime(searchByTimeParamData,page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 

@@ -1,11 +1,15 @@
 package com.piesat.school.rest.controller.app.orderFrom;
 
 import com.piesat.school.orderfrom.iservice.IROrderFromService;
+<<<<<<< HEAD
 import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
 import com.piesat.school.orderfrom.param.OrderFromHistoryDownLoadParamData;
 import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
 import com.piesat.school.orderfrom.param.OrderFromParamData;
 import com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO;
+=======
+import com.piesat.school.orderfrom.param.*;
+>>>>>>> 768caf2a73987207de61e232311b69fd80e7f30c
 import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
 import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
 import com.piesat.school.orderfrom.vto.OrderFromVTO;
@@ -45,6 +49,16 @@ public class OrderFromController {
     @PostMapping("/attentionList")
     public Result<TailPage<OrderFromAttentionVTO>> attentionList(@RequestBody OrderFromAttentionParamData orderFromAttentionParamData){
         return irOrderFromService.attentionList(orderFromAttentionParamData);
+    }
+    @ApiOperation(value = "新增关注")
+    @PostMapping("/saveAttention")
+    public Result<Boolean> saveAttention(@RequestBody OrderFromAttentionSaveParamData orderFromAttentionSaveParamData){
+        return irOrderFromService.saveAttention(orderFromAttentionSaveParamData);
+    }
+    @ApiOperation(value = "取消关注")
+    @PostMapping("/delAttention")
+    public Result<Boolean> delAttention(@RequestBody OrderFromAttentionDelParamData orderFromAttentionDelParamData){
+        return irOrderFromService.delAttention(orderFromAttentionDelParamData);
     }
 
     @ApiOperation(value = "历史下载列表")
