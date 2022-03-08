@@ -1,7 +1,10 @@
 # 单节点配置
 singleServerConfig:
   address: "redis://127.0.0.1:6379"
+
 #  password: 12345
+
+  password:
   clientName: school
   database: 7 #选择使用哪个数据库0~15
   idleConnectionTimeout: 10000

@@ -62,6 +62,17 @@
             u.id = #{orderFromAttentionParamData.id}
     </select>
 
+    <select id="historyDownload" resultType="com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO">
+        SELECT
+            di.data_name,
+            di.down_count,
+            di.`status`,
+            hd.created_at
+        FROM
+            t_history_download hd
+            LEFT JOIN t_data_inf di ON hd.data_id = di.id
+    </select>
+
 
 
 </mapper>

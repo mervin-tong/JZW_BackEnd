@@ -5,6 +5,7 @@ import com.piesat.school.datainf.iservice.IRDataInfService;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
+import com.piesat.school.datainf.param.SearchByTimeParamData;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
@@ -15,6 +16,7 @@ import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.mapstruct.Context;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +50,11 @@ public class DataInfController{
     public Result<TailPage<DataInfListVTO>> searchByClass(@RequestBody SearchByClassParamData searchByClassParamData){
         return irDataInfService.searchByClass(searchByClassParamData);
     }
+    @ApiOperation(value = "根据时间范围返回数据列表")
+    @PostMapping("/timeSearch")
+    public Result<TailPage<DataInfListVTO>> searchByTime(@RequestBody SearchByTimeParamData searchByTimeParamData){
+        return irDataInfService.searchByTime(searchByTimeParamData);
+    }
     @ApiOperation(value = "上传文件")
     @PostMapping("/uploadData")
     public Result<DataInfVTO> uploadDataInf(MultipartFile file, Long dataid) throws Exception {
@@ -59,16 +66,19 @@ public class DataInfController{
     public Result<DataInfDetailVTO> dataInfDetail(Long dataInfId){
         return irDataInfService.dataInfDetailVTO(dataInfId);
     }
+    Boolean isAddDownCount;
 
     @ApiOperation(value = "文件下载")
     @GetMapping("/download")
-    public Result<Boolean> Download(Long dataId,HttpServletResponse response) throws IOException {
+    public Result<Boolean> Download(Long dataId,HttpServletResponse response,Long userId) throws IOException {
     
         DataInfVTO datainf = irDataInfService.getFilePath(dataId);
         Boolean isDownload = FileDownloadUtils.download(datainf,response);
-        Boolean isAddDownCount = null;
+
+
         if (isDownload){
-            irDataInfService.addDownCount(datainf.getDownCount()+1,dataId);
+            irDataInfService.addhistory(dataId,userId);
+            isAddDownCount = irDataInfService.addDownCount(datainf.getDownCount()+1,dataId);
         }
         return Result.ofSuccess(isAddDownCount);
     }

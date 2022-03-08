@@ -6,6 +6,7 @@ import com.piesat.school.datainf.iservice.IRDataInfService;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
+import com.piesat.school.datainf.param.SearchByTimeParamData;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
@@ -42,6 +43,11 @@ public class RDataInfService implements IRDataInfService {
         return Result.ofSuccess(iDatainfService.searchByClass(searchByClassParamData));
     }
 
+    @Override
+    public Result<TailPage<DataInfListVTO>> searchByTime(SearchByTimeParamData searchByTimeParamData) {
+        return Result.ofSuccess(iDatainfService.searchByTime(searchByTimeParamData));
+    }
+
 
     @Override
 
@@ -62,5 +68,10 @@ public class RDataInfService implements IRDataInfService {
     @Override
     public Boolean addDownCount(int downCount,Long dataId) {
         return iDatainfService.addDownCount(downCount,dataId);
+    }
+
+    @Override
+    public Boolean addhistory(Long dataId, Long userId) {
+        return iDatainfService.addhistory(dataId,userId);
     }
 }
