@@ -1,7 +1,5 @@
 package com.piesat.school.orderfrom.iservice;
-import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
-import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
-import com.piesat.school.orderfrom.param.OrderFromParamData;
+import com.piesat.school.orderfrom.param.*;
 import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
 import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
 import com.piesat.school.orderfrom.vto.OrderFromVTO;
@@ -18,4 +16,8 @@ public interface IROrderFromService {
     Result<OrderFromInfoVTO> orderFromInfo(Long orderFromId);
 
     Result<TailPage<OrderFromAttentionVTO>> attentionList(OrderFromAttentionParamData orderFromAttentionParamData);
+
+    Result<Boolean> saveAttention(OrderFromAttentionSaveParamData orderFromAttentionSaveParamData);
+
+    Result<Boolean> delAttention(OrderFromAttentionDelParamData orderFromAttentionDelParamData);
 }
