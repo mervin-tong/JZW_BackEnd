@@ -44,9 +44,6 @@ public interface IDatainfService extends IService<Datainf> {
 
     Boolean addDownCount(int downCount,Long dataId);
 
-<<<<<<< HEAD
     Boolean addhistory(Long dataId, Long userId);
-=======
 
->>>>>>> 768caf2a73987207de61e232311b69fd80e7f30c
 }

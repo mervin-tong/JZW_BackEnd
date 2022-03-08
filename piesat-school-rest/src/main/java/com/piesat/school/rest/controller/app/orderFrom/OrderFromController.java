@@ -1,15 +1,12 @@
 package com.piesat.school.rest.controller.app.orderFrom;
 
 import com.piesat.school.orderfrom.iservice.IROrderFromService;
-<<<<<<< HEAD
 import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
 import com.piesat.school.orderfrom.param.OrderFromHistoryDownLoadParamData;
 import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
 import com.piesat.school.orderfrom.param.OrderFromParamData;
 import com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO;
-=======
 import com.piesat.school.orderfrom.param.*;
->>>>>>> 768caf2a73987207de61e232311b69fd80e7f30c
 import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
 import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
 import com.piesat.school.orderfrom.vto.OrderFromVTO;
