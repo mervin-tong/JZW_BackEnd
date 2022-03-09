@@ -418,4 +418,138 @@ public interface BizEnumType {
 		}
 
 	}
+
+
+	/**
+	 * 数据是否通过评审
+	 */
+	enum ThroughReview  {
+		NOTPASS(0, "未通过"),
+		PASS(1, "通过"),
+		;
+		static Map<Integer, ThroughReview> allTypes;
+		private Integer key;
+		private String name;
+
+		ThroughReview(Integer key, String name) {
+			this.key = key;
+			this.name = name;
+		}
+
+		public Integer getKey() {
+			return key;
+		}
+
+		public void setKey(Integer key) {
+			this.key = key;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public static boolean isUSER(Integer key){
+			if(NOTPASS.getKey() == key) return true;
+			return false;
+		}
+		public static ThroughReview fromKey(Integer key) {
+			if (key == null) return null;
+			return allTypes.get(key);
+		}
+
+		static {
+			allTypes = new HashMap<>();
+			ThroughReview[] types = values();
+			for (ThroughReview type : types) {
+				allTypes.put(type.getKey(), type);
+			}
+		}
+
+	}
+
+	/**
+	 * 数据评审状态
+	 */
+	enum ReviewStatus  {
+		TOREVIEW(1, "待评审"),
+		FIRSTREVIEWPASS(2, "初审通过"),
+		RECHECKPASS(3,"复审通过"),
+		NOTPASS(9,"不通过")
+		;
+		static Map<Integer, ReviewStatus> allTypes;
+		private Integer key;
+		private String name;
+
+		ReviewStatus(Integer key, String name) {
+			this.key = key;
+			this.name = name;
+		}
+
+		public Integer getKey() {
+			return key;
+		}
+
+		public void setKey(Integer key) {
+			this.key = key;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public static boolean isTOREVIEW(Integer key){
+			if(TOREVIEW.getKey() == key) return true;
+			return false;
+		}
+		public static ReviewStatus fromKey(Integer key) {
+			if (key == null) return null;
+			return allTypes.get(key);
+		}
+
+		static {
+			allTypes = new HashMap<>();
+			ReviewStatus[] types = values();
+			for (ReviewStatus type : types) {
+				allTypes.put(type.getKey(), type);
+			}
+		}
+
+	}
+	/**
+	 * 数据评审状态
+	 */
+	enum Default {
+		NULL(0L, "默认人员编号（表示没有）"),
+		;
+
+		private Long key;
+		private String name;
+		Default(Long key, String name) {
+			this.key = key;
+			this.name = name;
+		}
+		public Long getKey() {
+			return key;
+		}
+
+		public void setKey(Long key) {
+			this.key = key;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+	}
 }

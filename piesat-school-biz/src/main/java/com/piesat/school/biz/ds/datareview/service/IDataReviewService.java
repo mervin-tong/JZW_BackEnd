@@ -17,4 +17,6 @@ import com.smartwork.api.support.page.TailPage;
 public interface IDataReviewService extends IService<DataReview> {
 
     TailPage<DataReviewVTO> dataReview(DataReviewParamData dataReviewParamData);
+
+    Boolean createReview(DataReview dataReview);
 }

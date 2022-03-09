@@ -13,8 +13,12 @@ import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
 import com.piesat.school.biz.ds.datainf.mapper.KeyMapper;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.piesat.school.biz.ds.datareview.entity.DataReview;
+import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
+import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
 import com.piesat.school.biz.ds.orderfrom.entity.HistoryDownload;
 import com.piesat.school.biz.ds.orderfrom.mapper.HistoryDownloadMapper;
+import com.piesat.school.biz.ds.user.service.IRoleService;
 import com.piesat.school.datainf.param.DataInfListParamData;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
@@ -23,6 +27,7 @@ import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
+import com.piesat.school.emuerlation.BizEnumType;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.commons.io.IOUtils;
@@ -39,6 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,6 +66,12 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     private ContactMapper contactMapper;
     @Resource
     private HistoryDownloadMapper historyDownloadMapper;
+    @Resource
+    private DataReviewMapper dataReviewMapper;
+    @Resource
+    private IRoleService iRoleService;
+    @Resource
+    private IDataReviewService iDataReviewService;
 
     @Override
     public List<DataInfVTO> getAllDatainf() {
@@ -83,11 +95,13 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         datainf.setSolution(paramData.getSolution());
         datainf.setRatio(paramData.getRatio());
         datainf.setStartAt(paramData.getStartAt());
-        datainf.setStatus(paramData.getStatus().getKey());
+        datainf.setStatus(paramData.getStatus());
         datainf.setEndAt(paramData.getEndAt());
         datainf.setFirstClass(paramData.getFirstClass());
         datainf.setSecClass(paramData.getSecClass());
         datainf.setTopic(paramData.getTopic());
+        datainf.setThroughReview(BizEnumType.ThroughReview.NOTPASS.getKey());
+        datainf.setUploadUserId(paramData.getUploadUserId());
     //        BeanUtils.copyProperties(datainf,paramData);
 
 
@@ -97,7 +111,19 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         contactMapper.insert(contact);
         datainf.setConId(contact.getId());
 
-        this.save(datainf);
+        boolean saveDatainf = this.save(datainf);
+        if (saveDatainf){
+            DataReview dataReview = new DataReview();
+            dataReview.setDataId(datainf.getId());
+            dataReview.setStatus(BizEnumType.ReviewStatus.TOREVIEW.getKey());
+            dataReview.setAdminJudgeId(BizEnumType.Default.NULL.getKey());
+            dataReview.setUserJudgeId(BizEnumType.Default.NULL.getKey());
+            dataReview.setCreatedAt(new Date());
+            if (iRoleService.isEGCAdmin(datainf.getUploadUserId())){
+                dataReview.setStatus(BizEnumType.ReviewStatus.FIRSTREVIEWPASS.getKey());
+            }
+            iDataReviewService.createReview(dataReview);
+        }
         return DatainfBuilder.toDataInfVto(datainf);
     }
     //关键词查找

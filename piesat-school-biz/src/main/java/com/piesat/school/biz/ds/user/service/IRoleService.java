@@ -7,7 +7,9 @@ import java.util.Set;
 
 public interface IRoleService {
     //通过id获取角色集合
-    Set<RoleVTO>  getRolesByUserId(Long id);
+    Set<RoleVTO> getRolesByUserId(Long id);
+
+    Boolean isEGCAdmin(Long id);
 
 
 }

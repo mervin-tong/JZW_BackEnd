@@ -146,4 +146,15 @@ public class Datainf implements Serializable {
      */
     private Integer downCount;
 
+    /**
+     * 是否通过评审
+     */
+    private Integer throughReview;
+
+    /**
+     * 上传用户id
+     */
+    private Long uploadUserId;
+
+
 }

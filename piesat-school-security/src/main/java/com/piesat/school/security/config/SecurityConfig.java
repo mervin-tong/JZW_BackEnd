@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui.html",
                         "/doc.html"
                 ).permitAll()//不需要权限直接访问
-                .anyRequest().authenticated()//所有请求都需要认证
+//                .anyRequest().authenticated()//所有请求都需要认证
                 .and()
                 .logout()
                 .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理逻辑

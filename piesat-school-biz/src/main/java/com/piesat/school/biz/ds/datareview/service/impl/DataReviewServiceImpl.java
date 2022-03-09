@@ -34,4 +34,9 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
         List<DataReviewVTO> list = dataReviewMapper.dataReview(page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
+
+    @Override
+    public Boolean createReview(DataReview dataReview) {
+        return this.save(dataReview);
+    }
 }
