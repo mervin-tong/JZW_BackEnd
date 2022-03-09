@@ -9,7 +9,7 @@
         <result column="maker" property="maker" />
         <result column="data_unit" property="dataUnit" />
         <result column="address" property="address" />
-        <result column="topic" property="topic" />
+        <result column="keyword" property="keyword" />
         <result column="first_class" property="firstClass" />
         <result column="sec_class" property="secClass"/>
         <result column="content" property="content" />
@@ -25,16 +25,16 @@
         <result column="created_at" property="createdAt" />
         <result column="updated_at" property="updatedAt" />
         <result column="kick_count" property="kickCount" />
-        <result column="down_count" property="dowCount" />
+        <result column="down_count" property="downCount" />
         <result column="start_at" property="startAt"/>
         <result column="end_at" property="endAt"/>
-        <result column="key_id" property="keyId"/>
+        <result column="topic_id" property="topicId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        data_name, maker,start_at,end_at, data_unit, address, topic, first_class,sec_class, content, meas, ratio, doi, pic, status, introduction, origin, solution, con_id, created_at, updated_at, kick_count, down_count
+        data_name, maker,start_at,end_at, data_unit, address, keyword, first_class,sec_class, content, meas, ratio, doi, pic, status, introduction, origin, solution, con_id, created_at, updated_at, kick_count, down_count,topic_id
     </sql>
     <select id="getAllDatainf" resultType="com.piesat.school.biz.ds.datainf.entity.Datainf">
         select * from t_data_inf
@@ -50,7 +50,7 @@
             a.`status`
         from
             t_data_inf a
-            where a.topic like #{searchByKeyParamData.keyword}
+            where a.keyword like #{searchByKeyParamData.keyword}
             order by a.start_at desc
 
     </select>
@@ -84,7 +84,7 @@
     </select>
     <select id="dataInfDetail" parameterType="long" resultType="com.piesat.school.datainf.vto.DataInfDetailVTO">
         select
-            a.data_name,a.data_unit,a.maker,a.address,a.topic,a.doi,a.first_class,a.sec_class,
+            a.data_name,a.data_unit,a.maker,a.address,a.keyword,a.doi,a.first_class,a.sec_class,
             a.introduction,a.meas,a.`status`,a.start_at,a.solution,a.origin,a.end_at,a.ratio,b.con_name,b.con_address,b.email,b.mobile,b.con_unit
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id

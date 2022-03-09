@@ -47,7 +47,7 @@ public class Datainf implements Serializable {
     /**
      * 主题词
      */
-    private String topic;
+    private String keyword;
 
     /**
      * 数据第一分类
@@ -122,9 +122,9 @@ public class Datainf implements Serializable {
     private Date endAt;
 
     /**
-     * 数据所属结束时间
+     * 专题数据编号
      */
-    private Integer keyId;
+    private Long topicId;
 
 
     @TableField(fill = FieldFill.INSERT)

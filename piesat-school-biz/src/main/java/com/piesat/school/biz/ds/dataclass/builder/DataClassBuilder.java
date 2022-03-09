@@ -1,4 +1,4 @@
-package com.piesat.school.biz.ds.dataclass.bulider;
+package com.piesat.school.biz.ds.dataclass.builder;
 
 import com.piesat.school.biz.ds.dataclass.entity.Dataclass;
 import com.piesat.school.dataclass.vto.DataClassVTO;

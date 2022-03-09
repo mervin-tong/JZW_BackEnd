@@ -1,21 +1,17 @@
 package com.piesat.school.biz.ds.datainf.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.common.helper.BizCommonValidateHelper;
 import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
 import com.piesat.school.biz.ds.datainf.entity.Contact;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
-import com.piesat.school.biz.ds.datainf.entity.Key;
 import com.piesat.school.biz.ds.datainf.mapper.ContactMapper;
 import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
-import com.piesat.school.biz.ds.datainf.mapper.KeyMapper;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.orderfrom.entity.HistoryDownload;
 import com.piesat.school.biz.ds.orderfrom.mapper.HistoryDownloadMapper;
-import com.piesat.school.datainf.param.DataInfListParamData;
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
@@ -25,20 +21,12 @@ import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
-import org.apache.commons.io.IOUtils;
-import org.mapstruct.Context;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -54,8 +42,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
     @Resource
     private DatainfMapper datainfMapper;
-    @Resource
-    private KeyMapper keyMapper;
+
     @Resource
     private ContactMapper contactMapper;
     @Resource
@@ -87,7 +74,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         datainf.setEndAt(paramData.getEndAt());
         datainf.setFirstClass(paramData.getFirstClass());
         datainf.setSecClass(paramData.getSecClass());
-        datainf.setTopic(paramData.getTopic());
+        datainf.setKeyword(paramData.getKeyword());
     //        BeanUtils.copyProperties(datainf,paramData);
 
 
@@ -117,7 +104,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         List<DataInfListVTO> list = datainfMapper.searchByClass(searchByClassParamData,page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
-
+    //根据时间查找
     @Override
     public TailPage<DataInfListVTO> searchByTime(SearchByTimeParamData searchByTimeParamData) {
         Page<DataInfListVTO> page = new Page<>(searchByTimeParamData.getPn(),searchByTimeParamData.getPs());
@@ -128,13 +115,18 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
     //上传文件
     @Override
-    public DataInfVTO uploadDataInf(String file, Long dataid) throws IOException {
+    public DataInfVTO uploadDataInf(String file, Long dataId) throws IOException {
 
-        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataid,this);
+        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
 //        String fileLocation = FileUploadUtils.upload(file);
         datainf.setContent(file);
         this.updateById(datainf);
         return DatainfBuilder.toDataInfVto(datainf);
+    }
+
+    @Override
+    public DataInfDetailVTO dataInfDetail(Long dataInfId) {
+        return datainfMapper.dataInfDetail(dataInfId);
     }
 
 
@@ -152,9 +144,10 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         return this.update(updateWrapper);
     }
 
-    public DataInfDetailVTO dataInfDetail(Long dataInfId) {
-        return datainfMapper.dataInfDetail(dataInfId);
-    }
+//    @Override
+//    public DataInfDetailVTO dataInfDetail(Long dataInfId) {
+//        return datainfMapper.dataInfDetail(dataInfId);
+//    }
 
     @Override
     public Boolean addhistory(Long dataId, Long userId) {
@@ -167,5 +160,15 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Boolean addTopicData(Long topicId, Long dataId) {
+        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
+        if(topicId != null){
+            datainf.setTopicId(topicId);
+            return this.updateById(datainf);
+        }
+        return Boolean.FALSE;
     }
 }
