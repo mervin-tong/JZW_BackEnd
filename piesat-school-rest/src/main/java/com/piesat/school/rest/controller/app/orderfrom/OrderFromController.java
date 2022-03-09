@@ -1,4 +1,4 @@
-package com.piesat.school.rest.controller.app.orderFrom;
+package com.piesat.school.rest.controller.app.orderfrom;
 
 import com.piesat.school.orderfrom.iservice.IROrderFromService;
 import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;

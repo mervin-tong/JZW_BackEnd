@@ -57,8 +57,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(authenticationFailureHandler)//登录失败处理逻辑
                 .and()
                 .authorizeRequests()//指定那些接口需要认证
-                .antMatchers("/app/user/addUser","/app/user/sendEmail","/app/user/forgetPassword","/v2/api-docs").permitAll()//不需要权限直接访问
-                .anyRequest().authenticated()//所有请求都需要认证
+                .antMatchers("/app/user/addUser",
+                        "/app/user/sendEmail",
+                        "/app/user/forgetPassword",
+                        "/v2/api-docs",
+                        "/webjars/**",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/doc.html"
+                ).permitAll()//不需要权限直接访问
+//                .anyRequest().authenticated()//所有请求都需要认证
                 .and()
                 .logout()
                 .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理逻辑

@@ -32,7 +32,7 @@ public class DataInfSaveParamData extends UIDParamData {
     private String dataUnit;
 
     @ApiModelProperty(value = "公开状态")
-    private BizEnumType.PublicStatus status;
+    private Integer status;
 
     /**
      * 数据地址
@@ -104,4 +104,11 @@ public class DataInfSaveParamData extends UIDParamData {
     @ApiModelProperty(value = "数据所属结束时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date endAt;
+
+    /**
+     * 上传人id
+     */
+    @ApiModelProperty(value = "上传人id")
+    private Long uploadUserId;
+
 }

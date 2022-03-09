@@ -1,6 +1,5 @@
-package com.piesat.school.rest.controller.app.uploadPermissions;
+package com.piesat.school.rest.controller.app.uploadpermissions;
 
-import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
 import com.piesat.school.rest.constants.DubboConstant;
 import com.piesat.school.uploadpermissions.iservice.IRUploadPermissionsService;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;

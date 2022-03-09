@@ -31,4 +31,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper,Role> implements IRo
         }
         return roleVTOS;
     }
+
+    @Override
+    public Boolean isEGCAdmin(Long id) {
+        Set<Role> roles = roleMapper.getRolesByUserId(id);
+        for (Role role : roles) {
+            if (role.getKeyword() == "ROLE_EGCADMIN"){
+                return Boolean.TRUE;
+            }
+        }
+        return Boolean.FALSE;
+    }
 }
