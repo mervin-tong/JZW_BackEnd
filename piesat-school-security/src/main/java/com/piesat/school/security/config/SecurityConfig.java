@@ -60,6 +60,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/app/user/addUser",
                         "/app/user/sendEmail",
                         "/app/user/forgetPassword",
+                        "/v2/api-docs",
+                        "/webjars/**",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
                         "/doc.html"
                 ).permitAll()//不需要权限直接访问
                 .anyRequest().authenticated()//所有请求都需要认证

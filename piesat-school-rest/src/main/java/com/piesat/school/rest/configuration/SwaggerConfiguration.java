@@ -46,28 +46,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
         Profiles profiles = Profiles.of("dev", "local", "test");
         // 判断是否处在自己设定的环境当中
         boolean flag = environment.acceptsProfiles(profiles);
-        String groupName = "移动端";
-        return new Docket(DocumentationType.SWAGGER_2)
-                //.pathMapping("/")
-                .groupName(groupName)
-                .enable(flag)
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.piesat.school.rest.controller.app"))
-                .paths(PathSelectors.any())
-                .build()
-                .globalOperationParameters(globalParameters())
-                .extensions(openApiExtensionResolver.buildExtensions(groupName));
-    }
-
-    @Bean
-    //@Profile({"dev","test"})
-    public Docket managementApi() {
-        // 设置显示的swagger环境信息
-        Profiles profiles = Profiles.of("dev", "local", "test");
-        // 判断是否处在自己设定的环境当中
-        boolean flag = environment.acceptsProfiles(profiles);
-        String groupName = "管理后台";
+        String groupName = "网页端";
         return new Docket(DocumentationType.SWAGGER_2)
                 //.pathMapping("/")
                 .groupName(groupName)
