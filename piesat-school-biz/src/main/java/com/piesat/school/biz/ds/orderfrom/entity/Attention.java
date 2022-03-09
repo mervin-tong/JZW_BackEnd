@@ -1,4 +1,4 @@
-package com.piesat.school.biz.ds.orderFrom.entity;
+package com.piesat.school.biz.ds.orderfrom.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 周悦尧

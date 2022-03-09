@@ -1,6 +1,6 @@
 package com.piesat.school.provider.serv.orderfrom;
 
-import com.piesat.school.biz.ds.orderFrom.service.IAttentionService;
+import com.piesat.school.biz.ds.orderfrom.service.IAttentionService;
 import com.piesat.school.biz.ds.orderfrom.service.IOrderFromService;
 import com.piesat.school.orderfrom.iservice.IROrderFromService;
 import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
@@ -12,13 +12,10 @@ import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
 import com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO;
 import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
 import com.piesat.school.orderfrom.vto.OrderFromVTO;
-import com.piesat.school.user.iservice.IRUserService;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 /**
  * @author suweipeng
@@ -31,7 +28,7 @@ public class ROrderFromService implements IROrderFromService {
     private IOrderFromService iOrderFromService;
 
     @Autowired
-    IAttentionService iAttentionService;
+    private IAttentionService iAttentionService;
 
     //获取订单列表
     @Override

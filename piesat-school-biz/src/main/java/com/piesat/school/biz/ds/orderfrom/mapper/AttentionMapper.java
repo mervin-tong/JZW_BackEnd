@@ -1,6 +1,6 @@
-package com.piesat.school.biz.ds.orderFrom.mapper;
+package com.piesat.school.biz.ds.orderfrom.mapper;
 
-import com.piesat.school.biz.ds.orderFrom.entity.Attention;
+import com.piesat.school.biz.ds.orderfrom.entity.Attention;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
