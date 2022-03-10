@@ -16,6 +16,7 @@ import java.io.Serializable;
  * @author suweipeng
  * @since 2022-02-28
  */
+//上传申请权限表
 @Data
 @TableName("t_upload_permisssions")
 public class UploadPermisssions implements Serializable {

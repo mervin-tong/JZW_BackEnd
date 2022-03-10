@@ -31,7 +31,7 @@
         WHERE
             o.download_user_id = #{orderFromMenuPageParamData.downloadUserId}
         <if test="orderFromMenuPageParamData.dataType != null and orderFromMenuPageParamData.dataType != 0" >
-            AND data_type = #{orderFromMenuPageParamData.dataType}
+            AND o.data_type = #{orderFromMenuPageParamData.dataType}
         </if>
     </select>
     

@@ -110,7 +110,7 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermisssion
     /**
      * 审批人处理申请
      * @param uploadId 申请id
-     * @param status 上传权限id
+     * @param status 处理状态（0 = 为申请权限，1 = 通过，2 = 拒绝）
      * @param approver 审批人
      * @return true 申请成功
      */
@@ -122,6 +122,7 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermisssion
         //查询评审人是否锁定了该条申请
         QueryWrapper<UploadPermisssions> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",uploadId);
+        //判断是否为锁定的管理员在处理
         UploadPermisssions isApprover = uploadPermisssionsMapper.selectList(queryWrapper).get(0);
         if(isApprover.getApprover() != approver){
             return Boolean.FALSE;

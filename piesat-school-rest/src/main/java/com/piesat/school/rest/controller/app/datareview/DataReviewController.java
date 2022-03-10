@@ -5,7 +5,7 @@ import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.vto.DataReviewVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
-import io.swagger.annotations.Api;
+import io.swagger.annotations.*;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +23,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class DataReviewController {
     @DubboReference
     private IRDataReviewService irDataReviewService;
+
+    @ApiOperation(value = "数据评审列表（分页）")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
     @PostMapping("/datareview")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pn", value = "第几页", dataType = "body" ),
+            @ApiImplicitParam(name = "ps", value = "每页几个", dataType = "body" )
+    })
     public Result<TailPage<DataReviewVTO>> dataReview(@RequestBody DataReviewParamData dataReviewParamData){
         return irDataReviewService.dataReview(dataReviewParamData);
     }

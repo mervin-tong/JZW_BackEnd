@@ -1,6 +1,7 @@
 package com.piesat.school.orderfrom.param;
 
 import com.smartwork.api.param.PageQueryParamData;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
 @Data
 public class OrderFromAttentionParamData extends PageQueryParamData {
     private static final long serialVersionUID = 1L;
+    @ApiModelProperty(value = "用户id")
     private Long id;
 
 }

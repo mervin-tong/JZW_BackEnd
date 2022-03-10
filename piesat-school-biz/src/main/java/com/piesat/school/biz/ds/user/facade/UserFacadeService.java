@@ -59,7 +59,7 @@ public class UserFacadeService {
         //判断验证码是否正确
         if (!checkUserVerificationCode.verificationEmail(userParamData.getEmail()
                 ,userParamData.getUserVerificationCode())){
-            return Result.ofFail("4012","验证码错误");
+            return Result.ofFail("4011","验证码错误");
         }
         UserVTO userVTO = new UserVTO();
         //如果注册的手机号或邮箱重复则捕获异常
@@ -67,7 +67,7 @@ public class UserFacadeService {
             userVTO = iUserService.addUser(userParamData);
 
         }catch (DataAccessException e){
-                return Result.ofFail("401","手机号/邮箱已存在");
+                return Result.ofFail("4012","手机号/邮箱已存在");
 
         }
         //添加权限
@@ -124,7 +124,7 @@ public class UserFacadeService {
         } catch (Exception e) {
             return Result.ofFail("4401","发送邮件失败，请核对邮箱账号");
         }
-        return Result.ofSuccessMessage("邮件发送成功");
+        return Result.ofSuccess(Boolean.TRUE);
 
     }
     //忘记密码
@@ -142,7 +142,7 @@ public class UserFacadeService {
                 Boolean isBoolean = iUserService.alterPassword(forgetPasswordParamData.getEmail()
                         , forgetPasswordParamData.getNewPassword());
                 if (isBoolean){
-                    return Result.ofSuccessMessage("修改成功");
+                    return Result.ofSuccess(Boolean.TRUE);
                 }
 
             }

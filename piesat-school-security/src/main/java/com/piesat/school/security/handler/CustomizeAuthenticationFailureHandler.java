@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.piesat.school.security.JsonResult;
 import com.piesat.school.security.ResultCode;
 import com.piesat.school.security.ResultTool;
+import com.smartwork.api.Result;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -19,39 +20,38 @@ import java.io.IOException;
  * @Description: 登录失败处理逻辑
  */
 @Component
-public class CustomizeAuthenticationFailureHandler implements AuthenticationFailureHandler {
+public class CustomizeAuthenticationFailureHandler {
 
-
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        //返回json数据
-        JsonResult result = null;
+    public Result<Boolean> onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         if (e instanceof AccountExpiredException) {
             //账号过期
-            result = ResultTool.fail(ResultCode.USER_ACCOUNT_EXPIRED);
+            return Result.ofFail(String.valueOf(ResultCode.USER_ACCOUNT_EXPIRED.getCode())
+                    ,ResultCode.USER_ACCOUNT_EXPIRED.getMessage());
         } else if (e instanceof BadCredentialsException) {
             //密码错误
-            result = ResultTool.fail(ResultCode.USER_CREDENTIALS_ERROR);
+            return Result.ofFail(String.valueOf(ResultCode.USER_CREDENTIALS_ERROR.getCode())
+                    ,ResultCode.USER_CREDENTIALS_ERROR.getMessage());
         } else if (e instanceof CredentialsExpiredException) {
             //密码过期
-            result = ResultTool.fail(ResultCode.USER_CREDENTIALS_EXPIRED);
+            return Result.ofFail(String.valueOf(ResultCode.USER_CREDENTIALS_EXPIRED.getCode())
+                    ,ResultCode.USER_CREDENTIALS_EXPIRED.getMessage());
         } else if (e instanceof DisabledException) {
             //账号不可用
-            result = ResultTool.fail(ResultCode.USER_ACCOUNT_DISABLE);
+            return Result.ofFail(String.valueOf(ResultCode.USER_ACCOUNT_DISABLE.getCode())
+                    ,ResultCode.USER_ACCOUNT_DISABLE.getMessage());
         } else if (e instanceof LockedException) {
             //账号锁定
-            result = ResultTool.fail(ResultCode.USER_ACCOUNT_LOCKED);
+            return Result.ofFail(String.valueOf(ResultCode.USER_ACCOUNT_LOCKED.getCode())
+                    ,ResultCode.USER_ACCOUNT_LOCKED.getMessage());
         } else if (e instanceof InternalAuthenticationServiceException) {
             //用户不存在
-            result = ResultTool.fail(ResultCode.USER_ACCOUNT_NOT_EXIST);
+            return Result.ofFail(String.valueOf(ResultCode.USER_ACCOUNT_NOT_EXIST.getCode())
+                    ,ResultCode.USER_ACCOUNT_NOT_EXIST.getMessage());
         }else{
             //其他错误
-            result = ResultTool.fail(ResultCode.COMMON_FAIL);
+            return Result.ofFail(String.valueOf(ResultCode.COMMON_FAIL.getCode())
+                    ,ResultCode.COMMON_FAIL.getMessage());
         }
-       //处理编码方式，防止中文乱码的情况
-        httpServletResponse.setContentType("text/json;charset=utf-8");
-       //塞到HttpServletResponse中返回给前台
-        httpServletResponse.getWriter().write(JSON.toJSONString(result));
     }
 
 
