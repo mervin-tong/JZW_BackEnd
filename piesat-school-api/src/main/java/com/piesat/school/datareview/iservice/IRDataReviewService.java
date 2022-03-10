@@ -7,4 +7,6 @@ import com.smartwork.api.support.page.TailPage;
 
 public interface IRDataReviewService {
     Result<TailPage<DataReviewVTO>> dataReview(DataReviewParamData dataReviewParamData);
+    //初审
+    Result<Boolean>firstReview(Long dataReviewId, Long reviewUserId);
 }

@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import com.smartwork.api.Result;
@@ -43,7 +44,8 @@ public class UserController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private CustomizeAuthenticationFailureHandler authenticationFailureHandler;
-
+    @DubboReference
+    private IRUserService irUserService;
     @DubboReference(consumer = DubboConstant.CONSUMER_NAME)
     private IRUserService userService;
     @Secured({"ROLE_ADMIN","ROLE_EGCADMIN"})
@@ -131,6 +133,24 @@ public class UserController {
         return Result.ofSuccess(Boolean.TRUE);
 
     }
+    @ApiOperation(value = "获取当前登录用户信息")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+            @ApiResponse(code=4401,message="当前没有登录用户"),
+    })
+    @GetMapping("getlogin")
+    public Result<UserVTO> getLogin(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal.equals("anonymousUser")){
+            return Result.ofFail("4401","当前没有用户登录");
+        }
+        UserVTO userVTO = irUserService.findUserByphoneOrEmail(((UserDetails) principal).getUsername());
+        return  Result.ofSuccess(userVTO);
+    }
+
+
 
 
 

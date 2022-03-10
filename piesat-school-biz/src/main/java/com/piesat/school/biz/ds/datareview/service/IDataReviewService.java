@@ -19,4 +19,6 @@ public interface IDataReviewService extends IService<DataReview> {
     TailPage<DataReviewVTO> dataReview(DataReviewParamData dataReviewParamData);
 
     Boolean createReview(DataReview dataReview);
+
+    Boolean firstReview(Long dataReviewId, Long reviewUserId);
 }

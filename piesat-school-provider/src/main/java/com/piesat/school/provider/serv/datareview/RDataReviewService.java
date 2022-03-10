@@ -22,4 +22,12 @@ public class RDataReviewService implements IRDataReviewService {
     public Result<TailPage<DataReviewVTO>> dataReview(DataReviewParamData dataReviewParamData) {
         return Result.ofSuccess(iDataReviewService.dataReview(dataReviewParamData));
     }
+
+    @Override
+    public Result<Boolean> firstReview(Long dataReviewId, Long reviewUserId) {
+        if (dataReviewId == null || reviewUserId == null){
+            return Result.ofFail("4401","参数不能为空");
+        }
+        return Result.ofSuccess(iDataReviewService.firstReview(dataReviewId,reviewUserId));
+    }
 }

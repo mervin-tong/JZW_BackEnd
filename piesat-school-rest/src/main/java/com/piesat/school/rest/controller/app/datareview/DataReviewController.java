@@ -7,10 +7,7 @@ import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.*;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -38,5 +35,24 @@ public class DataReviewController {
     public Result<TailPage<DataReviewVTO>> dataReview(@RequestBody DataReviewParamData dataReviewParamData){
         return irDataReviewService.dataReview(dataReviewParamData);
     }
+
+
+    @ApiOperation(value = "初次审批")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @GetMapping("/firstreview")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dataReviewId", value = "评审id", dataType = "Long" ),
+            @ApiImplicitParam(name = "ReviewUserId", value = "评审人id", dataType = "Long" )
+    })
+    public Result<Boolean> firstReview(Long dataReviewId,Long ReviewUserId){
+        return irDataReviewService.firstReview(dataReviewId,ReviewUserId);
+    }
+
+
+
 
 }
