@@ -63,7 +63,7 @@ public class DataInfController{
     }
     @ApiOperation(value = "数据详情")
     @GetMapping("/dataInfDetail")
-    public Result<DataInfDetailVTO> dataInfDetail(Long dataInfId){
+    public Result<DataInfDetailVTO> dataInfDetail(@RequestParam(value = "dataInfId",required = true) Long dataInfId){
         return irDataInfService.dataInfDetailVTO(dataInfId);
     }
     Boolean isAddDownCount;
