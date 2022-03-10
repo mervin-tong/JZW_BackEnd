@@ -11,6 +11,7 @@ import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
 import com.piesat.school.rest.utils.FileDownloadUtils;
 import com.piesat.school.rest.utils.FileUploadUtils;
+import com.piesat.school.rest.utils.FileUtils;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.Api;
@@ -40,6 +41,10 @@ public class DataInfController{
     public Result<DataInfVTO> saveDataInf(@RequestBody DataInfSaveParamData paramData){
         return irDataInfService.saveDataInf(paramData);
     }
+    @PostMapping("/del")
+    public Result<Boolean> delDataInf(@RequestParam(value = "dataId",required = true)Long dataId){
+        return irDataInfService.delDataInf(dataId);
+    }
     @ApiOperation(value = "根据关键词返回数据列表")
     @PostMapping("/keySearch")
     public Result<TailPage<DataInfListVTO>> searchByKeyword(@RequestBody SearchByKeyParamData searchByKeyParamData){
@@ -57,14 +62,15 @@ public class DataInfController{
     }
     @ApiOperation(value = "上传文件")
     @PostMapping("/uploadData")
-    public Result<DataInfVTO> uploadDataInf(MultipartFile file, Long dataid) throws Exception {
+    public Result<DataInfVTO> uploadDataInf(MultipartFile file, @RequestParam(value = "dataId",required = true) Long dataid) throws Exception {
         String fileLocation = FileUploadUtils.upload(file);
-        return irDataInfService.uploadDataInf(fileLocation,dataid);
+        String amount = FileUtils.getAmount(file.getSize());
+        return irDataInfService.uploadDataInf(fileLocation,amount,dataid);
     }
     @ApiOperation(value = "数据详情")
     @GetMapping("/dataInfDetail")
-    public Result<DataInfDetailVTO> dataInfDetail(@RequestParam(value = "dataInfId",required = true) Long dataInfId){
-        return irDataInfService.dataInfDetailVTO(dataInfId);
+    public Result<DataInfDetailVTO> dataInfDetail(@RequestParam(value = "dataId",required = true) Long dataId){
+        return irDataInfService.dataInfDetailVTO(dataId);
     }
     Boolean isAddDownCount;
 

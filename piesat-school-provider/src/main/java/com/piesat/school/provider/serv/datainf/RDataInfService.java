@@ -33,6 +33,11 @@ public class RDataInfService implements IRDataInfService {
     }
 
     @Override
+    public Result<Boolean> delDataInf(Long dataId) {
+        return Result.ofSuccess(iDatainfService.delDataInf(dataId));
+    }
+
+    @Override
     public Result<TailPage<DataInfListVTO>> searchByKeyword(SearchByKeyParamData searchByKeyParamData) {
         return Result.ofSuccess(iDatainfService.searchByKeyword(searchByKeyParamData));
     }
@@ -51,8 +56,8 @@ public class RDataInfService implements IRDataInfService {
 
     @Override
 
-    public Result<DataInfVTO> uploadDataInf(String file, Long dataid) throws IOException {
-        return Result.ofSuccess(iDatainfService.uploadDataInf(file,dataid));
+    public Result<DataInfVTO> uploadDataInf(String file,String amount, Long dataid) throws IOException {
+        return Result.ofSuccess(iDatainfService.uploadDataInf(file,amount,dataid));
     }
 
     @Override

@@ -85,7 +85,7 @@ public class Datainf implements Serializable {
     private String pic;
 
     /**
-     * 公开状态：0 公开；1半公开；2不公开
+     * 公开状态：1.完全公开 2.申请获取 3.保护期内
      */
     private Integer status;
 
@@ -112,13 +112,13 @@ public class Datainf implements Serializable {
     /**
      * 数据所属开始时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd ", timezone="GMT+8")
     private Date startAt;
 
     /**
      * 数据所属结束时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd ", timezone="GMT+8")
     private Date endAt;
 
     /**
@@ -155,6 +155,14 @@ public class Datainf implements Serializable {
      * 上传用户id
      */
     private Long uploadUserId;
+    /**
+     * 上传文件数据量
+     */
+    private String dataAmount;
+    /**
+     * 逻辑删除
+     */
+    private Integer deleted;
 
 
 }

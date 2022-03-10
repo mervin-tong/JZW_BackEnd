@@ -94,6 +94,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         datainf.setKeyword(paramData.getKeyword());
         datainf.setThroughReview(BizEnumType.ThroughReview.NOTPASS.getKey());
         datainf.setUploadUserId(paramData.getUploadUserId());
+        datainf.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
     //        BeanUtils.copyProperties(datainf,paramData);
 
 
@@ -118,6 +119,16 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         }
         return DatainfBuilder.toDataInfVto(datainf);
     }
+
+    //逻辑删除数据
+    @Override
+    public Boolean delDataInf(Long dataId) {
+
+        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
+        datainf.setDeleted(BizEnumType.CommonStatus.Invalid.getKey());
+        return this.updateById(datainf);
+    }
+
     //关键词查找
     @Override
     public TailPage<DataInfListVTO> searchByKeyword(SearchByKeyParamData searchByKeyParamData) {
@@ -146,11 +157,12 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
     //上传文件
     @Override
-    public DataInfVTO uploadDataInf(String file, Long dataId) throws IOException {
+    public DataInfVTO uploadDataInf(String file,String amount, Long dataId) throws IOException {
 
         Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
 //        String fileLocation = FileUploadUtils.upload(file);
         datainf.setContent(file);
+        datainf.setDataAmount(amount);
         this.updateById(datainf);
         return DatainfBuilder.toDataInfVto(datainf);
     }

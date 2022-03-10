@@ -18,10 +18,11 @@ import java.util.List;
 public interface IRDataInfService {
     Result<List<DataInfVTO>> getAllDatainf();
     Result<DataInfVTO> saveDataInf(DataInfSaveParamData paramData);
+    Result<Boolean> delDataInf(Long dataId);
     Result<TailPage<DataInfListVTO>> searchByKeyword(SearchByKeyParamData searchByKeyParamData);
     Result<TailPage<DataInfListVTO>> searchByClass(SearchByClassParamData searchByClassParamData);
     Result<TailPage<DataInfListVTO>> searchByTime(SearchByTimeParamData searchByTimeParamData);
-    Result<DataInfVTO> uploadDataInf(String file, Long dataid) throws IOException;
+    Result<DataInfVTO> uploadDataInf(String file,String amount, Long dataid) throws IOException;
     Result<DataInfDetailVTO> dataInfDetailVTO(Long dataInfId);
 
     DataInfVTO getFilePath(Long dataId);

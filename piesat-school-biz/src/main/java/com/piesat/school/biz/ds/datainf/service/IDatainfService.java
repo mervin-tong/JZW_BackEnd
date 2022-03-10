@@ -29,13 +29,14 @@ import java.util.List;
 public interface IDatainfService extends IService<Datainf> {
     List<DataInfVTO> getAllDatainf();
     DataInfVTO saveDataInf(DataInfSaveParamData paramData);
+    Boolean delDataInf(Long dataId);
     TailPage<DataInfListVTO> searchByKeyword(SearchByKeyParamData searchByKeyParamData);
 
     TailPage<DataInfListVTO> searchByClass(SearchByClassParamData searchByClassParamData);
 
     TailPage<DataInfListVTO> searchByTime(SearchByTimeParamData searchByTimeParamData);
 
-    DataInfVTO uploadDataInf(String file,Long dataId) throws IOException;
+    DataInfVTO uploadDataInf(String file,String amount,Long dataId) throws IOException;
 
     DataInfDetailVTO dataInfDetail(Long dataInfId);
 

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@ApiModel(value = "数据信息列表模型")
 public class DataInfListVTO implements Serializable {
 
     /**
@@ -21,8 +22,8 @@ public class DataInfListVTO implements Serializable {
      */
     @ApiModelProperty(value = "数据量")
     private String dataAmount;
-    /*
-    *
+
+    /**
      * 下载量
      */
     @ApiModelProperty(value = "下载量")
@@ -37,25 +38,20 @@ public class DataInfListVTO implements Serializable {
      * 数据所属开始时间
      */
     @ApiModelProperty(value = "数据所属开始时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date startAt;
 
     /**
      * 数据所属结束时间
      */
     @ApiModelProperty(value = "数据所属结束时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date endAt;
 
     /**
      * 公开状态（1.完全公开 2.申请获取 3.保护期内）
      */
-    @ApiModelProperty(value = "公开状态，0 公开；1半公开；2不公开")
+    @ApiModelProperty(value = "公开状态，1.完全公开 2.申请获取 3.保护期内")
     private Integer status;
-
-
-
-
-
 
 }

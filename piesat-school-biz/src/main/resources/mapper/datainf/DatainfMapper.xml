@@ -29,12 +29,15 @@
         <result column="start_at" property="startAt"/>
         <result column="end_at" property="endAt"/>
         <result column="topic_id" property="topicId"/>
+        <result column="data_amount" property="dataAmount"/>
+        <result column="deleted" property="deleted"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        data_name, maker,start_at,end_at, data_unit, address, keyword, first_class,sec_class, content, meas, ratio, doi, pic, status, introduction, origin, solution, con_id, created_at, updated_at, kick_count, down_count,topic_id
+        data_name, maker,start_at,end_at, data_unit, address, keyword, first_class,sec_class, content, meas, ratio, doi, pic, status, introduction,
+        origin, solution, con_id, created_at, updated_at, kick_count, down_count,topic_id,data_amount,deleted
     </sql>
     <select id="getAllDatainf" resultType="com.piesat.school.biz.ds.datainf.entity.Datainf">
         select * from t_data_inf
@@ -44,13 +47,14 @@
         select
             a.data_name,
             a.down_count,
+            a.data_amount,
             a.pic,
             a.start_at,
             a.end_at,
             a.`status`
         from
             t_data_inf a
-            where a.keyword like #{searchByKeyParamData.keyword}
+            where (a.keyword like #{searchByKeyParamData.keyword} AND deleted = 1)
             order by a.start_at desc
 
     </select>
@@ -58,13 +62,14 @@
         SELECT
             a.data_name,
             a.down_count,
+            a.data_amount,
             a.pic,
             a.start_at,
             a.end_at,
             a.`status`
         FROM
             t_data_inf a
-        WHERE (a.first_class = #{searchByClassParamData.firstClass} AND a.sec_class = #{searchByClassParamData.secClass})
+        WHERE (a.first_class = #{searchByClassParamData.firstClass} AND a.sec_class = #{searchByClassParamData.secClass} AND deleted = 1)
             ORDER BY a.start_at DESC
 
     </select>
@@ -72,13 +77,14 @@
         SELECT
             a.data_name,
             a.down_count,
+            a.data_amount,
             a.pic,
             a.start_at,
             a.end_at,
             a.`status`
         FROM
             t_data_inf a
-        WHERE (a.start_at > #{searchByTimeParamData.startAt} AND #{searchByTimeParamData.endAt} > a.end_at )
+        WHERE (a.start_at > #{searchByTimeParamData.startAt} AND #{searchByTimeParamData.endAt} > a.end_at AND deleted = 1)
             ORDER BY a.start_at DESC
 
     </select>
@@ -88,7 +94,7 @@
             a.introduction,a.meas,a.`status`,a.start_at,a.solution,a.origin,a.end_at,a.ratio,b.con_name,b.con_address,b.email,b.mobile,b.con_unit
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
-        where a.id = #{dataInfId}
+        where (a.id = #{dataInfId} AND a.deleted = 1)
     </select>
 
 

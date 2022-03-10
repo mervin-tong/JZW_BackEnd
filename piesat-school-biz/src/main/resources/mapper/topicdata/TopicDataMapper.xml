@@ -13,10 +13,68 @@
         <result column="topic_introduction" property="topicIntroduction"/>
     </resultMap>
 
+<!--    <resultMap id="detail" type="com.piesat.school.topicdata.vto.TopicDataDetailVTO">-->
+<!--        <id column="id" property="id" />-->
+<!--        <result column="topic_name" property="topicName" />-->
+<!--        <result column="picture" property="picture" />-->
+<!--        <result column="topic_introduction" property="topicIntroduction"/>-->
+<!--        <collection property="results" ofType="com.piesat.school.topicdata.vto.DataInfTopicVTO">-->
+<!--            <id column="bid" property="id"/>-->
+<!--            <result column="data_name" property="dataName" />-->
+<!--            <result column="data_amount" property="dataAmount"/>-->
+<!--            <result column="down_count" property="downCount" />-->
+<!--            <result column="pic" property="pic" />-->
+<!--            <result column="status" property="status" />-->
+<!--            <result column="introduction" property="introduction" />-->
+<!--            <result column="deleted" property="deleted"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+<!--    <select id="detailTopic" parameterType="long" resultType="detail">-->
+<!--        SELECT-->
+<!--            a.id,-->
+<!--            a.topic_name,-->
+<!--            a.picture,-->
+<!--            a.topic_introduction,-->
+<!--            b.id,-->
+<!--            b.data_name,-->
+<!--            b.amount,-->
+<!--            b.down_count,-->
+<!--            b.pic,-->
+<!--            b.introduction,-->
+<!--            b.`status`-->
+<!--            FROM t_topic_data a,t_data_inf b-->
+<!--            WHERE b.topic_id = #{topicId} AND b.deleted = 1-->
+<!--    </select>-->
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
         topic_name, picture, created_at, updated_at, status,topic_introduction
     </sql>
+<!--    <select id="selectData" resultType="com.piesat.school.topicdata.vto.DataInfTopicVTO">-->
+<!--        SELECT-->
+<!--            b.data_name,-->
+<!--            b.down_count,-->
+<!--            b.data_amount,-->
+<!--            b.pic,-->
+<!--            b.introduction,-->
+<!--            b.`status`-->
+<!--        FROM t_data_inf b-->
+<!--        WHERE   b.deleted = 1-->
+<!--    </select>-->
+
+    <select id="detailTopic" parameterType="long" resultType="com.piesat.school.topicdata.vto.TopicDataDetailVTO">
+        SELECT
+            a.topic_name,
+            a.picture,
+            a.topic_introduction,
+            b.data_name,
+            b.down_count,
+            b.pic,
+            b.introduction,
+            b.`status`
+        FROM t_topic_data a
+                 LEFT JOIN t_data_inf b ON (b.topic_id = #{topicId} AND b.deleted = 1)
+    </select>
 
 </mapper>

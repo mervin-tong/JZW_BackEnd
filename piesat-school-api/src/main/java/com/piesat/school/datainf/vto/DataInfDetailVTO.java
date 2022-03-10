@@ -1,6 +1,7 @@
 package com.piesat.school.datainf.vto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@ApiModel(value = "数据详细信息模型")
 public class DataInfDetailVTO implements Serializable {
     /**
      * 数据名
