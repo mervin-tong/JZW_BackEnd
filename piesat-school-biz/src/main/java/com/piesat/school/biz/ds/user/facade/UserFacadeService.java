@@ -24,6 +24,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -45,7 +46,7 @@ public class UserFacadeService {
     private CheckUserVerificationCode checkUserVerificationCode;
     @Autowired
     JavaMailSender jms;
-    @Autowired
+    @Resource
     private EmailMapper emailMapper;
     public UserVTO findUserByphoneOrEmail(String phoneOrEmail){
 

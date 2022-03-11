@@ -22,7 +22,7 @@ import java.io.IOException;
 @Component
 public class CustomizeAuthenticationFailureHandler {
 
-    public Result<Boolean> onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+    public Result<Boolean> onAuthenticationFailure(AuthenticationException e){
         if (e instanceof AccountExpiredException) {
             //账号过期
             return Result.ofFail(String.valueOf(ResultCode.USER_ACCOUNT_EXPIRED.getCode())

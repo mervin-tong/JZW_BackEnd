@@ -9,11 +9,11 @@ import lombok.Data;
  * @data 2022/2/23 15:24
  */
 @Data
-public class ForgetPasswordParamData extends UIDParamData {
+public class ForgetPasswordParamData {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "注册邮箱")
     private String email;
-    @ApiModelProperty(value = "验证码")
+    @ApiModelProperty(value = "验证码",example = "0")
     private Integer userVerificationCode;
     @ApiModelProperty(value = "新密码")
     private String newPassword;

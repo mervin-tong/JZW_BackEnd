@@ -64,7 +64,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
     public List<Parameter> globalParameters(){
         List<Parameter> globalParameters = new ArrayList<>();
         globalParameters.add(new ParameterBuilder().
-                name("x-auth").
+                name("Set-Cookie").
                 description("模拟Gateway鉴权后的参数").
                 defaultValue("{\"biz\":{\"userId\":\"RXDlb6ORuWUWvsq6eZ2hZ\"}}").
                 modelRef(new ModelRef("string")).
