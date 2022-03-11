@@ -54,24 +54,24 @@
         </dependency>
 
         <!-- pie engine dubbo api -->
-        <dependency>
-            <groupId>com.smartwork</groupId>
-            <artifactId>smartwork-pieengine-dubbo-api</artifactId>
-            <version>${smartwork.pieengine.dubbo.api.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.smartwork</groupId>-->
+<!--            <artifactId>smartwork-pieengine-dubbo-api</artifactId>-->
+<!--            <version>${smartwork.pieengine.dubbo.api.version}</version>-->
+<!--        </dependency>-->
 
         <!-- pie engine message api -->
-        <dependency>
-            <groupId>com.piesat.engine.server</groupId>
-            <artifactId>message-api</artifactId>
-            <version>${pieengine.message.dubbo.api.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.piesat.engine.server</groupId>-->
+<!--            <artifactId>message-api</artifactId>-->
+<!--            <version>${pieengine.message.dubbo.api.version}</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>com.piesat.engine.server</groupId>
-            <artifactId>spring-boot-starter-oss</artifactId>
-            <version>${pieengine.message.dubbo.api.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.piesat.engine.server</groupId>-->
+<!--            <artifactId>spring-boot-starter-oss</artifactId>-->
+<!--            <version>${pieengine.message.dubbo.api.version}</version>-->
+<!--        </dependency>-->
 
         <!--
         <dependency>

@@ -28,10 +28,10 @@
         <smartwork.core.dubbo.starter.version>0.0.1-SNAPSHOT</smartwork.core.dubbo.starter.version>
         <smartwork.core.kafka.starter.version>0.0.1-SNAPSHOT</smartwork.core.kafka.starter.version>
         <smartwork.core.kafka.concurrent.starter.version>0.0.1-SNAPSHOT</smartwork.core.kafka.concurrent.starter.version>
-        <smartwork.pieengine.dubbo.api.version>0.0.1-SNAPSHOT</smartwork.pieengine.dubbo.api.version>
+<!--        <smartwork.pieengine.dubbo.api.version>0.0.1-SNAPSHOT</smartwork.pieengine.dubbo.api.version>-->
         <smartwork.api.version>0.0.1-SNAPSHOT</smartwork.api.version>
 
-        <pieengine.message.dubbo.api.version>1.0.0-SNAPSHOT</pieengine.message.dubbo.api.version>
+<!--        <pieengine.message.dubbo.api.version>1.0.0-SNAPSHOT</pieengine.message.dubbo.api.version>-->
 
         <swagger.version>2.10.5</swagger.version>
         <knife.version>2.0.9</knife.version>
@@ -130,10 +130,28 @@
                 <version>${knife.version}</version>
             </dependency>
 
+<!--            <dependency>-->
+<!--                <groupId>io.springfox</groupId>-->
+<!--                <artifactId>springfox-swagger2</artifactId>-->
+<!--                <version>${swagger.version}</version>-->
+<!--            </dependency>-->
+
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${swagger.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-models</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-models</artifactId>
+                <version>1.5.21</version>
             </dependency>
 
             <dependency>

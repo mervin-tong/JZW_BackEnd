@@ -119,7 +119,7 @@ public class UserController {
             @ApiResponse(code=2007,message="账号不存在"),
     })
     @PostMapping("/login")
-    public Result<Boolean> login(@RequestBody @Valid LoginRequest loginRequest, HttpSession session, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
+    public Result<Boolean> login(LoginRequest loginRequest) {
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(loginRequest.getPhoneOrEmail(),loginRequest.getPassword());
         try {
@@ -127,7 +127,7 @@ public class UserController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }catch (AuthenticationException e){
             //处理登录错误
-            Result<Boolean> booleanResult = authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
+            Result<Boolean> booleanResult = authenticationFailureHandler.onAuthenticationFailure(e);
             return booleanResult;
         }
         return Result.ofSuccess(Boolean.TRUE);
