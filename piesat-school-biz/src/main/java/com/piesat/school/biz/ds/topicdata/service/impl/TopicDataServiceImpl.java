@@ -53,4 +53,14 @@ public class TopicDataServiceImpl extends ServiceImpl<TopicDataMapper, TopicData
         topicData.setStatus(BizEnumType.CommonStatus.Invalid.getKey());
         return this.updateById(topicData);
     }
+
+    @Override
+    public List<TopicDataVTO> getAllTopic() {
+        return topicDataMapper.getAllTopic();
+    }
+
+    @Override
+    public TopicDataVTO indexDetailTopic(Long topicId) {
+        return topicDataMapper.indexDetailTopic(topicId);
+    }
 }

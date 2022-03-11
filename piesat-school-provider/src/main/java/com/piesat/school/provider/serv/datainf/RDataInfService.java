@@ -56,7 +56,7 @@ public class RDataInfService implements IRDataInfService {
 
     @Override
 
-    public Result<DataInfVTO> uploadDataInf(String file,String amount, Long dataid) throws IOException {
+    public Result<Boolean> uploadDataInf(String file,String amount, Long dataid) throws IOException {
         return Result.ofSuccess(iDatainfService.uploadDataInf(file,amount,dataid));
     }
 

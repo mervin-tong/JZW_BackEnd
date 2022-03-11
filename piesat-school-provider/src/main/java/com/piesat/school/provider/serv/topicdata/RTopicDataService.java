@@ -29,7 +29,22 @@ public class RTopicDataService implements IRTopicDataService {
     }
 
     @Override
+    public Result<Boolean> delTopicData(Long topicId, Long dataId) {
+        return Result.ofSuccess(iDatainfService.delTopicData(topicId,dataId));
+    }
+
+    @Override
     public Result<List<TopicDataDetailVTO>> detailTopic(Long topicId) {
         return Result.ofSuccess(iTopicDataService.detailTopic(topicId));
+    }
+
+    @Override
+    public Result<List<TopicDataVTO>> getAllTopic() {
+        return Result.ofSuccess(iTopicDataService.getAllTopic());
+    }
+
+    @Override
+    public Result<TopicDataVTO> indexDetailTopic(Long topicId) {
+        return Result.ofSuccess(iTopicDataService.indexDetailTopic(topicId));
     }
 }

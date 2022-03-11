@@ -28,6 +28,7 @@ import java.util.List;
 public class DataClassController {
     @DubboReference
     private IRDataClassService dataclassService;
+    @ApiOperation(value = "数据分类列表")
     @GetMapping("/menu")
     public Result<List<DataClassVTO>> getAllDataClass(){
         return dataclassService.getAllDataClass();
@@ -47,8 +48,8 @@ public class DataClassController {
     public Result<DataClassVTO> updateDataClass(@RequestBody DataClassParamData paramData){
         return dataclassService.updataDataClass(paramData);
     }
-    @PostMapping("/page")
-    public Result<TailPage<DataClassVTO>> pageDataClass(@RequestBody DataClassQueryParamData paramData){
-        return dataclassService.pageDataClass(paramData);
-    }
+//    @PostMapping("/page")
+//    public Result<TailPage<DataClassVTO>> pageDataClass(@RequestBody DataClassQueryParamData paramData){
+//        return dataclassService.pageDataClass(paramData);
+//    }
 }

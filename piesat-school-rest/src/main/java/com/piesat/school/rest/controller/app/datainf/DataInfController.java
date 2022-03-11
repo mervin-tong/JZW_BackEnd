@@ -41,6 +41,7 @@ public class DataInfController{
     public Result<DataInfVTO> saveDataInf(@RequestBody DataInfSaveParamData paramData){
         return irDataInfService.saveDataInf(paramData);
     }
+    @ApiOperation(value = "逻辑删除数据")
     @PostMapping("/del")
     public Result<Boolean> delDataInf(@RequestParam(value = "dataId",required = true)Long dataId){
         return irDataInfService.delDataInf(dataId);
@@ -62,7 +63,7 @@ public class DataInfController{
     }
     @ApiOperation(value = "上传文件")
     @PostMapping("/uploadData")
-    public Result<DataInfVTO> uploadDataInf(MultipartFile file, @RequestParam(value = "dataId",required = true) Long dataid) throws Exception {
+    public Result<Boolean> uploadDataInf(MultipartFile file, @RequestParam(value = "dataId",required = true) Long dataid) throws Exception {
         String fileLocation = FileUploadUtils.upload(file);
         String amount = FileUtils.getAmount(file.getSize());
         return irDataInfService.uploadDataInf(fileLocation,amount,dataid);

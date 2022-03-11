@@ -40,7 +40,17 @@
         origin, solution, con_id, created_at, updated_at, kick_count, down_count,topic_id,data_amount,deleted
     </sql>
     <select id="getAllDatainf" resultType="com.piesat.school.biz.ds.datainf.entity.Datainf">
-        select * from t_data_inf
+        select
+            a.data_name,
+            a.down_count,
+            a.data_amount,
+            a.pic,
+            a.start_at,
+            a.end_at,
+            a.`status`
+        from t_data_inf a
+        where a.deleted = 1
+        order by a.start_at desc
     </select>
 
     <select id="searchByKeyword" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
@@ -54,7 +64,7 @@
             a.`status`
         from
             t_data_inf a
-            where (a.keyword like #{searchByKeyParamData.keyword} AND deleted = 1)
+            where (a.keyword like #{searchByKeyParamData.keyword} AND a.deleted = 1)
             order by a.start_at desc
 
     </select>

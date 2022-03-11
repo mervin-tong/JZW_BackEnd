@@ -20,6 +20,10 @@ public interface ITopicDataService extends IService<TopicData> {
     TopicDataVTO saveTopic(TopicDataSaveParamData topicDataSaveParamData);
     List<TopicDataDetailVTO> detailTopic(Long topicId);
     Boolean delTopic(Long topicId);
+    List<TopicDataVTO> getAllTopic();
+    TopicDataVTO indexDetailTopic(Long topicId);
+
+
 
 
 }
