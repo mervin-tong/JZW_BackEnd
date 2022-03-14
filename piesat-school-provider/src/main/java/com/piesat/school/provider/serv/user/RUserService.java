@@ -9,6 +9,7 @@ import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.user.iservice.IRUserService;
 import com.piesat.school.user.param.ForgetPasswordParamData;
 import com.piesat.school.user.param.UserParamData;
+import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -18,6 +19,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -54,5 +56,10 @@ public class RUserService implements IRUserService {
     @Override
     public Result<Boolean> forgetPassword(ForgetPasswordParamData forgetPasswordParamData) {
         return userFacadeService.forgetPassword(forgetPasswordParamData);
+    }
+    //忘记密码
+    @Override
+    public Result<List<UserListVTO>> getUserList() {
+        return Result.ofSuccess(iUserService.getUserList());
     }
 }

@@ -21,4 +21,6 @@ public interface IDataReviewService extends IService<DataReview> {
     Boolean createReview(DataReview dataReview);
 
     Boolean firstReview(Long dataReviewId, Long reviewUserId);
+
+    Boolean assign(Long dataReviewId, Long expertId);
 }

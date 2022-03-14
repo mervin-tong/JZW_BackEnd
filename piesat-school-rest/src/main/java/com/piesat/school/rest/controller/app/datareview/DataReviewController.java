@@ -52,6 +52,20 @@ public class DataReviewController {
         return irDataReviewService.firstReview(dataReviewId,ReviewUserId);
     }
 
+    @ApiOperation(value = "指定专家评审")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @GetMapping("/assign")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dataReviewId", value = "评审id", dataType = "Long" ),
+            @ApiImplicitParam(name = "expertId", value = "指定专家的id", dataType = "Long" )
+    })
+    public Result<Boolean> assign(Long dataReviewId,Long expertId){
+        return irDataReviewService.assign(dataReviewId,expertId);
+    }
 
 
 

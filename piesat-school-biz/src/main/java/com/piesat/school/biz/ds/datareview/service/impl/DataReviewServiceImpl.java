@@ -56,4 +56,13 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
         return Boolean.FALSE;
 
     }
+
+    @Override
+    public Boolean assign(Long dataReviewId, Long expertId) {
+        DataReview dataReview = BizCommonValidateHelper.valdiateGetById(dataReviewId, this);
+        UpdateWrapper<DataReview> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("user_judge_id",expertId);
+        updateWrapper.eq("id",dataReviewId);
+        return this.update(updateWrapper);
+    }
 }

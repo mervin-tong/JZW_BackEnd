@@ -30,4 +30,12 @@ public class RDataReviewService implements IRDataReviewService {
         }
         return Result.ofSuccess(iDataReviewService.firstReview(dataReviewId,reviewUserId));
     }
+
+    @Override
+    public Result<Boolean> assign(Long dataReviewId, Long expertId) {
+        if (dataReviewId == null || expertId == null){
+            return Result.ofFail("4401","参数不能为空");
+        }
+        return Result.ofSuccess(iDataReviewService.assign(dataReviewId,expertId));
+    }
 }

@@ -1,7 +1,11 @@
 package com.piesat.school.biz.ds.user.service;
 
 import com.piesat.school.user.param.UserParamData;
+import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
+import com.smartwork.api.Result;
+
+import java.util.List;
 
 /**
  * @author suweipeng
@@ -15,5 +19,6 @@ public interface IUserService {
      //修改密码
      Boolean alterPassword(String email,String password);
 
-
+     //获取用户列表
+     List<UserListVTO> getUserList();
 }

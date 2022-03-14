@@ -9,12 +9,17 @@ import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.user.param.UserParamData;
+import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import sun.misc.Queue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -64,5 +69,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         updateWrapper.set("password",passwordEncoder.encode(password));
         updateWrapper.eq("email",email);
         return this.update(updateWrapper);
+    }
+
+    //获取用户列表
+    @Override
+    public List<UserListVTO> getUserList() {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        List<User> users = userMapper.selectList(queryWrapper);
+        List<UserListVTO> listVTOS = new ArrayList<>();
+        for (User user : users) {
+            listVTOS.add(UserBulider.toUserListVTO(user));
+        }
+        return listVTOS;
     }
 }

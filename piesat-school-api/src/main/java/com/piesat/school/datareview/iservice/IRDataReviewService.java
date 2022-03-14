@@ -9,4 +9,6 @@ public interface IRDataReviewService {
     Result<TailPage<DataReviewVTO>> dataReview(DataReviewParamData dataReviewParamData);
     //初审
     Result<Boolean>firstReview(Long dataReviewId, Long reviewUserId);
+    //指定专家id
+    Result<Boolean> assign(Long dataReviewId, Long expertId);
 }

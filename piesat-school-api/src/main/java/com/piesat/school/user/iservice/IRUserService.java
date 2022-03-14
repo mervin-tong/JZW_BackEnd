@@ -3,8 +3,11 @@ package com.piesat.school.user.iservice;
 
 import com.piesat.school.user.param.ForgetPasswordParamData;
 import com.piesat.school.user.param.UserParamData;
+import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
+
+import java.util.List;
 
 /**
  * <p>
@@ -24,4 +27,5 @@ public interface IRUserService {
     //忘记密码
     Result<Boolean> forgetPassword(ForgetPasswordParamData forgetPasswordParamData);
 
+    Result<List<UserListVTO>> getUserList();
 }

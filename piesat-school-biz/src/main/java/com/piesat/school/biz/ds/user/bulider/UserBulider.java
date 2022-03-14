@@ -2,6 +2,7 @@ package com.piesat.school.biz.ds.user.bulider;
 
 import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.user.param.UserParamData;
+import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
 import org.springframework.beans.BeanUtils;
 
@@ -30,5 +31,17 @@ public class UserBulider {
             BeanUtils.copyProperties(_userParamData,user);
         });
         return user;
+    }
+
+    public static UserListVTO toUserListVTO(User user){
+        UserListVTO userListVTO = new UserListVTO();
+        //ofNullable(T value)不会throw Exception，ofNullable(T value)直接返回一个EMPTY对象。
+        //如果user不为空把user复制给userVTO
+        Optional.ofNullable(user).ifPresent(
+                _user-> {
+                    BeanUtils.copyProperties(_user,userListVTO);
+                });
+
+        return userListVTO;
     }
 }
