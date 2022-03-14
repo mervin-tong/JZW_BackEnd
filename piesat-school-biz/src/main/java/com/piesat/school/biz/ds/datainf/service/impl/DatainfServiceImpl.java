@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * <p>
  * 数据信息表 服务实现类
- * </p>
+ * </p>x
  *
  * @author 周悦尧
  * @since 2022-01-27
@@ -157,14 +157,15 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
     //上传文件
     @Override
-    public DataInfVTO uploadDataInf(String file,String amount, Long dataId) throws IOException {
-
+    public Boolean uploadDataInf(String file,String amount, Long dataId) throws IOException {
+        if(dataId == null || file == null || amount == null){
+            return Boolean.FALSE;
+        }
         Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
 //        String fileLocation = FileUploadUtils.upload(file);
         datainf.setContent(file);
         datainf.setDataAmount(amount);
-        this.updateById(datainf);
-        return DatainfBuilder.toDataInfVto(datainf);
+        return this.updateById(datainf);
     }
 
     @Override
@@ -204,12 +205,23 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         }
         return true;
     }
-
+    //新增专题数据
     @Override
     public Boolean addTopicData(Long topicId, Long dataId) {
         Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
-        if(topicId != null){
+        if(topicId != null && datainf.getDeleted() != BizEnumType.CommonStatus.Invalid.getKey()){
             datainf.setTopicId(topicId);
+            return this.updateById(datainf);
+        }
+        return Boolean.FALSE;
+    }
+
+    //删除专题数据
+    @Override
+    public Boolean delTopicData(Long topicId, Long dataId) {
+        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
+        if(topicId == datainf.getTopicId() && datainf.getDeleted() != BizEnumType.CommonStatus.Invalid.getKey()){
+            datainf.setTopicId((long)BizEnumType.CommonStatus.Invalid.getKey());
             return this.updateById(datainf);
         }
         return Boolean.FALSE;

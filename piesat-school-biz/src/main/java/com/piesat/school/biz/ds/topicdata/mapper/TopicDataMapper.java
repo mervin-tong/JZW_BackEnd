@@ -3,6 +3,7 @@ package com.piesat.school.biz.ds.topicdata.mapper;
 import com.piesat.school.biz.ds.topicdata.entity.TopicData;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.piesat.school.topicdata.vto.TopicDataDetailVTO;
+import com.piesat.school.topicdata.vto.TopicDataVTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
  */
 public interface TopicDataMapper extends BaseMapper<TopicData> {
     List<TopicDataDetailVTO> detailTopic(@Param("topicId") Long topicId);
+    List<TopicDataVTO> getAllTopic();
+    TopicDataVTO indexDetailTopic(@Param("topicId") Long topicId);
 
 
 }

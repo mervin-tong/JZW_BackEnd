@@ -1,12 +1,15 @@
 package com.piesat.school.biz.ds.topicdata.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import lombok.Data;
 
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -54,6 +57,12 @@ public class TopicData implements Serializable {
      * 专题介绍
      */
     private String topicIntroduction;
+
+//    /**
+//     * 专题数据列表
+//     */
+//    @TableField(exist = false)
+//    private List<Datainf> results;
 
 
 

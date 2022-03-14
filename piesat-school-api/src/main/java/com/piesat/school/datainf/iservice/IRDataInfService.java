@@ -22,7 +22,7 @@ public interface IRDataInfService {
     Result<TailPage<DataInfListVTO>> searchByKeyword(SearchByKeyParamData searchByKeyParamData);
     Result<TailPage<DataInfListVTO>> searchByClass(SearchByClassParamData searchByClassParamData);
     Result<TailPage<DataInfListVTO>> searchByTime(SearchByTimeParamData searchByTimeParamData);
-    Result<DataInfVTO> uploadDataInf(String file,String amount, Long dataid) throws IOException;
+    Result<Boolean> uploadDataInf(String file,String amount, Long dataid) throws IOException;
     Result<DataInfDetailVTO> dataInfDetailVTO(Long dataInfId);
 
     DataInfVTO getFilePath(Long dataId);

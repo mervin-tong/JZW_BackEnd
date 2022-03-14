@@ -36,7 +36,7 @@ public interface IDatainfService extends IService<Datainf> {
 
     TailPage<DataInfListVTO> searchByTime(SearchByTimeParamData searchByTimeParamData);
 
-    DataInfVTO uploadDataInf(String file,String amount,Long dataId) throws IOException;
+    Boolean uploadDataInf(String file,String amount,Long dataId) throws IOException;
 
     DataInfDetailVTO dataInfDetail(Long dataInfId);
 
@@ -48,5 +48,7 @@ public interface IDatainfService extends IService<Datainf> {
     Boolean addhistory(Long dataId, Long userId);
 
     Boolean addTopicData(Long topicId, Long dataId);
+
+    Boolean delTopicData(Long topicId, Long dataId);
 
 }

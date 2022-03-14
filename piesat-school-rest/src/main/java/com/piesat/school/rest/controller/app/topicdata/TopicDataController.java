@@ -35,10 +35,25 @@ public class TopicDataController {
     public Result<Boolean> addTopicData( Long topicId, Long dataId){
         return irTopicDataService.addTopicData(topicId,dataId);
     }
+    @ApiOperation(value = "删除专题数据")
+    @PostMapping("/delTopicData")
+    public Result<Boolean> delTopicData(Long topicId, Long dataId){
+        return irTopicDataService.delTopicData(topicId, dataId);
+    }
     @ApiOperation(value = "专题详情")
     @GetMapping("/detailTopic")
     public Result<List<TopicDataDetailVTO>> detailTopic(Long topicId){
         return irTopicDataService.detailTopic(topicId);
+    }
+    @ApiOperation(value = "首页显示专题详情")
+    @GetMapping("/indexDetailTopic")
+    public Result<TopicDataVTO> indexDetailTopic(Long topicId){
+        return irTopicDataService.indexDetailTopic(topicId);
+    }
+    @ApiOperation(value = "专题列表")
+    @GetMapping("/menu")
+    public Result<List<TopicDataVTO>> getAllTopic(){
+        return irTopicDataService.getAllTopic();
     }
 
 }
