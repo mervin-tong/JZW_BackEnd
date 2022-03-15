@@ -21,7 +21,7 @@ import java.util.List;
  * @since 2022-01-17
  */
 public interface DatainfMapper extends BaseMapper<Datainf> {
-    List<Datainf> getAllDatainf();
+    List<DataInfListVTO> getAllDatainf(Page<DataInfListVTO> page);
     List<DataInfListVTO> searchByKeyword(@Param("searchByKeyParamData")SearchByKeyParamData searchByKeyParamData,
                                          Page<DataInfListVTO> page);
     List<DataInfListVTO> searchByClass(@Param("searchByClassParamData") SearchByClassParamData searchByClassParamData,

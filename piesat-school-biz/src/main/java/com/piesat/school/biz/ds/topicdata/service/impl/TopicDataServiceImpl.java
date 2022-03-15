@@ -31,10 +31,11 @@ public class TopicDataServiceImpl extends ServiceImpl<TopicDataMapper, TopicData
 
     //新增主题
     @Override
-    public TopicDataVTO saveTopic(TopicDataSaveParamData topicDataSaveParamData) {
+    public TopicDataVTO saveTopic(TopicDataSaveParamData topicDataSaveParamData,String pictureLocation) {
         TopicData topicData = new TopicData();
         topicData.setTopicIntroduction(topicDataSaveParamData.getTopicIntroduction());
         topicData.setTopicName(topicDataSaveParamData.getTopicName());
+        topicData.setPicture(pictureLocation);
         topicData.setStatus(BizEnumType.CommonStatus.Valid.getKey());
         this.save(topicData);
         return TopicDataBuilder.toTopicDataVto(topicData);

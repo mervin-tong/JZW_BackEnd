@@ -39,8 +39,9 @@
         data_name, maker,start_at,end_at, data_unit, address, keyword, first_class,sec_class, content, meas, ratio, doi, pic, status, introduction,
         origin, solution, con_id, created_at, updated_at, kick_count, down_count,topic_id,data_amount,deleted
     </sql>
-    <select id="getAllDatainf" resultType="com.piesat.school.biz.ds.datainf.entity.Datainf">
+    <select id="getAllDatainf" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
         select
+            a.id,
             a.data_name,
             a.down_count,
             a.data_amount,
@@ -55,6 +56,7 @@
 
     <select id="searchByKeyword" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
         select
+            a.id,
             a.data_name,
             a.down_count,
             a.data_amount,
@@ -70,6 +72,7 @@
     </select>
     <select id="searchByClass" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
         SELECT
+            a.id,
             a.data_name,
             a.down_count,
             a.data_amount,
@@ -79,12 +82,13 @@
             a.`status`
         FROM
             t_data_inf a
-        WHERE (a.first_class = #{searchByClassParamData.firstClass} AND a.sec_class = #{searchByClassParamData.secClass} AND deleted = 1)
+        WHERE (a.first_class = #{searchByClassParamData.firstClass} OR a.sec_class = #{searchByClassParamData.secClass} AND deleted = 1)
             ORDER BY a.start_at DESC
 
     </select>
     <select id="searchByTime" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
         SELECT
+            a.id,
             a.data_name,
             a.down_count,
             a.data_amount,

@@ -16,6 +16,8 @@ import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.mapstruct.Context;
@@ -34,34 +36,65 @@ public class DataInfController{
     @DubboReference
     private IRDataInfService irDataInfService;
 //    @Secured("ROLE_ADMIN")
-    @GetMapping("/datamenu")
-    public Result<List<DataInfVTO>> getAllDataInf(){return irDataInfService.getAllDatainf();}
+    @GetMapping("/dataMenu")
+    public Result<TailPage<DataInfListVTO>> getAllDataInf(){return irDataInfService.getAllDatainf();}
     @ApiOperation(value = "新增数据")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
     @PostMapping("/save")
     public Result<DataInfVTO> saveDataInf(@RequestBody DataInfSaveParamData paramData){
         return irDataInfService.saveDataInf(paramData);
     }
     @ApiOperation(value = "逻辑删除数据")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
     @PostMapping("/del")
     public Result<Boolean> delDataInf(@RequestParam(value = "dataId",required = true)Long dataId){
         return irDataInfService.delDataInf(dataId);
     }
     @ApiOperation(value = "根据关键词返回数据列表")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
     @PostMapping("/keySearch")
     public Result<TailPage<DataInfListVTO>> searchByKeyword(@RequestBody SearchByKeyParamData searchByKeyParamData){
         return irDataInfService.searchByKeyword(searchByKeyParamData);
     }
     @ApiOperation(value = "根据类名返回数据列表")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
     @PostMapping("/classSearch")
+
     public Result<TailPage<DataInfListVTO>> searchByClass(@RequestBody SearchByClassParamData searchByClassParamData){
         return irDataInfService.searchByClass(searchByClassParamData);
     }
     @ApiOperation(value = "根据时间范围返回数据列表")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
     @PostMapping("/timeSearch")
     public Result<TailPage<DataInfListVTO>> searchByTime(@RequestBody SearchByTimeParamData searchByTimeParamData){
         return irDataInfService.searchByTime(searchByTimeParamData);
     }
     @ApiOperation(value = "上传文件")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
     @PostMapping("/uploadData")
     public Result<Boolean> uploadDataInf(MultipartFile file, @RequestParam(value = "dataId",required = true) Long dataid) throws Exception {
         String fileLocation = FileUploadUtils.upload(file);
@@ -69,6 +102,11 @@ public class DataInfController{
         return irDataInfService.uploadDataInf(fileLocation,amount,dataid);
     }
     @ApiOperation(value = "数据详情")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
     @GetMapping("/dataInfDetail")
     public Result<DataInfDetailVTO> dataInfDetail(@RequestParam(value = "dataId",required = true) Long dataId){
         return irDataInfService.dataInfDetailVTO(dataId);
@@ -76,6 +114,11 @@ public class DataInfController{
     Boolean isAddDownCount;
 
     @ApiOperation(value = "文件下载")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
     @GetMapping("/download")
     public Result<Boolean> Download(Long dataId,HttpServletResponse response,Long userId) throws IOException {
     

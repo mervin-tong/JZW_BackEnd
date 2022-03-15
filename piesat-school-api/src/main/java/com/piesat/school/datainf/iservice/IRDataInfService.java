@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public interface IRDataInfService {
-    Result<List<DataInfVTO>> getAllDatainf();
+    Result<TailPage<DataInfListVTO>> getAllDatainf();
     Result<DataInfVTO> saveDataInf(DataInfSaveParamData paramData);
     Result<Boolean> delDataInf(Long dataId);
     Result<TailPage<DataInfListVTO>> searchByKeyword(SearchByKeyParamData searchByKeyParamData);

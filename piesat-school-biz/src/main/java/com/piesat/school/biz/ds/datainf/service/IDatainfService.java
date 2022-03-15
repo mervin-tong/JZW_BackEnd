@@ -27,7 +27,7 @@ import java.util.List;
  * @since 2022-01-17
  */
 public interface IDatainfService extends IService<Datainf> {
-    List<DataInfVTO> getAllDatainf();
+    TailPage<DataInfListVTO> getAllDatainf();
     DataInfVTO saveDataInf(DataInfSaveParamData paramData);
     Boolean delDataInf(Long dataId);
     TailPage<DataInfListVTO> searchByKeyword(SearchByKeyParamData searchByKeyParamData);

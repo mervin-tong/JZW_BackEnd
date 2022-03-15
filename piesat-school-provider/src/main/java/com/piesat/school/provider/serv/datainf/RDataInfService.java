@@ -23,7 +23,7 @@ public class RDataInfService implements IRDataInfService {
     @Autowired
     IDatainfService iDatainfService;
     @Override
-    public Result<List<DataInfVTO>> getAllDatainf() {
+    public Result<TailPage<DataInfListVTO>> getAllDatainf() {
         return Result.ofSuccess(iDatainfService.getAllDatainf());
     }
 

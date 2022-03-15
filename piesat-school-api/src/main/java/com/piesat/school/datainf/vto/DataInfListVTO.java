@@ -12,6 +12,9 @@ import java.util.Date;
 @ApiModel(value = "数据信息列表模型")
 public class DataInfListVTO implements Serializable {
 
+    @ApiModelProperty(value = "id")
+    private Long id;
+
     /**
      * 数据名
      */

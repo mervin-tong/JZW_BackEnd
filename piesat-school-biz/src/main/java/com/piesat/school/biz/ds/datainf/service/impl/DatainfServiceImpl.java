@@ -66,56 +66,57 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     private IDataReviewService iDataReviewService;
 
     @Override
-    public List<DataInfVTO> getAllDatainf() {
-        List<Datainf> datas = datainfMapper.getAllDatainf();
-        return DatainfBuilder.toDataInfVtos(datas);
+    public TailPage<DataInfListVTO> getAllDatainf() {
+        Page<DataInfListVTO> page = new Page<>();
+        page.setOptimizeCountSql(false);
+        List<DataInfListVTO> list = datainfMapper.getAllDatainf(page);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 
     //新增数据
     @Override
     public DataInfVTO saveDataInf(DataInfSaveParamData paramData) {
         Datainf datainf = new Datainf();
-        datainf.setDataName(paramData.getDataName());
-        datainf.setMaker(paramData.getMaker());
-        datainf.setDoi(paramData.getDoi());
-        datainf.setDataUnit(paramData.getDataUnit());
-        datainf.setAddress(paramData.getAddress());
-        datainf.setDoi(paramData.getDoi());
-        datainf.setMeas(paramData.getMeas());
-        datainf.setIntroduction(paramData.getIntroduction());
-        datainf.setOrigin(paramData.getOrigin());
-        datainf.setSolution(paramData.getSolution());
-        datainf.setRatio(paramData.getRatio());
-        datainf.setStartAt(paramData.getStartAt());
-        datainf.setStatus(paramData.getStatus());
-        datainf.setEndAt(paramData.getEndAt());
-        datainf.setFirstClass(paramData.getFirstClass());
-        datainf.setSecClass(paramData.getSecClass());
-        datainf.setKeyword(paramData.getKeyword());
-        datainf.setThroughReview(BizEnumType.ThroughReview.NOTPASS.getKey());
-        datainf.setUploadUserId(paramData.getUploadUserId());
-        datainf.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
-    //        BeanUtils.copyProperties(datainf,paramData);
+        if(paramData.getUploadUserId() != null) {
 
-
-
-        Contact contact = new Contact();
-        BeanUtils.copyProperties(contact,paramData.getContact());
-        contactMapper.insert(contact);
-        datainf.setConId(contact.getId());
-
-        boolean saveDatainf = this.save(datainf);
-        if (saveDatainf){
-            DataReview dataReview = new DataReview();
-            dataReview.setDataId(datainf.getId());
-            dataReview.setStatus(BizEnumType.ReviewStatus.TOREVIEW.getKey());
-            dataReview.setAdminJudgeId(BizEnumType.Default.NULL.getKey());
-            dataReview.setUserJudgeId(BizEnumType.Default.NULL.getKey());
-            dataReview.setCreatedAt(new Date());
-            if (iRoleService.isEGCAdmin(datainf.getUploadUserId())){
-                dataReview.setStatus(BizEnumType.ReviewStatus.FIRSTREVIEWPASS.getKey());
+            datainf.setDataName(paramData.getDataName());
+            datainf.setMaker(paramData.getMaker());
+            datainf.setDoi(paramData.getDoi());
+            datainf.setDataUnit(paramData.getDataUnit());
+            datainf.setAddress(paramData.getAddress());
+            datainf.setDoi(paramData.getDoi());
+            datainf.setMeas(paramData.getMeas());
+            datainf.setIntroduction(paramData.getIntroduction());
+            datainf.setOrigin(paramData.getOrigin());
+            datainf.setSolution(paramData.getSolution());
+            datainf.setRatio(paramData.getRatio());
+            datainf.setStartAt(paramData.getStartAt());
+            datainf.setStatus(paramData.getStatus());
+            datainf.setEndAt(paramData.getEndAt());
+            datainf.setFirstClass(paramData.getFirstClass());
+            datainf.setSecClass(paramData.getSecClass());
+            datainf.setKeyword(paramData.getKeyword());
+            datainf.setThroughReview(BizEnumType.ThroughReview.NOTPASS.getKey());
+            datainf.setUploadUserId(paramData.getUploadUserId());
+            datainf.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
+            //        BeanUtils.copyProperties(datainf,paramData);
+            Contact contact = new Contact();
+            BeanUtils.copyProperties(contact, paramData.getContact());
+            contactMapper.insert(contact);
+            datainf.setConId(contact.getId());
+            boolean saveDatainf = this.save(datainf);
+            if (saveDatainf){
+                DataReview dataReview = new DataReview();
+                dataReview.setDataId(datainf.getId());
+                dataReview.setStatus(BizEnumType.ReviewStatus.TOREVIEW.getKey());
+                dataReview.setAdminJudgeId(BizEnumType.Default.NULL.getKey());
+                dataReview.setUserJudgeId(BizEnumType.Default.NULL.getKey());
+                dataReview.setCreatedAt(new Date());
+                if (iRoleService.isEGCAdmin(datainf.getUploadUserId())){
+                    dataReview.setStatus(BizEnumType.ReviewStatus.FIRSTREVIEWPASS.getKey());
+                }
+                iDataReviewService.createReview(dataReview);
             }
-            iDataReviewService.createReview(dataReview);
         }
         return DatainfBuilder.toDataInfVto(datainf);
     }
