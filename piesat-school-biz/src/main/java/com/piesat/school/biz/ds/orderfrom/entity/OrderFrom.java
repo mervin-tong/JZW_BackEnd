@@ -3,6 +3,7 @@ package com.piesat.school.biz.ds.orderfrom.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -58,5 +59,9 @@ public class OrderFrom implements Serializable {
      */
     private Date updatedAt;
 
+    /**
+     * 订单说明
+     */
+    private String explain;
 
 }

@@ -1,6 +1,7 @@
 package com.piesat.school.orderfrom.vto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -38,6 +39,11 @@ public class OrderFromVTO implements Serializable {
      * 公开状态（1.完全公开 2.申请获取 3.保护期内）
      */
     private Integer status;
+
+    /**
+     * 订单说明
+     */
+    private String explain;
 
 
 

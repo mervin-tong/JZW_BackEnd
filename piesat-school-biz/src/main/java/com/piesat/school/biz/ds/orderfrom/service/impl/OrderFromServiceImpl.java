@@ -62,6 +62,7 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         orderFrom.setDataInfoId(orderFromParamData.getDataInfoId());
         orderFrom.setAuditorUserId(orderFromParamData.getAuditorUserId());
         orderFrom.setDownloadUserId(orderFromParamData.getDownloadUserId());
+        orderFrom.setExplain(orderFromParamData.getExplain());
         orderFrom.setDataType(1L); //默认状态为审核中
         //如果数据是公开的则为已审核(通过)
         if(orderFromParamData.getStatus() == 1L){

@@ -19,6 +19,16 @@ public class OrderFromHistoryDownLoadVTO implements Serializable {
     private String dataName;
 
     /**
+     * 数据量
+     */
+    private String dataAmount;
+
+    /**
+     * 公开方式
+     */
+    private Integer status;
+
+    /**
      * 下载次数
      */
     private String downCount;

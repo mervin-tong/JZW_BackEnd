@@ -12,19 +12,38 @@ import java.util.Date;
  */
 @Data
 public class OrderFromAttentionVTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 数据id
+     */
+    private Long id;
+
     /**
      * 数据名称
      */
     private String dataName;
-    /**
-     * 数据所属开始时间
-     */
 
     /**
-     * 数据地址
+     * 数据时间
+     */
+    private Date created_at;
+
+    /**
+     * 公开状态
+     */
+    private Integer status;
+
+    /**
+     * 空间地址
      */
     private String address;
+
+    /**
+     * 上传者名称
+     */
+    private String name;
 
 
 
