@@ -35,4 +35,18 @@
             LEFT JOIN t_contact c ON di.con_id = c.id
     </select>
 
+    <select id="userDataReview" resultType="com.piesat.school.datareview.vto.DataReviewUserVTO">
+        SELECT
+            di.id,
+            di.data_name dataName,
+            di.address address,
+            dr.created_at createdAt,
+            di.`status` status,
+            di.maker maker
+        FROM
+            t_data_review dr
+            LEFT JOIN t_data_inf di ON dr.data_id = di.id
+            WHERE dr.user_judge_id = #{userDataReviewParamData.userJudgeId}
+    </select>
+
 </mapper>

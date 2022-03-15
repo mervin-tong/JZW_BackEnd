@@ -32,7 +32,7 @@ public class DataReviewVTO implements Serializable {
     private Date endAt;
 
     /**
-     * 数据名称
+     * 数据地址
      */
     private String address;
 
