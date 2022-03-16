@@ -70,4 +70,9 @@ public class ROrderFromService implements IROrderFromService {
     public Result<Boolean> delAttention(OrderFromAttentionDelParamData orderFromAttentionDelParamData) {
         return Result.ofSuccess(iAttentionService.delAttention(orderFromAttentionDelParamData));
     }
+
+    @Override
+    public Result<Boolean> checkAttentionDatainf(Long checkUserId, Long checkDataId) {
+        return Result.ofSuccess(iAttentionService.checkAttentionDatainf(checkUserId,checkDataId));
+    }
 }

@@ -29,4 +29,6 @@ public interface IROrderFromService {
     Result<Boolean> saveAttention(OrderFromAttentionSaveParamData orderFromAttentionSaveParamData);
 
     Result<Boolean> delAttention(OrderFromAttentionDelParamData orderFromAttentionDelParamData);
+
+    Result<Boolean> checkAttentionDatainf(Long checkUserId, Long checkDataId);
 }

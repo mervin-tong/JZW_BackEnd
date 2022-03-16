@@ -47,7 +47,6 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         page.setOptimizeCountSql(false);
         List<OrderFromVTO> list = orderFromMapper.orderFromMenu(orderFromMenuPageParamData, page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
-
     }
     //创建订单
     @Override
@@ -62,13 +61,12 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         orderFrom.setDataInfoId(orderFromParamData.getDataInfoId());
         orderFrom.setAuditorUserId(orderFromParamData.getAuditorUserId());
         orderFrom.setDownloadUserId(orderFromParamData.getDownloadUserId());
-        orderFrom.setExplain(orderFromParamData.getExplain());
+        orderFrom.setDeclare(orderFromParamData.getDeclare());
         orderFrom.setDataType(1L); //默认状态为审核中
         //如果数据是公开的则为已审核(通过)
         if(orderFromParamData.getStatus() == 1L){
             orderFrom.setDataType(2L);
         }
-        this.save(orderFrom);
         return OrderFromBulider.toOrderFromVTO(orderFrom);
     }
 
@@ -92,4 +90,6 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         List<OrderFromHistoryDownLoadVTO> list = orderFromMapper.historyDownload(orderFromHistoryDownLoadParamData, page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
+
+
 }

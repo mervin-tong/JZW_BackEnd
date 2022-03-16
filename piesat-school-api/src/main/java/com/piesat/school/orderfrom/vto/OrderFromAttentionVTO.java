@@ -28,7 +28,7 @@ public class OrderFromAttentionVTO implements Serializable {
     /**
      * 数据时间
      */
-    private Date created_at;
+    private Date createdAt;
 
     /**
      * 公开状态
@@ -44,6 +44,11 @@ public class OrderFromAttentionVTO implements Serializable {
      * 上传者名称
      */
     private String name;
+
+    /**
+     * 上传者id
+     */
+    private Long uploadUserId;
 
 
 

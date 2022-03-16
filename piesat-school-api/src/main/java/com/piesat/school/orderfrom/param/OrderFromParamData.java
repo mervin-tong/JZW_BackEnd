@@ -40,7 +40,7 @@ public class OrderFromParamData extends UIDParamData {
      * 订单说明
      */
     @ApiModelProperty(value = "订单说明")
-    private String explain;
+    private String declare;
 
 
 

@@ -24,7 +24,9 @@
             o.download_user_id,
             d.data_name,
             d.pic,
-            d.`status`
+            d.`status`,
+            d.start_at,
+            d.end_at
         FROM
             t_order_from o
             LEFT JOIN t_data_inf d ON o.data_info_id = d.id
@@ -57,7 +59,8 @@
             d.created_at,
             d.status,
             d.address,
-            us.name
+            u2.name,
+            d.upload_user_id
         FROM
             t_user u
             LEFT JOIN t_attention a ON u.id = a.user_id
@@ -79,7 +82,9 @@
         FROM
             t_history_download hd
             LEFT JOIN t_data_inf di ON hd.data_id = di.id
+            WHERE hd.user_id = #{orderFromAttentionParamData.historyUserId}
     </select>
+
 
 
 

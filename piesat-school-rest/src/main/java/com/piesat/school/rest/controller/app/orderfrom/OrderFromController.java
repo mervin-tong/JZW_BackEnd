@@ -118,4 +118,20 @@ public class OrderFromController {
     public Result<TailPage<OrderFromHistoryDownLoadVTO>> historydownload(@RequestBody OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData){
         return irOrderFromService.historyDownload(orderFromHistoryDownLoadParamData);
     }
+
+    @ApiOperation(value = "查询关注列表数据是否以创建订单(data:trun/未下载)")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @GetMapping("/checkAttentionDatainf")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "checkUserId", value = "用户id", dataType = "Long" ),
+            @ApiImplicitParam(name = "checkDataId", value = "数据id", dataType = "Long" )
+    })
+    public Result<Boolean> checkAttentionDatainf(Long checkUserId,Long checkDataId){
+        return irOrderFromService.checkAttentionDatainf(checkUserId,checkDataId);
+    }
+
 }

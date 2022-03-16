@@ -17,4 +17,5 @@ public interface IAttentionService extends IService<Attention> {
     Boolean saveAttention(OrderFromAttentionSaveParamData orderFromAttentionSaveParamData);
     Boolean delAttention(OrderFromAttentionDelParamData orderFromAttentionDelParamData);
 
+    Boolean checkAttentionDatainf(Long checkUserId, Long checkDataId);
 }

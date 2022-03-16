@@ -14,4 +14,5 @@ public class OrderFromAttentionParamData extends PageQueryParamData {
     @ApiModelProperty(value = "用户id")
     private Long id;
 
+
 }

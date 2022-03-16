@@ -33,4 +33,5 @@ public interface IOrderFromService extends IService<OrderFrom> {
     TailPage<OrderFromAttentionVTO> attentionList(OrderFromAttentionParamData orderFromAttentionParamData);
 
     TailPage<OrderFromHistoryDownLoadVTO> historyDownload(OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData);
+
 }

@@ -45,6 +45,11 @@ public class OrderFrom implements Serializable {
     private Long auditorUserId;
 
     /**
+     * 订单说明
+     */
+    private String declare;
+
+    /**
      * 对应数据编号
      */
     private Long dataInfoId;
@@ -59,9 +64,5 @@ public class OrderFrom implements Serializable {
      */
     private Date updatedAt;
 
-    /**
-     * 订单说明
-     */
-    private String explain;
 
 }
