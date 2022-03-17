@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class OrderFromAttentionDelParamData extends UIDParamData {
-    @ApiModelProperty(value = "关注id")
-    private Long id;
+    @ApiModelProperty(value = "要取消关注的关注号")
+    private String ids;
 }

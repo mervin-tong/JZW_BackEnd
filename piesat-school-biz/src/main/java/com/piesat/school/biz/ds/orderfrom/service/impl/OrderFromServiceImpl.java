@@ -24,6 +24,7 @@ import com.smartwork.api.support.page.TailPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -91,5 +92,17 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 
+    @Override
+    public Boolean orderfromDelete(String orderfromId) {
+        List<Long> longs = new ArrayList<>();
+        String[] split = orderfromId.split(",");
+        for (String s : split) {
+            longs.add(Long.valueOf(s));
+        }
+        return orderFromMapper.orderfromDelete(longs);
 
+
+
+
+    }
 }

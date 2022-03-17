@@ -14,8 +14,8 @@ public class OrderFromMenuPageParamData extends PageQueryParamData {
     @ApiModelProperty(value = "数据状态（1.申请下载(审核中)  2.同意下载 3.拒绝下载）")
     private Long dataType;
 
-    @ApiModelProperty(value = "下载的用户id")
-    private Long downloadUserId;
+    @ApiModelProperty(value = "审核人员")
+    private Long auditorUserId;
 
 
 

@@ -119,6 +119,7 @@ public class OrderFromController {
         return irOrderFromService.historyDownload(orderFromHistoryDownLoadParamData);
     }
 
+
     @ApiOperation(value = "查询关注列表数据是否以创建订单(data:trun/未下载)")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),
@@ -133,5 +134,22 @@ public class OrderFromController {
     public Result<Boolean> checkAttentionDatainf(Long checkUserId,Long checkDataId){
         return irOrderFromService.checkAttentionDatainf(checkUserId,checkDataId);
     }
+
+    @ApiOperation(value = "订单列表删除(批量)")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @GetMapping("/orderfromDelete")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "orderfromId", value = "要删除的订单号", dataType = "string" ),
+    })
+    public Result<Boolean> orderfromDelete(String orderfromId){
+        return irOrderFromService.orderfromDelete(orderfromId);
+    }
+
+
+
 
 }

@@ -1,6 +1,7 @@
 package com.piesat.school.biz.ds.orderfrom.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.piesat.school.biz.common.helper.BizCommonValidateHelper;
 import com.piesat.school.biz.ds.orderfrom.entity.Attention;
 import com.piesat.school.biz.ds.orderfrom.mapper.AttentionMapper;
@@ -13,6 +14,7 @@ import com.piesat.school.orderfrom.param.OrderFromAttentionSaveParamData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,13 +45,18 @@ public class AttentionServiceImpl extends ServiceImpl<AttentionMapper, Attention
 
     @Override
     public Boolean delAttention(OrderFromAttentionDelParamData orderFromAttentionDelParamData) {
-        if(orderFromAttentionDelParamData.getId() == null){
+        if(orderFromAttentionDelParamData.getIds() == null){
             return Boolean.FALSE;
         }
-        Attention attention = BizCommonValidateHelper.valdiateGetById(orderFromAttentionDelParamData.getId(),this);
-        attention.setStatus(BizEnumType.CommonStatus.Invalid.getKey());
-
-        return this.updateById(attention);
+        ArrayList<Long> longs = new ArrayList<>();
+        String[] split = orderFromAttentionDelParamData.getIds().split(",");
+        for (String s : split) {
+            longs.add(Long.valueOf(s));
+        }
+        UpdateWrapper<Attention> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("status",BizEnumType.CommonStatus.Invalid.getKey());//逻辑删除 0为删除
+        updateWrapper.in("id",longs);
+        return this.update(updateWrapper);
     }
 
     @Override

@@ -16,6 +16,12 @@ public class OrderFromVTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 订单编号
+     */
+    @ApiModelProperty(value = "订单编号")
+    private Long id;
+
+    /**
      * 数据审核状态（1.申请下载  2.同意下载 3.拒绝下载）
      */
     @ApiModelProperty(value = "数据审核状态")
@@ -62,6 +68,10 @@ public class OrderFromVTO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date endAt;
 
+    /**
+     * 数据量
+     */
+    private String dataAmount;
 
 
 
