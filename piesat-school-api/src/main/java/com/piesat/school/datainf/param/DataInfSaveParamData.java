@@ -8,11 +8,12 @@ import lombok.Data;
 
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class DataInfSaveParamData extends UIDParamData {
+public class DataInfSaveParamData implements Serializable {
     /**
      * 数据名
      */

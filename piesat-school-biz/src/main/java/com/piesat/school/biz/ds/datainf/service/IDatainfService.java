@@ -36,6 +36,8 @@ public interface IDatainfService extends IService<Datainf> {
 
     TailPage<DataInfListVTO> searchByTime(SearchByTimeParamData searchByTimeParamData);
 
+    TailPage<DataInfListVTO> searchAll(SearchAllParamData searchAllParamData);
+
     Boolean uploadDataInf(String file,String amount,Long dataId) throws IOException;
 
     DataInfDetailVTO dataInfDetail(Long dataInfId);

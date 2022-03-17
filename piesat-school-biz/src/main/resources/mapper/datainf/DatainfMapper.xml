@@ -102,6 +102,36 @@
             ORDER BY a.start_at DESC
 
     </select>
+    <select id="searchAll" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
+        SELECT
+            id,
+            data_name,
+            down_count,
+            data_amount,
+            pic,
+            start_at,
+            end_at,
+            `status`
+        FROM
+            t_data_inf
+        WHERE  deleted = 1
+              <if test="searchAllParamData.keyword != null ">
+                  AND keyword like #{searchAllParamData.keyword}
+              </if>
+              <if test="searchAllParamData.firstClass != null">
+                  AND first_class = #{searchAllParamData.firstClass}
+              </if>
+              <if test="searchAllParamData.secClass != null">
+                  OR sec_class = #{searchAllParamData.secClass}
+              </if>
+              <if test="searchAllParamData.startAt != null ">
+                  AND start_at > #{searchAllParamData.startAt}
+              </if>
+              <if test="searchAllParamData.endAt != null">
+                  AND #{searchAllParamData.endAt} >end_at
+              </if>
+        ORDER BY start_at DESC
+    </select>
     <select id="dataInfDetail" parameterType="long" resultType="com.piesat.school.datainf.vto.DataInfDetailVTO">
         select
             a.data_name,a.data_unit,a.maker,a.address,a.keyword,a.doi,a.first_class,a.sec_class,

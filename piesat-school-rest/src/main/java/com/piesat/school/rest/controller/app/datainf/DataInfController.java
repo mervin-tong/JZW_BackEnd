@@ -2,10 +2,7 @@ package com.piesat.school.rest.controller.app.datainf;
 
 import com.baomidou.mybatisplus.extension.api.R;
 import com.piesat.school.datainf.iservice.IRDataInfService;
-import com.piesat.school.datainf.param.DataInfSaveParamData;
-import com.piesat.school.datainf.param.SearchByClassParamData;
-import com.piesat.school.datainf.param.SearchByKeyParamData;
-import com.piesat.school.datainf.param.SearchByTimeParamData;
+import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
@@ -88,6 +85,16 @@ public class DataInfController{
     @PostMapping("/timeSearch")
     public Result<TailPage<DataInfListVTO>> searchByTime(@RequestBody SearchByTimeParamData searchByTimeParamData){
         return irDataInfService.searchByTime(searchByTimeParamData);
+    }
+    @ApiOperation(value = "混合搜索返回数据列表")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @PostMapping("/allSearch")
+    public Result<TailPage<DataInfListVTO>> searchAll(@RequestBody SearchAllParamData searchAllParamData){
+        return irDataInfService.searchAll(searchAllParamData);
     }
     @ApiOperation(value = "上传文件")
     @ApiResponses({

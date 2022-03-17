@@ -156,6 +156,15 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 
+    @Override
+    public TailPage<DataInfListVTO> searchAll(SearchAllParamData searchAllParamData) {
+        Page<DataInfListVTO> page = new Page<>(searchAllParamData.getPn(),searchAllParamData.getPs());
+        page.setOptimizeCountSql(false);
+        List<DataInfListVTO> list = datainfMapper.searchAll(searchAllParamData,page);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+
+        }
+
     //上传文件
     @Override
     public Boolean uploadDataInf(String file,String amount, Long dataId) throws IOException {

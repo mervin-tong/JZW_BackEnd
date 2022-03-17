@@ -1,9 +1,6 @@
 package com.piesat.school.datainf.iservice;
 
-import com.piesat.school.datainf.param.DataInfSaveParamData;
-import com.piesat.school.datainf.param.SearchByClassParamData;
-import com.piesat.school.datainf.param.SearchByKeyParamData;
-import com.piesat.school.datainf.param.SearchByTimeParamData;
+import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
@@ -22,6 +19,7 @@ public interface IRDataInfService {
     Result<TailPage<DataInfListVTO>> searchByKeyword(SearchByKeyParamData searchByKeyParamData);
     Result<TailPage<DataInfListVTO>> searchByClass(SearchByClassParamData searchByClassParamData);
     Result<TailPage<DataInfListVTO>> searchByTime(SearchByTimeParamData searchByTimeParamData);
+    Result<TailPage<DataInfListVTO>> searchAll(SearchAllParamData searchAllParamData);
     Result<Boolean> uploadDataInf(String file,String amount, Long dataid) throws IOException;
     Result<DataInfDetailVTO> dataInfDetailVTO(Long dataInfId);
 
