@@ -32,4 +32,6 @@ public interface OrderFromMapper extends BaseMapper<OrderFrom> {
     List<OrderFromAttentionVTO> attentionList(@Param("orderFromAttentionParamData") OrderFromAttentionParamData orderFromAttentionParamData, Page<OrderFromAttentionVTO> page);
 
     List<OrderFromHistoryDownLoadVTO> historyDownload(@Param("orderFromAttentionParamData") OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData, Page<OrderFromHistoryDownLoadVTO> page);
+
+    Boolean orderfromDelete(List<Long> longs);
 }

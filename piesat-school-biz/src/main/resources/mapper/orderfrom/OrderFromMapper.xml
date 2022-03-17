@@ -20,21 +20,24 @@
     </sql>
     <select id="orderFromMenu" resultType="com.piesat.school.orderfrom.vto.OrderFromVTO">
         SELECT
+            o.id,
             o.data_type,
             o.download_user_id,
             d.data_name,
             d.pic,
             d.`status`,
             d.start_at,
-            d.end_at
+            d.end_at,
+            d.data_amount
         FROM
             t_order_from o
             LEFT JOIN t_data_inf d ON o.data_info_id = d.id
         WHERE
-            o.download_user_id = #{orderFromMenuPageParamData.downloadUserId}
+            o.auditor_user_id = #{orderFromMenuPageParamData.auditorUserId}
         <if test="orderFromMenuPageParamData.dataType != null and orderFromMenuPageParamData.dataType != 0" >
             AND o.data_type = #{orderFromMenuPageParamData.dataType}
         </if>
+            AND o.is_delete != 1
     </select>
     
     <select id="orderFromInfo" parameterType="long" resultType="com.piesat.school.orderfrom.vto.OrderFromInfoVTO">
@@ -54,7 +57,7 @@
 
     <select id="attentionList" resultType="com.piesat.school.orderfrom.vto.OrderFromAttentionVTO">
         SELECT
-            d.id,
+            a.id,
             d.data_name,
             d.created_at,
             d.status,
@@ -70,6 +73,8 @@
             u.id = #{orderFromAttentionParamData.id}
         AND
             d.through_review = 1
+        AND
+            a.status = 1
     </select>
 
     <select id="historyDownload" resultType="com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO">
@@ -84,6 +89,16 @@
             LEFT JOIN t_data_inf di ON hd.data_id = di.id
             WHERE hd.user_id = #{orderFromAttentionParamData.historyUserId}
     </select>
+
+    <update id="orderfromDelete">
+        UPDATE t_order_from
+        SET is_delete = 1
+        WHERE id IN
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </update>
 
 
 

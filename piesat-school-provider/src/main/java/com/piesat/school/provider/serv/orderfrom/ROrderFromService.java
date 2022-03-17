@@ -75,4 +75,9 @@ public class ROrderFromService implements IROrderFromService {
     public Result<Boolean> checkAttentionDatainf(Long checkUserId, Long checkDataId) {
         return Result.ofSuccess(iAttentionService.checkAttentionDatainf(checkUserId,checkDataId));
     }
+
+    @Override
+    public Result<Boolean> orderfromDelete(String orderfromId) {
+        return Result.ofSuccess(iOrderFromService.orderfromDelete(orderfromId));
+    }
 }

@@ -34,4 +34,5 @@ public interface IOrderFromService extends IService<OrderFrom> {
 
     TailPage<OrderFromHistoryDownLoadVTO> historyDownload(OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData);
 
+    Boolean orderfromDelete(String orderfromId);
 }
