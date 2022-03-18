@@ -141,5 +141,26 @@
         where (a.id = #{dataInfId} AND a.deleted = 1)
     </select>
 
+    <select id="myDataMenu" parameterType="long" resultType="com.piesat.school.datainf.vto.MyDataInfVTO">
+        SELECT
+            id,
+            address,
+            start_at,
+            end_at,
+            upload_user_id,
+            through_review
+        FROM t_data_inf
+        WHERE upload_user_id = #{userId} AND deleted = 1
+    </select>
+    <update id="delDataInf">
+        UPDATE t_data_inf
+        SET deleted = 0
+        WHERE id IN
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </update>
+
 
 </mapper>

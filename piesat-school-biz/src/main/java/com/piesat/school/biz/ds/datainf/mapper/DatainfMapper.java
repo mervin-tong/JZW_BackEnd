@@ -9,6 +9,7 @@ import com.piesat.school.datainf.param.SearchByKeyParamData;
 import com.piesat.school.datainf.param.SearchByTimeParamData;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
+import com.piesat.school.datainf.vto.MyDataInfVTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -31,4 +32,8 @@ public interface DatainfMapper extends BaseMapper<Datainf> {
                                       Page<DataInfListVTO> page);
     List<DataInfListVTO> searchAll(@Param("searchAllParamData")SearchAllParamData searchAllParamData,Page<DataInfListVTO> page);
     DataInfDetailVTO dataInfDetail(@Param("dataInfId") Long dataInfId);
+
+    List<MyDataInfVTO> myDataMenu(@Param("userId") Long userId, Page<MyDataInfVTO> page);
+
+    Boolean delDataInf(List<Long> longs);
 }

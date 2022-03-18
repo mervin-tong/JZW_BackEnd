@@ -6,6 +6,7 @@ import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
+import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.rest.utils.FileDownloadUtils;
 import com.piesat.school.rest.utils.FileUploadUtils;
 import com.piesat.school.rest.utils.FileUtils;
@@ -35,6 +36,17 @@ public class DataInfController{
 //    @Secured("ROLE_ADMIN")
     @GetMapping("/dataMenu")
     public Result<TailPage<DataInfListVTO>> getAllDataInf(){return irDataInfService.getAllDatainf();}
+
+    @ApiOperation(value = "新增数据")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @PostMapping("/myDataMenu")
+    public Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId){
+        return irDataInfService.myDataMenu(userId);
+    }
     @ApiOperation(value = "新增数据")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),
@@ -52,7 +64,7 @@ public class DataInfController{
             @ApiResponse(code=500,message="后台报错"),
     })
     @PostMapping("/del")
-    public Result<Boolean> delDataInf(@RequestParam(value = "dataId",required = true)Long dataId){
+    public Result<Boolean> delDataInf(@RequestParam(value = "dataId",required = true)String dataId){
         return irDataInfService.delDataInf(dataId);
     }
     @ApiOperation(value = "根据关键词返回数据列表")

@@ -26,6 +26,7 @@ import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
+import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
@@ -37,6 +38,7 @@ import javax.annotation.Resource;
 import java.io.*;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -71,6 +73,16 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         page.setOptimizeCountSql(false);
         List<DataInfListVTO> list = datainfMapper.getAllDatainf(page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+    }
+
+    @Override
+    public TailPage<MyDataInfVTO> myDataMenu(Long userId) {
+        Page<MyDataInfVTO> page = new Page<>();
+        page.setOptimizeCountSql(false);
+        List<MyDataInfVTO> list = datainfMapper.myDataMenu(userId,page);
+
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+
     }
 
     //新增数据
@@ -123,11 +135,13 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
     //逻辑删除数据
     @Override
-    public Boolean delDataInf(Long dataId) {
-
-        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
-        datainf.setDeleted(BizEnumType.CommonStatus.Invalid.getKey());
-        return this.updateById(datainf);
+    public Boolean delDataInf(String dataId) {
+        List<Long> longs = new ArrayList<>();
+        String[] split = dataId.split(",");
+        for (String s : split) {
+            longs.add(Long.valueOf(s));
+        }
+        return datainfMapper.delDataInf(longs);
     }
 
     //关键词查找

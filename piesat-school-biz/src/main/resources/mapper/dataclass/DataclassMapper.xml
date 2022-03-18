@@ -18,7 +18,7 @@
         first_class, sec_class, updated_at, created_at, status
     </sql>
     <select id="getAllDataClass" resultType="com.piesat.school.biz.ds.dataclass.entity.Dataclass">
-        select * from t_data_class where status = "1"
+        select * from t_data_class where status = 1
     </select>
 
 </mapper>

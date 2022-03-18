@@ -7,6 +7,7 @@ import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
+import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.smartwork.api.support.page.TailPage;
 import org.mapstruct.Context;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,8 +29,10 @@ import java.util.List;
  */
 public interface IDatainfService extends IService<Datainf> {
     TailPage<DataInfListVTO> getAllDatainf();
+    TailPage<MyDataInfVTO> myDataMenu(Long userId);
+
     DataInfVTO saveDataInf(DataInfSaveParamData paramData);
-    Boolean delDataInf(Long dataId);
+    Boolean delDataInf(String dataId);
     TailPage<DataInfListVTO> searchByKeyword(SearchByKeyParamData searchByKeyParamData);
 
     TailPage<DataInfListVTO> searchByClass(SearchByClassParamData searchByClassParamData);

@@ -4,6 +4,7 @@ import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
+import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,8 +15,9 @@ import java.util.List;
 
 public interface IRDataInfService {
     Result<TailPage<DataInfListVTO>> getAllDatainf();
+    Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId);
     Result<DataInfVTO> saveDataInf(DataInfSaveParamData paramData);
-    Result<Boolean> delDataInf(Long dataId);
+    Result<Boolean> delDataInf(String dataId);
     Result<TailPage<DataInfListVTO>> searchByKeyword(SearchByKeyParamData searchByKeyParamData);
     Result<TailPage<DataInfListVTO>> searchByClass(SearchByClassParamData searchByClassParamData);
     Result<TailPage<DataInfListVTO>> searchByTime(SearchByTimeParamData searchByTimeParamData);

@@ -7,6 +7,7 @@ import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
+import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -25,12 +26,17 @@ public class RDataInfService implements IRDataInfService {
     }
 
     @Override
+    public Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId) {
+        return Result.ofSuccess(iDatainfService.myDataMenu(userId));
+    }
+
+    @Override
     public Result<DataInfVTO> saveDataInf(DataInfSaveParamData paramData) {
         return Result.ofSuccess(iDatainfService.saveDataInf(paramData));
     }
 
     @Override
-    public Result<Boolean> delDataInf(Long dataId) {
+    public Result<Boolean> delDataInf(String dataId) {
         return Result.ofSuccess(iDatainfService.delDataInf(dataId));
     }
 
