@@ -12,9 +12,15 @@ import java.util.UUID;
 public class FileUploadUtils {
 
     /**
-     * 默认大小 50M
+     * 默认大小 4G
      */
-    public static final long DEFAULT_MAX_SIZE = 50 * 1024 * 1024;
+    public static final long DEFAULT_MAX_SIZE = 4 * 1024 * 1024 * 1024;
+
+    /**
+     * 默认的图片的大小 5M
+     */
+    public static final long DEFAULT_MAX_PIC_SIZE = 5 * 1024 * 1024;
+
 
     /**
      * 默认的文件名最大长度 100
@@ -25,6 +31,11 @@ public class FileUploadUtils {
      * 默认上传的地址
      */
     private static String DEFAULT_BASE_FILE = "D:\\upload";
+
+    /**
+     * 默认上传的图片地址
+     */
+    private static String DEFAULT_BASE_PIC = "D:\\pic";
 
 
 
@@ -44,6 +55,20 @@ public class FileUploadUtils {
         }
     }
 
+    /**
+     * 按照默认的配置上传图片
+     *
+     *      @param file 文件
+     *      @return 文件名
+     *      @throws IOException
+     */
+    public static final String uploadPicture(MultipartFile file)throws IOException{
+        try {
+            return uploadPicture(FileUploadUtils.DEFAULT_BASE_PIC, file, MimeTypeUtils.IMAGE_EXTENSION);
+        } catch (Exception e) {
+            throw new IOException(e.getMessage(), e);
+        }
+    }
     /**
      * 根据文件路径上传
      *
@@ -73,6 +98,18 @@ public class FileUploadUtils {
             throws Exception {
         //合法性校验
         assertAllowed(file, allowedExtension);
+
+        String fileName = encodingFileName(file);
+
+        File desc = getAbsoluteFile(baseDir, fileName);
+        file.transferTo(desc);
+        return desc.getAbsolutePath();
+    }
+
+    public static final String uploadPicture(String baseDir, MultipartFile file, String[] allowedExtension)
+            throws Exception {
+        //合法性校验
+        assertAllowedPic(file, allowedExtension);
 
         String fileName = encodingFileName(file);
 
@@ -135,6 +172,36 @@ public class FileUploadUtils {
         }
 
     }
+    /**
+     * 图片合法性校验
+     *
+     * @param file 上传的图片
+     * @return
+     */
+
+    public static final void assertAllowedPic(MultipartFile file, String[] allowedExtension)
+            throws Exception {
+
+        if (file.getOriginalFilename() != null) {
+            int fileNamelength = file.getOriginalFilename().length();
+
+            if (fileNamelength > FILE_NAME_MAX) {
+                throw new Exception("文件名过长");
+            }
+        }
+
+        long size = file.getSize();
+        if (size > DEFAULT_MAX_PIC_SIZE) {
+            throw new Exception("文件过大");
+        }
+
+        String extension = getExtension(file);
+        if (allowedExtension != null && !isAllowedExtension(extension, allowedExtension)) {
+            throw new Exception("请上传指定类型的文件！");
+        }
+
+    }
+
 
     /**
      * 判断MIME类型是否是允许的MIME类型

@@ -31,7 +31,7 @@ public class TopicDataController {
     })
     @PostMapping("/saveTopic")
     public Result<TopicDataVTO> saveTopic(@RequestBody TopicDataSaveParamData topicDataSaveParamData,MultipartFile picture) throws IOException {
-        String pictureLocation = FileUploadUtils.upload(picture);
+        String pictureLocation = FileUploadUtils.uploadPicture(picture);
         return irTopicDataService.saveTopic(topicDataSaveParamData,pictureLocation);
     }
 //    @ApiOperation(value = "上传专题图片")

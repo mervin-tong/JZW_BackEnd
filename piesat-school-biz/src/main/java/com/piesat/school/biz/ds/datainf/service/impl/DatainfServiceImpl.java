@@ -193,6 +193,16 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     }
 
     @Override
+    public Boolean uploadPic(String pic, Long dataId) {
+        if(dataId == null || pic == null){
+            return Boolean.FALSE;
+        }
+        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
+        datainf.setPic(pic);
+        return this.updateById(datainf);
+    }
+
+    @Override
     public DataInfDetailVTO dataInfDetail(Long dataInfId) {
         return datainfMapper.dataInfDetail(dataInfId);
     }

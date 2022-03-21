@@ -69,6 +69,11 @@ public class RDataInfService implements IRDataInfService {
     }
 
     @Override
+    public Result<Boolean> uploadPic(String pic, Long dataId) {
+        return Result.ofSuccess(iDatainfService.uploadPic(pic,dataId));
+    }
+
+    @Override
     public Result<DataInfDetailVTO> dataInfDetailVTO(Long dataInfId) {
         return Result.ofSuccess(iDatainfService.dataInfDetail(dataInfId));
     }

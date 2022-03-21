@@ -43,6 +43,8 @@ public interface IDatainfService extends IService<Datainf> {
 
     Boolean uploadDataInf(String file,String amount,Long dataId) throws IOException;
 
+    Boolean uploadPic(String pic,Long dataId);
+
     DataInfDetailVTO dataInfDetail(Long dataInfId);
 
 
