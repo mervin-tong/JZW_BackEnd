@@ -5,8 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+
 @Data
-public class DataClassSaveParamData extends UIDParamData {
+public class DataClassSaveParamData implements Serializable {
 
     @ApiModelProperty(value = "第一类别")
     @NotBlank(message = "第一类别不能为空")

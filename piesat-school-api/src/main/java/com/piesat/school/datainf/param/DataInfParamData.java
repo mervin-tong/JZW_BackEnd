@@ -5,10 +5,11 @@ import com.smartwork.api.param.UIDParamData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class DataInfParamData extends UIDParamData {
+public class DataInfParamData implements Serializable {
     /**
      * 数据名
      */

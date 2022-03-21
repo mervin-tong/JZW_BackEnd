@@ -4,8 +4,10 @@ import com.smartwork.api.param.UIDParamData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class ContactParamData extends UIDParamData{
+public class ContactParamData implements Serializable {
     /**
      * 姓名
      */

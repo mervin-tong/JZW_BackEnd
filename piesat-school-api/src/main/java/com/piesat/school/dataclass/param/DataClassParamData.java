@@ -5,9 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
-public class DataClassParamData{
+public class DataClassParamData implements Serializable {
     @ApiModelProperty(value = "分类id ，更新添加数据必传")
     private Long id;
 

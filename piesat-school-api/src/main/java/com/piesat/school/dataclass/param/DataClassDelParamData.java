@@ -5,9 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.List;
 @Data
-public class DataClassDelParamData {
+public class DataClassDelParamData implements Serializable {
     @ApiModelProperty(value = "删除id")
     private List<Long> ids;
 
