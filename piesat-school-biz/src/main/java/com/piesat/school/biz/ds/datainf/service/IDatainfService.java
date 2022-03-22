@@ -32,7 +32,7 @@ public interface IDatainfService extends IService<Datainf> {
     TailPage<MyDataInfVTO> myDataMenu(Long userId);
 
     DataInfVTO saveDataInf(DataInfSaveParamData paramData);
-    Boolean delDataInf(String dataId);
+    Boolean delDataInf(String dataId,Long userId);
     TailPage<DataInfListVTO> searchByKeyword(SearchByKeyParamData searchByKeyParamData);
 
     TailPage<DataInfListVTO> searchByClass(SearchByClassParamData searchByClassParamData);

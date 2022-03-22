@@ -17,7 +17,7 @@ public interface IRDataInfService {
     Result<TailPage<DataInfListVTO>> getAllDatainf();
     Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId);
     Result<DataInfVTO> saveDataInf(DataInfSaveParamData paramData);
-    Result<Boolean> delDataInf(String dataId);
+    Result<Boolean> delDataInf(String dataId, Long userId);
     Result<TailPage<DataInfListVTO>> searchByKeyword(SearchByKeyParamData searchByKeyParamData);
     Result<TailPage<DataInfListVTO>> searchByClass(SearchByClassParamData searchByClassParamData);
     Result<TailPage<DataInfListVTO>> searchByTime(SearchByTimeParamData searchByTimeParamData);

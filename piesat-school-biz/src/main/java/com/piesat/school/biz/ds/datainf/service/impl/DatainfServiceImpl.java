@@ -135,7 +135,10 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
     //逻辑删除数据
     @Override
-    public Boolean delDataInf(String dataId) {
+    public Boolean delDataInf(String dataId, Long userId) {
+        if(userId == null){
+            return Boolean.FALSE;
+        }
         List<Long> longs = new ArrayList<>();
         String[] split = dataId.split(",");
         for (String s : split) {

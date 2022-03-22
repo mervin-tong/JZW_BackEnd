@@ -36,8 +36,8 @@ public class RDataInfService implements IRDataInfService {
     }
 
     @Override
-    public Result<Boolean> delDataInf(String dataId) {
-        return Result.ofSuccess(iDatainfService.delDataInf(dataId));
+    public Result<Boolean> delDataInf(String dataId,Long userId) {
+        return Result.ofSuccess(iDatainfService.delDataInf(dataId,userId));
     }
 
     @Override

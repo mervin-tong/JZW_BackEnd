@@ -47,7 +47,7 @@ public class DataInfController{
     public Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId){
         return irDataInfService.myDataMenu(userId);
     }
-    @ApiOperation(value = "新增数据")
+    @ApiOperation(value = "我的数据")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
@@ -64,8 +64,8 @@ public class DataInfController{
             @ApiResponse(code=500,message="后台报错"),
     })
     @PostMapping("/del")
-    public Result<Boolean> delDataInf(@RequestParam(value = "dataId",required = true)String dataId){
-        return irDataInfService.delDataInf(dataId);
+    public Result<Boolean> delDataInf(@RequestParam(value = "dataId",required = true)String dataId,Long userId){
+        return irDataInfService.delDataInf(dataId,userId);
     }
     @ApiOperation(value = "根据关键词返回数据列表")
     @ApiResponses({
