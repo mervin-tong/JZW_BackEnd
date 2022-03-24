@@ -115,14 +115,11 @@
         FROM
             t_data_inf
         WHERE  deleted = 1
-              <if test="searchAllParamData.keyword != null ">
-                  AND keyword like #{searchAllParamData.keyword}
-              </if>
               <if test="searchAllParamData.firstClass != null">
                   AND first_class = #{searchAllParamData.firstClass}
               </if>
               <if test="searchAllParamData.secClass != null">
-                  OR sec_class = #{searchAllParamData.secClass}
+                  AND sec_class = #{searchAllParamData.secClass}
               </if>
               <if test="searchAllParamData.startAt != null ">
                   AND start_at > #{searchAllParamData.startAt}
