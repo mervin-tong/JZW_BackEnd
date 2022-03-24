@@ -12,8 +12,8 @@ public class SearchAllParamData extends PageQueryParamData {
     private String firstClass;
     @ApiModelProperty(value = "第二分类")
     private String secClass;
-    @ApiModelProperty(value = "关键字")
-    private String keyword;
+//    @ApiModelProperty(value = "关键字")
+//    private String keyword;
     @ApiModelProperty(value = "数据所属开始时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date startAt;
