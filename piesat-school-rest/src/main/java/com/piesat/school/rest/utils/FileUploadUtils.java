@@ -30,12 +30,12 @@ public class FileUploadUtils {
     /**
      * 默认上传的地址
      */
-    private static String DEFAULT_BASE_FILE = "D:\\upload";
+    private static String DEFAULT_BASE_FILE = "upload";
 
     /**
      * 默认上传的图片地址
      */
-    private static String DEFAULT_BASE_PIC = "D:\\pic";
+    private static String DEFAULT_BASE_PIC = "pic";
 
 
 
