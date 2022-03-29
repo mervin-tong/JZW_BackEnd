@@ -7,6 +7,7 @@ import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
 import com.smartwork.api.support.page.TailPage;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,7 +19,5 @@ import java.util.List;
  * @since 2022-02-28
  */
 public interface UploadPermisssionsMapper extends BaseMapper<UploadPermisssions> {
-
-    List<UploadPermissionsVTO> uploadPermissionsList(Page<UploadPermissionsVTO> page);
-
+    List<UploadPermissionsVTO> uploadPermissionsList(Integer uploadPermissionsStatus, String startAt,String endAt, Page<UploadPermissionsVTO> page);
 }

@@ -34,7 +34,7 @@ public class UploadPermissionsController {
             @ApiImplicitParam(name = "ps", value = "每页几个", dataType = "body" )
 
     })
-    public Result<TailPage<UploadPermissionsVTO>> uploadPermissionsList(@RequestBody UploadPermissionsParamData uploadPermissionsParamData){
+    public Result<TailPage<UploadPermissionsVTO>> uploadPermissionsList(UploadPermissionsParamData uploadPermissionsParamData){
         return irUploadPermissionsService.uploadPermissionsList(uploadPermissionsParamData);
     }
 

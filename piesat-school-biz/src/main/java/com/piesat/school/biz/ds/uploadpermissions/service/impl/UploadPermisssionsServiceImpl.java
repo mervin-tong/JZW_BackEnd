@@ -40,7 +40,7 @@ import java.util.List;
 @Service
 public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermisssionsMapper, UploadPermisssions> implements IUploadPermisssionsService {
 
-    @Autowired
+    @Resource
     private UploadPermisssionsMapper uploadPermisssionsMapper;
     @Autowired
     private RedissonClient redissonClient;
@@ -56,7 +56,7 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermisssion
     @Override
     public TailPage<UploadPermissionsVTO> uploadPermissionsList(UploadPermissionsParamData uploadPermissionsParamData) {
         Page<UploadPermissionsVTO> page = new Page<>(uploadPermissionsParamData.getPn(),uploadPermissionsParamData.getPs());
-        List<UploadPermissionsVTO> list = uploadPermisssionsMapper.uploadPermissionsList(page);
+        List<UploadPermissionsVTO> list = uploadPermisssionsMapper.uploadPermissionsList(uploadPermissionsParamData.getUploadPermissionsStatus(),uploadPermissionsParamData.getStartAt(),uploadPermissionsParamData.getEndAt(),page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 
