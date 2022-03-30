@@ -22,9 +22,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import sun.font.TrueTypeFont;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -81,30 +83,50 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermisssion
     /**
      * 审批人锁定申请
      * @param approver 审批人
-     * @param uploadId 上传权限id
+     * @param uploadIds 上传权限ids
      * @param limit 锁定的时间（秒）
      * @return true 申请成功
      */
 
     @Override
-    public Boolean setApprover(Long approver, Long uploadId,Long limit) {
-        if(approver == null || uploadId == null || limit == null){
+    public Boolean setApprover(Long approver, String uploadIds,Long limit) {
+        if(approver == null || uploadIds == null || limit == null){
             return Boolean.FALSE;
         }
+        List<String> uploadIdList= Arrays.asList(uploadIds.split(","));
         //在redis创建map类型
-        RSetMultimap<String, String> map = redissonClient.getSetMultimap("timestampUploadId");
-        UpdateWrapper<UploadPermisssions> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set("approver",approver);
-        updateWrapper.eq("id",uploadId);
-        updateWrapper.eq("approver",0L); //如果该申请已经被锁定则锁定失败
-        long timestamp = System.currentTimeMillis()/1000;//以秒为单位的时间戳
-        String limitTimestamp = String.valueOf(timestamp+limit);//到期的时间戳
-        boolean isUpdate = this.update(updateWrapper);
-        if (isUpdate){ //是否锁定成功
-            log.info("到期时间 "+limitTimestamp+" "+isUpdate);
-            map.put(limitTimestamp,String.valueOf(uploadId));//把到期时间和 订单编号放入缓存
+        for(String i:uploadIdList){
+            RSetMultimap<String, String> map = redissonClient.getSetMultimap("timestampUploadId");
+            UpdateWrapper<UploadPermisssions> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("approver",approver);
+            updateWrapper.eq("id",Long.valueOf(i));
+            updateWrapper.eq("approver",-1); //如果该申请已经被锁定则锁定失败
+            long timestamp = System.currentTimeMillis()/1000;//以秒为单位的时间戳
+            String limitTimestamp = String.valueOf(timestamp+limit);//到期的时间戳
+            boolean isUpdate = this.update(updateWrapper);
+            if (isUpdate){ //是否锁定成功
+                log.info("到期时间 "+limitTimestamp+" "+isUpdate);
+                map.put(limitTimestamp,i);//把到期时间和 订单编号放入缓存
+            }
         }
-        return isUpdate;
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean cleanApprover(Long approver, String uploadIds) {
+        if(approver == null || uploadIds == null){
+            return Boolean.FALSE;
+        }
+        List<String> uploadIdList= Arrays.asList(uploadIds.split(","));
+        //在redis创建map类型
+        for(String i:uploadIdList){
+            UpdateWrapper<UploadPermisssions> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("approver",-1);
+            updateWrapper.eq("id",Long.valueOf(i));
+            updateWrapper.eq("approver",approver); //如果该申请已经被锁定则锁定失败
+            boolean isUpdate = this.update(updateWrapper);
+        }
+        return Boolean.TRUE;
     }
 
     /**

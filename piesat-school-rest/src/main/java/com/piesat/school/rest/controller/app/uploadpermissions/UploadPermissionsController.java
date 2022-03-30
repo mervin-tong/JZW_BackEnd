@@ -59,14 +59,23 @@ public class UploadPermissionsController {
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
             @ApiResponse(code=500,message="后台报错"),
     })
-    @GetMapping(value = "setApprover")
+    @PostMapping(value = "setApprover")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "approver", value = "锁定申请的管理员", dataType = "Long" ),
-            @ApiImplicitParam(name = "uploadId", value = "要锁定的上传权限id", dataType = "Long" ),
+            @ApiImplicitParam(name = "uploadIds", value = "要锁定的上传权限ids,逗号分割", dataType = "String" ),
             @ApiImplicitParam(name = "limit", value = "要锁定的时间（单位秒）", dataType = "Long" )
     })
-    public Result<Boolean> setApprover(Long approver,Long uploadId,Long limit){
-        return irUploadPermissionsService.setApprover(approver,uploadId,limit);
+    public Result<Boolean> setApprover(Long approver,String uploadIds,Long limit){
+        return irUploadPermissionsService.setApprover(approver,uploadIds,limit);
+    }
+    @ApiOperation(value = "清除上传权限锁定")
+    @PostMapping(value = "cleanApprover")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "approver", value = "锁定申请的管理员", dataType = "Long" ),
+            @ApiImplicitParam(name = "uploadIds", value = "要锁定的上传权限ids,逗号分割", dataType = "String" )
+    })
+    public Result<Boolean> cleanApprover(Long approver,String uploadIds){
+        return irUploadPermissionsService.cleanApprover(approver,uploadIds);
     }
 
 

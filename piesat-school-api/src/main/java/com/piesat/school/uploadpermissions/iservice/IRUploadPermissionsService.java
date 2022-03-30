@@ -16,5 +16,7 @@ public interface IRUploadPermissionsService {
     Result<Boolean> checkPermissions(Long uploadId,Integer status,Long approver);
 
     //管理员受理上传权限申请
-    Result<Boolean> setApprover(Long approver, Long uploadId,Long limit);
+    Result<Boolean> setApprover(Long approver, String uploadIds,Long limit);
+    //解锁
+    Result<Boolean> cleanApprover(Long approver, String uploadIds);
 }

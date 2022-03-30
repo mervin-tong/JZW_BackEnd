@@ -25,5 +25,7 @@ public interface IUploadPermisssionsService extends IService<UploadPermisssions>
     //审批人处理申请
     Boolean checkPermissions(Long uploadId,Integer status,Long approver);
     //审批人锁定申请
-    Boolean setApprover(Long approver, Long uploadId,Long limit);
+    Boolean setApprover(Long approver, String uploadIds,Long limit);
+    //审批人解锁
+    Boolean cleanApprover(Long approver, String uploadIds);
 }

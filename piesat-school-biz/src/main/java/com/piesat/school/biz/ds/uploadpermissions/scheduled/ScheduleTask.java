@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class ScheduleTask {
 
     @Autowired
     private RedissonClient redissonClient;
-    @Autowired
+    @Resource
     private UploadPermisssionsMapper uploadPermisssionsMapper;
 
     @Scheduled(cron = "0/1 * * * * ?")
@@ -55,7 +56,7 @@ public class ScheduleTask {
             //把申请变为未锁定
             if (!idList.isEmpty()){
                 UpdateWrapper<UploadPermisssions> updateWrapper = new UpdateWrapper();
-                updateWrapper.set("approver",0L);
+                updateWrapper.set("approver",-1);
                 updateWrapper.in("id",idList);
                 uploadPermisssionsMapper.update(null,updateWrapper);
             }
