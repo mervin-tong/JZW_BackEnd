@@ -30,7 +30,7 @@ public class SpringSecurityUserService implements UserDetailsService {
     //根据用户名查询数据库获取用户信息
     @Override
     public UserDetails loadUserByUsername(String phoneOrEmail) throws UsernameNotFoundException {
-        UserVTO userVTO = irUserService.findUserByphoneOrEmail(phoneOrEmail);
+        UserVTO userVTO = irUserService.findUserByPhoneOrEmail(phoneOrEmail);
         if (userVTO == null){
             //用户名不存在
             return null;

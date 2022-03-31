@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface IUserService {
      //通过email查找用户
-     UserVTO findUserByphoneOrEmail(String phoneOrEmail);
+     UserVTO findUserByPhoneOrEmail(String phoneOrEmail);
      //注册普通用户
      UserVTO addUser(UserParamData userParamData) ;
      //修改密码

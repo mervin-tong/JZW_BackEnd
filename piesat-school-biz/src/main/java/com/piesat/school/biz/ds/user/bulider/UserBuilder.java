@@ -13,7 +13,7 @@ import java.util.Optional;
  * @author suweipeng
  * @data 2022/1/17 14:20
  */
-public class UserBulider {
+public class UserBuilder {
     public static UserVTO toUserVTO(User user){
         UserVTO userVTO = new UserVTO();
         //ofNullable(T value)不会throw Exception，ofNullable(T value)直接返回一个EMPTY对象。

@@ -8,6 +8,7 @@ import com.smartwork.api.Result;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -20,7 +21,7 @@ import java.io.IOException;
  * @Description: 登录失败处理逻辑
  */
 @Component
-public class CustomizeAuthenticationFailureHandler {
+public class CustomizeAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     public Result<Boolean> onAuthenticationFailure(AuthenticationException e){
         if (e instanceof AccountExpiredException) {
@@ -55,4 +56,8 @@ public class CustomizeAuthenticationFailureHandler {
     }
 
 
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+
+    }
 }

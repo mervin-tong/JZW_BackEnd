@@ -36,21 +36,20 @@ import java.util.Set;
 @Slf4j
 @Service
 public class UserFacadeService {
-    @Autowired
+    @Resource
     private IUserService iUserService;
-    @Autowired
+    @Resource
     private IRoleService iRoleService;
-    @Autowired
+    @Resource
     private IUserRoleService iUserRoleService;
-    @Autowired
+    @Resource
     private CheckUserVerificationCode checkUserVerificationCode;
-    @Autowired
+    @Resource
     JavaMailSender jms;
     @Resource
     private EmailMapper emailMapper;
-    public UserVTO findUserByphoneOrEmail(String phoneOrEmail){
-
-        UserVTO userVTO = iUserService.findUserByphoneOrEmail(phoneOrEmail);
+    public UserVTO findUserByPhoneOrEmail(String phoneOrEmail){
+        UserVTO userVTO = iUserService.findUserByPhoneOrEmail(phoneOrEmail);
         Set<RoleVTO> roleVTOs = iRoleService.getRolesByUserId(userVTO.getId());
         userVTO.setRoles(roleVTOs);
         return userVTO;

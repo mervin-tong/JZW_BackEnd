@@ -39,8 +39,8 @@ public class RUserService implements IRUserService {
     private EmailMapper emailMapper;
     //通过邮箱或手机号查询用户信息
     @Override
-    public UserVTO findUserByphoneOrEmail(String phoneOrEmail) {
-        return userFacadeService.findUserByphoneOrEmail(phoneOrEmail);
+    public UserVTO findUserByPhoneOrEmail(String phoneOrEmail) {
+        return userFacadeService.findUserByPhoneOrEmail(phoneOrEmail);
     }
     //注册用户
     @Override

@@ -19,7 +19,7 @@ import java.util.List;
  */
 public interface IRUserService {
     //通过邮箱或手机号查询用户信息
-    UserVTO findUserByphoneOrEmail(String phoneOrEmail);
+    UserVTO findUserByPhoneOrEmail(String phoneOrEmail);
     //注册用户
     Result<UserVTO> addUser(UserParamData userParamData);
     //发送邮箱验证码

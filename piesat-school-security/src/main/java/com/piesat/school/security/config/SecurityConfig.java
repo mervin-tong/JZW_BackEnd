@@ -12,29 +12,32 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import javax.annotation.Resource;
+
 //springSecurity配置类
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //登录成功处理逻辑
-    @Autowired
+    @Resource
     CustomizeAuthenticationSuccessHandler authenticationSuccessHandler;
 
     //登录失败处理逻辑
-    @Autowired
+    @Resource
     CustomizeAuthenticationFailureHandler authenticationFailureHandler;
 
     //登出成功处理逻辑
-    @Autowired
+    @Resource
     CustomizeLogoutSuccessHandler logoutSuccessHandler;
     //登录信息
-    @Autowired
+    @Resource
     private SpringSecurityUserService springSecurityUserService;
     //异常处理(权限拒绝、登录失效等)
-    @Autowired
+    @Resource
     private CustomizeAuthenticationEntryPoint authenticationEntryPoint;
-    @Autowired
+    @Resource
     private CustomizeAccessDeniedHandler accessDeniedHandler;
 
     @Bean
@@ -57,10 +60,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .formLogin()
-                .disable()
-//                .successHandler(authenticationSuccessHandler)//登录成功处理逻辑
-//                .failureHandler(authenticationFailureHandler)//登录失败处理逻辑
-//                .and()
+                .loginProcessingUrl("/login")
+                .successForwardUrl("/login/success").
+                failureForwardUrl("/login/failure")
+//                .disable()
+                .and()
                 .authorizeRequests()//指定那些接口需要认证
                 .antMatchers("/app/user/addUser",
                         "/app/user/sendEmail",
@@ -69,18 +73,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "/swagger-resources/**",
                         "/swagger-ui.html",
-                        "/doc.html",
-                        "/app/user/login"
+                        "/doc.html"
                 ).permitAll()//不需要权限直接访问
 //                .anyRequest().authenticated()//所有请求都需要认证
                 .and()
                 .logout()
                 .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理逻辑
                 .deleteCookies("JSESSIONID");//登出之后删除cookie
-
-
-
-
                 //异常处理(权限拒绝、登录失效等)
                 http.exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler)//权限拒绝处理逻辑
