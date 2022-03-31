@@ -18,7 +18,7 @@
         id,
         data_type, download_user_id, auditor_user_id, data_info_id, created_at, updated_at
     </sql>
-    <select id="orderFromMenu" resultType="com.piesat.school.orderfrom.vto.OrderFromVTO">
+    <select id="orderFromMenu" resultType="com.piesat.school.order.vto.OrderFromVTO">
         SELECT
             o.id,
             o.data_type,
@@ -39,8 +39,8 @@
         </if>
             AND o.is_delete != 1
     </select>
-    
-    <select id="orderFromInfo" parameterType="long" resultType="com.piesat.school.orderfrom.vto.OrderFromInfoVTO">
+
+    <select id="orderFromInfo" parameterType="long" resultType="com.piesat.school.order.vto.OrderFromInfoVTO">
         SELECT
         o.data_type,
         o.download_user_id,
@@ -55,7 +55,7 @@
         o.id = #{orderFromId}
     </select>
 
-    <select id="attentionList" resultType="com.piesat.school.orderfrom.vto.OrderFromAttentionVTO">
+    <select id="attentionList" resultType="com.piesat.school.order.vto.OrderFromAttentionVTO">
         SELECT
             a.id,
             d.data_name,
@@ -77,8 +77,9 @@
             a.status = 1
     </select>
 
-    <select id="historyDownload" resultType="com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO">
+    <select id="historyDownload" resultType="com.piesat.school.order.vto.OrderFromHistoryDownLoadVTO">
         SELECT
+            hd.id,
             di.data_name,
             di.down_count,
             di.`status`,

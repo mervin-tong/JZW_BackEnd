@@ -22,7 +22,7 @@ import java.util.Set;
  * @data 2022/2/11 10:26
  */
 @Component
-public class SpringSecurisyUserService implements UserDetailsService {
+public class SpringSecurityUserService implements UserDetailsService {
     //使用Dubbo通过网络远程调用服务提供方获取数据库中的用户信息
     @DubboReference
     private IRUserService irUserService;

@@ -43,6 +43,7 @@ public class UserController {
     @DubboReference(consumer = DubboConstant.CONSUMER_NAME)
     private IRUserService userService;
     @Secured({"ROLE_ADMIN","ROLE_EGCADMIN"})
+    @ApiOperation(value = "发送邮箱验证码")
     @ApiResponses({
             @ApiResponse(code=0,message="操作成功"),
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
@@ -57,6 +58,7 @@ public class UserController {
 
 
     //注册用户
+    @ApiOperation(value = "注册用户")
     @ApiResponses({
             @ApiResponse(code=0,message="操作成功"),
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
@@ -119,6 +121,7 @@ public class UserController {
         try {
             Authentication authentication = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
         }catch (AuthenticationException e){
             //处理登录错误
             Result<Boolean> booleanResult = authenticationFailureHandler.onAuthenticationFailure(e);

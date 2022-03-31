@@ -1,17 +1,15 @@
-package com.piesat.school.orderfrom.iservice;
-import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
-import com.piesat.school.orderfrom.param.OrderFromHistoryDownLoadParamData;
-import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
-import com.piesat.school.orderfrom.param.OrderFromParamData;
-import com.piesat.school.orderfrom.param.*;
-import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
-import com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO;
-import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
-import com.piesat.school.orderfrom.vto.OrderFromVTO;
+package com.piesat.school.order.iservice;
+import com.piesat.school.order.param.OrderFromAttentionParamData;
+import com.piesat.school.order.param.OrderFromHistoryDownLoadParamData;
+import com.piesat.school.order.param.OrderFromMenuPageParamData;
+import com.piesat.school.order.param.OrderFromParamData;
+import com.piesat.school.order.param.*;
+import com.piesat.school.order.vto.OrderFromAttentionVTO;
+import com.piesat.school.order.vto.OrderFromHistoryDownLoadVTO;
+import com.piesat.school.order.vto.OrderFromInfoVTO;
+import com.piesat.school.order.vto.OrderFromVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
-
-import java.util.List;
 
 public interface IROrderFromService {
     Result<TailPage<OrderFromVTO>> orderFromMenu(OrderFromMenuPageParamData orderFromMenuPageParamData);

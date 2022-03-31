@@ -1,4 +1,4 @@
-package com.piesat.school.orderfrom.param;
+package com.piesat.school.order.param;
 
 import com.smartwork.api.param.PageQueryParamData;
 import io.swagger.annotations.ApiModelProperty;

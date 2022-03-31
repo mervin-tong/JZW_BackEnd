@@ -1,4 +1,4 @@
-package com.piesat.school.orderfrom.vto;
+package com.piesat.school.order.vto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;

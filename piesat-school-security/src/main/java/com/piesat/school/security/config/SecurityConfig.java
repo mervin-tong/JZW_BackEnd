@@ -1,19 +1,17 @@
 package com.piesat.school.security.config;
 
 import com.piesat.school.security.handler.*;
-import com.piesat.school.security.service.SpringSecurisyUserService;
+import com.piesat.school.security.service.SpringSecurityUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 //springSecurity配置类
 @Configuration
 @EnableWebSecurity
@@ -32,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CustomizeLogoutSuccessHandler logoutSuccessHandler;
     //登录信息
     @Autowired
-    private SpringSecurisyUserService springSecurisyUserService;
+    private SpringSecurityUserService springSecurityUserService;
     //异常处理(权限拒绝、登录失效等)
     @Autowired
     private CustomizeAuthenticationEntryPoint authenticationEntryPoint;
@@ -46,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //登录信息认证
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(springSecurisyUserService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(springSecurityUserService).passwordEncoder(passwordEncoder());
     }
     @Override
     @Bean

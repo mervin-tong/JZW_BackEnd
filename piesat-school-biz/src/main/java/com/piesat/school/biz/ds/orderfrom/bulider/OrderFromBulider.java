@@ -1,9 +1,7 @@
 package com.piesat.school.biz.ds.orderfrom.bulider;
 
 import com.piesat.school.biz.ds.orderfrom.entity.OrderFrom;
-import com.piesat.school.biz.ds.user.entity.Role;
-import com.piesat.school.orderfrom.vto.OrderFromVTO;
-import com.piesat.school.user.vto.RoleVTO;
+import com.piesat.school.order.vto.OrderFromVTO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Optional;

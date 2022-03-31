@@ -2,8 +2,8 @@ package com.piesat.school.biz.ds.orderfrom.service;
 
 import com.piesat.school.biz.ds.orderfrom.entity.Attention;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.piesat.school.orderfrom.param.OrderFromAttentionDelParamData;
-import com.piesat.school.orderfrom.param.OrderFromAttentionSaveParamData;
+import com.piesat.school.order.param.OrderFromAttentionDelParamData;
+import com.piesat.school.order.param.OrderFromAttentionSaveParamData;
 
 /**
  * <p>

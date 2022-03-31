@@ -1,32 +1,31 @@
 package com.piesat.school.biz.ds.orderfrom.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.piesat.school.biz.ds.datainf.entity.Datainf;
-import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
 import com.piesat.school.biz.ds.orderfrom.bulider.OrderFromBulider;
 import com.piesat.school.biz.ds.orderfrom.entity.OrderFrom;
 import com.piesat.school.biz.ds.orderfrom.mapper.OrderFromMapper;
 import com.piesat.school.biz.ds.orderfrom.service.IOrderFromService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.i18n.ResponseErrorCode;
-import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
-import com.piesat.school.orderfrom.param.OrderFromHistoryDownLoadParamData;
-import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
-import com.piesat.school.orderfrom.param.OrderFromParamData;
-import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
-import com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO;
-import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
-import com.piesat.school.orderfrom.vto.OrderFromVTO;
+import com.piesat.school.order.param.OrderFromAttentionParamData;
+import com.piesat.school.order.param.OrderFromHistoryDownLoadParamData;
+import com.piesat.school.order.param.OrderFromMenuPageParamData;
+import com.piesat.school.order.param.OrderFromParamData;
+import com.piesat.school.order.vto.OrderFromAttentionVTO;
+import com.piesat.school.order.vto.OrderFromHistoryDownLoadVTO;
+import com.piesat.school.order.vto.OrderFromInfoVTO;
+import com.piesat.school.order.vto.OrderFromVTO;
 import com.smartwork.api.exception.SmartworkI18nException;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 
 /**
  * <p>
@@ -39,7 +38,7 @@ import java.util.List;
 @Service
 public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom> implements IOrderFromService {
 
-    @Autowired
+    @Resource
     private OrderFromMapper orderFromMapper;
     //获取订单列表
     @Override
@@ -87,8 +86,16 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
     @Override
     public TailPage<OrderFromHistoryDownLoadVTO> historyDownload(OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData) {
         Page<OrderFromHistoryDownLoadVTO> page = new Page<>(orderFromHistoryDownLoadParamData.getPn(),orderFromHistoryDownLoadParamData.getPs());
-        page.setOptimizeCountSql(false);//关闭mybatis自动优化
+//        page.setOptimizeCountSql(false);//关闭mybatis自动优化
         List<OrderFromHistoryDownLoadVTO> list = orderFromMapper.historyDownload(orderFromHistoryDownLoadParamData, page);
+        list.forEach(e->{
+            if((e.getCreatedAt().getTime()+7*24*60*60*1000)>=(new Date()).getTime()){
+                e.setIsDownloadAble(true);
+            }else {
+                e.setIsDownloadAble(false);
+            }
+
+        });
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 

@@ -1,15 +1,15 @@
 package com.piesat.school.rest.controller.app.orderfrom;
 
-import com.piesat.school.orderfrom.iservice.IROrderFromService;
-import com.piesat.school.orderfrom.param.OrderFromAttentionParamData;
-import com.piesat.school.orderfrom.param.OrderFromHistoryDownLoadParamData;
-import com.piesat.school.orderfrom.param.OrderFromMenuPageParamData;
-import com.piesat.school.orderfrom.param.OrderFromParamData;
-import com.piesat.school.orderfrom.vto.OrderFromHistoryDownLoadVTO;
-import com.piesat.school.orderfrom.param.*;
-import com.piesat.school.orderfrom.vto.OrderFromAttentionVTO;
-import com.piesat.school.orderfrom.vto.OrderFromInfoVTO;
-import com.piesat.school.orderfrom.vto.OrderFromVTO;
+import com.piesat.school.order.iservice.IROrderFromService;
+import com.piesat.school.order.param.OrderFromAttentionParamData;
+import com.piesat.school.order.param.OrderFromHistoryDownLoadParamData;
+import com.piesat.school.order.param.OrderFromMenuPageParamData;
+import com.piesat.school.order.param.OrderFromParamData;
+import com.piesat.school.order.vto.OrderFromHistoryDownLoadVTO;
+import com.piesat.school.order.param.*;
+import com.piesat.school.order.vto.OrderFromAttentionVTO;
+import com.piesat.school.order.vto.OrderFromInfoVTO;
+import com.piesat.school.order.vto.OrderFromVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.*;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "用户模块")
 @RestController
-@RequestMapping("/app/orderfrom")
+@RequestMapping("/app/order")
 public class OrderFromController {
     @DubboReference
     private IROrderFromService irOrderFromService;
@@ -110,12 +110,12 @@ public class OrderFromController {
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
             @ApiResponse(code=500,message="后台报错"),
     })
-    @PostMapping("/historydownload")
+    @PostMapping("/historyDownload")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pn", value = "第几页", dataType = "body" ),
             @ApiImplicitParam(name = "ps", value = "每页几个", dataType = "body" )
     })
-    public Result<TailPage<OrderFromHistoryDownLoadVTO>> historydownload(@RequestBody OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData){
+    public Result<TailPage<OrderFromHistoryDownLoadVTO>> historyDownload(OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData){
         return irOrderFromService.historyDownload(orderFromHistoryDownLoadParamData);
     }
 
