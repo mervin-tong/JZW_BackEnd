@@ -2,6 +2,7 @@ package com.piesat.school.user.iservice;
 
 
 import com.piesat.school.user.param.ForgetPasswordParamData;
+import com.piesat.school.user.param.UpdateUserParamData;
 import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
@@ -28,4 +29,6 @@ public interface IRUserService {
     Result<Boolean> forgetPassword(ForgetPasswordParamData forgetPasswordParamData);
 
     Result<List<UserListVTO>> getUserList();
+
+    Result<UserVTO> updateUser(UpdateUserParamData paramData);
 }

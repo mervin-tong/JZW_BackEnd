@@ -8,6 +8,7 @@ import com.piesat.school.biz.ds.user.mapper.EmailMapper;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.user.iservice.IRUserService;
 import com.piesat.school.user.param.ForgetPasswordParamData;
+import com.piesat.school.user.param.UpdateUserParamData;
 import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
@@ -61,5 +62,10 @@ public class RUserService implements IRUserService {
     @Override
     public Result<List<UserListVTO>> getUserList() {
         return Result.ofSuccess(iUserService.getUserList());
+    }
+
+    @Override
+    public Result<UserVTO> updateUser(UpdateUserParamData paramData) {
+        return userFacadeService.updateUser(paramData);
     }
 }

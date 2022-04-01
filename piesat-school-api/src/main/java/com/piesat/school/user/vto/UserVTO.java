@@ -90,13 +90,13 @@ public class UserVTO implements Serializable {
      * 是否有上传数据权限（0是 1否）
      */
     @ApiModelProperty(value = "是否有上传数据权限（0是 1否）")
-    private String isDataUpload;
+    private Boolean isDataUpload;
 
     /**
      * 账户状态（0正常 1停用）
      */
     @ApiModelProperty(value = "账户状态（0正常 1停用）")
-    private String status;
+    private Integer status;
     @ApiModelProperty(value = "用户权限")
     private Set<RoleVTO> roles = new HashSet<RoleVTO>(0);
 

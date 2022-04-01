@@ -4,18 +4,13 @@ import com.piesat.school.rest.constants.DubboConstant;
 import com.piesat.school.security.handler.CustomizeAuthenticationFailureHandler;
 import com.piesat.school.user.iservice.IRUserService;
 import com.piesat.school.user.param.ForgetPasswordParamData;
-import com.piesat.school.user.param.LoginRequest;
+import com.piesat.school.user.param.UpdateUserParamData;
 import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
 import io.swagger.annotations.*;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import com.smartwork.api.Result;
@@ -93,7 +88,7 @@ public class UserController {
             @ApiResponse(code=4403,message="密码修改失败"),
     })
     @PostMapping("/forgetPassword")
-    public Result<Boolean> forgetPassword(@RequestBody ForgetPasswordParamData forgetPasswordParamData){
+    public Result<Boolean> forgetPassword(ForgetPasswordParamData forgetPasswordParamData){
         return userService.forgetPassword(forgetPasswordParamData);
     }
 
@@ -159,5 +154,12 @@ public class UserController {
     @GetMapping("getUserList")
     public Result<List<UserListVTO>> getUserList(){
         return irUserService.getUserList();
+    }
+
+
+    @ApiOperation(value = "用户信息修改")
+    @PostMapping("updateUser")
+    public Result<UserVTO> updateUser(UpdateUserParamData paramData){
+        return irUserService.updateUser(paramData);
     }
 }

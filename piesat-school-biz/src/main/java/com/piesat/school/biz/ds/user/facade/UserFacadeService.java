@@ -4,19 +4,24 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.piesat.school.biz.ds.user.check.CheckPhoneOrEmail;
 import com.piesat.school.biz.ds.user.check.CheckUserVerificationCode;
 import com.piesat.school.biz.ds.user.entity.Email;
+import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.entity.UserRole;
 import com.piesat.school.biz.ds.user.mapper.EmailMapper;
+import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.biz.ds.user.service.IRoleService;
 import com.piesat.school.biz.ds.user.service.IUserRoleService;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.piesat.school.user.param.ForgetPasswordParamData;
+import com.piesat.school.user.param.UpdateUserParamData;
 import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.RoleVTO;
 import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
@@ -25,6 +30,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -40,6 +46,8 @@ public class UserFacadeService {
     private IUserService iUserService;
     @Resource
     private IRoleService iRoleService;
+    @Resource
+    private UserMapper userMapper;
     @Resource
     private IUserRoleService iUserRoleService;
     @Resource
@@ -148,5 +156,41 @@ public class UserFacadeService {
             }
         }
         return Result.ofFail("4403","密码修改失败");
+    }
+
+    public Result<UserVTO> updateUser(UpdateUserParamData paramData) {
+        if(paramData.getId()==null){
+            return Result.ofFail("1111","id为空");
+        }
+        User user=this.userMapper.selectById(paramData.getId());
+        if(user==null){
+
+        }
+        if(StringUtils.isNotBlank(paramData.getAvatar())){
+            user.setAvatar(paramData.getAvatar());
+        }
+        if(StringUtils.isNotBlank(paramData.getHighEducation())){
+            user.setHighEducation(paramData.getHighEducation());
+        }
+        if(StringUtils.isNotBlank(paramData.getName())){
+            user.setName(paramData.getName());
+        }
+        if(StringUtils.isNotBlank(paramData.getPhone())){
+            user.setPhone(paramData.getPhone());
+        }
+        if(StringUtils.isNotBlank(paramData.getProfession())){
+            user.setProfession(paramData.getProfession());
+        }
+        if(StringUtils.isNotBlank(paramData.getUnitAddress())){
+            user.setUnitAddress(paramData.getUnitAddress());
+        }
+        if (StringUtils.isNotBlank(paramData.getWorkUnit())){
+            user.setWorkUnit(paramData.getWorkUnit());
+        }
+        user.setUpdatedAt(new Date());
+        this.userMapper.updateById(user);
+        UserVTO userVTO=new UserVTO();
+        BeanUtils.copyProperties(user,userVTO);
+        return Result.ofSuccess(userVTO);
     }
 }
