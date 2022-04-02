@@ -46,6 +46,11 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         Page<OrderFromVTO> page = new Page<>(orderFromMenuPageParamData.getPn(),orderFromMenuPageParamData.getPs());
         page.setOptimizeCountSql(false);
         List<OrderFromVTO> list = orderFromMapper.orderFromMenu(orderFromMenuPageParamData, page);
+        list.forEach(e->{
+            if(e.getUpdatedAt()!=null&&(new Date()).getTime()>(e.getUpdatedAt().getTime()+3*24*60*60*1000)){
+                e.setDataType(4l);
+            }
+        });
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
     //创建订单

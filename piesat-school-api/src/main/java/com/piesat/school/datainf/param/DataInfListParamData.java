@@ -1,7 +1,7 @@
 package com.piesat.school.datainf.param;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.smartwork.api.param.PageQueryParamData;
+import com.piesat.school.base.PageQueryParamData;
 import com.smartwork.api.param.UIDParamData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

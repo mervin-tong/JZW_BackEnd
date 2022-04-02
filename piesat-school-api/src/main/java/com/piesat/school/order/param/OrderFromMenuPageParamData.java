@@ -1,6 +1,6 @@
 package com.piesat.school.order.param;
 
-import com.smartwork.api.param.PageQueryParamData;
+import com.piesat.school.base.PageQueryParamData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -16,7 +16,8 @@ public class OrderFromMenuPageParamData extends PageQueryParamData {
 
     @ApiModelProperty(value = "审核人员")
     private Long auditorUserId;
-
+    @ApiModelProperty(value = "订单所属人员id")
+    private Long downloadUserId;
 
 
 }

@@ -1,6 +1,6 @@
 package com.piesat.school.datainf.param;
 
-import com.smartwork.api.param.PageQueryParamData;
+import com.piesat.school.base.PageQueryParamData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

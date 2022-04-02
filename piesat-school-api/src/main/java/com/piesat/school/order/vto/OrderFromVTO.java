@@ -24,7 +24,7 @@ public class OrderFromVTO implements Serializable {
     /**
      * 数据审核状态（1.申请下载  2.同意下载 3.拒绝下载）
      */
-    @ApiModelProperty(value = "数据审核状态")
+    @ApiModelProperty(value = "数据审核状态，1.申请下载  2.同意下载 3.拒绝下载 4.已过期")
     private Long dataType;
 
     /**
@@ -68,6 +68,14 @@ public class OrderFromVTO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date endAt;
 
+
+    @ApiModelProperty(value = "订单创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Date createdAt;
+
+    @ApiModelProperty(value = "订单更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Date updatedAt;
     /**
      * 数据量
      */

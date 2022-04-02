@@ -28,12 +28,19 @@
             d.`status`,
             d.start_at,
             d.end_at,
-            d.data_amount
+            d.data_amount,
+            o.created_at,
+            o.updated_at
         FROM
             t_order_from o
             LEFT JOIN t_data_inf d ON o.data_info_id = d.id
-        WHERE
-            o.auditor_user_id = #{orderFromMenuPageParamData.auditorUserId}
+        WHERE 1=1
+        <if test="orderFromMenuPageParamData.auditorUserId!=null">
+            and o.auditor_user_id = #{orderFromMenuPageParamData.auditorUserId}
+        </if>
+        <if test="orderFromMenuPageParamData.downloadUserId!=null">
+            and o.download_user_id = #{orderFromMenuPageParamData.downloadUserId}
+        </if>
         <if test="orderFromMenuPageParamData.dataType != null and orderFromMenuPageParamData.dataType != 0" >
             AND o.data_type = #{orderFromMenuPageParamData.dataType}
         </if>

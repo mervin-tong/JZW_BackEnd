@@ -1,13 +1,13 @@
 package com.piesat.school.dataclass.param;
 
-import com.smartwork.api.param.PageQueryParamData;
+import com.piesat.school.base.PageQueryParamData;
 import com.smartwork.api.param.UIDParamData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 @Data
-public class DataClassQueryParamData extends PageQueryParamData{
+public class DataClassQueryParamData extends PageQueryParamData {
 
     @ApiModelProperty(value = "分类id ，更新添加数据必传")
     private Long id;

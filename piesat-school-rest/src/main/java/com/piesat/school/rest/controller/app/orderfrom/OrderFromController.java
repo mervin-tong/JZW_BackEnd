@@ -33,11 +33,7 @@ public class OrderFromController {
             @ApiResponse(code=500,message="后台报错"),
     })
     @PostMapping("/menu")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pn", value = "第几页", dataType = "body" ),
-            @ApiImplicitParam(name = "ps", value = "每页几个", dataType = "body" )
-    })
-    public Result<TailPage<OrderFromVTO>> orderFromMenu(@RequestBody OrderFromMenuPageParamData orderFromMenuPageParamData){
+    public Result<TailPage<OrderFromVTO>> orderFromMenu(OrderFromMenuPageParamData orderFromMenuPageParamData){
         return irOrderFromService.orderFromMenu(orderFromMenuPageParamData);
     }
 

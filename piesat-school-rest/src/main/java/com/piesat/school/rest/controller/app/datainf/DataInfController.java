@@ -151,7 +151,7 @@ public class DataInfController{
     })
     @GetMapping("/download")
     public Result<Boolean> Download(Long dataId,HttpServletResponse response,Long userId) throws IOException {
-    
+
         DataInfVTO datainf = irDataInfService.getFilePath(dataId);
         Boolean isDownload = FileDownloadUtils.download(datainf,response);
 
