@@ -26,8 +26,6 @@ public interface OrderFromMapper extends BaseMapper<OrderFrom> {
 
     List<OrderFromVTO> orderFromMenu(@Param("orderFromMenuPageParamData") OrderFromMenuPageParamData orderFromMenuPageParamData, Page<OrderFromVTO> page);
 
-    OrderFromInfoVTO orderFromInfo(Long orderFromId);
-
     List<OrderFromAttentionVTO> attentionList(@Param("orderFromAttentionParamData") OrderFromAttentionParamData orderFromAttentionParamData, Page<OrderFromAttentionVTO> page);
 
     List<OrderFromHistoryDownLoadVTO> historyDownload(@Param("orderFromAttentionParamData") OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData, Page<OrderFromHistoryDownLoadVTO> page);

@@ -38,6 +38,8 @@ public class OrderFromVTO implements Serializable {
      */
     @ApiModelProperty(value = "对应数据名称")
     private String dataName;
+    @ApiModelProperty(value = "数据id")
+    private Long dataInfoId;
 
     /**
      * 图片地址
@@ -55,7 +57,7 @@ public class OrderFromVTO implements Serializable {
      * 订单说明
      */
     @ApiModelProperty(value = "订单说明")
-    private String declare;
+    private String mark;
 
     @ApiModelProperty(value = "数据所属开始时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
@@ -79,8 +81,12 @@ public class OrderFromVTO implements Serializable {
     /**
      * 数据量
      */
+    @ApiModelProperty(value = "数据大小")
     private String dataAmount;
-
+    @ApiModelProperty(value = "申请人名称")
+    private String downloadUserName;
+    @ApiModelProperty(value = "申请人工作单位")
+    private String downloadUserWorkUnit;
 
 
 }

@@ -23,17 +23,26 @@
             o.id,
             o.data_type,
             o.download_user_id,
+            o.data_info_id,
+            o.mark,
             d.data_name,
             d.pic,
             d.`status`,
             d.start_at,
             d.end_at,
             d.data_amount,
+        <if test="orderFromMenuPageParamData.auditorUserId!=null">
+            u.name as downloadUserName,
+            u.work_unit   as downloadUserWorkUnit,
+        </if>
             o.created_at,
             o.updated_at
         FROM
             t_order_from o
             LEFT JOIN t_data_inf d ON o.data_info_id = d.id
+        <if test="orderFromMenuPageParamData.auditorUserId!=null">
+            left join t_user u on o.download_user_id=u.id
+        </if>
         WHERE 1=1
         <if test="orderFromMenuPageParamData.auditorUserId!=null">
             and o.auditor_user_id = #{orderFromMenuPageParamData.auditorUserId}

@@ -206,8 +206,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     }
 
     @Override
-    public DataInfDetailVTO dataInfDetail(Long dataInfId) {
-        return datainfMapper.dataInfDetail(dataInfId);
+    public DataInfDetailVTO dataInfDetail(Long dataId) {
+        return datainfMapper.dataInfDetail(dataId);
     }
 
 

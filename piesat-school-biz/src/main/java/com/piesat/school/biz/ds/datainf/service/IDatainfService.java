@@ -45,7 +45,7 @@ public interface IDatainfService extends IService<Datainf> {
 
     Boolean uploadPic(String pic,Long dataId);
 
-    DataInfDetailVTO dataInfDetail(Long dataInfId);
+    DataInfDetailVTO dataInfDetail(Long dataId);
 
 
     DataInfVTO getFilePath(Long dataId);

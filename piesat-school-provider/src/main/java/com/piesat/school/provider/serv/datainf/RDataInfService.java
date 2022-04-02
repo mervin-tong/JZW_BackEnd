@@ -1,6 +1,7 @@
 package com.piesat.school.provider.serv.datainf;
 
 import com.baomidou.mybatisplus.extension.api.R;
+import com.piesat.school.biz.ds.datainf.facade.DataFacadeService;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.datainf.iservice.IRDataInfService;
 import com.piesat.school.datainf.param.*;
@@ -14,12 +15,15 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
 @DubboService
 public class RDataInfService implements IRDataInfService {
     @Autowired
     IDatainfService iDatainfService;
+    @Resource
+    private DataFacadeService dataFacadeService;
     @Override
     public Result<TailPage<DataInfListVTO>> getAllDatainf() {
         return Result.ofSuccess(iDatainfService.getAllDatainf());
@@ -74,8 +78,8 @@ public class RDataInfService implements IRDataInfService {
     }
 
     @Override
-    public Result<DataInfDetailVTO> dataInfDetailVTO(Long dataInfId) {
-        return Result.ofSuccess(iDatainfService.dataInfDetail(dataInfId));
+    public Result<DataInfDetailVTO> dataInfDetailVTO(DataDetailParamData paramData) {
+        return Result.ofSuccess(dataFacadeService.dataInfDetail(paramData));
     }
 
     @Override

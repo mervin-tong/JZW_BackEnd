@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 唐子超
@@ -47,7 +47,7 @@ public class OrderFrom implements Serializable {
     /**
      * 订单说明
      */
-    private String declare;
+    private String mark;
 
     /**
      * 对应数据编号

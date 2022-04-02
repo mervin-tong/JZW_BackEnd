@@ -18,6 +18,7 @@ import com.piesat.school.order.vto.OrderFromVTO;
 import com.smartwork.api.exception.SmartworkI18nException;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,7 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         page.setOptimizeCountSql(false);
         List<OrderFromVTO> list = orderFromMapper.orderFromMenu(orderFromMenuPageParamData, page);
         list.forEach(e->{
-            if(e.getUpdatedAt()!=null&&(new Date()).getTime()>(e.getUpdatedAt().getTime()+3*24*60*60*1000)){
+            if(e.getUpdatedAt()!=null&&(new Date()).getTime()>(e.getUpdatedAt().getTime()+3*24*60*60*1000)&&e.getDataType()==2){
                 e.setDataType(4l);
             }
         });
@@ -66,7 +67,7 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         orderFrom.setDataInfoId(orderFromParamData.getDataInfoId());
         orderFrom.setAuditorUserId(orderFromParamData.getAuditorUserId());
         orderFrom.setDownloadUserId(orderFromParamData.getDownloadUserId());
-        orderFrom.setDeclare(orderFromParamData.getDeclare());
+        orderFrom.setMark(orderFromParamData.getDeclare());
         orderFrom.setDataType(1L); //默认状态为审核中
         //如果数据是公开的则为已审核(通过)
         if(orderFromParamData.getStatus() == 1L){
@@ -77,7 +78,13 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
 
     @Override
     public OrderFromInfoVTO orderFromInfo(Long orderFromId) {
-        return orderFromMapper.orderFromInfo(orderFromId);
+        OrderFromInfoVTO orderFromInfoVTO=new OrderFromInfoVTO();
+        OrderFrom orderFrom=orderFromMapper.selectById(orderFromId);
+        BeanUtils.copyProperties(orderFrom,orderFromInfoVTO);
+        if(orderFrom.getUpdatedAt()!=null&&((new Date()).getTime()>(orderFrom.getUpdatedAt().getTime()+3*24*60*60*1000))&&orderFrom.getDataType()==2){
+            orderFromInfoVTO.setDataType(4l);
+        }
+        return orderFromInfoVTO;
     }
 
     @Override

@@ -137,5 +137,9 @@ public class DataInfDetailVTO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date endAt;
 
-
+    /**
+     * 数据审核状态（1.申请下载  2.同意下载 3.拒绝下载）
+     */
+    @ApiModelProperty(value = "数据审核状态，1.申请下载  2.同意下载 3.拒绝下载 4.已过期")
+    private Long dataType;
 }

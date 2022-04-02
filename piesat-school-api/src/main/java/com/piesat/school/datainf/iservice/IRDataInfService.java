@@ -24,7 +24,7 @@ public interface IRDataInfService {
     Result<TailPage<DataInfListVTO>> searchAll(SearchAllParamData searchAllParamData);
     Result<Boolean> uploadDataInf(String file,String amount, Long dataid) throws IOException;
     Result<Boolean> uploadPic(String pic , Long dataId);
-    Result<DataInfDetailVTO> dataInfDetailVTO(Long dataInfId);
+    Result<DataInfDetailVTO> dataInfDetailVTO(DataDetailParamData paramData);
 
     DataInfVTO getFilePath(Long dataId);
 

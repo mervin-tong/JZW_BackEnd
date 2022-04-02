@@ -29,7 +29,7 @@ import java.util.List;
 
 @Api(tags = "数据信息模块")
 @RestController
-@RequestMapping("/app/datainf")
+@RequestMapping("/app/dataInf")
 public class DataInfController{
     @DubboReference
     private IRDataInfService irDataInfService;
@@ -137,9 +137,9 @@ public class DataInfController{
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
             @ApiResponse(code=500,message="后台报错"),
     })
-    @GetMapping("/dataInfDetail")
-    public Result<DataInfDetailVTO> dataInfDetail(@RequestParam(value = "dataId",required = true) Long dataId){
-        return irDataInfService.dataInfDetailVTO(dataId);
+    @PostMapping("/dataInfDetail")
+    public Result<DataInfDetailVTO> dataInfDetail(DataDetailParamData paramData){
+        return irDataInfService.dataInfDetailVTO(paramData);
     }
     Boolean isAddDownCount;
 
