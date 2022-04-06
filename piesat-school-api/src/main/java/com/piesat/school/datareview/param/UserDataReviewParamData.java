@@ -12,5 +12,7 @@ import lombok.Data;
 public class UserDataReviewParamData extends PageQueryParamData {
     @ApiModelProperty(value = "用户id")
     private Long userJudgeId;
+    @ApiModelProperty(value = "是否评审")
+    private Boolean isAudit;
 
 }

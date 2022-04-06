@@ -47,6 +47,12 @@
             t_data_review dr
             LEFT JOIN t_data_inf di ON dr.data_id = di.id
             WHERE dr.user_judge_id = #{userDataReviewParamData.userJudgeId}
+            <if test="userDataReviewParamData.isAudit">
+                and (dr.status=1 or dr.status=2)
+            </if>
+            <if test="!userDataReviewParamData.isAudit">
+                and (dr.status=3 or dr.status=9)
+            </if>
     </select>
 
 </mapper>
