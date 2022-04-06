@@ -32,7 +32,7 @@ public class OrderFrom implements Serializable {
     /**
      * 数据状态（1.申请下载  2.同意下载 3.拒绝下载）
      */
-    private Long dataType;
+    private Integer dataType;
 
     /**
      * 下载用户
@@ -43,6 +43,8 @@ public class OrderFrom implements Serializable {
      * 审核人员
      */
     private Long auditorUserId;
+    @ApiModelProperty(value = "审核意见")
+    private String auditMark;
 
     /**
      * 订单说明

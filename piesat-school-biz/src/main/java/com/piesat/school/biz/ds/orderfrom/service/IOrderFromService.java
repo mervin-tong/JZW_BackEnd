@@ -2,10 +2,7 @@ package com.piesat.school.biz.ds.orderfrom.service;
 
 import com.piesat.school.biz.ds.orderfrom.entity.OrderFrom;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.piesat.school.order.param.OrderFromAttentionParamData;
-import com.piesat.school.order.param.OrderFromHistoryDownLoadParamData;
-import com.piesat.school.order.param.OrderFromMenuPageParamData;
-import com.piesat.school.order.param.OrderFromParamData;
+import com.piesat.school.order.param.*;
 import com.piesat.school.order.vto.OrderFromAttentionVTO;
 import com.piesat.school.order.vto.OrderFromHistoryDownLoadVTO;
 import com.piesat.school.order.vto.OrderFromInfoVTO;
@@ -33,4 +30,6 @@ public interface IOrderFromService extends IService<OrderFrom> {
     TailPage<OrderFromHistoryDownLoadVTO> historyDownload(OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData);
 
     Boolean orderfromDelete(String orderfromId);
+
+    OrderFromInfoVTO auditOrder(OrderAuditParamData paramData);
 }

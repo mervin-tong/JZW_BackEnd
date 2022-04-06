@@ -7,10 +7,7 @@ import com.piesat.school.biz.ds.orderfrom.mapper.OrderFromMapper;
 import com.piesat.school.biz.ds.orderfrom.service.IOrderFromService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.i18n.ResponseErrorCode;
-import com.piesat.school.order.param.OrderFromAttentionParamData;
-import com.piesat.school.order.param.OrderFromHistoryDownLoadParamData;
-import com.piesat.school.order.param.OrderFromMenuPageParamData;
-import com.piesat.school.order.param.OrderFromParamData;
+import com.piesat.school.order.param.*;
 import com.piesat.school.order.vto.OrderFromAttentionVTO;
 import com.piesat.school.order.vto.OrderFromHistoryDownLoadVTO;
 import com.piesat.school.order.vto.OrderFromInfoVTO;
@@ -18,15 +15,14 @@ import com.piesat.school.order.vto.OrderFromVTO;
 import com.smartwork.api.exception.SmartworkI18nException;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
+import org.mvel2.ast.Or;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
 
 /**
  * <p>
@@ -68,10 +64,10 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         orderFrom.setAuditorUserId(orderFromParamData.getAuditorUserId());
         orderFrom.setDownloadUserId(orderFromParamData.getDownloadUserId());
         orderFrom.setMark(orderFromParamData.getDeclare());
-        orderFrom.setDataType(1L); //默认状态为审核中
+        orderFrom.setDataType(1); //默认状态为审核中
         //如果数据是公开的则为已审核(通过)
         if(orderFromParamData.getStatus() == 1L){
-            orderFrom.setDataType(2L);
+            orderFrom.setDataType(2);
         }
         return OrderFromBulider.toOrderFromVTO(orderFrom);
     }
@@ -123,5 +119,21 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
 
 
 
+    }
+
+    @Override
+    public OrderFromInfoVTO auditOrder(OrderAuditParamData paramData) {
+        OrderFromInfoVTO vto=new OrderFromInfoVTO();
+        if(paramData.getOrderId()!=null){
+            OrderFrom orderFrom=this.orderFromMapper.selectById(paramData.getOrderId());
+            if(orderFrom!=null){
+                orderFrom.setAuditMark(paramData.getAuditMark());
+                orderFrom.setUpdatedAt(new Date());
+                orderFrom.setDataType(paramData.getAuditStatus());
+                this.orderFromMapper.updateById(orderFrom);
+                BeanUtils.copyProperties(orderFrom,vto);
+            }
+        }
+        return vto;
     }
 }

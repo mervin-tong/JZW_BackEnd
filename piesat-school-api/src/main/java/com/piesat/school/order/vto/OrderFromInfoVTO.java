@@ -55,6 +55,8 @@ public class OrderFromInfoVTO implements Serializable {
      */
     @ApiModelProperty(value = "订单说明")
     private String mark;
+    @ApiModelProperty(value = "审核意见")
+    private String auditMark;
     @ApiModelProperty(value = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date updatedAt;

@@ -31,4 +31,6 @@ public interface IROrderFromService {
     Result<Boolean> checkAttentionDatainf(Long checkUserId, Long checkDataId);
 
     Result<Boolean> orderfromDelete(String orderfromId);
+
+    Result<OrderFromInfoVTO> auditOrder(OrderAuditParamData paramData);
 }

@@ -80,4 +80,9 @@ public class ROrderFromService implements IROrderFromService {
     public Result<Boolean> orderfromDelete(String orderfromId) {
         return Result.ofSuccess(iOrderFromService.orderfromDelete(orderfromId));
     }
+
+    @Override
+    public Result<OrderFromInfoVTO> auditOrder(OrderAuditParamData paramData) {
+        return Result.ofSuccess(iOrderFromService.auditOrder(paramData));
+    }
 }

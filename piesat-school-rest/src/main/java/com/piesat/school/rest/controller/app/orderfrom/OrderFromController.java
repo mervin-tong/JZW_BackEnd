@@ -145,6 +145,11 @@ public class OrderFromController {
         return irOrderFromService.orderfromDelete(orderfromId);
     }
 
+    @PostMapping("/auditOrder")
+    public Result<OrderFromInfoVTO> auditOrder(OrderAuditParamData paramData){
+        return irOrderFromService.auditOrder(paramData);
+    }
+
 
 
 
