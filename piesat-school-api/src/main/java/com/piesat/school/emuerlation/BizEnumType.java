@@ -552,4 +552,52 @@ public interface BizEnumType {
 			this.name = name;
 		}
 	}
+
+	/**
+	 * 资讯类别
+	 */
+	enum InformationType  {
+		Web(1, "YGC平台"),
+		DataDynamic(2, "数据动态"),
+		Important(3,"主要通知")
+		;
+		static Map<Integer, InformationType> allTypes;
+		private Integer key;
+		private String name;
+
+		InformationType(Integer key, String name) {
+			this.key = key;
+			this.name = name;
+		}
+
+		public Integer getKey() {
+			return key;
+		}
+
+		public void setKey(Integer key) {
+			this.key = key;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public static InformationType fromKey(Integer key) {
+			if (key == null) return null;
+			return allTypes.get(key);
+		}
+
+		static {
+			allTypes = new HashMap<>();
+			InformationType[] types = values();
+			for (InformationType type : types) {
+				allTypes.put(type.getKey(), type);
+			}
+		}
+
+	}
 }
