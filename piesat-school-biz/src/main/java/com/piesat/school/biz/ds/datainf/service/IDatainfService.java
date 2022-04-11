@@ -58,4 +58,5 @@ public interface IDatainfService extends IService<Datainf> {
 
     Boolean delTopicData(Long topicId, Long dataId);
 
+    List<MyDataInfVTO> dataList(DataQueryParamData paramData);
 }

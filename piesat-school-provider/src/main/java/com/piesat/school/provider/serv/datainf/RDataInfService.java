@@ -96,4 +96,9 @@ public class RDataInfService implements IRDataInfService {
     public Boolean addhistory(Long dataId, Long userId) {
         return iDatainfService.addhistory(dataId,userId);
     }
+
+    @Override
+    public Result<List<MyDataInfVTO>> dataList(DataQueryParamData paramData) {
+        return Result.ofSuccess(iDatainfService.dataList(paramData));
+    }
 }

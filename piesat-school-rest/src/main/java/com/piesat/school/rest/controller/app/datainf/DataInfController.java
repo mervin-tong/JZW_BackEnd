@@ -37,7 +37,7 @@ public class DataInfController{
     @GetMapping("/dataMenu")
     public Result<TailPage<DataInfListVTO>> getAllDataInf(){return irDataInfService.getAllDatainf();}
 
-    @ApiOperation(value = "新增数据")
+    @ApiOperation(value = "我的数据")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
@@ -47,7 +47,19 @@ public class DataInfController{
     public Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId){
         return irDataInfService.myDataMenu(userId);
     }
-    @ApiOperation(value = "我的数据")
+
+    @ApiOperation(value = "会员数据列表")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @PostMapping("/dataList")
+    public Result<List<MyDataInfVTO>> dataList(DataQueryParamData paramData){
+        return irDataInfService.dataList(paramData);
+    }
+
+    @ApiOperation(value = "新增数据")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),

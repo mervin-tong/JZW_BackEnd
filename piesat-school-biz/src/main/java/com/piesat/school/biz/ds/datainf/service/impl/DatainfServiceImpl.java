@@ -1,5 +1,6 @@
 package com.piesat.school.biz.ds.datainf.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.common.helper.BizCommonValidateHelper;
@@ -16,7 +17,10 @@ import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
 import com.piesat.school.biz.ds.orderfrom.entity.HistoryDownload;
 import com.piesat.school.biz.ds.orderfrom.mapper.HistoryDownloadMapper;
 
+import com.piesat.school.biz.ds.user.entity.User;
+import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.biz.ds.user.service.IRoleService;
+import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.datainf.param.DataInfListParamData;
 
 import com.piesat.school.datainf.param.DataInfSaveParamData;
@@ -41,6 +45,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -66,6 +71,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     private IRoleService iRoleService;
     @Resource
     private IDataReviewService iDataReviewService;
+    @Resource
+    private UserMapper userMapper;
 
     @Override
     public TailPage<DataInfListVTO> getAllDatainf() {
@@ -262,5 +269,25 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             return this.updateById(datainf);
         }
         return Boolean.FALSE;
+    }
+
+    @Override
+    public List<MyDataInfVTO> dataList(DataQueryParamData paramData) {
+        QueryWrapper<Datainf> queryWrapper=new QueryWrapper<>();
+        if(paramData.getAuditStatus()!=null){
+            queryWrapper.eq("through_review",paramData.getAuditStatus());
+        }
+        if(paramData.getPublisher()!=null){
+            queryWrapper.eq("upload_user_id",paramData.getPublisher());
+        }
+        List<Datainf> dataInfos=this.list(queryWrapper);
+
+        List<MyDataInfVTO> myDataInfVTOS=new ArrayList<>();
+        if(dataInfos.size()>0){
+            List<Long> userIds=dataInfos.stream().map(Datainf::getUploadUserId).collect(Collectors.toList());
+            List<User> users=this.userMapper.selectBatchIds(userIds);
+            myDataInfVTOS=DatainfBuilder.toMyDataInfVTOs(dataInfos,users);
+        }
+        return myDataInfVTOS;
     }
 }

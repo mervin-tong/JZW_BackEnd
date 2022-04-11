@@ -31,4 +31,6 @@ public interface IRDataInfService {
     Boolean addDownCount(int downCount,Long dataId);
 
     Boolean addhistory(Long dataId,Long userId);
+
+    Result<List<MyDataInfVTO>> dataList(DataQueryParamData paramData);
 }

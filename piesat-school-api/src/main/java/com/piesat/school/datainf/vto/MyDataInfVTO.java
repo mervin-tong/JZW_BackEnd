@@ -26,6 +26,8 @@ public class MyDataInfVTO implements Serializable {
     @ApiModelProperty(value = "上传人id")
     private Long uploadUserId;
 
+    @ApiModelProperty(value = "上传人姓名")
+    private String uploadUserName;
     @ApiModelProperty(value = "审核状态")
     private Integer throughReview;
 }
