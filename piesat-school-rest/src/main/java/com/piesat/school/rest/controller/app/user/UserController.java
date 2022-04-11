@@ -4,6 +4,7 @@ import com.piesat.school.rest.constants.DubboConstant;
 import com.piesat.school.security.handler.CustomizeAuthenticationFailureHandler;
 import com.piesat.school.user.iservice.IRUserService;
 import com.piesat.school.user.param.ForgetPasswordParamData;
+import com.piesat.school.user.param.UpdatePasswordParamData;
 import com.piesat.school.user.param.UpdateUserParamData;
 import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.UserListVTO;
@@ -161,5 +162,18 @@ public class UserController {
     @PostMapping("updateUser")
     public Result<UserVTO> updateUser(UpdateUserParamData paramData){
         return irUserService.updateUser(paramData);
+    }
+
+    @ApiOperation(value = "修改密码")
+    @ApiResponses({
+            @ApiResponse(code=0,message="修改成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+            @ApiResponse(code=4401,message="原密码错误"),
+            @ApiResponse(code=4402,message="密码修改失败"),
+    })
+    @PostMapping("updatePassword")
+    public Result<Boolean> updatePassword(UpdatePasswordParamData paramData){
+        return irUserService.updatePassword(paramData);
     }
 }

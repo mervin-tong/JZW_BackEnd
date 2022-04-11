@@ -7,9 +7,11 @@ import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.piesat.school.user.param.UpdatePasswordParamData;
 import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
+import com.smartwork.api.Result;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -77,5 +79,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             listVTOS.add(UserBuilder.toUserListVTO(user));
         }
         return listVTOS;
+    }
+    //根据用户id修改密码
+    @Override
+    public Result<Boolean> updatePassword(UpdatePasswordParamData paramData) {
+        User user=userMapper.selectById(paramData.getId());
+        if(!passwordEncoder.matches(paramData.getFormerPassword(), user.getPassword())){
+            return Result.ofFail("4401","原密码错误");
+        }
+        user.setPassword(passwordEncoder.encode(paramData.getFormerPassword()));
+        int i=userMapper.updateById(user);
+        if(i==1) {
+            return Result.ofSuccess(Boolean.TRUE);
+        }else {
+            return Result.ofFail("4402", "密码修改失败");
+        }
     }
 }
