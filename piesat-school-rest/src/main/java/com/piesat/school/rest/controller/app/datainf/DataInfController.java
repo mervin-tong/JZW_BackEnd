@@ -120,29 +120,18 @@ public class DataInfController{
     public Result<TailPage<DataInfListVTO>> searchAll(@RequestBody SearchAllParamData searchAllParamData){
         return irDataInfService.searchAll(searchAllParamData);
     }
-    @ApiOperation(value = "上传文件")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
-    @PostMapping("/uploadData")
-    public Result<Boolean> uploadDataInf(MultipartFile file, @RequestParam(value = "dataId",required = true) Long dataId) throws Exception {
-        String fileLocation = FileUploadUtils.upload(file);
-        String amount = FileUtils.getAmount(file.getSize());
-        return irDataInfService.uploadDataInf(fileLocation,amount,dataId);
-    }
-    @ApiOperation(value = "上传缩略图")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
-    @PostMapping("/uploadPic")
-    public Result<Boolean> uploadPic(MultipartFile picture, Long dataId) throws IOException {
-        String pic = FileUploadUtils.uploadPicture(picture);
-        return irDataInfService.uploadPic(pic, dataId);
-    }
+
+//    @ApiOperation(value = "上传缩略图")
+//    @ApiResponses({
+//            @ApiResponse(code=0,message="访问成功"),
+//            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+//            @ApiResponse(code=500,message="后台报错"),
+//    })
+//    @PostMapping("/uploadPic")
+//    public Result<Boolean> uploadPic(MultipartFile picture, Long dataId) throws IOException {
+//        String pic = FileUploadUtils.uploadPicture(picture);
+//        return irDataInfService.uploadPic(pic, dataId);
+//    }
     @ApiOperation(value = "数据详情")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),

@@ -66,16 +66,16 @@ public class RDataInfService implements IRDataInfService {
     }
 
 
-    @Override
+//    @Override
+//
+//    public Result<Boolean> uploadDataInf(String file,String amount) throws IOException {
+//        return Result.ofSuccess(iDatainfService.uploadDataInf(file,amount));
+//    }
 
-    public Result<Boolean> uploadDataInf(String file,String amount, Long dataid) throws IOException {
-        return Result.ofSuccess(iDatainfService.uploadDataInf(file,amount,dataid));
-    }
-
-    @Override
-    public Result<Boolean> uploadPic(String pic, Long dataId) {
-        return Result.ofSuccess(iDatainfService.uploadPic(pic,dataId));
-    }
+//    @Override
+//    public Result<Boolean> uploadPic(String pic, Long dataId) {
+//        return Result.ofSuccess(iDatainfService.uploadPic(pic,dataId));
+//    }
 
     @Override
     public Result<DataInfDetailVTO> dataInfDetailVTO(DataDetailParamData paramData) {

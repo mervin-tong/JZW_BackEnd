@@ -191,15 +191,16 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
     //上传文件
     @Override
-    public Boolean uploadDataInf(String file,String amount, Long dataId) throws IOException {
-        if(dataId == null || file == null || amount == null){
+    public Boolean uploadDataInf(String file,String amount) throws IOException {
+        if(file == null || amount == null){
             return Boolean.FALSE;
         }
-        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
+//        Datainf datainf = BizCommonValidateHelper.valdiateGetById(this);
 //        String fileLocation = FileUploadUtils.upload(file);
-        datainf.setContent(file);
-        datainf.setDataAmount(amount);
-        return this.updateById(datainf);
+//        datainf.setContent(file);
+//        datainf.setDataAmount(amount);
+//        return this.updateById(datainf);
+        return Boolean.TRUE;
     }
 
     @Override

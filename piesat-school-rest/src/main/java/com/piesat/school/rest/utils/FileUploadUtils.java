@@ -14,7 +14,7 @@ public class FileUploadUtils {
     /**
      * 默认大小 4G
      */
-    public static final long DEFAULT_MAX_SIZE = 4 * 1024 * 1024 * 1024;
+    public static final long DEFAULT_MAX_SIZE = 4 * 1024 * 1024 * 1024*1000;
 
     /**
      * 默认的图片的大小 5M
@@ -30,7 +30,7 @@ public class FileUploadUtils {
     /**
      * 默认上传的地址
      */
-    private static String DEFAULT_BASE_FILE = "upload";
+    private static String DEFAULT_BASE_FILE = "../upload";
 
     /**
      * 默认上传的图片地址
@@ -102,7 +102,7 @@ public class FileUploadUtils {
         String fileName = encodingFileName(file);
 
         File desc = getAbsoluteFile(baseDir, fileName);
-        file.transferTo(desc);
+        file.transferTo(desc.getAbsoluteFile());
         return desc.getAbsolutePath();
     }
 
@@ -142,7 +142,34 @@ public class FileUploadUtils {
         String datePath = simpleDateFormat.format(new Date());
         return datePath + "-" + UUID.randomUUID().toString() + "." + getExtension(file);
     }
-
+    /**
+     * 判断文件大小
+     *
+     * @param len
+     *            文件size
+     * @param size
+     *            限制大小
+     * @param unit
+     *            限制单位（B,K,M,G）
+     * @return
+     */
+    public static boolean checkFileSize(Long len, int size, String unit) {
+//        long len = file.length();
+        double fileSize = 0;
+        if ("B".equals(unit.toUpperCase())) {
+            fileSize = (double) len;
+        } else if ("K".equals(unit.toUpperCase())) {
+            fileSize = (double) len / 1024;
+        } else if ("M".equals(unit.toUpperCase())) {
+            fileSize = (double) len / 1048576;
+        } else if ("G".equals(unit.toUpperCase())) {
+            fileSize = (double) len / 1073741824;
+        }
+        if (fileSize > size) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * 文件合法性校验
@@ -162,7 +189,7 @@ public class FileUploadUtils {
         }
 
         long size = file.getSize();
-        if (size > DEFAULT_MAX_SIZE) {
+        if(!checkFileSize(size,4,"G")){
             throw new Exception("文件过大");
         }
 
