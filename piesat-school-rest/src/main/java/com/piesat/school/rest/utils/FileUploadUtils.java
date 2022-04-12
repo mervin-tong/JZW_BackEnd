@@ -103,7 +103,7 @@ public class FileUploadUtils {
 
         File desc = getAbsoluteFile(baseDir, fileName);
         file.transferTo(desc.getAbsoluteFile());
-        return desc.getAbsolutePath();
+        return desc.getCanonicalPath();
     }
 
     public static final String uploadPicture(String baseDir, MultipartFile file, String[] allowedExtension)

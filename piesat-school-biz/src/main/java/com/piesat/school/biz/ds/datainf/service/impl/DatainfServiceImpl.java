@@ -97,26 +97,27 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     public DataInfVTO saveDataInf(DataInfSaveParamData paramData) {
         Datainf datainf = new Datainf();
         if(paramData.getUploadUserId() != null) {
+            BeanUtils.copyProperties(paramData,datainf);
+//            datainf.setDataName(paramData.getDataName());
+//            datainf.setMaker(paramData.getMaker());
+//            datainf.setDoi(paramData.getDoi());
+//            datainf.setDataUnit(paramData.getDataUnit());
+//            datainf.setAddress(paramData.getAddress());
+//            datainf.setDoi(paramData.getDoi());
+//            datainf.setMeas(paramData.getMeas());
+//            datainf.setIntroduction(paramData.getIntroduction());
+//            datainf.setOrigin(paramData.getOrigin());
+//            datainf.setSolution(paramData.getSolution());
+//            datainf.setRatio(paramData.getRatio());
+//            datainf.setStartAt(paramData.getStartAt());
+//            datainf.setStatus(paramData.getStatus());
+//            datainf.setEndAt(paramData.getEndAt());
+//            datainf.setFirstClass(paramData.getFirstClass());
+//            datainf.setSecClass(paramData.getSecClass());
+//            datainf.setKeyword(paramData.getKeyword());
 
-            datainf.setDataName(paramData.getDataName());
-            datainf.setMaker(paramData.getMaker());
-            datainf.setDoi(paramData.getDoi());
-            datainf.setDataUnit(paramData.getDataUnit());
-            datainf.setAddress(paramData.getAddress());
-            datainf.setDoi(paramData.getDoi());
-            datainf.setMeas(paramData.getMeas());
-            datainf.setIntroduction(paramData.getIntroduction());
-            datainf.setOrigin(paramData.getOrigin());
-            datainf.setSolution(paramData.getSolution());
-            datainf.setRatio(paramData.getRatio());
-            datainf.setStartAt(paramData.getStartAt());
-            datainf.setStatus(paramData.getStatus());
-            datainf.setEndAt(paramData.getEndAt());
-            datainf.setFirstClass(paramData.getFirstClass());
-            datainf.setSecClass(paramData.getSecClass());
-            datainf.setKeyword(paramData.getKeyword());
             datainf.setThroughReview(BizEnumType.ThroughReview.NOTPASS.getKey());
-            datainf.setUploadUserId(paramData.getUploadUserId());
+//            datainf.setUploadUserId(paramData.getUploadUserId());
             datainf.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
             //        BeanUtils.copyProperties(datainf,paramData);
             Contact contact = new Contact();

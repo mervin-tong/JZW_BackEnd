@@ -70,5 +70,12 @@ public class DataInfSaveParamData implements Serializable {
 
     @ApiModelProperty(value = "上传人id")
     private Long uploadUserId;
+    @ApiModelProperty(value = "资源地址")
+    private String content;
+    @ApiModelProperty(value = "资源大小")
+    private String dataAmount;
+    @ApiModelProperty(value = "缩略图地址")
+    private String pic;
+
 
 }
