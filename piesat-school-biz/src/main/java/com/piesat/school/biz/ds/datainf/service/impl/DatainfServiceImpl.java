@@ -34,6 +34,7 @@ import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -96,48 +97,113 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     @Override
     public DataInfVTO saveDataInf(DataInfSaveParamData paramData) {
         Datainf datainf = new Datainf();
-        if(paramData.getUploadUserId() != null) {
-            BeanUtils.copyProperties(paramData,datainf);
-//            datainf.setDataName(paramData.getDataName());
-//            datainf.setMaker(paramData.getMaker());
-//            datainf.setDoi(paramData.getDoi());
-//            datainf.setDataUnit(paramData.getDataUnit());
-//            datainf.setAddress(paramData.getAddress());
-//            datainf.setDoi(paramData.getDoi());
-//            datainf.setMeas(paramData.getMeas());
-//            datainf.setIntroduction(paramData.getIntroduction());
-//            datainf.setOrigin(paramData.getOrigin());
-//            datainf.setSolution(paramData.getSolution());
-//            datainf.setRatio(paramData.getRatio());
-//            datainf.setStartAt(paramData.getStartAt());
-//            datainf.setStatus(paramData.getStatus());
-//            datainf.setEndAt(paramData.getEndAt());
-//            datainf.setFirstClass(paramData.getFirstClass());
-//            datainf.setSecClass(paramData.getSecClass());
-//            datainf.setKeyword(paramData.getKeyword());
-
-            datainf.setThroughReview(BizEnumType.ThroughReview.NOTPASS.getKey());
-//            datainf.setUploadUserId(paramData.getUploadUserId());
-            datainf.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
-            //        BeanUtils.copyProperties(datainf,paramData);
+        if(paramData.getId()!=null){
+            datainf=datainfMapper.selectById(paramData.getId());
+            if(StringUtils.isNotBlank(paramData.getDoi())){
+                datainf.setDoi(paramData.getDoi());
+            }
+            if(StringUtils.isNotBlank(paramData.getAddress())){
+                datainf.setAddress(paramData.getAddress());
+            }
+            if(StringUtils.isNotBlank(paramData.getDataName())){
+                datainf.setDataName(paramData.getDataName());
+            }
+            if(StringUtils.isNotBlank(paramData.getDataUnit())){
+                datainf.setDataUnit(paramData.getDataUnit());
+            }
+            if(StringUtils.isNotBlank(paramData.getFirstClass())){
+                datainf.setFirstClass(paramData.getFirstClass());
+            }
+            if(StringUtils.isNotBlank(paramData.getIntroduction())){
+                datainf.setIntroduction(paramData.getIntroduction());
+            }
+            if(StringUtils.isNotBlank(paramData.getKeyword())){
+                datainf.setKeyword(paramData.getKeyword());
+            }
+            if(StringUtils.isNotBlank(paramData.getMaker())){
+                datainf.setMaker(paramData.getMaker());
+            }
+            if(StringUtils.isNotBlank(paramData.getMeas())){
+                datainf.setMeas(paramData.getMeas());
+            }
+            if(StringUtils.isNotBlank(paramData.getOrigin())){
+                datainf.setOrigin(paramData.getOrigin());
+            }
+            if(StringUtils.isNotBlank(paramData.getRatio())){
+                datainf.setRatio(paramData.getRatio());
+            }
+            if(StringUtils.isNotBlank(paramData.getSecClass())){
+                datainf.setSecClass(paramData.getSecClass());
+            }
+            if(StringUtils.isNotBlank(paramData.getSolution())){
+                datainf.setSolution(paramData.getSolution());
+            }
+            if(StringUtils.isNotBlank(paramData.getContent())){
+                datainf.setContent(paramData.getContent());
+            }
+            if(StringUtils.isNotBlank(paramData.getDataAmount())){
+                datainf.setDataAmount(paramData.getDataAmount());
+            }
+            if(StringUtils.isNotBlank(paramData.getPic())){
+                datainf.setPic(paramData.getPic());
+            }
+            if(StringUtils.isNotBlank(paramData.getLeftUp())){
+                datainf.setLeftUp(paramData.getLeftUp());
+            }
+            if(StringUtils.isNotBlank(paramData.getRightDown())){
+                datainf.setRightDown(paramData.getRightDown());
+            }
             Contact contact = new Contact();
-            BeanUtils.copyProperties(contact, paramData.getContact());
-            contactMapper.insert(contact);
-            datainf.setConId(contact.getId());
-            boolean saveDatainf = this.save(datainf);
-            if (saveDatainf){
-                DataReview dataReview = new DataReview();
-                dataReview.setDataId(datainf.getId());
-                dataReview.setStatus(BizEnumType.ReviewStatus.TOREVIEW.getKey());
-                dataReview.setAdminJudgeId(BizEnumType.Default.NULL.getKey());
-                dataReview.setUserJudgeId(BizEnumType.Default.NULL.getKey());
-                dataReview.setCreatedAt(new Date());
-                if (iRoleService.isEGCAdmin(datainf.getUploadUserId())){
-                    dataReview.setStatus(BizEnumType.ReviewStatus.FIRSTREVIEWPASS.getKey());
+            if(datainf.getConId()!=null){
+                contact=contactMapper.selectById(datainf.getConId());
+            }
+            if(StringUtils.isNotBlank(paramData.getContact().getAddress())){
+                contact.setConAddress(paramData.getContact().getAddress());
+            }
+            if(StringUtils.isNotBlank(paramData.getContact().getConName())){
+                contact.setConName(paramData.getContact().getConName());
+            }
+            if(StringUtils.isNotBlank(paramData.getContact().getEmail())){
+                contact.setEmail(paramData.getContact().getEmail());
+            }
+            if(StringUtils.isNotBlank(paramData.getContact().getMobile())){
+                contact.setMobile(paramData.getContact().getMobile());
+            }
+            if(StringUtils.isNotBlank(paramData.getContact().getUnit())){
+                contact.setConUnit(paramData.getContact().getUnit());
+            }
+            if(datainf.getConId()!=null){
+                contactMapper.updateById(contact);
+            }else {
+                contactMapper.insert(contact);
+                datainf.setConId(contact.getId());
+            }
+            datainfMapper.updateById(datainf);
+        }else{
+            if(paramData.getUploadUserId() != null) {
+                BeanUtils.copyProperties(paramData,datainf);
+                datainf.setThroughReview(BizEnumType.ThroughReview.NOTPASS.getKey());
+                datainf.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
+                Contact contact = new Contact();
+                BeanUtils.copyProperties(contact, paramData.getContact());
+                contactMapper.insert(contact);
+                datainf.setConId(contact.getId());
+                boolean saveDatainf = this.save(datainf);
+                if (saveDatainf){
+                    DataReview dataReview = new DataReview();
+                    dataReview.setDataId(datainf.getId());
+                    dataReview.setStatus(BizEnumType.ReviewStatus.TOREVIEW.getKey());
+                    dataReview.setAdminJudgeId(BizEnumType.Default.NULL.getKey());
+                    dataReview.setUserJudgeId(BizEnumType.Default.NULL.getKey());
+                    dataReview.setCreatedAt(new Date());
+                    if (iRoleService.isEGCAdmin(datainf.getUploadUserId())){
+                        dataReview.setStatus(BizEnumType.ReviewStatus.FIRSTREVIEWPASS.getKey());
+                    }
+                    iDataReviewService.createReview(dataReview);
                 }
-                iDataReviewService.createReview(dataReview);
             }
         }
+
         return DatainfBuilder.toDataInfVto(datainf);
     }
 

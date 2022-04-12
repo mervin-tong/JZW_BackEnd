@@ -2,6 +2,7 @@ package com.piesat.school.biz.ds.datainf.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -164,5 +165,8 @@ public class Datainf implements Serializable {
      */
     private Integer deleted;
 
-
+    @ApiModelProperty(value = "左上坐标")
+    private String leftUp;
+    @ApiModelProperty(value = "右下坐标")
+    private String rightDown;
 }

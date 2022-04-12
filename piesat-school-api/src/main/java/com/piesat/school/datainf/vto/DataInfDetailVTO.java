@@ -142,4 +142,9 @@ public class DataInfDetailVTO implements Serializable {
      */
     @ApiModelProperty(value = "数据审核状态，1.申请下载  2.同意下载 3.拒绝下载 4.已过期")
     private Long dataType;
+
+    @ApiModelProperty(value = "经度")
+    private String longitude;
+    @ApiModelProperty(value = "纬度")
+    private String latitude;
 }

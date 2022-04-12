@@ -59,14 +59,14 @@ public class DataInfController{
         return irDataInfService.dataList(paramData);
     }
 
-    @ApiOperation(value = "新增数据")
+    @ApiOperation(value = "新增/修改数据")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
             @ApiResponse(code=500,message="后台报错"),
     })
     @PostMapping("/save")
-    public Result<DataInfVTO> saveDataInf(@RequestBody DataInfSaveParamData paramData){
+    public Result<DataInfVTO> saveDataInf(DataInfSaveParamData paramData){
         return irDataInfService.saveDataInf(paramData);
     }
     @ApiOperation(value = "逻辑删除数据")

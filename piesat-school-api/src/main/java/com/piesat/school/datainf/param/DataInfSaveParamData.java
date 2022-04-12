@@ -14,6 +14,8 @@ import java.util.List;
 
 @Data
 public class DataInfSaveParamData implements Serializable {
+    @ApiModelProperty(value = "数据id")
+    private Long id;
 
     @ApiModelProperty(value = "数据名")
     private String dataName;
@@ -76,6 +78,9 @@ public class DataInfSaveParamData implements Serializable {
     private String dataAmount;
     @ApiModelProperty(value = "缩略图地址")
     private String pic;
-
+    @ApiModelProperty(value = "左上坐标")
+    private String leftUp;
+    @ApiModelProperty(value = "右下坐标")
+    private String rightDown;
 
 }

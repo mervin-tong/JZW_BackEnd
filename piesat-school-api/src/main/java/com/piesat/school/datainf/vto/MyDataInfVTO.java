@@ -30,4 +30,8 @@ public class MyDataInfVTO implements Serializable {
     private String uploadUserName;
     @ApiModelProperty(value = "审核状态")
     private Integer throughReview;
+    @ApiModelProperty(value = "数据名称")
+    private String dataName;
+    @ApiModelProperty(value = "数据量")
+    private String dataAmount;
 }

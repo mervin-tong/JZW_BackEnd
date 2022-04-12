@@ -131,8 +131,29 @@
     </select>
     <select id="dataInfDetail" parameterType="long" resultType="com.piesat.school.datainf.vto.DataInfDetailVTO">
         select
-            a.data_name,a.data_unit,a.maker,a.address,a.keyword,a.doi,a.first_class,a.sec_class,
-            a.introduction,a.meas,a.`status`,a.start_at,a.solution,a.origin,a.end_at,a.ratio,b.con_name,b.con_address,b.email,b.mobile,b.con_unit
+            a.data_name,
+            a.data_unit,
+            a.maker,
+            a.address,
+            a.keyword,
+            a.doi,
+            a.first_class,
+            a.sec_class,
+            a.introduction,
+            a.meas,
+            a.`status`,
+            a.start_at,
+            a.solution,
+            a.origin,
+            a.end_at,
+            a.ratio,
+            b.con_name,
+            b.con_address,
+            b.email,
+            b.mobile,
+            b.con_unit,
+            a.left_up;
+            a.right_down;
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
         where (a.id = #{dataInfId} AND a.deleted = 1)
