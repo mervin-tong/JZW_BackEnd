@@ -1,7 +1,7 @@
 package com.piesat.school.biz.ds.datainf.facade;
 
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
-import com.piesat.school.biz.ds.orderfrom.service.IOrderFromService;
+import com.piesat.school.biz.ds.order.service.IOrderFromService;
 import com.piesat.school.datainf.param.DataDetailParamData;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.order.vto.OrderFromInfoVTO;

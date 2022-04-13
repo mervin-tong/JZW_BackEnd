@@ -14,14 +14,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
 import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
 import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
-import com.piesat.school.biz.ds.orderfrom.entity.HistoryDownload;
-import com.piesat.school.biz.ds.orderfrom.mapper.HistoryDownloadMapper;
+import com.piesat.school.biz.ds.order.entity.HistoryDownload;
+import com.piesat.school.biz.ds.order.mapper.HistoryDownloadMapper;
 
 import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.biz.ds.user.service.IRoleService;
-import com.piesat.school.biz.ds.user.service.IUserService;
-import com.piesat.school.datainf.param.DataInfListParamData;
 
 import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
@@ -42,7 +40,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.*;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

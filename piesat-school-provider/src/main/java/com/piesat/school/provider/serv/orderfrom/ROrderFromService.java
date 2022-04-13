@@ -1,7 +1,7 @@
 package com.piesat.school.provider.serv.orderfrom;
 
-import com.piesat.school.biz.ds.orderfrom.service.IAttentionService;
-import com.piesat.school.biz.ds.orderfrom.service.IOrderFromService;
+import com.piesat.school.biz.ds.order.service.IAttentionService;
+import com.piesat.school.biz.ds.order.service.IOrderFromService;
 import com.piesat.school.order.iservice.IROrderFromService;
 import com.piesat.school.order.param.OrderFromAttentionParamData;
 import com.piesat.school.order.param.OrderFromHistoryDownLoadParamData;
