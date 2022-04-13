@@ -30,9 +30,8 @@ public class TopicDataController {
             @ApiResponse(code=500,message="后台报错"),
     })
     @PostMapping("/saveTopic")
-    public Result<TopicDataVTO> saveTopic(@RequestBody TopicDataSaveParamData topicDataSaveParamData,MultipartFile picture) throws IOException {
-        String pictureLocation = FileUploadUtils.uploadPicture(picture);
-        return irTopicDataService.saveTopic(topicDataSaveParamData,pictureLocation);
+    public Result<TopicDataVTO> saveTopic(TopicDataSaveParamData topicDataSaveParamData) throws IOException {
+        return irTopicDataService.saveTopic(topicDataSaveParamData);
     }
 //    @ApiOperation(value = "上传专题图片")
 //    public Result<Boolean> uploadTopicPicture(MultipartFile file, Long id){
@@ -48,16 +47,7 @@ public class TopicDataController {
     public Result<Boolean> addTopicData( Long topicId, Long dataId){
         return irTopicDataService.addTopicData(topicId,dataId);
     }
-    @ApiOperation(value = "删除专题数据")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
-    @PostMapping("/delTopicData")
-    public Result<Boolean> delTopicData(Long topicId, Long dataId){
-        return irTopicDataService.delTopicData(topicId, dataId);
-    }
+
     @ApiOperation(value = "专题详情")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),

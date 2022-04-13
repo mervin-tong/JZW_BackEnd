@@ -14,9 +14,8 @@ import java.util.List;
  */
 
 public interface IRTopicDataService {
-    Result<TopicDataVTO> saveTopic(TopicDataSaveParamData topicDataSaveParamData,String pitcureLocation);
+    Result<TopicDataVTO> saveTopic(TopicDataSaveParamData topicDataSaveParamData);
     Result<Boolean> addTopicData(Long topicId,Long dataId);
-    Result<Boolean> delTopicData(Long topicId,Long dataId);
     Result<List<TopicDataDetailVTO>> detailTopic(Long topicId);
     Result<List<TopicDataVTO>> getAllTopic();
     Result<TopicDataVTO> indexDetailTopic(Long topicId);

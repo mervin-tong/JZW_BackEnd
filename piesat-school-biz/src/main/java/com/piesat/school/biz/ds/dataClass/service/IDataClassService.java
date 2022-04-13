@@ -1,6 +1,6 @@
-package com.piesat.school.biz.ds.dataClass.service;
+package com.piesat.school.biz.ds.dataclass.service;
 
-import com.piesat.school.biz.ds.dataClass.entity.DataClass;
+import com.piesat.school.biz.ds.dataclass.entity.DataClass;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

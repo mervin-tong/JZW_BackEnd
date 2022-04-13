@@ -1,6 +1,6 @@
-package com.piesat.school.biz.ds.dataClass.mapper;
+package com.piesat.school.biz.ds.dataclass.mapper;
 
-import com.piesat.school.biz.ds.dataClass.entity.DataClass;
+import com.piesat.school.biz.ds.dataclass.entity.DataClass;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

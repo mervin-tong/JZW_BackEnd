@@ -17,7 +17,7 @@ import java.util.List;
  * @since 2022-03-09
  */
 public interface ITopicDataService extends IService<TopicData> {
-    TopicDataVTO saveTopic(TopicDataSaveParamData topicDataSaveParamData,String pictureLocation);
+    TopicDataVTO saveTopic(TopicDataSaveParamData topicDataSaveParamData);
     List<TopicDataDetailVTO> detailTopic(Long topicId);
     Boolean delTopic(Long topicId);
     List<TopicDataVTO> getAllTopic();

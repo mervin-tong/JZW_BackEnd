@@ -1,4 +1,4 @@
-package com.piesat.school.biz.ds.dataClass.entity;
+package com.piesat.school.biz.ds.dataclass.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

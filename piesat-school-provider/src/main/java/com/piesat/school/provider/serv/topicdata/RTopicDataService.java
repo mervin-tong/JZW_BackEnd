@@ -19,18 +19,13 @@ public class RTopicDataService implements IRTopicDataService {
     @Autowired
     IDatainfService iDatainfService;
     @Override
-    public Result<TopicDataVTO> saveTopic(TopicDataSaveParamData topicDataSaveParamData,String pictureLocation) {
-        return Result.ofSuccess(iTopicDataService.saveTopic(topicDataSaveParamData,pictureLocation));
+    public Result<TopicDataVTO> saveTopic(TopicDataSaveParamData topicDataSaveParamData) {
+        return Result.ofSuccess(iTopicDataService.saveTopic(topicDataSaveParamData));
     }
 
     @Override
     public Result<Boolean> addTopicData(Long topicId, Long dataId) {
         return Result.ofSuccess(iDatainfService.addTopicData(topicId,dataId));
-    }
-
-    @Override
-    public Result<Boolean> delTopicData(Long topicId, Long dataId) {
-        return Result.ofSuccess(iDatainfService.delTopicData(topicId,dataId));
     }
 
     @Override

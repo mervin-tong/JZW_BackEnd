@@ -1,8 +1,8 @@
-package com.piesat.school.biz.ds.dataClass.service.impl;
+package com.piesat.school.biz.ds.dataclass.service.impl;
 
-import com.piesat.school.biz.ds.dataClass.entity.DataClass;
-import com.piesat.school.biz.ds.dataClass.mapper.DataClassMapper;
-import com.piesat.school.biz.ds.dataClass.service.IDataClassService;
+import com.piesat.school.biz.ds.dataclass.entity.DataClass;
+import com.piesat.school.biz.ds.dataclass.mapper.DataClassMapper;
+import com.piesat.school.biz.ds.dataclass.service.IDataClassService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

@@ -11,6 +11,7 @@ import com.piesat.school.emuerlation.BizEnumType;
 import com.piesat.school.topicdata.param.TopicDataSaveParamData;
 import com.piesat.school.topicdata.vto.TopicDataDetailVTO;
 import com.piesat.school.topicdata.vto.TopicDataVTO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -31,13 +32,26 @@ public class TopicDataServiceImpl extends ServiceImpl<TopicDataMapper, TopicData
 
     //新增主题
     @Override
-    public TopicDataVTO saveTopic(TopicDataSaveParamData topicDataSaveParamData,String pictureLocation) {
+    public TopicDataVTO saveTopic(TopicDataSaveParamData topicDataSaveParamData) {
         TopicData topicData = new TopicData();
-        topicData.setTopicIntroduction(topicDataSaveParamData.getTopicIntroduction());
-        topicData.setTopicName(topicDataSaveParamData.getTopicName());
-        topicData.setPicture(pictureLocation);
-        topicData.setStatus(BizEnumType.CommonStatus.Valid.getKey());
-        this.save(topicData);
+        if(topicDataSaveParamData.getId()!=null){
+            topicData=topicDataMapper.selectById(topicDataSaveParamData.getId());
+        }
+        if(StringUtils.isNotBlank(topicDataSaveParamData.getTopicIntroduction())){
+            topicData.setTopicIntroduction(topicDataSaveParamData.getTopicIntroduction());
+        }
+        if(StringUtils.isNotBlank(topicDataSaveParamData.getTopicName())){
+            topicData.setTopicName(topicDataSaveParamData.getTopicName());
+        }
+        if(StringUtils.isNotBlank(topicDataSaveParamData.getPicture())){
+            topicData.setPicture(topicDataSaveParamData.getPicture());
+        }
+        if(topicDataSaveParamData.getId()!=null){
+            this.updateById(topicData);
+        }else{
+            topicData.setStatus(BizEnumType.CommonStatus.Valid.getKey());
+            this.save(topicData);
+        }
         return TopicDataBuilder.toTopicDataVto(topicData);
     }
 
