@@ -1,9 +1,7 @@
 package com.piesat.school.biz.ds.datainf.builder;
 
-import com.piesat.school.biz.ds.dataclass.entity.Dataclass;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.piesat.school.biz.ds.user.entity.User;
-import com.piesat.school.dataclass.vto.DataClassVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
 import com.piesat.school.datainf.vto.MyDataInfVTO;
 import org.springframework.beans.BeanUtils;

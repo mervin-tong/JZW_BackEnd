@@ -1,8 +1,6 @@
 package com.piesat.school.biz.ds.topicdata.builder;
 
-import com.piesat.school.biz.ds.dataclass.entity.Dataclass;
 import com.piesat.school.biz.ds.topicdata.entity.TopicData;
-import com.piesat.school.dataclass.vto.DataClassVTO;
 import com.piesat.school.topicdata.vto.TopicDataVTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
