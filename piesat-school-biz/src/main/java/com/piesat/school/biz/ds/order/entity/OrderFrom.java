@@ -26,7 +26,7 @@ public class OrderFrom implements Serializable {
     /**
      * 订单id
      */
-    @TableId(type = IdType.ASSIGN_ID)
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**

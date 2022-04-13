@@ -11,7 +11,7 @@ import java.io.Serializable;
 @TableName("t_user_role")
 public class UserRole implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@TableId(type = IdType.ASSIGN_ID)
+	@TableId(type = IdType.AUTO)
 	private Long id;
 
 	/**
@@ -24,5 +24,5 @@ public class UserRole implements Serializable {
 	 * 角色ID
 	 */
 	private Long roleId;
-	
+
 }
