@@ -3,7 +3,7 @@ package com.piesat.school.biz.ds.uploadpermissions.scheduled;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermissions;
-import com.piesat.school.biz.ds.uploadpermissions.mapper.UploadPermisssionsMapper;
+import com.piesat.school.biz.ds.uploadpermissions.mapper.UploadPermissionsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RSet;
 import org.redisson.api.RSetMultimap;
@@ -28,7 +28,7 @@ public class ScheduleTask {
     @Autowired
     private RedissonClient redissonClient;
     @Resource
-    private UploadPermisssionsMapper uploadPermisssionsMapper;
+    private UploadPermissionsMapper uploadPermissionsMapper;
 
     @Scheduled(cron = "0/1 * * * * ?")
     public void test(){
@@ -50,14 +50,14 @@ public class ScheduleTask {
             queryWrapper.select("id");
             queryWrapper.eq("status",0);
             queryWrapper.in("id",list);
-            List<UploadPermissions> uploadPermisssions = uploadPermisssionsMapper.selectList(queryWrapper);
+            List<UploadPermissions> uploadPermisssions = uploadPermissionsMapper.selectList(queryWrapper);
             List<Long> idList = uploadPermisssions.stream().map(UploadPermissions::getId).collect(Collectors.toList());
             //把申请变为未锁定
             if (!idList.isEmpty()){
                 UpdateWrapper<UploadPermissions> updateWrapper = new UpdateWrapper();
                 updateWrapper.set("approver",-1);
                 updateWrapper.in("id",idList);
-                uploadPermisssionsMapper.update(null,updateWrapper);
+                uploadPermissionsMapper.update(null,updateWrapper);
             }
         }
     }

@@ -37,5 +37,7 @@ public class UploadPermissionsVTO implements Serializable {
     private Integer applyStatus;
     @ApiModelProperty(value = "审核者id")
     private Long approver;
+    @ApiModelProperty(value = "审核意见")
+    private String auditMark;
 
 }

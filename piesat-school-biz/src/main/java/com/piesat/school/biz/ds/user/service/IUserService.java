@@ -1,5 +1,7 @@
 package com.piesat.school.biz.ds.user.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.user.param.UpdatePasswordParamData;
 import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.UserListVTO;
@@ -12,7 +14,7 @@ import java.util.List;
  * @author suweipeng
  * @data 2022/2/11 16:03
  */
-public interface IUserService {
+public interface IUserService extends IService<User> {
      //通过email查找用户
      UserVTO findUserByPhoneOrEmail(String phoneOrEmail);
      //注册普通用户

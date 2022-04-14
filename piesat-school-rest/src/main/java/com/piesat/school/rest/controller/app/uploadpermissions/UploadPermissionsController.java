@@ -30,11 +30,6 @@ public class UploadPermissionsController {
     })
     @ApiOperation(value = "获取上传权限列表(分页)")
     @PostMapping(value = "uploadpermissionsList")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pn", value = "第几页", dataType = "body" ),
-            @ApiImplicitParam(name = "ps", value = "每页几个", dataType = "body" )
-
-    })
     public Result<TailPage<UploadPermissionsVTO>> uploadPermissionsList(UploadPermissionsParamData uploadPermissionsParamData){
         return irUploadPermissionsService.uploadPermissionsList(uploadPermissionsParamData);
     }
@@ -81,7 +76,7 @@ public class UploadPermissionsController {
 
 
     @ApiOperation(value = "处理上传权限")
-    @GetMapping(value = "checkPermissions")
+    @PostMapping(value = "checkPermissions")
     public Result<Boolean> checkPermissions(UploadPermissionOperateParamData paramData){
         return irUploadPermissionsService.checkPermissions(paramData);
     }

@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermissions;
-import com.piesat.school.biz.ds.uploadpermissions.mapper.UploadPermisssionsMapper;
+import com.piesat.school.biz.ds.uploadpermissions.mapper.UploadPermissionsMapper;
 import com.piesat.school.biz.ds.uploadpermissions.scheduled.ScheduleTask;
 import com.piesat.school.biz.ds.uploadpermissions.service.IUploadPermisssionsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.piesat.school.biz.ds.user.entity.User;
+import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
@@ -37,12 +39,14 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermisssionsMapper, UploadPermissions> implements IUploadPermisssionsService {
+public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermissionsMapper, UploadPermissions> implements IUploadPermisssionsService {
 
     @Resource
-    private UploadPermisssionsMapper uploadPermisssionsMapper;
+    private UploadPermissionsMapper uploadPermissionsMapper;
     @Autowired
     private RedissonClient redissonClient;
+    @Resource
+    private IUserService userService;
     @Autowired
     private RedisTemplate<Object,Object> redisTemplate;
     @Autowired
@@ -55,7 +59,7 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermisssion
     @Override
     public TailPage<UploadPermissionsVTO> uploadPermissionsList(UploadPermissionsParamData uploadPermissionsParamData) {
         Page<UploadPermissionsVTO> page = new Page<>(uploadPermissionsParamData.getPn(),uploadPermissionsParamData.getPs());
-        List<UploadPermissionsVTO> list = uploadPermisssionsMapper.uploadPermissionsList(uploadPermissionsParamData.getUploadPermissionsStatus(),uploadPermissionsParamData.getStartAt(),uploadPermissionsParamData.getEndAt(),page);
+        List<UploadPermissionsVTO> list = uploadPermissionsMapper.uploadPermissionsList(uploadPermissionsParamData.getUploadPermissionsStatus(),uploadPermissionsParamData.getStartAt(),uploadPermissionsParamData.getEndAt(),page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 
@@ -71,7 +75,7 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermisssion
         uploadPermissions.setApplicatId(userId);
         uploadPermissions.setCreatedAt(new Date());
 //        uploadPermissions.setApprover(0L);//0代表该申请没有管理员审核
-        if (uploadPermisssionsMapper.insert(uploadPermissions) >= 1){
+        if (uploadPermissionsMapper.insert(uploadPermissions) >= 1){
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
@@ -153,15 +157,20 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermisssion
             }
         }
         this.updateById(uploadPermissions);
-        isPermissionsLockDate(paramData.getId());
+//        isPermissionsLockDate(paramData.getId());
+        if(paramData.getIsAllow()){
+            User user=this.userService.getById(uploadPermissions.getApplicatId());
+            user.setIsDataUpload(true);
+            this.userService.updateById(user);
+        }
         return Boolean.TRUE;
     }
     public Boolean isPermissionsLockDate(Long uploadId) {
         QueryWrapper<UploadPermissions> queryWrapper = new QueryWrapper<>();
-        UploadPermissions uploadPermissions = uploadPermisssionsMapper.selectList(queryWrapper).get(0);
-        if (uploadPermissions.getStatus() == 1) {
+        UploadPermissions uploadPermissions = uploadPermissionsMapper.selectList(queryWrapper).get(0);
+        if (uploadPermissions.getStatus() == BizEnumType.UploadPermissionsStatus.CreatePermissions.getKey()) {
             UpdateWrapper<UploadPermissions> updateWrapper = new UpdateWrapper<>();
-            updateWrapper.set("approver", 0);
+            updateWrapper.set("approver", -1);
             updateWrapper.eq("id", uploadId);
             return this.update(updateWrapper);
         }

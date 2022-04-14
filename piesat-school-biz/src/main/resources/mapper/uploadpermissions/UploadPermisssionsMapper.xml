@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.piesat.school.biz.ds.uploadpermissions.mapper.UploadPermisssionsMapper">
+<mapper namespace="com.piesat.school.biz.ds.uploadpermissions.mapper.UploadPermissionsMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermissions">
@@ -29,9 +29,10 @@
             u.email as email,
             u.unit_address as unitAddress,
             u.profession as profession,
+            up.audit_mark as auditMark,
             up.created_at as createdAt
         FROM
-            t_upload_permisssions up
+            t_upload_permissions up
             LEFT JOIN t_user u ON u.id = up.applicat_id
         where 1=1
         <if test="uploadPermissionsStatus !=null">
