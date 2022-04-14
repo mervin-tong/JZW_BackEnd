@@ -2,6 +2,7 @@ package com.piesat.school.provider.serv.uploadpermissions;
 
 import com.piesat.school.biz.ds.uploadpermissions.service.IUploadPermisssionsService;
 import com.piesat.school.uploadpermissions.iservice.IRUploadPermissionsService;
+import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
 import com.smartwork.api.Result;
@@ -29,8 +30,8 @@ public class RUploadPermissionsService implements IRUploadPermissionsService {
     }
     //处理上传权限
     @Override
-    public Result<Boolean> checkPermissions(Long uploadId,Integer status,Long approver) {
-        return Result.ofSuccess(iUploadPermisssionsService.checkPermissions(uploadId,status,approver));
+    public Result<Boolean> checkPermissions(UploadPermissionOperateParamData paramData) {
+        return Result.ofSuccess(iUploadPermisssionsService.checkPermissions(paramData));
     }
     //锁定上传权限申请
     @Override

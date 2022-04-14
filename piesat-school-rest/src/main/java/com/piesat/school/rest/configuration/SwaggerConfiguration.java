@@ -1,11 +1,16 @@
 package com.piesat.school.rest.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.github.xiaoymin.knife4j.spring.extension.OpenApiExtensionResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -113,5 +118,26 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+
+        MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        SimpleModule simpleModule = new SimpleModule();
+
+        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+
+        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
+
+        objectMapper.registerModule(simpleModule);
+
+        jackson2HttpMessageConverter.setObjectMapper(objectMapper);
+
+        converters.add(jackson2HttpMessageConverter);
+
     }
 }

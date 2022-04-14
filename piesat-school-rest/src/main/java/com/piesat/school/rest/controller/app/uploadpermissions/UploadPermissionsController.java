@@ -2,6 +2,7 @@ package com.piesat.school.rest.controller.app.uploadpermissions;
 
 import com.piesat.school.rest.constants.DubboConstant;
 import com.piesat.school.uploadpermissions.iservice.IRUploadPermissionsService;
+import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
 import com.smartwork.api.Result;
@@ -80,19 +81,9 @@ public class UploadPermissionsController {
 
 
     @ApiOperation(value = "处理上传权限")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
     @GetMapping(value = "checkPermissions")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "uploadId", value = "要处理的上传权限id", dataType = "Long" ),
-            @ApiImplicitParam(name = "status", value = "处理状态（1 = 通过，2 = 拒绝）默认为0", dataType = "Integer" ,defaultValue = "0"),
-            @ApiImplicitParam(name = "approver", value = "审批人id", dataType = "Long" )
-    })
-    public Result<Boolean> checkPermissions(Long uploadId,Integer status,Long approver){
-        return irUploadPermissionsService.checkPermissions(uploadId,status,approver);
+    public Result<Boolean> checkPermissions(UploadPermissionOperateParamData paramData){
+        return irUploadPermissionsService.checkPermissions(paramData);
     }
 
 

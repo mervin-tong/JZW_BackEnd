@@ -9,6 +9,7 @@ import com.piesat.school.biz.ds.datainf.entity.Contact;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.piesat.school.biz.ds.datainf.mapper.ContactMapper;
 import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
+import com.piesat.school.biz.ds.datainf.service.IContactService;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
@@ -64,13 +65,13 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     @Resource
     private HistoryDownloadMapper historyDownloadMapper;
     @Resource
-    private DataReviewMapper dataReviewMapper;
-    @Resource
     private IRoleService iRoleService;
     @Resource
     private IDataReviewService iDataReviewService;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private IContactService contactService;
 
     @Override
     public TailPage<DataInfListVTO> getAllDatainf() {
@@ -152,7 +153,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             }
             Contact contact = new Contact();
             if(datainf.getConId()!=null){
-                contact=contactMapper.selectById(datainf.getConId());
+                contact=contactService.getById(datainf.getConId());
             }
             if(StringUtils.isNotBlank(paramData.getContact().getAddress())){
                 contact.setConAddress(paramData.getContact().getAddress());
@@ -169,10 +170,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             if(StringUtils.isNotBlank(paramData.getContact().getUnit())){
                 contact.setConUnit(paramData.getContact().getUnit());
             }
-            if(datainf.getConId()!=null){
-                contactMapper.updateById(contact);
-            }else {
-                contactMapper.insert(contact);
+            contactService.save(contact);
+            if(datainf.getConId()==null){
                 datainf.setConId(contact.getId());
             }
             datainfMapper.updateById(datainf);
@@ -193,9 +192,6 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
                     dataReview.setAdminJudgeId(BizEnumType.Default.NULL.getKey());
                     dataReview.setUserJudgeId(BizEnumType.Default.NULL.getKey());
                     dataReview.setCreatedAt(new Date());
-                    if (iRoleService.isEGCAdmin(datainf.getUploadUserId())){
-                        dataReview.setStatus(BizEnumType.ReviewStatus.FIRSTREVIEWPASS.getKey());
-                    }
                     iDataReviewService.createReview(dataReview);
                 }
             }
@@ -253,29 +249,6 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
         }
 
-    //上传文件
-    @Override
-    public Boolean uploadDataInf(String file,String amount) throws IOException {
-        if(file == null || amount == null){
-            return Boolean.FALSE;
-        }
-//        Datainf datainf = BizCommonValidateHelper.valdiateGetById(this);
-//        String fileLocation = FileUploadUtils.upload(file);
-//        datainf.setContent(file);
-//        datainf.setDataAmount(amount);
-//        return this.updateById(datainf);
-        return Boolean.TRUE;
-    }
-
-    @Override
-    public Boolean uploadPic(String pic, Long dataId) {
-        if(dataId == null || pic == null){
-            return Boolean.FALSE;
-        }
-        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
-        datainf.setPic(pic);
-        return this.updateById(datainf);
-    }
 
     @Override
     public DataInfDetailVTO dataInfDetail(Long dataId) {
@@ -297,11 +270,6 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         return this.update(updateWrapper);
     }
 
-//    @Override
-//    public DataInfDetailVTO dataInfDetail(Long dataInfId) {
-//        return datainfMapper.dataInfDetail(dataInfId);
-//    }
-
     @Override
     public Boolean addhistory(Long dataId, Long userId) {
         HistoryDownload historyDownload = new HistoryDownload();
@@ -314,27 +282,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         }
         return true;
     }
-    //新增专题数据
-    @Override
-    public Boolean addTopicData(Long topicId, Long dataId) {
-        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
-        if(topicId != null && datainf.getDeleted() != BizEnumType.CommonStatus.Invalid.getKey()){
-            datainf.setTopicId(topicId);
-            return this.updateById(datainf);
-        }
-        return Boolean.FALSE;
-    }
 
-    //删除专题数据
-    @Override
-    public Boolean delTopicData(Long topicId, Long dataId) {
-        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
-        if(topicId == datainf.getTopicId() && datainf.getDeleted() != BizEnumType.CommonStatus.Invalid.getKey()){
-            datainf.setTopicId((long)BizEnumType.CommonStatus.Invalid.getKey());
-            return this.updateById(datainf);
-        }
-        return Boolean.FALSE;
-    }
 
     @Override
     public List<MyDataInfVTO> dataList(DataQueryParamData paramData) {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.piesat.school.biz.ds.topicdata.mapper.TopicDataMapper">
+<mapper namespace="com.piesat.school.biz.ds.topic.mapper.TopicDataMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.topicdata.entity.TopicData">
+    <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.topic.entity.Topic">
         <id column="id" property="id" />
         <result column="topic_name" property="topicName" />
         <result column="picture" property="picture" />
@@ -13,11 +13,11 @@
         <result column="topic_introduction" property="topicIntroduction"/>
     </resultMap>
 
-    <resultMap id="detail" type="com.piesat.school.topicdata.vto.TopicDataDetailVTO">
+    <resultMap id="detail" type="com.piesat.school.topic.vto.TopicDetailVTO">
         <result column="topic_name" property="topicName" />
         <result column="picture" property="picture" />
         <result column="topic_introduction" property="topicIntroduction"/>
-        <collection property="results" ofType="com.piesat.school.topicdata.vto.DataInfTopicVTO">
+        <collection property="results" ofType="com.piesat.school.topic.vto.DataInfTopicVTO">
             <result column="data_name" property="dataName" />
             <result column="data_amount" property="dataAmount"/>
             <result column="down_count" property="downCount" />
@@ -50,7 +50,7 @@
         FROM t_topic_data a,t_data_inf b
         WHERE b.topic_id = #{topicId} AND b.deleted = 1
     </select>
-    <select id="getAllTopic" resultType="com.piesat.school.topicdata.vto.TopicDataVTO">
+    <select id="getAllTopic" resultType="com.piesat.school.topic.vto.TopicVTO">
         SELECT
             topic_name,
             picture,
@@ -59,7 +59,7 @@
         where `status` = 1
 
     </select>
-    <select id="indexDetailTopic" parameterType="long" resultType="com.piesat.school.topicdata.vto.TopicDataVTO">
+    <select id="indexDetailTopic" parameterType="long" resultType="com.piesat.school.topic.vto.TopicVTO">
         SELECT
             topic_name,
             picture,
@@ -67,7 +67,7 @@
         FROM t_topic_data
         where `status` = 1 and id = #{topicId}
     </select>
-<!--    <select id="selectData" resultType="com.piesat.school.topicdata.vto.DataInfTopicVTO">-->
+<!--    <select id="selectData" resultType="com.piesat.school.topic.vto.DataInfTopicVTO">-->
 <!--        SELECT-->
 <!--            b.data_name,-->
 <!--            b.down_count,-->
@@ -79,7 +79,7 @@
 <!--        WHERE   b.deleted = 1-->
 <!--    </select>-->
 
-<!--    <select id="detailTopic" parameterType="long" resultType="com.piesat.school.topicdata.vto.TopicDataDetailVTO">-->
+<!--    <select id="detailTopic" parameterType="long" resultType="com.piesat.school.topic.vto.TopicDetailVTO">-->
 <!--        SELECT-->
 <!--            a.topic_name,-->
 <!--            a.picture,-->

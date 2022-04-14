@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @since 2022-01-17
  */
 @Data
-@TableName("t_order_from")
+@TableName("t_order")
 public class OrderFrom implements Serializable {
 
     private static final long serialVersionUID = 1L;

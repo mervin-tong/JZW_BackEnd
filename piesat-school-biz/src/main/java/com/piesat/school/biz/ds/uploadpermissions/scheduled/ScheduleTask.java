@@ -2,7 +2,7 @@ package com.piesat.school.biz.ds.uploadpermissions.scheduled;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermisssions;
+import com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermissions;
 import com.piesat.school.biz.ds.uploadpermissions.mapper.UploadPermisssionsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RSet;
@@ -11,7 +11,6 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -47,15 +46,15 @@ public class ScheduleTask {
         }
         //获取到期还没处理的申请id
         if (!list.isEmpty()){
-            QueryWrapper<UploadPermisssions> queryWrapper = new QueryWrapper<>();
+            QueryWrapper<UploadPermissions> queryWrapper = new QueryWrapper<>();
             queryWrapper.select("id");
             queryWrapper.eq("status",0);
             queryWrapper.in("id",list);
-            List<UploadPermisssions> uploadPermisssions = uploadPermisssionsMapper.selectList(queryWrapper);
-            List<Long> idList = uploadPermisssions.stream().map(UploadPermisssions::getId).collect(Collectors.toList());
+            List<UploadPermissions> uploadPermisssions = uploadPermisssionsMapper.selectList(queryWrapper);
+            List<Long> idList = uploadPermisssions.stream().map(UploadPermissions::getId).collect(Collectors.toList());
             //把申请变为未锁定
             if (!idList.isEmpty()){
-                UpdateWrapper<UploadPermisssions> updateWrapper = new UpdateWrapper();
+                UpdateWrapper<UploadPermissions> updateWrapper = new UpdateWrapper();
                 updateWrapper.set("approver",-1);
                 updateWrapper.in("id",idList);
                 uploadPermisssionsMapper.update(null,updateWrapper);

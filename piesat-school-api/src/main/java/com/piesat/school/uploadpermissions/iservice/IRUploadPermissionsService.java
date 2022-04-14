@@ -1,5 +1,6 @@
 package com.piesat.school.uploadpermissions.iservice;
 
+import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
 import com.smartwork.api.Result;
@@ -13,7 +14,7 @@ public interface IRUploadPermissionsService {
     Result<Boolean> createPermissions(Long userId);
 
     //处理上传权限
-    Result<Boolean> checkPermissions(Long uploadId,Integer status,Long approver);
+    Result<Boolean> checkPermissions(UploadPermissionOperateParamData paramData);
 
     //管理员受理上传权限申请
     Result<Boolean> setApprover(Long approver, String uploadIds,Long limit);

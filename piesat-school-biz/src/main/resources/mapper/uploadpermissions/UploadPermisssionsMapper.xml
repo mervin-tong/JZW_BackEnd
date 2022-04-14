@@ -3,7 +3,7 @@
 <mapper namespace="com.piesat.school.biz.ds.uploadpermissions.mapper.UploadPermisssionsMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermisssions">
+    <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermissions">
         <result column="id" property="id" />
         <result column="name" property="name" />
         <result column="email" property="email" />

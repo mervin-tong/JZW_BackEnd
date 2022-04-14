@@ -1,13 +1,10 @@
 package com.piesat.school.biz.ds.uploadpermissions.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermisssions;
+import com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermissions;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
-import com.smartwork.api.support.page.TailPage;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +15,6 @@ import java.util.List;
  * @author suweipeng
  * @since 2022-02-28
  */
-public interface UploadPermisssionsMapper extends BaseMapper<UploadPermisssions> {
+public interface UploadPermisssionsMapper extends BaseMapper<UploadPermissions> {
     List<UploadPermissionsVTO> uploadPermissionsList(Integer uploadPermissionsStatus, String startAt,String endAt, Page<UploadPermissionsVTO> page);
 }
