@@ -33,7 +33,7 @@ public interface DatainfMapper extends BaseMapper<Datainf> {
     List<DataInfListVTO> searchAll(@Param("searchAllParamData")SearchAllParamData searchAllParamData,Page<DataInfListVTO> page);
     DataInfDetailVTO dataInfDetail(@Param("dataInfId") Long dataInfId);
 
-    List<MyDataInfVTO> myDataMenu(@Param("userId") Long userId, Page<MyDataInfVTO> page);
+//    List<MyDataInfVTO> myDataMenu(@Param("userId") Long userId, Page<MyDataInfVTO> page);
 
     Boolean delDataInf(List<Long> longs);
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface IRDataInfService {
     Result<TailPage<DataInfListVTO>> getAllDatainf();
-    Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId);
+//    Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId);
     Result<DataInfVTO> saveDataInf(DataInfSaveParamData paramData);
     Result<Boolean> delDataInf(String dataId, Long userId);
     Result<TailPage<DataInfListVTO>> searchByKeyword(SearchByKeyParamData searchByKeyParamData);

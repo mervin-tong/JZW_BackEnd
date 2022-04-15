@@ -29,10 +29,10 @@ public class RDataInfService implements IRDataInfService {
         return Result.ofSuccess(iDatainfService.getAllDatainf());
     }
 
-    @Override
-    public Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId) {
-        return Result.ofSuccess(iDatainfService.myDataMenu(userId));
-    }
+//    @Override
+//    public Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId) {
+//        return Result.ofSuccess(iDatainfService.myDataMenu(userId));
+//    }
 
     @Override
     public Result<DataInfVTO> saveDataInf(DataInfSaveParamData paramData) {

@@ -37,85 +37,49 @@ public class DataInfController{
     @GetMapping("/dataMenu")
     public Result<TailPage<DataInfListVTO>> getAllDataInf(){return irDataInfService.getAllDatainf();}
 
-    @ApiOperation(value = "我的数据")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
-    @PostMapping("/myDataMenu")
-    public Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId){
-        return irDataInfService.myDataMenu(userId);
-    }
+//    @ApiOperation(value = "我的数据")
+//    @ApiResponses({
+//            @ApiResponse(code=0,message="访问成功"),
+//            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+//            @ApiResponse(code=500,message="后台报错"),
+//    })
+//    @PostMapping("/myDataMenu")
+//    public Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId){
+//        return irDataInfService.myDataMenu(userId);
+//    }
 
     @ApiOperation(value = "会员数据列表")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
     @PostMapping("/dataList")
     public Result<TailPage<MyDataInfVTO>> dataList(DataQueryParamData paramData){
         return irDataInfService.dataList(paramData);
     }
 
     @ApiOperation(value = "新增/修改数据")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
     @PostMapping("/save")
     public Result<DataInfVTO> saveDataInf(DataInfSaveParamData paramData){
         return irDataInfService.saveDataInf(paramData);
     }
     @ApiOperation(value = "逻辑删除数据")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
     @PostMapping("/del")
     public Result<Boolean> delDataInf(@RequestParam(value = "dataId",required = true)String dataId,Long userId){
         return irDataInfService.delDataInf(dataId,userId);
     }
     @ApiOperation(value = "根据关键词返回数据列表")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
     @PostMapping("/keySearch")
     public Result<TailPage<DataInfListVTO>> searchByKeyword(@RequestBody SearchByKeyParamData searchByKeyParamData){
         return irDataInfService.searchByKeyword(searchByKeyParamData);
     }
     @ApiOperation(value = "根据类名返回数据列表")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
     @PostMapping("/classSearch")
-
     public Result<TailPage<DataInfListVTO>> searchByClass(@RequestBody SearchByClassParamData searchByClassParamData){
         return irDataInfService.searchByClass(searchByClassParamData);
     }
     @ApiOperation(value = "根据时间范围返回数据列表")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
     @PostMapping("/timeSearch")
     public Result<TailPage<DataInfListVTO>> searchByTime(@RequestBody SearchByTimeParamData searchByTimeParamData){
         return irDataInfService.searchByTime(searchByTimeParamData);
     }
     @ApiOperation(value = "混合搜索返回数据列表")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
     @PostMapping("/allSearch")
     public Result<TailPage<DataInfListVTO>> searchAll(@RequestBody SearchAllParamData searchAllParamData){
         return irDataInfService.searchAll(searchAllParamData);
@@ -133,11 +97,6 @@ public class DataInfController{
 //        return irDataInfService.uploadPic(pic, dataId);
 //    }
     @ApiOperation(value = "数据详情")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
     @PostMapping("/dataInfDetail")
     public Result<DataInfDetailVTO> dataInfDetail(DataDetailParamData paramData){
         return irDataInfService.dataInfDetailVTO(paramData);
@@ -145,11 +104,6 @@ public class DataInfController{
     Boolean isAddDownCount;
 
     @ApiOperation(value = "文件下载")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
     @GetMapping("/download")
     public Result<Boolean> Download(Long dataId,HttpServletResponse response,Long userId) throws IOException {
 

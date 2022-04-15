@@ -81,15 +81,15 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 
-    @Override
-    public TailPage<MyDataInfVTO> myDataMenu(Long userId) {
-        Page<MyDataInfVTO> page = new Page<>();
-        page.setOptimizeCountSql(false);
-        List<MyDataInfVTO> list = datainfMapper.myDataMenu(userId,page);
-
-        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
-
-    }
+//    @Override
+//    public TailPage<MyDataInfVTO> myDataMenu(Long userId) {
+//        Page<MyDataInfVTO> page = new Page<>();
+//        page.setOptimizeCountSql(false);
+//        List<MyDataInfVTO> list = datainfMapper.myDataMenu(userId,page);
+//
+//        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+//
+//    }
 
     //新增数据
     @Override

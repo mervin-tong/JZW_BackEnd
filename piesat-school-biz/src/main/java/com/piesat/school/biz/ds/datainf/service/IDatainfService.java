@@ -29,7 +29,7 @@ import java.util.List;
  */
 public interface IDatainfService extends IService<Datainf> {
     TailPage<DataInfListVTO> getAllDatainf();
-    TailPage<MyDataInfVTO> myDataMenu(Long userId);
+//    TailPage<MyDataInfVTO> myDataMenu(Long userId);
 
     DataInfVTO saveDataInf(DataInfSaveParamData paramData);
     Boolean delDataInf(String dataId,Long userId);
