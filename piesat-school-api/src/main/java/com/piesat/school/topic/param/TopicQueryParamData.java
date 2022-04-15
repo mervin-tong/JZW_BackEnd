@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class TopicQueryParamData extends PageQueryParamData {
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "专题id")
     private Long topicId;
 }

@@ -290,6 +290,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         if(paramData.getAuditStatus()!=null){
             queryWrapper.eq("through_review",paramData.getAuditStatus());
         }
+        queryWrapper.lambda().eq(Datainf::getDeleted, BizEnumType.CommonStatus.Invalid.getKey());
         if(paramData.getPublisher()!=null){
             queryWrapper.eq("upload_user_id",paramData.getPublisher());
         }

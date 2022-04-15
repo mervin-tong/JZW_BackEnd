@@ -66,7 +66,7 @@ public class DataInfController{
     }
     @ApiOperation(value = "根据关键词返回数据列表")
     @PostMapping("/keySearch")
-    public Result<TailPage<DataInfListVTO>> searchByKeyword(@RequestBody SearchByKeyParamData searchByKeyParamData){
+    public Result<TailPage<DataInfListVTO>> searchByKeyword(SearchByKeyParamData searchByKeyParamData){
         return irDataInfService.searchByKeyword(searchByKeyParamData);
     }
     @ApiOperation(value = "根据类名返回数据列表")

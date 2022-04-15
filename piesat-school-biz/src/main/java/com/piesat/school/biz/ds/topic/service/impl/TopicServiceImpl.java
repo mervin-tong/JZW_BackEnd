@@ -5,11 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
-import com.piesat.school.biz.ds.information.builder.InformationBuilder;
 import com.piesat.school.biz.ds.topic.builder.TopicBuilder;
 import com.piesat.school.biz.ds.topic.entity.Topic;
 import com.piesat.school.biz.ds.topic.entity.TopicDataRel;
-import com.piesat.school.biz.ds.topic.mapper.TopicDataMapper;
+import com.piesat.school.biz.ds.topic.mapper.TopicMapper;
 import com.piesat.school.biz.ds.topic.service.ITopicDataRelService;
 import com.piesat.school.biz.ds.topic.service.ITopicService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -42,9 +41,9 @@ import java.util.stream.Collectors;
  * @since 2022-03-09
  */
 @Service
-public class TopicServiceImpl extends ServiceImpl<TopicDataMapper, Topic> implements ITopicService {
+public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements ITopicService {
     @Resource
-    private TopicDataMapper topicDataMapper;
+    private TopicMapper topicMapper;
     @Resource
     private ITopicDataRelService topicDataRelService;
     @Resource
@@ -68,24 +67,24 @@ public class TopicServiceImpl extends ServiceImpl<TopicDataMapper, Topic> implem
             topic.setPicture(topicSaveParamData.getPicture());
         }
         topic.setStatus(BizEnumType.CommonStatus.Valid.getKey());
-        this.save(topic);
+        this.saveOrUpdate(topic);
         return TopicBuilder.toTopicVto(topic);
     }
 
     //主题细节
     @Override
     public List<TopicDetailVTO> detailTopic(Long topicId) {
-        return topicDataMapper.detailTopic(topicId);
+        return topicMapper.detailTopic(topicId);
     }
 
     @Override
     public List<TopicVTO> getAllTopic() {
-        return topicDataMapper.getAllTopic();
+        return topicMapper.getAllTopic();
     }
 
     @Override
     public TopicVTO indexDetailTopic(Long topicId) {
-        return topicDataMapper.indexDetailTopic(topicId);
+        return topicMapper.indexDetailTopic(topicId);
     }
 
     @Override
@@ -149,10 +148,9 @@ public class TopicServiceImpl extends ServiceImpl<TopicDataMapper, Topic> implem
         List<MyDataInfVTO> myDataInfVTOS=new ArrayList<>();
         if(dataInfos.size()>0){
             List<Long> userIds=dataInfos.stream().map(Datainf::getUploadUserId).collect(Collectors.toList());
-//            List<User> users=this.userMapper.selectBatchIds(userIds);
-//            myDataInfVTOS= DatainfBuilder.toMyDataInfVTOs(dataInfos,users);
+            List<User> users=this.userService.listByIds(userIds);
+            myDataInfVTOS= DatainfBuilder.toMyDataInfVTOs(dataInfos,users);
         }
-//        return CommonPage.buildPage(topicDataRels.getCurrent(), topicDataRels.getSize(), topicDataRels.getTotal(), TopicBuilder.toTopicVTOs(page.getRecords()));;
-        return null;
+        return CommonPage.buildPage(topicDataRels.getCurrent(), topicDataRels.getSize(), topicDataRels.getTotal(), myDataInfVTOS);
     }
 }
