@@ -2,10 +2,7 @@ package com.piesat.school.rest.controller.app.topic;
 
 import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.topic.iservice.IRTopicService;
-import com.piesat.school.topic.param.TopicDataAddParamData;
-import com.piesat.school.topic.param.TopicDelParamData;
-import com.piesat.school.topic.param.TopicQueryParamData;
-import com.piesat.school.topic.param.TopicSaveParamData;
+import com.piesat.school.topic.param.*;
 import com.piesat.school.topic.vto.TopicDetailVTO;
 import com.piesat.school.topic.vto.TopicVTO;
 import com.smartwork.api.Result;
@@ -44,9 +41,8 @@ public class TopicController {
 
     @ApiOperation(value = "删除专题数据")
     @PostMapping("/delTopicData")
-    @ApiImplicitParam(value = "id",name = "专题数据id",dataType = "Long")
-    public Result<Boolean> delTopicData( Long id){
-        return irTopicService.delTopicData(id);
+    public Result<Boolean> delTopicData( TopicDataDelParamData paramData){
+        return irTopicService.delTopicData(paramData);
     }
     @ApiOperation(value = "专题列表")
     @PostMapping("/list")
@@ -59,6 +55,8 @@ public class TopicController {
     public Result<TailPage<MyDataInfVTO>> topicDatalist(TopicQueryParamData paramData){
         return irTopicService.topicDatalist(paramData);
     }
+
+
 //    @ApiOperation(value = "专题数据列表")
 //    @GetMapping("/dataList")
 //    public Result<TailPage<TopicVTO>> dataList(TopicQueryParamData paramData){

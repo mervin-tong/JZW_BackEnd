@@ -16,10 +16,7 @@ import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.emuerlation.BizEnumType;
-import com.piesat.school.topic.param.TopicDataAddParamData;
-import com.piesat.school.topic.param.TopicDelParamData;
-import com.piesat.school.topic.param.TopicQueryParamData;
-import com.piesat.school.topic.param.TopicSaveParamData;
+import com.piesat.school.topic.param.*;
 import com.piesat.school.topic.vto.TopicDetailVTO;
 import com.piesat.school.topic.vto.TopicVTO;
 import com.smartwork.api.support.page.CommonPage;
@@ -77,10 +74,6 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
         return topicMapper.detailTopic(topicId);
     }
 
-    @Override
-    public List<TopicVTO> getAllTopic() {
-        return topicMapper.getAllTopic();
-    }
 
     @Override
     public TopicVTO indexDetailTopic(Long topicId) {
@@ -92,6 +85,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
         if(paramData.getId()!=null){
             //1.专题主体逻辑删除
             Topic topic=this.getById(paramData.getId());
+            topic.setDataNum(0);
             topic.setStatus(BizEnumType.CommonStatus.Invalid.getKey());
             this.updateById(topic);
             //2.其下关联数据删除
@@ -120,9 +114,11 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
     }
 
     @Override
-    public Boolean delTopicData(Long id) {
-        TopicDataRel topicDataRel=this.topicDataRelService.getById(id);
-        this.topicDataRelService.removeById(id);
+    public Boolean delTopicData(TopicDataDelParamData paramData) {
+        QueryWrapper<TopicDataRel> queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(TopicDataRel::getTopicId,paramData.getTopicId()).eq(TopicDataRel::getDataId,paramData.getDataId());
+        TopicDataRel topicDataRel=this.topicDataRelService.getOne(queryWrapper);
+        this.topicDataRelService.removeById(topicDataRel.getId());
         Topic topic=this.getById(topicDataRel.getTopicId());
         topic.setDataNum(topic.getDataNum()-1);
         this.updateById(topic);

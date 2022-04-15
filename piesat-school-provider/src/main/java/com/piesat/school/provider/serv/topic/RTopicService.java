@@ -3,10 +3,7 @@ package com.piesat.school.provider.serv.topic;
 import com.piesat.school.biz.ds.topic.service.ITopicService;
 import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.topic.iservice.IRTopicService;
-import com.piesat.school.topic.param.TopicDataAddParamData;
-import com.piesat.school.topic.param.TopicDelParamData;
-import com.piesat.school.topic.param.TopicQueryParamData;
-import com.piesat.school.topic.param.TopicSaveParamData;
+import com.piesat.school.topic.param.*;
 import com.piesat.school.topic.vto.TopicDetailVTO;
 import com.piesat.school.topic.vto.TopicVTO;
 import com.smartwork.api.Result;
@@ -35,10 +32,6 @@ public class RTopicService implements IRTopicService {
         return Result.ofSuccess(iTopicService.detailTopic(topicId));
     }
 
-    @Override
-    public Result<List<TopicVTO>> getAllTopic() {
-        return Result.ofSuccess(iTopicService.getAllTopic());
-    }
 
     @Override
     public Result<TopicVTO> indexDetailTopic(Long topicId) {
@@ -51,8 +44,8 @@ public class RTopicService implements IRTopicService {
     }
 
     @Override
-    public Result<Boolean> delTopicData(Long id) {
-        return Result.ofSuccess(iTopicService.delTopicData(id));
+    public Result<Boolean> delTopicData(TopicDataDelParamData paramData) {
+        return Result.ofSuccess(iTopicService.delTopicData(paramData));
     }
 
     @Override

@@ -2,10 +2,7 @@ package com.piesat.school.topic.iservice;
 
 
 import com.piesat.school.datainf.vto.MyDataInfVTO;
-import com.piesat.school.topic.param.TopicDataAddParamData;
-import com.piesat.school.topic.param.TopicDelParamData;
-import com.piesat.school.topic.param.TopicQueryParamData;
-import com.piesat.school.topic.param.TopicSaveParamData;
+import com.piesat.school.topic.param.*;
 import com.piesat.school.topic.vto.TopicDetailVTO;
 import com.piesat.school.topic.vto.TopicVTO;
 import com.smartwork.api.Result;
@@ -22,12 +19,11 @@ public interface IRTopicService {
     Result<TopicVTO> saveOrUpdate(TopicSaveParamData paramData);
     Result<Boolean> addTopicData(TopicDataAddParamData paramData);
     Result<List<TopicDetailVTO>> detailTopic(Long topicId);
-    Result<List<TopicVTO>> getAllTopic();
     Result<TopicVTO> indexDetailTopic(Long topicId);
 
     Result<Boolean> del(TopicDelParamData paramData);
 
-    Result<Boolean> delTopicData(Long id);
+    Result<Boolean> delTopicData(TopicDataDelParamData paramData);
 
     Result<TailPage<TopicVTO>> list(TopicQueryParamData paramData);
 

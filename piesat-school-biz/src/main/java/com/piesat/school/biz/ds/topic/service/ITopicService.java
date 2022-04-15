@@ -3,10 +3,7 @@ package com.piesat.school.biz.ds.topic.service;
 import com.piesat.school.biz.ds.topic.entity.Topic;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.piesat.school.datainf.vto.MyDataInfVTO;
-import com.piesat.school.topic.param.TopicDataAddParamData;
-import com.piesat.school.topic.param.TopicDelParamData;
-import com.piesat.school.topic.param.TopicQueryParamData;
-import com.piesat.school.topic.param.TopicSaveParamData;
+import com.piesat.school.topic.param.*;
 import com.piesat.school.topic.vto.TopicDetailVTO;
 import com.piesat.school.topic.vto.TopicVTO;
 import com.smartwork.api.support.page.TailPage;
@@ -24,7 +21,6 @@ import java.util.List;
 public interface ITopicService extends IService<Topic> {
     TopicVTO saveOrUpdate(TopicSaveParamData topicSaveParamData);
     List<TopicDetailVTO> detailTopic(Long topicId);
-    List<TopicVTO> getAllTopic();
     TopicVTO indexDetailTopic(Long topicId);
 
 
@@ -32,7 +28,7 @@ public interface ITopicService extends IService<Topic> {
 
     Boolean addTopicData(TopicDataAddParamData paramData);
 
-    Boolean delTopicData(Long id);
+    Boolean delTopicData(TopicDataDelParamData paramData);
 
     TailPage<TopicVTO> topicPage(TopicQueryParamData paramData);
 
