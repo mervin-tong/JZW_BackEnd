@@ -201,6 +201,7 @@ public class UserFacadeService {
         //用户状态更新
         User user=this.userService.getById(paramData.getUserId());
         user.setStatus(paramData.getLimitStatus());
+        user.setCurrentUpload(false);
         this.userService.updateById(user);
         //若是封禁则在其下所有数据上增加封禁标识
         QueryWrapper<Datainf> queryWrapper=new QueryWrapper<>();

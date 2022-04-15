@@ -5,6 +5,7 @@ import com.piesat.school.uploadpermissions.iservice.IRUploadPermissionsService;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
+import com.piesat.school.uploadpermissions.vto.UserPermissionVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -42,5 +43,10 @@ public class RUploadPermissionsService implements IRUploadPermissionsService {
     @Override
     public Result<Boolean> cleanApprover(Long approver, String uploadIds) {
         return Result.ofSuccess(iUploadPermisssionsService.cleanApprover(approver,uploadIds));
+    }
+
+    @Override
+    public Result<UserPermissionVTO> userPermissions(Long userId) {
+        return Result.ofSuccess(iUploadPermisssionsService.userPermissions(userId));
     }
 }

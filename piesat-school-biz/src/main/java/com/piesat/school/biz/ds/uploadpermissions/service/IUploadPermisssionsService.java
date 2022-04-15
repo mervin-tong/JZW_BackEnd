@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
+import com.piesat.school.uploadpermissions.vto.UserPermissionVTO;
 import com.smartwork.api.support.page.TailPage;
 
 /**
@@ -27,4 +28,6 @@ public interface IUploadPermisssionsService extends IService<UploadPermissions> 
     Boolean setApprover(Long approver, String uploadIds,Long limit);
     //审批人解锁
     Boolean cleanApprover(Long approver, String uploadIds);
+
+    UserPermissionVTO userPermissions(Long userId);
 }

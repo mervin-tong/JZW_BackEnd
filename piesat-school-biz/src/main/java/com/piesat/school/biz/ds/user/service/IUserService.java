@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.user.param.UpdatePasswordParamData;
 import com.piesat.school.user.param.UserParamData;
-import com.piesat.school.user.vto.UserListVTO;
+import com.piesat.school.user.param.UserQueryParamData;
 import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
+import com.smartwork.api.support.page.TailPage;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public interface IUserService extends IService<User> {
      Boolean alterPassword(String email,String password);
 
      //获取用户列表
-     List<UserListVTO> getUserList();
+     TailPage<UserVTO> getUserList(UserQueryParamData paramData);
      //根据id修改密码
      Result<Boolean> updatePassword(UpdatePasswordParamData paramData);
 }

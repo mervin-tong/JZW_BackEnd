@@ -1,26 +1,17 @@
 package com.piesat.school.provider.serv.user;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.piesat.school.biz.ds.user.entity.Email;
 import com.piesat.school.biz.ds.user.facade.UserFacadeService;
 import com.piesat.school.biz.ds.user.mapper.EmailMapper;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.user.iservice.IRUserService;
 import com.piesat.school.user.param.*;
-import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
+import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataAccessException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 /**
  * @author suweipeng
@@ -58,8 +49,8 @@ public class RUserService implements IRUserService {
     }
     //忘记密码
     @Override
-    public Result<List<UserListVTO>> getUserList() {
-        return Result.ofSuccess(iUserService.getUserList());
+    public Result<TailPage<UserVTO>> getUserList(UserQueryParamData paramData) {
+        return Result.ofSuccess(iUserService.getUserList(paramData));
     }
 
     @Override

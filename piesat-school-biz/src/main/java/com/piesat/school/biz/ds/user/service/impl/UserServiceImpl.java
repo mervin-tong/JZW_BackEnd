@@ -2,6 +2,8 @@ package com.piesat.school.biz.ds.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.piesat.school.biz.ds.information.builder.InformationBuilder;
 import com.piesat.school.biz.ds.user.bulider.UserBuilder;
 import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.mapper.UserMapper;
@@ -9,9 +11,12 @@ import com.piesat.school.biz.ds.user.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.user.param.UpdatePasswordParamData;
 import com.piesat.school.user.param.UserParamData;
-import com.piesat.school.user.vto.UserListVTO;
+import com.piesat.school.user.param.UserQueryParamData;
 import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
+import com.smartwork.api.support.page.CommonPage;
+import com.smartwork.api.support.page.TailPage;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -71,14 +76,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     //获取用户列表
     @Override
-    public List<UserListVTO> getUserList() {
+    public TailPage<UserVTO> getUserList(UserQueryParamData paramData) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        List<User> users = userMapper.selectList(queryWrapper);
-        List<UserListVTO> listVTOS = new ArrayList<>();
-        for (User user : users) {
-            listVTOS.add(UserBuilder.toUserListVTO(user));
+        if(StringUtils.isNotBlank(paramData.getCondition())){
+            queryWrapper.lambda().like(User::getName,paramData.getCondition());
         }
-        return listVTOS;
+        Page<User> userPage=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
+        return CommonPage.buildPage(userPage.getCurrent(), userPage.getSize(), userPage.getTotal(), UserBuilder.toUserVTOs(userPage.getRecords()));
     }
     //根据用户id修改密码
     @Override

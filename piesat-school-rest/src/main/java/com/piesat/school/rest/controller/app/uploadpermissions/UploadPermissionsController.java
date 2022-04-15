@@ -5,6 +5,8 @@ import com.piesat.school.uploadpermissions.iservice.IRUploadPermissionsService;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
+import com.piesat.school.uploadpermissions.vto.UserPermissionVTO;
+import com.piesat.school.user.param.LimitUserParamData;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.*;
@@ -81,6 +83,11 @@ public class UploadPermissionsController {
         return irUploadPermissionsService.checkPermissions(paramData);
     }
 
-
+    @ApiOperation(value = "用户上传权限信息")
+    @PostMapping("userPermissions")
+    @ApiImplicitParam(value = "userId",name = "用户id")
+    public Result<UserPermissionVTO> userPermissions(Long userId){
+        return irUploadPermissionsService.userPermissions(userId);
+    }
 
 }

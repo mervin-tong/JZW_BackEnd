@@ -14,6 +14,7 @@ import com.piesat.school.emuerlation.BizEnumType;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
+import com.piesat.school.uploadpermissions.vto.UserPermissionVTO;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
 import lombok.extern.slf4j.Slf4j;
@@ -130,6 +131,24 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermissions
         return Boolean.TRUE;
     }
 
+    @Override
+    public UserPermissionVTO userPermissions(Long userId) {
+        UserPermissionVTO vto=new UserPermissionVTO();
+        User user=this.userService.getById(userId);
+        vto.setId(userId);
+        vto.setIsDataUpload(user.getIsDataUpload());
+        vto.setStatus(user.getStatus());
+        vto.setCurrentUpload(user.getCurrentUpload());
+        QueryWrapper<UploadPermissions> queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(UploadPermissions::getApplicatId,userId);
+        queryWrapper.lambda().orderByDesc(UploadPermissions::getUpdatedAt);
+        UploadPermissions uploadPermissions= this.getOne(queryWrapper);
+        if (uploadPermissions!=null) {
+            vto.setRejectMark(uploadPermissions.getAuditMark());
+        }
+        return vto;
+    }
+
     /**
      * 审批人处理申请
      * @return true 申请成功
@@ -161,6 +180,7 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermissions
         if(paramData.getIsAllow()){
             User user=this.userService.getById(uploadPermissions.getApplicatId());
             user.setIsDataUpload(true);
+            user.setCurrentUpload(true);
             this.userService.updateById(user);
         }
         return Boolean.TRUE;

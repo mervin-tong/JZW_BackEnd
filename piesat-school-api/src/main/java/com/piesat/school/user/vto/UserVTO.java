@@ -92,6 +92,9 @@ public class UserVTO implements Serializable {
     @ApiModelProperty(value = "是否有上传数据权限（0是 1否）")
     private Boolean isDataUpload;
 
+    @ApiModelProperty(value = "当前是否有上传数据权限（0是 1否）")
+    private Boolean currentUpload;
+
     /**
      * 账户状态（0正常 1停用）
      */

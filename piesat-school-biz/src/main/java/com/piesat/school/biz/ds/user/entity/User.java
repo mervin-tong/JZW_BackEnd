@@ -82,7 +82,7 @@ public class User implements Serializable {
     private Date updatedAt;
 
     /**
-     * 是否有上传数据权限（0是 1否）
+     * 是否有上传数据权限（0否 1是）
      */
     private Boolean isDataUpload;
 
@@ -91,6 +91,10 @@ public class User implements Serializable {
      */
     private Integer status;
 
+    /**
+     * 当前是否有上传数据权限（0是 1否）
+     */
+    private Boolean currentUpload;
 
     @Override
     public String toString() {

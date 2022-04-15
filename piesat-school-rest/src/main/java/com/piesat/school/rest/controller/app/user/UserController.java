@@ -4,8 +4,8 @@ import com.piesat.school.rest.constants.DubboConstant;
 import com.piesat.school.security.handler.CustomizeAuthenticationFailureHandler;
 import com.piesat.school.user.iservice.IRUserService;
 import com.piesat.school.user.param.*;
-import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
+import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.*;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -150,8 +150,8 @@ public class UserController {
             @ApiResponse(code=4401,message="当前没有登录用户"),
     })
     @GetMapping("getUserList")
-    public Result<List<UserListVTO>> getUserList(){
-        return irUserService.getUserList();
+    public Result<TailPage<UserVTO>> getUserList(UserQueryParamData paramData){
+        return irUserService.getUserList(paramData);
     }
 
 
@@ -178,5 +178,7 @@ public class UserController {
     public Result<Boolean> limitUser(LimitUserParamData paramData){
         return irUserService.limitUser(paramData);
     }
+
+
 
 }
