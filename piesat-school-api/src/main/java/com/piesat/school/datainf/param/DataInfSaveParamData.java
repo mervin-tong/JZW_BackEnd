@@ -2,9 +2,11 @@ package com.piesat.school.datainf.param;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.piesat.school.emuerlation.BizEnumType;
+import com.smartwork.api.param.ParamData;
 import com.smartwork.api.param.UIDParamData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import javax.validation.constraints.NotBlank;
@@ -13,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class DataInfSaveParamData implements Serializable {
+public class DataInfSaveParamData extends ParamData {
     @ApiModelProperty(value = "数据id")
     private Long id;
 
@@ -63,11 +65,11 @@ public class DataInfSaveParamData implements Serializable {
     private ContactParamData contact;
 
     @ApiModelProperty(value = "数据所属开始时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @DateTimeFormat(pattern ="yyyy-MM-dd" )
     private Date startAt;
 
     @ApiModelProperty(value = "数据所属结束时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @DateTimeFormat(pattern ="yyyy-MM-dd" )
     private Date endAt;
 
     @ApiModelProperty(value = "上传人id")

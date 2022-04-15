@@ -2,6 +2,9 @@ package com.piesat.school.biz.ds.topic.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
+import com.piesat.school.biz.ds.datainf.entity.Datainf;
+import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.biz.ds.information.builder.InformationBuilder;
 import com.piesat.school.biz.ds.topic.builder.TopicBuilder;
 import com.piesat.school.biz.ds.topic.entity.Topic;
@@ -10,6 +13,9 @@ import com.piesat.school.biz.ds.topic.mapper.TopicDataMapper;
 import com.piesat.school.biz.ds.topic.service.ITopicDataRelService;
 import com.piesat.school.biz.ds.topic.service.ITopicService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.piesat.school.biz.ds.user.entity.User;
+import com.piesat.school.biz.ds.user.service.IUserService;
+import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.piesat.school.topic.param.TopicDataAddParamData;
 import com.piesat.school.topic.param.TopicDelParamData;
@@ -25,6 +31,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -40,6 +47,10 @@ public class TopicServiceImpl extends ServiceImpl<TopicDataMapper, Topic> implem
     private TopicDataMapper topicDataMapper;
     @Resource
     private ITopicDataRelService topicDataRelService;
+    @Resource
+    private IDatainfService dataInfService;
+    @Resource
+    private IUserService userService;
     //新增主题
     @Override
     public TopicVTO saveOrUpdate(TopicSaveParamData topicSaveParamData) {
@@ -125,5 +136,23 @@ public class TopicServiceImpl extends ServiceImpl<TopicDataMapper, Topic> implem
         queryWrapper.lambda().eq(Topic::getStatus, BizEnumType.CommonStatus.Valid.getKey());
         Page<Topic> page = super.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
         return CommonPage.buildPage(page.getCurrent(), page.getSize(), page.getTotal(), TopicBuilder.toTopicVTOs(page.getRecords()));
+    }
+
+    @Override
+    public TailPage<MyDataInfVTO> topicDatalist(TopicQueryParamData paramData) {
+        QueryWrapper<TopicDataRel> queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(TopicDataRel::getTopicId,paramData.getTopicId());
+        Page<TopicDataRel> topicDataRels=this.topicDataRelService.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper );
+
+        List<Long> dataIds=topicDataRels.getRecords().stream().map(TopicDataRel::getDataId).collect(Collectors.toList());
+        List<Datainf> dataInfos=this.dataInfService.listByIds(dataIds);
+        List<MyDataInfVTO> myDataInfVTOS=new ArrayList<>();
+        if(dataInfos.size()>0){
+            List<Long> userIds=dataInfos.stream().map(Datainf::getUploadUserId).collect(Collectors.toList());
+//            List<User> users=this.userMapper.selectBatchIds(userIds);
+//            myDataInfVTOS= DatainfBuilder.toMyDataInfVTOs(dataInfos,users);
+        }
+//        return CommonPage.buildPage(topicDataRels.getCurrent(), topicDataRels.getSize(), topicDataRels.getTotal(), TopicBuilder.toTopicVTOs(page.getRecords()));;
+        return null;
     }
 }

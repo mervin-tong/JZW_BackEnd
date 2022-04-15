@@ -1,6 +1,7 @@
 package com.piesat.school.topic.iservice;
 
 
+import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.topic.param.TopicDataAddParamData;
 import com.piesat.school.topic.param.TopicDelParamData;
 import com.piesat.school.topic.param.TopicQueryParamData;
@@ -29,4 +30,6 @@ public interface IRTopicService {
     Result<Boolean> delTopicData(Long id);
 
     Result<TailPage<TopicVTO>> list(TopicQueryParamData paramData);
+
+    Result<TailPage<MyDataInfVTO>> topicDatalist(TopicQueryParamData paramData);
 }

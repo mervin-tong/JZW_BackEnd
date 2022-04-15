@@ -1,5 +1,6 @@
 package com.piesat.school.rest.controller.app.topic;
 
+import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.topic.iservice.IRTopicService;
 import com.piesat.school.topic.param.TopicDataAddParamData;
 import com.piesat.school.topic.param.TopicDelParamData;
@@ -51,6 +52,12 @@ public class TopicController {
     @PostMapping("/list")
     public Result<TailPage<TopicVTO>> topicList(TopicQueryParamData paramData){
         return irTopicService.list(paramData);
+    }
+
+    @ApiOperation(value = "专题数据列表")
+    @PostMapping("/topicDatalist")
+    public Result<TailPage<MyDataInfVTO>> topicDatalist(TopicQueryParamData paramData){
+        return irTopicService.topicDatalist(paramData);
     }
 //    @ApiOperation(value = "专题数据列表")
 //    @GetMapping("/dataList")

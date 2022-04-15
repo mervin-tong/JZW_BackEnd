@@ -1,8 +1,7 @@
 package com.piesat.school.provider.serv.topic;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.piesat.school.biz.ds.information.entity.Information;
 import com.piesat.school.biz.ds.topic.service.ITopicService;
+import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.topic.iservice.IRTopicService;
 import com.piesat.school.topic.param.TopicDataAddParamData;
 import com.piesat.school.topic.param.TopicDelParamData;
@@ -59,5 +58,10 @@ public class RTopicService implements IRTopicService {
     @Override
     public Result<TailPage<TopicVTO>> list(TopicQueryParamData paramData) {
         return Result.ofSuccess(iTopicService.topicPage(paramData));
+    }
+
+    @Override
+    public Result<TailPage<MyDataInfVTO>> topicDatalist(TopicQueryParamData paramData) {
+        return Result.ofSuccess(iTopicService.topicDatalist(paramData));
     }
 }

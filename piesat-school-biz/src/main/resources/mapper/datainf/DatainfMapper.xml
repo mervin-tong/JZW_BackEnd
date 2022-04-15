@@ -152,8 +152,8 @@
             b.email,
             b.mobile,
             b.con_unit,
-            a.left_up;
-            a.right_down;
+            a.left_up,
+            a.right_down
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
         where (a.id = #{dataInfId} AND a.deleted = 1)

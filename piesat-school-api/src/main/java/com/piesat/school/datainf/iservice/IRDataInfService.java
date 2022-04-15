@@ -32,5 +32,5 @@ public interface IRDataInfService {
 
     Boolean addhistory(Long dataId,Long userId);
 
-    Result<List<MyDataInfVTO>> dataList(DataQueryParamData paramData);
+    Result<TailPage<MyDataInfVTO>> dataList(DataQueryParamData paramData);
 }

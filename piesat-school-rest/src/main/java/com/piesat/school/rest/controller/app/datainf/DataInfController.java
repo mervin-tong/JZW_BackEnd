@@ -55,7 +55,7 @@ public class DataInfController{
             @ApiResponse(code=500,message="后台报错"),
     })
     @PostMapping("/dataList")
-    public Result<List<MyDataInfVTO>> dataList(DataQueryParamData paramData){
+    public Result<TailPage<MyDataInfVTO>> dataList(DataQueryParamData paramData){
         return irDataInfService.dataList(paramData);
     }
 

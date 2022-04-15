@@ -285,7 +285,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
 
     @Override
-    public List<MyDataInfVTO> dataList(DataQueryParamData paramData) {
+    public TailPage<MyDataInfVTO> dataList(DataQueryParamData paramData) {
         QueryWrapper<Datainf> queryWrapper=new QueryWrapper<>();
         if(paramData.getAuditStatus()!=null){
             queryWrapper.eq("through_review",paramData.getAuditStatus());
@@ -293,14 +293,14 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         if(paramData.getPublisher()!=null){
             queryWrapper.eq("upload_user_id",paramData.getPublisher());
         }
-        List<Datainf> dataInfos=this.list(queryWrapper);
+        Page<Datainf> dataInfos=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
 
         List<MyDataInfVTO> myDataInfVTOS=new ArrayList<>();
-        if(dataInfos.size()>0){
-            List<Long> userIds=dataInfos.stream().map(Datainf::getUploadUserId).collect(Collectors.toList());
+        if(dataInfos.getRecords().size()>0){
+            List<Long> userIds=dataInfos.getRecords().stream().map(Datainf::getUploadUserId).collect(Collectors.toList());
             List<User> users=this.userMapper.selectBatchIds(userIds);
-            myDataInfVTOS=DatainfBuilder.toMyDataInfVTOs(dataInfos,users);
+            myDataInfVTOS=DatainfBuilder.toMyDataInfVTOs(dataInfos.getRecords(),users);
         }
-        return myDataInfVTOS;
+        return CommonPage.buildPage(dataInfos.getCurrent(),dataInfos.getSize(),dataInfos.getTotal(),myDataInfVTOS);
     }
 }

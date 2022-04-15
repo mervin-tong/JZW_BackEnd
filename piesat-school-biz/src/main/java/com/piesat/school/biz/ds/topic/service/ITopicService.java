@@ -2,6 +2,7 @@ package com.piesat.school.biz.ds.topic.service;
 
 import com.piesat.school.biz.ds.topic.entity.Topic;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.topic.param.TopicDataAddParamData;
 import com.piesat.school.topic.param.TopicDelParamData;
 import com.piesat.school.topic.param.TopicQueryParamData;
@@ -34,4 +35,6 @@ public interface ITopicService extends IService<Topic> {
     Boolean delTopicData(Long id);
 
     TailPage<TopicVTO> topicPage(TopicQueryParamData paramData);
+
+    TailPage<MyDataInfVTO> topicDatalist(TopicQueryParamData paramData);
 }

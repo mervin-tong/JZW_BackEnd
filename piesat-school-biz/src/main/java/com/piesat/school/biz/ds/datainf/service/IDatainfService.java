@@ -50,5 +50,5 @@ public interface IDatainfService extends IService<Datainf> {
 
     Boolean addhistory(Long dataId, Long userId);
 
-    List<MyDataInfVTO> dataList(DataQueryParamData paramData);
+    TailPage<MyDataInfVTO> dataList(DataQueryParamData paramData);
 }

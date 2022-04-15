@@ -98,7 +98,7 @@ public class RDataInfService implements IRDataInfService {
     }
 
     @Override
-    public Result<List<MyDataInfVTO>> dataList(DataQueryParamData paramData) {
+    public Result<TailPage<MyDataInfVTO>> dataList(DataQueryParamData paramData) {
         return Result.ofSuccess(iDatainfService.dataList(paramData));
     }
 }
