@@ -85,7 +85,6 @@ public class UploadPermissionsController {
 
     @ApiOperation(value = "用户上传权限信息")
     @PostMapping("userPermissions")
-    @ApiImplicitParam(value = "userId",name = "用户id")
     public Result<UserPermissionVTO> userPermissions(Long userId){
         return irUploadPermissionsService.userPermissions(userId);
     }

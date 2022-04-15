@@ -142,9 +142,9 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermissions
         QueryWrapper<UploadPermissions> queryWrapper=new QueryWrapper<>();
         queryWrapper.lambda().eq(UploadPermissions::getApplicatId,userId);
         queryWrapper.lambda().orderByDesc(UploadPermissions::getUpdatedAt);
-        UploadPermissions uploadPermissions= this.getOne(queryWrapper);
-        if (uploadPermissions!=null) {
-            vto.setRejectMark(uploadPermissions.getAuditMark());
+        List<UploadPermissions> uploadPermissions= this.list(queryWrapper);
+        if (uploadPermissions!=null&&uploadPermissions.size()>0) {
+            vto.setRejectMark(uploadPermissions.get(0).getAuditMark());
         }
         return vto;
     }
