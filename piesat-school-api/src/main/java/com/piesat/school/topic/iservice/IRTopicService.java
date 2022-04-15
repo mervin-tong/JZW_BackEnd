@@ -28,4 +28,6 @@ public interface IRTopicService {
     Result<TailPage<TopicVTO>> list(TopicQueryParamData paramData);
 
     Result<TailPage<MyDataInfVTO>> topicDatalist(TopicQueryParamData paramData);
+
+    Result<TopicVTO> detail(TopicQueryParamData paramData);
 }

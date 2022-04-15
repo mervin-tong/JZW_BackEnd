@@ -149,4 +149,10 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
         }
         return CommonPage.buildPage(topicDataRels.getCurrent(), topicDataRels.getSize(), topicDataRels.getTotal(), myDataInfVTOS);
     }
+
+    @Override
+    public TopicVTO detail(TopicQueryParamData paramData) {
+        Topic topic=this.getById(paramData.getTopicId());
+        return TopicBuilder.toTopicVto(topic);
+    }
 }

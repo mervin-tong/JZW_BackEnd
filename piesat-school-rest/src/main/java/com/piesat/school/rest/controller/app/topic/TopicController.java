@@ -55,23 +55,27 @@ public class TopicController {
     public Result<TailPage<MyDataInfVTO>> topicDatalist(TopicQueryParamData paramData){
         return irTopicService.topicDatalist(paramData);
     }
-
+    @ApiOperation(value = "专题详情")
+    @PostMapping("/detail")
+    public Result<TopicVTO> detail(TopicQueryParamData paramData){
+        return irTopicService.detail(paramData);
+    }
 
 //    @ApiOperation(value = "专题数据列表")
 //    @GetMapping("/dataList")
 //    public Result<TailPage<TopicVTO>> dataList(TopicQueryParamData paramData){
 //        return irTopicService.getAllTopic();
 //    }
-    @ApiOperation(value = "专题详情")
-    @GetMapping("/detailTopic")
-    public Result<List<TopicDetailVTO>> detailTopic(Long topicId){
-        return irTopicService.detailTopic(topicId);
-    }
-    @ApiOperation(value = "首页显示专题详情")
-    @GetMapping("/indexDetailTopic")
-    public Result<TopicVTO> indexDetailTopic(Long topicId){
-        return irTopicService.indexDetailTopic(topicId);
-    }
+//    @ApiOperation(value = "专题详情")
+//    @GetMapping("/detailTopic")
+//    public Result<List<TopicDetailVTO>> detailTopic(Long topicId){
+//        return irTopicService.detailTopic(topicId);
+//    }
+//    @ApiOperation(value = "首页显示专题详情")
+//    @GetMapping("/indexDetailTopic")
+//    public Result<TopicVTO> indexDetailTopic(Long topicId){
+//        return irTopicService.indexDetailTopic(topicId);
+//    }
 
 
 

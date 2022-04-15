@@ -57,4 +57,9 @@ public class RTopicService implements IRTopicService {
     public Result<TailPage<MyDataInfVTO>> topicDatalist(TopicQueryParamData paramData) {
         return Result.ofSuccess(iTopicService.topicDatalist(paramData));
     }
+
+    @Override
+    public Result<TopicVTO> detail(TopicQueryParamData paramData) {
+        return Result.ofSuccess(iTopicService.detail(paramData));
+    }
 }

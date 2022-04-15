@@ -33,4 +33,6 @@ public interface ITopicService extends IService<Topic> {
     TailPage<TopicVTO> topicPage(TopicQueryParamData paramData);
 
     TailPage<MyDataInfVTO> topicDatalist(TopicQueryParamData paramData);
+
+    TopicVTO detail(TopicQueryParamData paramData);
 }
