@@ -1,10 +1,7 @@
 package com.piesat.school.user.iservice;
 
 
-import com.piesat.school.user.param.ForgetPasswordParamData;
-import com.piesat.school.user.param.UpdatePasswordParamData;
-import com.piesat.school.user.param.UpdateUserParamData;
-import com.piesat.school.user.param.UserParamData;
+import com.piesat.school.user.param.*;
 import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
@@ -34,4 +31,6 @@ public interface IRUserService {
     Result<UserVTO> updateUser(UpdateUserParamData paramData);
     //修改密码
     Result<Boolean> updatePassword(UpdatePasswordParamData paramData);
+
+    Result<Boolean> limitUser(LimitUserParamData paramData);
 }

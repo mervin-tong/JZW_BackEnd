@@ -11,4 +11,6 @@ public class DataQueryParamData extends PageQueryParamData {
     private Integer auditStatus;
     @ApiModelProperty(value = "发布者id")
     private Long publisher;
+    @ApiModelProperty(value = "是否查看封禁数据")
+    private Boolean limitUserAble=false;
 }

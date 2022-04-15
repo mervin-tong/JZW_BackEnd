@@ -35,5 +35,5 @@ public interface DatainfMapper extends BaseMapper<Datainf> {
 
 //    List<MyDataInfVTO> myDataMenu(@Param("userId") Long userId, Page<MyDataInfVTO> page);
 
-    Boolean delDataInf(List<Long> longs);
+//    Boolean delDataInf(List<Long> longs);
 }

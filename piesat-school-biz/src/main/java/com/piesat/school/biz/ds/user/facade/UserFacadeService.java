@@ -1,6 +1,9 @@
 package com.piesat.school.biz.ds.user.facade;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.piesat.school.biz.ds.datainf.entity.Datainf;
+import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.biz.ds.user.check.CheckPhoneOrEmail;
 import com.piesat.school.biz.ds.user.check.CheckUserVerificationCode;
 import com.piesat.school.biz.ds.user.entity.Email;
@@ -13,6 +16,7 @@ import com.piesat.school.biz.ds.user.service.IUserRoleService;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.piesat.school.user.param.ForgetPasswordParamData;
+import com.piesat.school.user.param.LimitUserParamData;
 import com.piesat.school.user.param.UpdateUserParamData;
 import com.piesat.school.user.param.UserParamData;
 import com.piesat.school.user.vto.RoleVTO;
@@ -30,10 +34,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author suweipeng
@@ -43,9 +44,9 @@ import java.util.Set;
 @Service
 public class UserFacadeService {
     @Resource
-    private IUserService iUserService;
+    private IUserService userService;
     @Resource
-    private IRoleService iRoleService;
+    private IRoleService roleService;
     @Resource
     private UserMapper userMapper;
     @Resource
@@ -53,12 +54,14 @@ public class UserFacadeService {
     @Resource
     private CheckUserVerificationCode checkUserVerificationCode;
     @Resource
+    private IDatainfService datainfService;
+    @Resource
     JavaMailSender jms;
     @Resource
     private EmailMapper emailMapper;
     public UserVTO findUserByPhoneOrEmail(String phoneOrEmail){
-        UserVTO userVTO = iUserService.findUserByPhoneOrEmail(phoneOrEmail);
-        Set<RoleVTO> roleVTOs = iRoleService.getRolesByUserId(userVTO.getId());
+        UserVTO userVTO = userService.findUserByPhoneOrEmail(phoneOrEmail);
+        Set<RoleVTO> roleVTOs = roleService.getRolesByUserId(userVTO.getId());
         userVTO.setRoles(roleVTOs);
         return userVTO;
     }
@@ -72,7 +75,7 @@ public class UserFacadeService {
         UserVTO userVTO = new UserVTO();
         //如果注册的手机号或邮箱重复则捕获异常
         try {
-            userVTO = iUserService.addUser(userParamData);
+            userVTO = userService.addUser(userParamData);
 
         }catch (DataAccessException e){
                 return Result.ofFail("4012","手机号/邮箱已存在");
@@ -147,7 +150,7 @@ public class UserFacadeService {
             }
 
             if(isEqual){
-                Boolean isBoolean = iUserService.alterPassword(forgetPasswordParamData.getEmail()
+                Boolean isBoolean = userService.alterPassword(forgetPasswordParamData.getEmail()
                         , forgetPasswordParamData.getNewPassword());
                 if (isBoolean){
                     return Result.ofSuccess(Boolean.TRUE);
@@ -192,5 +195,21 @@ public class UserFacadeService {
         UserVTO userVTO=new UserVTO();
         BeanUtils.copyProperties(user,userVTO);
         return Result.ofSuccess(userVTO);
+    }
+
+    public Result<Boolean> limitUser(LimitUserParamData paramData) {
+        //用户状态更新
+        User user=this.userService.getById(paramData.getUserId());
+        user.setStatus(paramData.getLimitStatus());
+        this.userService.updateById(user);
+        //若是封禁则在其下所有数据上增加封禁标识
+        QueryWrapper<Datainf> queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(Datainf::getUploadUserId,paramData.getUserId());
+        List<Datainf> datainfs=this.datainfService.list(queryWrapper);
+        for(Datainf i:datainfs){
+            i.setPublisherStatus(paramData.getLimitStatus());
+        }
+        this.datainfService.updateBatchById(datainfs);
+        return Result.ofSuccess(Boolean.TRUE);
     }
 }

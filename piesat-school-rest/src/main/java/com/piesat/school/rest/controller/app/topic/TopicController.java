@@ -61,22 +61,5 @@ public class TopicController {
         return irTopicService.detail(paramData);
     }
 
-//    @ApiOperation(value = "专题数据列表")
-//    @GetMapping("/dataList")
-//    public Result<TailPage<TopicVTO>> dataList(TopicQueryParamData paramData){
-//        return irTopicService.getAllTopic();
-//    }
-//    @ApiOperation(value = "专题详情")
-//    @GetMapping("/detailTopic")
-//    public Result<List<TopicDetailVTO>> detailTopic(Long topicId){
-//        return irTopicService.detailTopic(topicId);
-//    }
-//    @ApiOperation(value = "首页显示专题详情")
-//    @GetMapping("/indexDetailTopic")
-//    public Result<TopicVTO> indexDetailTopic(Long topicId){
-//        return irTopicService.indexDetailTopic(topicId);
-//    }
-
-
 
 }

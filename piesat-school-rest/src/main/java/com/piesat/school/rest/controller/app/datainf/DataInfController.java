@@ -12,10 +12,7 @@ import com.piesat.school.rest.utils.FileUploadUtils;
 import com.piesat.school.rest.utils.FileUtils;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.mapstruct.Context;
@@ -37,16 +34,6 @@ public class DataInfController{
     @GetMapping("/dataMenu")
     public Result<TailPage<DataInfListVTO>> getAllDataInf(){return irDataInfService.getAllDatainf();}
 
-//    @ApiOperation(value = "我的数据")
-//    @ApiResponses({
-//            @ApiResponse(code=0,message="访问成功"),
-//            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-//            @ApiResponse(code=500,message="后台报错"),
-//    })
-//    @PostMapping("/myDataMenu")
-//    public Result<TailPage<MyDataInfVTO>> myDataMenu(Long userId){
-//        return irDataInfService.myDataMenu(userId);
-//    }
 
     @ApiOperation(value = "会员数据列表")
     @PostMapping("/dataList")
@@ -61,8 +48,9 @@ public class DataInfController{
     }
     @ApiOperation(value = "逻辑删除数据")
     @PostMapping("/del")
-    public Result<Boolean> delDataInf(@RequestParam(value = "dataId",required = true)String dataId,Long userId){
-        return irDataInfService.delDataInf(dataId,userId);
+    @ApiImplicitParam(value = "dataIds",name = "数据id，逗号分割")
+    public Result<Boolean> delDataInf(@RequestParam(value = "dataId",required = true)String dataIds){
+        return irDataInfService.delDataInf(dataIds);
     }
     @ApiOperation(value = "根据关键词返回数据列表")
     @PostMapping("/keySearch")

@@ -169,4 +169,6 @@ public class Datainf implements Serializable {
     private String leftUp;
     @ApiModelProperty(value = "右下坐标")
     private String rightDown;
+    @ApiModelProperty(value = "发布者封禁状态")
+    private Integer publisherStatus;
 }

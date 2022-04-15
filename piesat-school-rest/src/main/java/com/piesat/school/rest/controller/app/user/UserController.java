@@ -3,10 +3,7 @@ package com.piesat.school.rest.controller.app.user;
 import com.piesat.school.rest.constants.DubboConstant;
 import com.piesat.school.security.handler.CustomizeAuthenticationFailureHandler;
 import com.piesat.school.user.iservice.IRUserService;
-import com.piesat.school.user.param.ForgetPasswordParamData;
-import com.piesat.school.user.param.UpdatePasswordParamData;
-import com.piesat.school.user.param.UpdateUserParamData;
-import com.piesat.school.user.param.UserParamData;
+import com.piesat.school.user.param.*;
 import com.piesat.school.user.vto.UserListVTO;
 import com.piesat.school.user.vto.UserVTO;
 import io.swagger.annotations.*;
@@ -176,4 +173,10 @@ public class UserController {
     public Result<Boolean> updatePassword(UpdatePasswordParamData paramData){
         return irUserService.updatePassword(paramData);
     }
+    @ApiOperation(value = "封禁/解封用户")
+    @PostMapping("limitUser")
+    public Result<Boolean> limitUser(LimitUserParamData paramData){
+        return irUserService.limitUser(paramData);
+    }
+
 }

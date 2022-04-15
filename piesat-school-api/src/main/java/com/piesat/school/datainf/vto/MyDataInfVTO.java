@@ -34,4 +34,6 @@ public class MyDataInfVTO implements Serializable {
     private String dataName;
     @ApiModelProperty(value = "数据量")
     private String dataAmount;
+    @ApiModelProperty(value = "用户封禁状态")
+    private Integer publisherStatus;
 }

@@ -202,16 +202,18 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
     //逻辑删除数据
     @Override
-    public Boolean delDataInf(String dataId, Long userId) {
-        if(userId == null){
-            return Boolean.FALSE;
-        }
+    public Boolean delDataInf(String dataIds) {
         List<Long> longs = new ArrayList<>();
-        String[] split = dataId.split(",");
+        String[] split = dataIds.split(",");
         for (String s : split) {
             longs.add(Long.valueOf(s));
         }
-        return datainfMapper.delDataInf(longs);
+        List<Datainf> datainfs=this.listByIds(longs);
+        for (Datainf i:datainfs){
+            i.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
+        }
+        this.updateBatchById(datainfs);
+        return Boolean.TRUE;
     }
 
     //关键词查找
@@ -293,6 +295,9 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         queryWrapper.lambda().eq(Datainf::getDeleted, BizEnumType.CommonStatus.Invalid.getKey());
         if(paramData.getPublisher()!=null){
             queryWrapper.eq("upload_user_id",paramData.getPublisher());
+        }
+        if(!paramData.getLimitUserAble()){
+            queryWrapper.lambda().eq(Datainf::getPublisherStatus, BizEnumType.CommonStatus.Invalid.getKey());
         }
         Page<Datainf> dataInfos=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
 
