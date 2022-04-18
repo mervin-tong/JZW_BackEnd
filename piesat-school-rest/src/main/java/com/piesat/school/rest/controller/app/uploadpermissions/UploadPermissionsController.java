@@ -2,6 +2,7 @@ package com.piesat.school.rest.controller.app.uploadpermissions;
 
 import com.piesat.school.rest.constants.DubboConstant;
 import com.piesat.school.uploadpermissions.iservice.IRUploadPermissionsService;
+import com.piesat.school.uploadpermissions.param.UploadPermissionCloseUpParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
@@ -87,6 +88,12 @@ public class UploadPermissionsController {
     @PostMapping("userPermissions")
     public Result<UserPermissionVTO> userPermissions(Long userId){
         return irUploadPermissionsService.userPermissions(userId);
+    }
+
+    @ApiOperation(value = "开启/关闭用户上传权限")
+    @PostMapping("closeUpPermissions")
+    public Result<Boolean> closeUpPermissions(UploadPermissionCloseUpParamData paramData){
+        return irUploadPermissionsService.closeUpPermissions(paramData);
     }
 
 }

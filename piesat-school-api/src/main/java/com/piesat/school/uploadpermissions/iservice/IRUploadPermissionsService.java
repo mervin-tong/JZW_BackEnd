@@ -1,5 +1,6 @@
 package com.piesat.school.uploadpermissions.iservice;
 
+import com.piesat.school.uploadpermissions.param.UploadPermissionCloseUpParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
@@ -23,4 +24,6 @@ public interface IRUploadPermissionsService {
     Result<Boolean> cleanApprover(Long approver, String uploadIds);
 
     Result<UserPermissionVTO> userPermissions(Long userId);
+
+    Result<Boolean> closeUpPermissions(UploadPermissionCloseUpParamData paramData);
 }

@@ -2,6 +2,7 @@ package com.piesat.school.biz.ds.uploadpermissions.service;
 
 import com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermissions;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.piesat.school.uploadpermissions.param.UploadPermissionCloseUpParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
@@ -30,4 +31,6 @@ public interface IUploadPermisssionsService extends IService<UploadPermissions> 
     Boolean cleanApprover(Long approver, String uploadIds);
 
     UserPermissionVTO userPermissions(Long userId);
+
+    Boolean closeUpPermissions(UploadPermissionCloseUpParamData paramData);
 }

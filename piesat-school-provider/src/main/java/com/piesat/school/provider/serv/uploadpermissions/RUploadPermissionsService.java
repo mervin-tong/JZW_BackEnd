@@ -2,6 +2,7 @@ package com.piesat.school.provider.serv.uploadpermissions;
 
 import com.piesat.school.biz.ds.uploadpermissions.service.IUploadPermisssionsService;
 import com.piesat.school.uploadpermissions.iservice.IRUploadPermissionsService;
+import com.piesat.school.uploadpermissions.param.UploadPermissionCloseUpParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
@@ -48,5 +49,10 @@ public class RUploadPermissionsService implements IRUploadPermissionsService {
     @Override
     public Result<UserPermissionVTO> userPermissions(Long userId) {
         return Result.ofSuccess(iUploadPermisssionsService.userPermissions(userId));
+    }
+
+    @Override
+    public Result<Boolean> closeUpPermissions(UploadPermissionCloseUpParamData paramData) {
+        return Result.ofSuccess(iUploadPermisssionsService.closeUpPermissions(paramData));
     }
 }

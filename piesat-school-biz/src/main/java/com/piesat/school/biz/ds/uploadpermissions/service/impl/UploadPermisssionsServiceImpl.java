@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.emuerlation.BizEnumType;
+import com.piesat.school.uploadpermissions.param.UploadPermissionCloseUpParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
 import com.piesat.school.uploadpermissions.vto.UploadPermissionsVTO;
@@ -147,6 +148,14 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermissions
             vto.setRejectMark(uploadPermissions.get(0).getAuditMark());
         }
         return vto;
+    }
+
+    @Override
+    public Boolean closeUpPermissions(UploadPermissionCloseUpParamData paramData) {
+        User user=this.userService.getById(paramData.getUserId());
+        user.setCurrentUpload(paramData.getIsClose()?false:true);
+        this.userService.updateById(user);
+        return Boolean.TRUE;
     }
 
     /**
