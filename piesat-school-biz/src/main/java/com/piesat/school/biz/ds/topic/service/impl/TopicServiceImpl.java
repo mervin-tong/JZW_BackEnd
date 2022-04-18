@@ -3,7 +3,9 @@ package com.piesat.school.biz.ds.topic.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
+import com.piesat.school.biz.ds.datainf.entity.Contact;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
+import com.piesat.school.biz.ds.datainf.service.IContactService;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.biz.ds.topic.builder.TopicBuilder;
 import com.piesat.school.biz.ds.topic.entity.Topic;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -47,6 +50,8 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
     private IDatainfService dataInfService;
     @Resource
     private IUserService userService;
+    @Resource
+    private IContactService contactService;
     //新增主题
     @Override
     public TopicVTO saveOrUpdate(TopicSaveParamData topicSaveParamData) {
@@ -135,17 +140,28 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
 
     @Override
     public TailPage<MyDataInfVTO> topicDatalist(TopicQueryParamData paramData) {
+        List<MyDataInfVTO> myDataInfVTOS=new ArrayList<>();
         QueryWrapper<TopicDataRel> queryWrapper=new QueryWrapper<>();
         queryWrapper.lambda().eq(TopicDataRel::getTopicId,paramData.getTopicId());
         Page<TopicDataRel> topicDataRels=this.topicDataRelService.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper );
 
         List<Long> dataIds=topicDataRels.getRecords().stream().map(TopicDataRel::getDataId).collect(Collectors.toList());
-        List<Datainf> dataInfos=this.dataInfService.listByIds(dataIds);
-        List<MyDataInfVTO> myDataInfVTOS=new ArrayList<>();
-        if(dataInfos.size()>0){
-            List<Long> userIds=dataInfos.stream().map(Datainf::getUploadUserId).collect(Collectors.toList());
-            List<User> users=this.userService.listByIds(userIds);
-            myDataInfVTOS= DatainfBuilder.toMyDataInfVTOs(dataInfos,users);
+        if(dataIds!=null&&dataIds.size()>0){
+            List<Datainf> dataInfos=this.dataInfService.listByIds(dataIds);
+            List<Long> contactIds=dataInfos.stream().filter(e->e.getConId()!=null).map(Datainf::getConId).collect(Collectors.toList());
+            List<Contact> contacts=null;
+            if(contactIds!=null&&contactIds.size()>0){
+                contacts=this.contactService.listByIds(contactIds);
+            }
+            if(dataInfos.size()>0){
+                List<Long> userIds=dataInfos.stream().map(Datainf::getUploadUserId).collect(Collectors.toList());
+                List<User> users=this.userService.listByIds(userIds);
+                Map<Long,String> contactMap=null;
+                if(contacts!=null){
+                    contactMap=contacts.stream().collect(Collectors.toMap(Contact::getId,Contact::getConName,(key1, key2)->key2));
+                }
+                myDataInfVTOS= DatainfBuilder.toMyDataInfVTOs(dataInfos,users,contactMap);
+            }
         }
         return CommonPage.buildPage(topicDataRels.getCurrent(), topicDataRels.getSize(), topicDataRels.getTotal(), myDataInfVTOS);
     }

@@ -44,6 +44,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -304,8 +305,17 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         List<MyDataInfVTO> myDataInfVTOS=new ArrayList<>();
         if(dataInfos.getRecords().size()>0){
             List<Long> userIds=dataInfos.getRecords().stream().map(Datainf::getUploadUserId).collect(Collectors.toList());
+            List<Long> contactIds=dataInfos.getRecords().stream().filter(e->e.getConId()!=null).map(Datainf::getConId).collect(Collectors.toList());
+            List<Contact> contacts=new ArrayList<>();
+            if(contactIds!=null&&contactIds.size()>0){
+                contacts=this.contactService.listByIds(contactIds);
+            }
+            Map<Long,String> contactMap=null;
+            if(contacts!=null){
+                contactMap=contacts.stream().collect(Collectors.toMap(Contact::getId,Contact::getConName,(key1, key2)->key2));
+            }
             List<User> users=this.userMapper.selectBatchIds(userIds);
-            myDataInfVTOS=DatainfBuilder.toMyDataInfVTOs(dataInfos.getRecords(),users);
+            myDataInfVTOS=DatainfBuilder.toMyDataInfVTOs(dataInfos.getRecords(),users,contactMap);
         }
         return CommonPage.buildPage(dataInfos.getCurrent(),dataInfos.getSize(),dataInfos.getTotal(),myDataInfVTOS);
     }
