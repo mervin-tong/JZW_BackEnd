@@ -15,10 +15,7 @@ import com.piesat.school.biz.ds.user.service.IRoleService;
 import com.piesat.school.biz.ds.user.service.IUserRoleService;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.emuerlation.BizEnumType;
-import com.piesat.school.user.param.ForgetPasswordParamData;
-import com.piesat.school.user.param.LimitUserParamData;
-import com.piesat.school.user.param.UpdateUserParamData;
-import com.piesat.school.user.param.UserParamData;
+import com.piesat.school.user.param.*;
 import com.piesat.school.user.vto.RoleVTO;
 import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
@@ -211,6 +208,34 @@ public class UserFacadeService {
             i.setPublisherStatus(paramData.getLimitStatus());
         }
         this.datainfService.updateBatchById(datainfs);
+        return Result.ofSuccess(Boolean.TRUE);
+    }
+
+    public Result<Boolean> feedback(FeedBackParamData paramData) {
+        User user=this.userService.getById(paramData.getUserId());
+        try {
+            //建立邮件消息
+            SimpleMailMessage mainMessage = new SimpleMailMessage();
+
+            //发送者
+            mainMessage.setFrom(sender);
+
+            //接收者
+            mainMessage.setTo(user.getEmail());
+
+            //发送的标题
+            mainMessage.setSubject("邮箱验证");
+
+            //发送的内容
+            String msg = paramData.getContent();
+            mainMessage.setText(msg);
+            //发送邮件
+            jms.send(mainMessage);
+
+            //TODO 反馈入库
+        } catch (Exception e) {
+            return Result.ofFail("4401","发送邮件失败，请核对邮箱账号");
+        }
         return Result.ofSuccess(Boolean.TRUE);
     }
 }

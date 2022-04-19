@@ -33,4 +33,6 @@ public interface IRUserService {
     Result<Boolean> updatePassword(UpdatePasswordParamData paramData);
 
     Result<Boolean> limitUser(LimitUserParamData paramData);
+
+    Result<Boolean> feedback(FeedBackParamData paramData);
 }

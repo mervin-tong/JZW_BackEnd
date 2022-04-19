@@ -13,7 +13,7 @@ spring:
     properties.mail.smtp.auth: true #开启认证
     properties.mail.smtp.port: 465 #设置端口465或者994
     properties.mail.display.sendmail: aaa #可以任意
-    properties.mail.display.sendname: bbb #可以任意
+    properties.mail.display.sendname: 管理员 #可以任意
     properties.mail.smtp.starttls.enable: true
     properties.mail.smtp.starttls.required: true
     properties.mail.smtp.ssl.enable: true #开启SSL

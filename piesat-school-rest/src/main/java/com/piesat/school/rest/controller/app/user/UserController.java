@@ -180,5 +180,10 @@ public class UserController {
     }
 
 
-
+    //发送邮箱验证码
+    @ApiOperation(value = "意见反馈")
+    @PostMapping("/feedback")
+    public Result<Boolean> feedback(FeedBackParamData paramData){
+        return userService.feedback(paramData);
+    }
 }

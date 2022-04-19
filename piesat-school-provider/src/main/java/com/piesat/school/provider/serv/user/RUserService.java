@@ -68,4 +68,9 @@ public class RUserService implements IRUserService {
     public Result<Boolean> limitUser(LimitUserParamData paramData) {
         return userFacadeService.limitUser(paramData);
     }
+
+    @Override
+    public Result<Boolean> feedback(FeedBackParamData paramData) {
+        return userFacadeService.feedback(paramData);
+    }
 }
