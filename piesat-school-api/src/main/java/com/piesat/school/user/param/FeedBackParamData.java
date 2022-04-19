@@ -10,4 +10,6 @@ public class FeedBackParamData extends ParamData {
     private Long userId;
     @ApiModelProperty(value = "反馈内容")
     private String content;
+    @ApiModelProperty(value = "联系方式")
+    private String contactWay;
 }

@@ -297,6 +297,10 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         if(paramData.getPublisher()!=null){
             queryWrapper.eq("upload_user_id",paramData.getPublisher());
         }
+        if(StringUtils.isNotBlank(paramData.getCondition())){
+            queryWrapper.lambda().like(Datainf::getDataName,paramData.getCondition());
+        }
+
         if(!paramData.getLimitUserAble()){
             queryWrapper.lambda().eq(Datainf::getPublisherStatus, BizEnumType.CommonStatus.Invalid.getKey());
         }

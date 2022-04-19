@@ -221,13 +221,13 @@ public class UserFacadeService {
             mainMessage.setFrom(sender);
 
             //接收者
-            mainMessage.setTo(user.getEmail());
+            mainMessage.setTo(sender);
 
             //发送的标题
-            mainMessage.setSubject("邮箱验证");
+            mainMessage.setSubject("意见反馈");
 
             //发送的内容
-            String msg = paramData.getContent();
+            String msg = paramData.getContent()+"。 我的联系方式是："+paramData.getContactWay();
             mainMessage.setText(msg);
             //发送邮件
             jms.send(mainMessage);

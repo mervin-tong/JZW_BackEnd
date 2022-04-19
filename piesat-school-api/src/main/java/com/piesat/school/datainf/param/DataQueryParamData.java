@@ -13,4 +13,6 @@ public class DataQueryParamData extends PageQueryParamData {
     private Long publisher;
     @ApiModelProperty(value = "是否查看封禁数据")
     private Boolean limitUserAble=false;
+    @ApiModelProperty(value = "搜索条件")
+    private String condition;
 }
