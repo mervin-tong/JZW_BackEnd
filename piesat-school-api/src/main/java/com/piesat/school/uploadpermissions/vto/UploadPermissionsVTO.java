@@ -23,6 +23,8 @@ public class UploadPermissionsVTO implements Serializable {
     //邮箱
     @ApiModelProperty(value = "申请人邮箱")
     private String email;
+    @ApiModelProperty(value = "申请人手机号")
+    private String phone;
     //工作地址
     @ApiModelProperty(value = "申请人工作单位")
     private String unitAddress;

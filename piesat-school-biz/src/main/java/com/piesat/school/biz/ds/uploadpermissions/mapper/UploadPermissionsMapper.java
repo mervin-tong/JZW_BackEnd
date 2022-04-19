@@ -16,5 +16,5 @@ import java.util.List;
  * @since 2022-02-28
  */
 public interface UploadPermissionsMapper extends BaseMapper<UploadPermissions> {
-    List<UploadPermissionsVTO> uploadPermissionsList(Integer uploadPermissionsStatus, String startAt,String endAt, Page<UploadPermissionsVTO> page);
+    List<UploadPermissionsVTO> uploadPermissionsList(Integer uploadPermissionsStatus, String startAt,String endAt,String condition, Page<UploadPermissionsVTO> page);
 }

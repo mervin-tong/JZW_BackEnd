@@ -27,6 +27,7 @@
             up.approver as approver,
             u.`name` as name,
             u.email as email,
+            u.phone as phone,
             u.unit_address as unitAddress,
             u.profession as profession,
             up.audit_mark as auditMark,
@@ -37,6 +38,9 @@
         where 1=1
         <if test="uploadPermissionsStatus !=null">
            and up.status =#{uploadPermissionsStatus}
+        </if>
+        <if test="condition!=null and condition!=''">
+            and u.`name` like CONCAT("%",#{condition},"%")
         </if>
         <if test="startAt!=null and startAt!=''">
             and up.created_at >=#{startAt}

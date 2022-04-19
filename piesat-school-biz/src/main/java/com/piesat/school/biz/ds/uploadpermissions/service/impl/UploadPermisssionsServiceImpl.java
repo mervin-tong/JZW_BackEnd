@@ -63,7 +63,7 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermissions
     @Override
     public TailPage<UploadPermissionsVTO> uploadPermissionsList(UploadPermissionsParamData uploadPermissionsParamData) {
         Page<UploadPermissionsVTO> page = new Page<>(uploadPermissionsParamData.getPn(),uploadPermissionsParamData.getPs());
-        List<UploadPermissionsVTO> list = uploadPermissionsMapper.uploadPermissionsList(uploadPermissionsParamData.getUploadPermissionsStatus(),uploadPermissionsParamData.getStartAt(),uploadPermissionsParamData.getEndAt(),page);
+        List<UploadPermissionsVTO> list = uploadPermissionsMapper.uploadPermissionsList(uploadPermissionsParamData.getUploadPermissionsStatus(),uploadPermissionsParamData.getStartAt(),uploadPermissionsParamData.getEndAt(),uploadPermissionsParamData.getCondition(),page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 
