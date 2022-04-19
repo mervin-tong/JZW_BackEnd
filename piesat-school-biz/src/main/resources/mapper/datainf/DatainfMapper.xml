@@ -156,7 +156,7 @@
             a.right_down
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
-        where (a.id = #{dataInfId} AND a.deleted = 1)
+        where (a.id = #{dataInfId} AND a.deleted = 0)
     </select>
 
 <!--    <select id="myDataMenu" parameterType="long" resultType="com.piesat.school.datainf.vto.MyDataInfVTO">-->

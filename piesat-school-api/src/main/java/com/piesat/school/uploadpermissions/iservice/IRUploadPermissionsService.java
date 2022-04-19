@@ -1,5 +1,6 @@
 package com.piesat.school.uploadpermissions.iservice;
 
+import com.piesat.school.uploadpermissions.param.UploadPermissionAddParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionCloseUpParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
@@ -13,7 +14,7 @@ public interface IRUploadPermissionsService {
     Result<TailPage<UploadPermissionsVTO>> uploadPermissionsList(UploadPermissionsParamData uploadPermissionsParamData);
 
     //申请上传权限
-    Result<Boolean> createPermissions(Long userId);
+    Result<Boolean> createPermissions(UploadPermissionAddParamData paramData);
 
     //处理上传权限
     Result<Boolean> checkPermissions(UploadPermissionOperateParamData paramData);
@@ -26,4 +27,6 @@ public interface IRUploadPermissionsService {
     Result<UserPermissionVTO> userPermissions(Long userId);
 
     Result<Boolean> closeUpPermissions(UploadPermissionCloseUpParamData paramData);
+
+    Result<UploadPermissionsVTO> detail(Long id);
 }

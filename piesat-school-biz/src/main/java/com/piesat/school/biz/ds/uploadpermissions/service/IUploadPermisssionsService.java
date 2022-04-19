@@ -2,6 +2,7 @@ package com.piesat.school.biz.ds.uploadpermissions.service;
 
 import com.piesat.school.biz.ds.uploadpermissions.entity.UploadPermissions;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.piesat.school.uploadpermissions.param.UploadPermissionAddParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionCloseUpParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
@@ -22,7 +23,7 @@ public interface IUploadPermisssionsService extends IService<UploadPermissions> 
     //获取权限申请列表
     TailPage<UploadPermissionsVTO> uploadPermissionsList(UploadPermissionsParamData uploadPermissionsParamData);
     //创建权限申请
-    Boolean createPermissions(Long userId);
+    Boolean createPermissions(UploadPermissionAddParamData paramData);
     //审批人处理申请
     Boolean checkPermissions(UploadPermissionOperateParamData paramData);
     //审批人锁定申请
@@ -33,4 +34,6 @@ public interface IUploadPermisssionsService extends IService<UploadPermissions> 
     UserPermissionVTO userPermissions(Long userId);
 
     Boolean closeUpPermissions(UploadPermissionCloseUpParamData paramData);
+
+    UploadPermissionsVTO detail(Long id);
 }

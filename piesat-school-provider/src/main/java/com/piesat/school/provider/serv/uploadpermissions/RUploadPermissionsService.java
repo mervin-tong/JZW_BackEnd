@@ -2,6 +2,7 @@ package com.piesat.school.provider.serv.uploadpermissions;
 
 import com.piesat.school.biz.ds.uploadpermissions.service.IUploadPermisssionsService;
 import com.piesat.school.uploadpermissions.iservice.IRUploadPermissionsService;
+import com.piesat.school.uploadpermissions.param.UploadPermissionAddParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionCloseUpParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
@@ -27,8 +28,8 @@ public class RUploadPermissionsService implements IRUploadPermissionsService {
     }
     //申请上传权限
     @Override
-    public Result<Boolean> createPermissions(Long userId) {
-        return Result.ofSuccess(iUploadPermisssionsService.createPermissions(userId));
+    public Result<Boolean> createPermissions(UploadPermissionAddParamData paramData) {
+        return Result.ofSuccess(iUploadPermisssionsService.createPermissions(paramData));
     }
     //处理上传权限
     @Override
@@ -54,5 +55,10 @@ public class RUploadPermissionsService implements IRUploadPermissionsService {
     @Override
     public Result<Boolean> closeUpPermissions(UploadPermissionCloseUpParamData paramData) {
         return Result.ofSuccess(iUploadPermisssionsService.closeUpPermissions(paramData));
+    }
+
+    @Override
+    public Result<UploadPermissionsVTO> detail(Long id) {
+        return Result.ofSuccess(iUploadPermisssionsService.detail(id));
     }
 }

@@ -29,6 +29,8 @@ public class UploadPermissionsVTO implements Serializable {
     //从事专业
     @ApiModelProperty(value = "申请人从事专业")
     private String profession;
+    @ApiModelProperty(value = "申请理由")
+    private String reason;
     //申请时间
     @ApiModelProperty(value = "申请时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")

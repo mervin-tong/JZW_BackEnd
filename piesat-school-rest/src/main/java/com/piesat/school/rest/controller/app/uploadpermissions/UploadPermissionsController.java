@@ -2,6 +2,7 @@ package com.piesat.school.rest.controller.app.uploadpermissions;
 
 import com.piesat.school.rest.constants.DubboConstant;
 import com.piesat.school.uploadpermissions.iservice.IRUploadPermissionsService;
+import com.piesat.school.uploadpermissions.param.UploadPermissionAddParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionCloseUpParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
@@ -38,20 +39,17 @@ public class UploadPermissionsController {
     }
 
     @ApiOperation(value = "申请上传权限")
-    @ApiResponses({
-            @ApiResponse(code=0,message="访问成功"),
-            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
-            @ApiResponse(code=500,message="后台报错"),
-    })
-    @GetMapping(value = "createPermissions")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", value = "申请上传权限的用户id", dataType = "Long" ),
-    })
-    public Result<Boolean> createPermissions(Long userId){
-        return irUploadPermissionsService.createPermissions(userId);
+    @PostMapping(value = "createPermissions")
+    public Result<Boolean> createPermissions(UploadPermissionAddParamData paramData){
+        return irUploadPermissionsService.createPermissions(paramData);
     }
 
-
+    @ApiOperation(value = "上传权限申请详情")
+    @GetMapping(value = "detail")
+    @ApiImplicitParam(value = "上传申请id",name = "id")
+    public Result<UploadPermissionsVTO> detail(Long id){
+        return irUploadPermissionsService.detail(id);
+    }
     @ApiOperation(value = "锁定上传权限申请")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),

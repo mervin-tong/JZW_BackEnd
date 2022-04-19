@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.piesat.school.emuerlation.BizEnumType;
+import com.piesat.school.uploadpermissions.param.UploadPermissionAddParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionCloseUpParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionOperateParamData;
 import com.piesat.school.uploadpermissions.param.UploadPermissionsParamData;
@@ -21,6 +22,7 @@ import com.smartwork.api.support.page.TailPage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.redis.core.RedisTemplate;
@@ -67,14 +69,14 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermissions
 
     /**
      * 申请上传权限
-     * @param userId 申请用户id
      * @return true 申请成功
      */
     @Override
-    public Boolean createPermissions(Long userId) {
+    public Boolean createPermissions(UploadPermissionAddParamData paramData) {
         UploadPermissions uploadPermissions = new UploadPermissions();
         uploadPermissions.setStatus(BizEnumType.UploadPermissionsStatus.CreatePermissions.getKey());
-        uploadPermissions.setApplicatId(userId);
+        uploadPermissions.setApplicatId(paramData.getUserId());
+        uploadPermissions.setReason(paramData.getReason());
         uploadPermissions.setCreatedAt(new Date());
 //        uploadPermissions.setApprover(0L);//0代表该申请没有管理员审核
         if (uploadPermissionsMapper.insert(uploadPermissions) >= 1){
@@ -156,6 +158,20 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermissions
         user.setCurrentUpload(paramData.getIsClose()?false:true);
         this.userService.updateById(user);
         return Boolean.TRUE;
+    }
+
+    @Override
+    public UploadPermissionsVTO detail(Long id) {
+        UploadPermissionsVTO vto=new UploadPermissionsVTO();
+        UploadPermissions uploadPermissions=this.getById(id);
+        BeanUtils.copyProperties(uploadPermissions,vto);
+        vto.setUserId(uploadPermissions.getApplicatId());
+        User user=this.userService.getById(uploadPermissions.getApplicatId());
+        vto.setEmail(user.getEmail());
+        vto.setName(user.getName());
+        vto.setProfession(user.getProfession());
+        vto.setUnitAddress(user.getUnitAddress());
+        return vto;
     }
 
     /**
