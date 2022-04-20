@@ -21,18 +21,33 @@
 
     <select id="dataReview" resultType="com.piesat.school.datareview.vto.DataReviewVTO">
         SELECT
-            di.data_name dataName,
+            di.data_name  dataName,
             di.start_at startAt,
             di.end_at endAt,
             di.address address,
             c.con_name conName,
             di.data_unit dataUnit,
             di.created_at createdAt,
-            dr.`status` status
+            dr.`status` status,
+            di.upload_user_id uploadUserId,
+            di.id,
+            dr.no_pass_reason noPassReason,
+            dr.admin_judge_id adminJudgeId,
+            dr.user_judge_id userJudgeId
         FROM
             t_data_review dr
             LEFT JOIN t_data_inf di ON dr.data_id = di.id
             LEFT JOIN t_contact c ON di.con_id = c.id
+        where 1=1
+        <if test="param.dataName != null and param.dataName != ''">
+            and di.data_name =#{param.dataName}
+        </if>
+        <if test="param.createdAt != null">
+            and di.created_at = #{param.createdAt}
+        </if>
+        <if test="param.status != null">
+            and dr.status =#{param.status}
+        </if>
     </select>
 
     <select id="userDataReview" resultType="com.piesat.school.datareview.vto.DataReviewUserVTO">
@@ -53,6 +68,23 @@
             <if test="!userDataReviewParamData.isAudit">
                 and (dr.status=3 or dr.status=9)
             </if>
+    </select>
+    <select id="screen" resultType="java.lang.String">
+        select
+        <if test="param.target =='dataName'">
+            data_name dataName
+        </if>
+        <if test="param.target =='createdAt'">
+            created_at createdAt
+        </if>
+        from t_data_inf
+        where 1=1
+        <if test="param.target == 'dataName'">
+            and data_name like concat ('%',#{param.dataName},'%')
+        </if>
+        <if test="param.target =='createdAt'">
+            and created_at like concat ('%',#{param.createdAt},'%')
+        </if>
     </select>
 
 </mapper>

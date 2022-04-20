@@ -475,10 +475,12 @@ public interface BizEnumType {
 	 * 数据评审状态
 	 */
 	enum ReviewStatus  {
-		TOREVIEW(1, "待评审"),
-		FIRSTREVIEWPASS(2, "初审通过"),
+		TOREVIEW(0, "待评审"),
+		FIRSTREVIEWPASS(1, "初审通过"),
+		FIRSTREVIEWNOPASS(2,"初审不通过"),
 		RECHECKPASS(3,"复审通过"),
-		NOTPASS(9,"不通过")
+		RECHECKNOPASS(4,"复审不通过"),
+		RELEASE(5,"已发布")
 		;
 		static Map<Integer, ReviewStatus> allTypes;
 		private Integer key;

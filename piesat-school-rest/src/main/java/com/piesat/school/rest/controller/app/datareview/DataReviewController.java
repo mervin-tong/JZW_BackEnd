@@ -1,6 +1,7 @@
 package com.piesat.school.rest.controller.app.datareview;
 
 import com.piesat.school.datareview.iservice.IRDataReviewService;
+import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.param.UserDataReviewParamData;
 import com.piesat.school.datareview.vto.DataReviewUserVTO;
@@ -10,6 +11,8 @@ import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.*;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -32,7 +35,10 @@ public class DataReviewController {
     @PostMapping("/datareview")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pn", value = "第几页", dataType = "body" ),
-            @ApiImplicitParam(name = "ps", value = "每页几个", dataType = "body" )
+            @ApiImplicitParam(name = "ps", value = "每页几个", dataType = "body" ),
+            @ApiImplicitParam(name = "dataName", value = "数据名称", dataType = "String" ),
+            @ApiImplicitParam(name = "createdAt", value = "提交时间", dataType = "Date" ),
+            @ApiImplicitParam(name = "status", value = "评审状态", dataType = "String" )
     })
     public Result<TailPage<DataReviewVTO>> dataReview(@RequestBody DataReviewParamData dataReviewParamData){
         return irDataReviewService.dataReview(dataReviewParamData);
@@ -48,10 +54,12 @@ public class DataReviewController {
     @GetMapping("/firstreview")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "dataReviewId", value = "评审id", dataType = "Long" ),
-            @ApiImplicitParam(name = "reviewUserId", value = "评审人id", dataType = "Long" )
+            @ApiImplicitParam(name = "reviewUserId", value = "评审人id", dataType = "Long" ),
+            @ApiImplicitParam(name = "isPass", value = "是否通过 0不通过 1通过", dataType = "Integer" ),
+            @ApiImplicitParam(name = "reason", value = "原因", dataType = "String" )
     })
-    public Result<Boolean> firstReview(Long dataReviewId,Long reviewUserId){
-        return irDataReviewService.firstReview(dataReviewId,reviewUserId);
+    public Result<Boolean> firstReview(Long dataReviewId,Long reviewUserId,Integer isPass,String reason){
+        return irDataReviewService.firstReview(dataReviewId,reviewUserId,isPass,reason);
     }
 
     @ApiOperation(value = "指定专家评审")
@@ -90,34 +98,57 @@ public class DataReviewController {
     })
     @PostMapping("/userreview")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "dataReviewId", value = "评审id", dataType = "Long" ),
+            @ApiImplicitParam(name = "dataId", value = "评审id", dataType = "Long" ),
             @ApiImplicitParam(name = "reviewUserId", value = "评审人id", dataType = "Long" ),
-            @ApiImplicitParam(name = "status", value = "处理操作", dataType = "int" )
-
+            @ApiImplicitParam(name = "reason", value = "原因", dataType = "Long" ),
+            @ApiImplicitParam(name = "status", value = "处理操作 0不通过 1通过", dataType = "int" )
     })
-    public Result<Boolean> userReview(Long dataReviewId,Long reviewUserId,int status){
-        return irDataReviewService.userReview(dataReviewId,reviewUserId,status);
+    public Result<Boolean> userReview(Long dataId,Long reviewUserId,int status,String reason){
+        return irDataReviewService.userReview(dataId,reviewUserId,status,reason);
     }
 
-    @ApiOperation(value = "复审")
+    @ApiOperation(value = "发布上架")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
             @ApiResponse(code=500,message="后台报错"),
     })
-    @GetMapping("/recheck")
+    @GetMapping("/release")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "dataReviewId", value = "评审id", dataType = "Long" ),
             @ApiImplicitParam(name = "reviewUserId", value = "评审人id", dataType = "Long" ),
-            @ApiImplicitParam(name = "status", value = "处理状态", dataType = "int" )
-
+            @ApiImplicitParam(name = "dataId", value = "数据id", dataType = "Long" )
     })
-    public Result<Boolean> recheck(Long dataReviewId,Long reviewUserId,int status){
-        return irDataReviewService.recheck(dataReviewId,reviewUserId,status);
+    public Result<Boolean> recheck(Long reviewUserId,int dataId){
+        return irDataReviewService.recheck(reviewUserId,dataId);
     }
 
+    @ApiOperation(value = "查询条件筛选")
+    @GetMapping("/screen")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "target", value = "目标参数", dataType = "String" ),
+            @ApiImplicitParam(name = "dataName", value = "标题名称", dataType = "String" ),
+            @ApiImplicitParam(name = "createdAt", value = "提交时间", dataType = "Date" ),
+            @ApiImplicitParam(name = "status", value = "评审状态", dataType = "String" )
+    })
+    public Result<List<String>> screen(ConditionScreenParamData paramData){
+        return irDataReviewService.screen(paramData);
+    }
 
-
+    @ApiOperation(value = "查询条件筛选")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @GetMapping("/checkInOrOut")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "评审人id ", dataType = "Lond" ),
+            @ApiImplicitParam(name = "dataList", value = "数据id列表", dataType = "List<Long>" ),
+            @ApiImplicitParam(name = "checkStatus", value = "1签入 0签出", dataType = "int" )
+    })
+    public Result<Boolean> checkInOrOut(Long userId,List<Long> dataList,Integer checkStatus){
+        return irDataReviewService.checkInOrOut(userId,dataList,checkStatus);
+    }
 
 
 

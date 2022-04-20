@@ -33,4 +33,6 @@ public interface IRDataInfService {
     Boolean addhistory(Long dataId,Long userId);
 
     Result<TailPage<MyDataInfVTO>> dataList(DataQueryParamData paramData);
+    //获取元数据列表
+    Result<DataInfDetailVTO> thematicData(DataQueryParamData paramData);
 }

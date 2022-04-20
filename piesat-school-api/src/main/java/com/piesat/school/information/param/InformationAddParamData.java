@@ -17,12 +17,17 @@ public class InformationAddParamData extends ParamData {
      */
     @ApiModelProperty(value = "资讯标题")
     private String title;
-
+//
+//    /**
+//     * 咨询内容
+//     */
+//    @ApiModelProperty(value = "资讯内容")
+//    private String content;
     /**
-     * 咨询内容
+     * 咨询简介
      */
-    @ApiModelProperty(value = "资讯内容")
-    private String content;
+    @ApiModelProperty(value = "咨询简介")
+    private String synopsis;
 
     /**
      * 发布者id

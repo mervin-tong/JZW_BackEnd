@@ -105,4 +105,10 @@ public class DataInfController{
         }
         return Result.ofSuccess(isAddDownCount);
     }
+
+    @ApiOperation(value = "获取元数据")
+    @PostMapping("/thematicData")
+    public Result<DataInfDetailVTO> thematicData(DataQueryParamData paramData){
+        return irDataInfService.thematicData(paramData);
+    }
 }

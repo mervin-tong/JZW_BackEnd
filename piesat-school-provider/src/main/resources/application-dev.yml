@@ -12,9 +12,9 @@ var:
   datasource:
     username: root
     password: vLLwsZlRAoJ0@
-    master: 68.79.5.94:3306
-    slave1: 68.79.5.94:3306
-    slave2: 68.79.5.94:3306
+    master: 47.100.53.132:3306
+    slave1: 47.100.53.132:3306
+    slave2: 47.100.53.132:3306
 
 jetcache:
   statIntervalMinutes: 5

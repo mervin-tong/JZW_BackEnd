@@ -37,6 +37,11 @@ public class Information  implements Serializable {
     private String content;
 
     /**
+     * 咨询简介
+     */
+    private String synopsis;
+
+    /**
      * 发布者id
      */
     private Long publisher;

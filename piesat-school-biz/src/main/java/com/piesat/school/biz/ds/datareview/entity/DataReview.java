@@ -1,6 +1,7 @@
 package com.piesat.school.biz.ds.datareview.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -54,6 +55,20 @@ public class DataReview implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updatedAt;
 
+    /**
+     *  未通过原因
+     */
+    @ApiModelProperty(value = "未通过原因")
+    private String noPassReason;
+
+
+    public String getNoPassReason() {
+        return noPassReason;
+    }
+
+    public void setNoPassReason(String noPassReason) {
+        this.noPassReason = noPassReason;
+    }
 
     public Integer getStatus() {
         return status;
