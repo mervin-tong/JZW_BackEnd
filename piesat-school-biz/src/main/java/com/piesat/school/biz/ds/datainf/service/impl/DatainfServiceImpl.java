@@ -192,7 +192,6 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
                     dataReview.setStatus(BizEnumType.ReviewStatus.TOREVIEW.getKey());
                     dataReview.setAdminJudgeId(BizEnumType.Default.NULL.getKey());
                     dataReview.setUserJudgeId(BizEnumType.Default.NULL.getKey());
-                    dataReview.setCreatedAt(new Date());
                     iDataReviewService.createReview(dataReview);
                 }
             }
