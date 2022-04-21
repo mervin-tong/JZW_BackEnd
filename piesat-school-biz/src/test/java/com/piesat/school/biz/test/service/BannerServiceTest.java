@@ -1,8 +1,12 @@
 package com.piesat.school.biz.test.service;
 
+import com.piesat.school.biz.ds.datainf.entity.Contact;
 import com.piesat.school.biz.test.SchoolBizTestApplication;
+import com.piesat.school.datainf.iservice.IRDataInfService;
+import com.piesat.school.datainf.param.DataInfSaveParamData;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
@@ -17,6 +21,7 @@ import java.util.Date;
 @SuppressWarnings("all")
 @Slf4j
 public class BannerServiceTest {
+
 
     @Test
     public void testString() throws IOException {
@@ -36,7 +41,6 @@ public class BannerServiceTest {
     }
     @Test
     public void test(){
-        Date date = new Date();
-        String timestamp = String.valueOf(date.getTime()/1000);
+
     }
 }

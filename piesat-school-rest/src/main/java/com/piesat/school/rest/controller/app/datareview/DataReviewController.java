@@ -4,6 +4,7 @@ import com.piesat.school.datareview.iservice.IRDataReviewService;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.param.UserDataReviewParamData;
+import com.piesat.school.datareview.vto.DataReviewReVTO;
 import com.piesat.school.datareview.vto.DataReviewUserVTO;
 import com.piesat.school.datareview.vto.DataReviewVTO;
 import com.smartwork.api.Result;
@@ -37,7 +38,8 @@ public class DataReviewController {
             @ApiImplicitParam(name = "pn", value = "第几页", dataType = "body" ),
             @ApiImplicitParam(name = "ps", value = "每页几个", dataType = "body" ),
             @ApiImplicitParam(name = "dataName", value = "数据名称", dataType = "String" ),
-            @ApiImplicitParam(name = "createdAt", value = "提交时间", dataType = "Date" ),
+            @ApiImplicitParam(name = "start", value = "起始时间", dataType = "String" ),
+            @ApiImplicitParam(name = "end", value = "终止时间", dataType = "String" ),
             @ApiImplicitParam(name = "status", value = "评审状态", dataType = "String" )
     })
     public Result<TailPage<DataReviewVTO>> dataReview(@RequestBody DataReviewParamData dataReviewParamData){
@@ -127,14 +129,13 @@ public class DataReviewController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "target", value = "目标参数", dataType = "String" ),
             @ApiImplicitParam(name = "dataName", value = "标题名称", dataType = "String" ),
-            @ApiImplicitParam(name = "createdAt", value = "提交时间", dataType = "Date" ),
             @ApiImplicitParam(name = "status", value = "评审状态", dataType = "String" )
     })
     public Result<List<String>> screen(ConditionScreenParamData paramData){
         return irDataReviewService.screen(paramData);
     }
 
-    @ApiOperation(value = "查询条件筛选")
+    @ApiOperation(value = "检入检出")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
@@ -146,7 +147,7 @@ public class DataReviewController {
             @ApiImplicitParam(name = "dataList", value = "数据id列表", dataType = "List<Long>" ),
             @ApiImplicitParam(name = "checkStatus", value = "1签入 0签出", dataType = "int" )
     })
-    public Result<Boolean> checkInOrOut(Long userId,List<Long> dataList,Integer checkStatus){
+    public Result<List<DataReviewReVTO>> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus){
         return irDataReviewService.checkInOrOut(userId,dataList,checkStatus);
     }
 

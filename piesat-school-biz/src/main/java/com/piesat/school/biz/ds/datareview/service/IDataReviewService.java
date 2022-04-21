@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.param.UserDataReviewParamData;
+import com.piesat.school.datareview.vto.DataReviewReVTO;
 import com.piesat.school.datareview.vto.DataReviewUserVTO;
 import com.piesat.school.datareview.vto.DataReviewVTO;
 import com.smartwork.api.support.page.TailPage;
@@ -37,5 +38,5 @@ public interface IDataReviewService extends IService<DataReview> {
 
     List<String> screen(ConditionScreenParamData paramData);
 
-    Boolean checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus);
+    List<DataReviewReVTO> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus);
 }

@@ -38,12 +38,15 @@
             t_data_review dr
             LEFT JOIN t_data_inf di ON dr.data_id = di.id
             LEFT JOIN t_contact c ON di.con_id = c.id
-        where 1=1
+        where di.deleted=1
         <if test="param.dataName != null and param.dataName != ''">
             and di.data_name =#{param.dataName}
         </if>
-        <if test="param.createdAt != null">
-            and di.created_at = #{param.createdAt}
+        <if test="param.start != null">
+            and di.created_at > #{param.createdAt}
+        </if>
+        <if test="param.end !=null">
+            and di.created_at <![CDATA[< #{param.createdAt}]]>
         </if>
         <if test="param.status != null">
             and dr.status =#{param.status}
@@ -71,20 +74,9 @@
     </select>
     <select id="screen" resultType="java.lang.String">
         select
-        <if test="param.target =='dataName'">
             data_name dataName
-        </if>
-        <if test="param.target =='createdAt'">
-            created_at createdAt
-        </if>
         from t_data_inf
-        where 1=1
-        <if test="param.target == 'dataName'">
-            and data_name like concat ('%',#{param.dataName},'%')
-        </if>
-        <if test="param.target =='createdAt'">
-            and created_at like concat ('%',#{param.createdAt},'%')
-        </if>
+        where data_name like concat ('%',#{param.dataName},'%')
     </select>
 
 </mapper>

@@ -15,4 +15,5 @@ public class DataQueryParamData extends PageQueryParamData {
     private Boolean limitUserAble=false;
     @ApiModelProperty(value = "搜索条件")
     private String condition;
+
 }

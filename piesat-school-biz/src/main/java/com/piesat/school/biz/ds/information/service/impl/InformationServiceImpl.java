@@ -47,7 +47,10 @@ public class InformationServiceImpl extends ServiceImpl<InformationMapper, Infor
             isUpdate=true;
         }
         if(StringUtils.isNotBlank(paramData.getSynopsis())){
-            information.setContent(paramData.getSynopsis());
+            information.setSynopsis(paramData.getSynopsis());
+        }
+        if(StringUtils.isNotBlank(paramData.getContent())){
+            information.setContent(paramData.getContent());
         }
         if(paramData.getPublisher()!=null){
             information.setPublisher(paramData.getPublisher());

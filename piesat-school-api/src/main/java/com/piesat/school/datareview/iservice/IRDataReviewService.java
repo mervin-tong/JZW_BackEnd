@@ -3,6 +3,7 @@ package com.piesat.school.datareview.iservice;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.param.UserDataReviewParamData;
+import com.piesat.school.datareview.vto.DataReviewReVTO;
 import com.piesat.school.datareview.vto.DataReviewUserVTO;
 import com.piesat.school.datareview.vto.DataReviewVTO;
 import com.smartwork.api.Result;
@@ -26,5 +27,5 @@ public interface IRDataReviewService {
     //查询条件筛选
     Result<List<String>> screen(ConditionScreenParamData paramData);
     //签入签出状态更改
-    Result<Boolean> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus);
+    Result<List<DataReviewReVTO>> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus);
 }

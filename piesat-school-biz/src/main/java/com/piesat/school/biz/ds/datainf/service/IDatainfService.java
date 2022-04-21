@@ -1,6 +1,5 @@
 package com.piesat.school.biz.ds.datainf.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.piesat.school.datainf.param.*;
@@ -9,15 +8,6 @@ import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.DataInfVTO;
 import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.smartwork.api.support.page.TailPage;
-import org.mapstruct.Context;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 /**
  * <p>
@@ -51,4 +41,6 @@ public interface IDatainfService extends IService<Datainf> {
     Boolean addhistory(Long dataId, Long userId);
 
     TailPage<MyDataInfVTO> dataList(DataQueryParamData paramData);
+
+    TailPage<DataInfListVTO> thematicData(MetadataQueryParam paramData);
 }

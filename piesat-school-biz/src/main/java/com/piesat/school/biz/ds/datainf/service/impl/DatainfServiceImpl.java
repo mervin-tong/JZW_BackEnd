@@ -13,7 +13,6 @@ import com.piesat.school.biz.ds.datainf.service.IContactService;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
-import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
 import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
 import com.piesat.school.biz.ds.order.entity.HistoryDownload;
 import com.piesat.school.biz.ds.order.mapper.HistoryDownloadMapper;
@@ -39,10 +38,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -156,8 +153,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             if(datainf.getConId()!=null){
                 contact=contactService.getById(datainf.getConId());
             }
-            if(StringUtils.isNotBlank(paramData.getContact().getAddress())){
-                contact.setConAddress(paramData.getContact().getAddress());
+            if(StringUtils.isNotBlank(paramData.getContact().getConAddress())){
+                contact.setConAddress(paramData.getContact().getConAddress());
             }
             if(StringUtils.isNotBlank(paramData.getContact().getConName())){
                 contact.setConName(paramData.getContact().getConName());
@@ -168,8 +165,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             if(StringUtils.isNotBlank(paramData.getContact().getMobile())){
                 contact.setMobile(paramData.getContact().getMobile());
             }
-            if(StringUtils.isNotBlank(paramData.getContact().getUnit())){
-                contact.setConUnit(paramData.getContact().getUnit());
+            if(StringUtils.isNotBlank(paramData.getContact().getConUnit())){
+                contact.setConUnit(paramData.getContact().getConUnit());
             }
             contactService.save(contact);
             if(datainf.getConId()==null){
@@ -182,7 +179,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
                 datainf.setThroughReview(BizEnumType.ThroughReview.NOTPASS.getKey());
                 datainf.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
                 Contact contact = new Contact();
-                BeanUtils.copyProperties(contact, paramData.getContact());
+                BeanUtils.copyProperties(paramData.getContact(),contact);
                 contactMapper.insert(contact);
                 datainf.setConId(contact.getId());
                 boolean saveDatainf = this.save(datainf);
@@ -321,5 +318,13 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             myDataInfVTOS=DatainfBuilder.toMyDataInfVTOs(dataInfos.getRecords(),users,contactMap);
         }
         return CommonPage.buildPage(dataInfos.getCurrent(),dataInfos.getSize(),dataInfos.getTotal(),myDataInfVTOS);
+    }
+
+    @Override
+    public TailPage<DataInfListVTO> thematicData(MetadataQueryParam paramData) {
+        Page<DataInfListVTO> page = new Page<>(paramData.getPn(),paramData.getPs());
+        page.setOptimizeCountSql(false);
+        List<DataInfListVTO> list = datainfMapper.getThematicData(paramData,page);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 }

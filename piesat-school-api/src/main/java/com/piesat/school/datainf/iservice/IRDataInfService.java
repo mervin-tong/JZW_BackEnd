@@ -7,11 +7,6 @@ import com.piesat.school.datainf.vto.DataInfVTO;
 import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.List;
 
 public interface IRDataInfService {
     Result<TailPage<DataInfListVTO>> getAllDatainf();
@@ -34,5 +29,5 @@ public interface IRDataInfService {
 
     Result<TailPage<MyDataInfVTO>> dataList(DataQueryParamData paramData);
     //获取元数据列表
-    Result<DataInfDetailVTO> thematicData(DataQueryParamData paramData);
+    Result<TailPage<DataInfListVTO>> thematicData(MetadataQueryParam paramData);
 }

@@ -20,10 +20,16 @@ public class DataReviewParamData extends PageQueryParamData {
     private String dataName;
 
     /**
-     * 提交时间
+     * 起始时间
      */
-    @ApiModelProperty(value = "提交时间")
-    private Date createdAt;
+    @ApiModelProperty(value = "起始时间")
+    private String start;
+
+    /**
+     * 终止时间
+     */
+    @ApiModelProperty(value = "终止时间")
+    private String end;
 
     /**
      * 评审状态

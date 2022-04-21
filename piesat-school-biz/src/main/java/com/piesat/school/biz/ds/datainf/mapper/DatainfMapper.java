@@ -3,10 +3,7 @@ package com.piesat.school.biz.ds.datainf.mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.piesat.school.datainf.param.SearchAllParamData;
-import com.piesat.school.datainf.param.SearchByClassParamData;
-import com.piesat.school.datainf.param.SearchByKeyParamData;
-import com.piesat.school.datainf.param.SearchByTimeParamData;
+import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.MyDataInfVTO;
@@ -32,6 +29,8 @@ public interface DatainfMapper extends BaseMapper<Datainf> {
                                       Page<DataInfListVTO> page);
     List<DataInfListVTO> searchAll(@Param("searchAllParamData")SearchAllParamData searchAllParamData,Page<DataInfListVTO> page);
     DataInfDetailVTO dataInfDetail(@Param("dataInfId") Long dataInfId);
+
+    List<DataInfListVTO> getThematicData(@Param("param") MetadataQueryParam paramData, Page<DataInfListVTO> page);
 
 //    List<MyDataInfVTO> myDataMenu(@Param("userId") Long userId, Page<MyDataInfVTO> page);
 

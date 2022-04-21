@@ -12,8 +12,10 @@ public class ConditionScreenParamData extends ParamData {
     private String target;
     @ApiModelProperty(value = "标题名称")
     private String dataName;
-    @ApiModelProperty(value = "提交时间")
-    private Date createdAt;
+    @ApiModelProperty(value = "起始时间")
+    private String start;
+    @ApiModelProperty(value = "终止时间")
+    private String end;
     @ApiModelProperty(value = "评审状态")
     private String status;
 }

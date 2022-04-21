@@ -156,10 +156,25 @@
             a.right_down
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
-        where (a.id = #{dataInfId} AND a.deleted = 0)
+        where (a.id = #{dataInfId} AND a.deleted = 1)
+    </select>
+    <select id="getThematicData" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
+        select tdl.data_id as id,
+               tdi.created_at as createdAt,
+               tdi.start_at as startAt,
+               tdi.end_at as endAt,
+               tdi.data_name as dataName,
+               u.name as updateName
+        from t_topic_data_rel tdl
+        left join t_data_inf tdi on tdl.data_id=tdi.id
+        left join t_user u on u.id=tdi.upload_user_id
+        where tdl.topic_id=#{param.topicId}
+        <if test="param.dataName != '' and param.dataName != null">
+            and tdi.data_name like concat('%',#{param.dataName},'%')
+        </if>
     </select>
 
-<!--    <select id="myDataMenu" parameterType="long" resultType="com.piesat.school.datainf.vto.MyDataInfVTO">-->
+    <!--    <select id="myDataMenu" parameterType="long" resultType="com.piesat.school.datainf.vto.MyDataInfVTO">-->
 <!--        SELECT-->
 <!--            id,-->
 <!--            address,-->
@@ -170,15 +185,15 @@
 <!--        FROM t_data_inf-->
 <!--        WHERE upload_user_id = #{userId} AND deleted = 1-->
 <!--    </select>-->
-    <update id="delDataInf">
-        UPDATE t_data_inf
-        SET deleted = 0
-        WHERE id IN
-        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
+<!--    <update id="delDataInf">-->
+<!--        UPDATE t_data_inf-->
+<!--        SET deleted = 0-->
+<!--        WHERE id IN-->
+<!--        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">-->
+<!--            #{id}-->
+<!--        </foreach>-->
 
-    </update>
+<!--    </update>-->
 
 
 </mapper>

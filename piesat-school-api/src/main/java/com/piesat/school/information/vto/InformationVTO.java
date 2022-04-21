@@ -22,12 +22,12 @@ public class InformationVTO implements java.io.Serializable{
      */
     @ApiModelProperty(value = "资讯标题")
     private String title;
-//
-//    /**
-//     * 咨询内容
-//     */
-//    @ApiModelProperty(value = "资讯内容")
-//    private String content;
+
+    /**
+     * 咨询内容
+     */
+    @ApiModelProperty(value = "资讯内容")
+    private String content;
 
     /**
      * 咨询简介

@@ -108,7 +108,7 @@ public class DataInfController{
 
     @ApiOperation(value = "获取元数据")
     @PostMapping("/thematicData")
-    public Result<DataInfDetailVTO> thematicData(DataQueryParamData paramData){
+    public Result<TailPage<DataInfListVTO>> thematicData(MetadataQueryParam paramData){
         return irDataInfService.thematicData(paramData);
     }
 }

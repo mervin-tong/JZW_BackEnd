@@ -5,6 +5,7 @@ import com.piesat.school.datareview.iservice.IRDataReviewService;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.param.UserDataReviewParamData;
+import com.piesat.school.datareview.vto.DataReviewReVTO;
 import com.piesat.school.datareview.vto.DataReviewUserVTO;
 import com.piesat.school.datareview.vto.DataReviewVTO;
 import com.smartwork.api.Result;
@@ -35,7 +36,12 @@ public class RDataReviewService implements IRDataReviewService {
 
     @Override
     public Result<Boolean> assign(Long dataReviewId, Long expertId,Long reviewUserId) {
-        return Result.ofSuccess(iDataReviewService.assign(dataReviewId,expertId,reviewUserId));
+        Boolean b =iDataReviewService.assign(dataReviewId,expertId,reviewUserId);
+        if (b) {
+            return Result.ofSuccess(b);
+        }else {
+            return Result.ofFail("501","该数据不存在");
+        }
     }
 
     @Override
@@ -59,7 +65,7 @@ public class RDataReviewService implements IRDataReviewService {
     }
 
     @Override
-    public Result<Boolean> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus) {
+    public Result<List<DataReviewReVTO>> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus) {
         return Result.ofSuccess(iDataReviewService.checkInOrOut(userId,dataList,checkStatus));
     }
 }

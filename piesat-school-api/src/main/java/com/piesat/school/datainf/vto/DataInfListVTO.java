@@ -20,6 +20,7 @@ public class DataInfListVTO implements Serializable {
      */
     @ApiModelProperty(value = "数据名")
     private String dataName;
+
     /**
      * 数据量
      */
@@ -36,6 +37,18 @@ public class DataInfListVTO implements Serializable {
      */
     @ApiModelProperty(value = "图片地址")
     private String pic;
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value = "创建时间")
+    private Date createAt;
+
+    /**
+     * 上传者姓名
+     */
+    @ApiModelProperty(value = "上传者姓名")
+    private String updateName;
 
     /**
      * 数据所属开始时间

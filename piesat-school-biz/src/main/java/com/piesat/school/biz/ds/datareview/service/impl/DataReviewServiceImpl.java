@@ -2,6 +2,7 @@ package com.piesat.school.biz.ds.datareview.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.protobuf.ServiceException;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
 import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
 import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
@@ -10,11 +11,13 @@ import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.param.UserDataReviewParamData;
+import com.piesat.school.datareview.vto.DataReviewReVTO;
 import com.piesat.school.datareview.vto.DataReviewUserVTO;
 import com.piesat.school.datareview.vto.DataReviewVTO;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -50,24 +53,17 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
     //初审
     @Override
     public Boolean firstReview(Long dataReviewId, Long reviewUserId, Integer isPass, String reason) {
-            UpdateWrapper<DataReview> updateWrapper = new UpdateWrapper<>();
-            if(isPass==1){
-            updateWrapper.set("status",BizEnumType.ReviewStatus.FIRSTREVIEWPASS.getKey())
-            .eq("id",dataReviewId)
-            .and(wrapper  -> wrapper
-                    .eq("admin_judge_id",reviewUserId)
-                    .or()
-                    .eq("admin_judge_id",BizEnumType.Default.NULL.getKey()));
-            }else {
-                updateWrapper.set("status",BizEnumType.ReviewStatus.FIRSTREVIEWNOPASS.getKey())
-                        .set("no_pass_reason", reason)
-                        .eq("id",dataReviewId)
-                        .and(wrapper  -> wrapper
-                                .eq("admin_judge_id",reviewUserId)
-                                .or()
-                                .eq("admin_judge_id",BizEnumType.Default.NULL.getKey()));
+            DataReview dataReview=dataReviewMapper.selectById(dataReviewId);
+            if(dataReview == null){
+                return false;
             }
-            return this.update(updateWrapper);
+            if(isPass==1){
+                dataReview.setStatus(BizEnumType.ReviewStatus.FIRSTREVIEWPASS.getKey());
+            }else {
+                dataReview.setStatus(BizEnumType.ReviewStatus.FIRSTREVIEWNOPASS.getKey());
+                dataReview.setNoPassReason(reason);
+            }
+            return this.updateById(dataReview);
     }
     //指定专家
     @Override
@@ -130,24 +126,36 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
                 list.add(BizEnumType.ReviewStatus.fromKey(i).getName());
             }
             return list;
-        }else {
+        }else if(paramData.getTarget().equals("dataName")){
             return dataReviewMapper.screen(paramData);
+        }else {
+            return null;
         }
     }
     //检入检出
     @Override
-    public Boolean checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus) {
-        UpdateWrapper<DataReview> updateWrapper = new UpdateWrapper<>();
+    public List<DataReviewReVTO> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus) {
+        List<DataReview> dataReviewList =baseMapper.selectBatchIds(dataList);
+        List<DataReviewReVTO> dataReviewReVTOS =new ArrayList<>();
         if(checkStatus == 0){
-            updateWrapper.set("admin_judge_id",-1)
-                    .in("data_id",dataList)
-                    .eq("status",0);
-            return this.update(updateWrapper);
+            for(DataReview dataReview:dataReviewList){
+                DataReviewReVTO dataReviewReVT=new DataReviewReVTO();
+                dataReview.setStatus(0);
+                dataReview.setAdminJudgeId(-1L);
+                baseMapper.updateById(dataReview);
+                BeanUtils.copyProperties(dataReview, dataReviewReVT);
+                dataReviewReVTOS.add(dataReviewReVT);
+            }
         }else {
-            updateWrapper.set("admin_judge_id", userId)
-                    .in("data_id",dataList)
-                    .eq("status",0);
-            return this.update(updateWrapper);
+            for(DataReview dataReview:dataReviewList){
+                DataReviewReVTO dataReviewReVT=new DataReviewReVTO();
+                dataReview.setStatus(0);
+                dataReview.setAdminJudgeId(userId);
+                baseMapper.updateById(dataReview);
+                BeanUtils.copyProperties(dataReview, dataReviewReVT);
+                dataReviewReVTOS.add(dataReviewReVT);
+            }
         }
+        return dataReviewReVTOS;
     }
 }

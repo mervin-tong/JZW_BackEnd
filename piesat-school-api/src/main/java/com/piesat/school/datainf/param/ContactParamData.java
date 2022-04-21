@@ -30,12 +30,12 @@ public class ContactParamData implements Serializable {
      * 单位
      */
     @ApiModelProperty(value = "单位")
-    private String unit;
+    private String conUnit;
 
     /**
      * 地址
      */
     @ApiModelProperty(value = "地址")
-    private String address;
+    private String conAddress;
 
 }

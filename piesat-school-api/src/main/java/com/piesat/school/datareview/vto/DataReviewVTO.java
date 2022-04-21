@@ -87,11 +87,11 @@ public class DataReviewVTO implements Serializable {
      *  评审人 (一审)
      */
     @ApiModelProperty(value = "评审人 (一审) ")
-    private String adminJudgeId;
+    private Long adminJudgeId;
 
     /**
      *  指定专家（二审）
      */
     @ApiModelProperty(value = "指定专家（二审）")
-    private String userJudgeId;
+    private Long userJudgeId;
 }
