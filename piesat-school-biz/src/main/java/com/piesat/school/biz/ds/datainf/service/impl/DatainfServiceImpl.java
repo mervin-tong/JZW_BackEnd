@@ -182,7 +182,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
                 datainf.setThroughReview(BizEnumType.ThroughReview.NOTPASS.getKey());
                 datainf.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
                 Contact contact = new Contact();
-                BeanUtils.copyProperties(contact, paramData.getContact());
+                BeanUtils.copyProperties(paramData.getContact(),contact);
+
                 contactMapper.insert(contact);
                 datainf.setConId(contact.getId());
                 boolean saveDatainf = this.save(datainf);
