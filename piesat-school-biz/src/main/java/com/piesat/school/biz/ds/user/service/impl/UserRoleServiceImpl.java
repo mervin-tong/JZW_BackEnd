@@ -7,13 +7,15 @@ import com.piesat.school.biz.ds.user.service.IUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * @author suweipeng
  * @data 2022/2/20 17:08
  */
 @Service
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements IUserRoleService {
-    @Autowired
+    @Resource
     private UserRoleMapper userRoleMapper;
     @Override
     public void addUserRole(UserRole userRole) {

@@ -22,9 +22,10 @@ public interface IUserService extends IService<User> {
      UserVTO addUser(UserParamData userParamData) ;
      //根据邮箱修改密码
      Boolean alterPassword(String email,String password);
-
      //获取用户列表
      TailPage<UserVTO> getUserList(UserQueryParamData paramData);
      //根据id修改密码
      Result<Boolean> updatePassword(UpdatePasswordParamData paramData);
+     //添加管理员
+     Result<Boolean> addAdministrator(UserParamData userParamData);
 }

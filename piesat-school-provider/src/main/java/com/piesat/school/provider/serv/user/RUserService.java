@@ -1,5 +1,6 @@
 package com.piesat.school.provider.serv.user;
 
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.user.facade.UserFacadeService;
 import com.piesat.school.biz.ds.user.mapper.EmailMapper;
 import com.piesat.school.biz.ds.user.service.IUserService;
@@ -10,8 +11,6 @@ import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 /**
  * @author suweipeng
@@ -72,5 +71,20 @@ public class RUserService implements IRUserService {
     @Override
     public Result<Boolean> feedback(FeedBackParamData paramData) {
         return userFacadeService.feedback(paramData);
+    }
+
+    @Override
+    public Result<Boolean> addAdministrator(UserParamData userParamData) {
+        return iUserService.addAdministrator(userParamData);
+    }
+
+    @Override
+    public Result<TailPage<UserVTO>> getAdminList(PageQueryParamData paramData) {
+        return Result.ofSuccess(userFacadeService.getAdminList(paramData));
+    }
+
+    @Override
+    public Result<Boolean> deleteAdmin(Long id) {
+        return userFacadeService.deleteAdmin(id);
     }
 }

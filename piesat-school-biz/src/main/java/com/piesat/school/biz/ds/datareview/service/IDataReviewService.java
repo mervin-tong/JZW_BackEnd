@@ -1,5 +1,6 @@
 package com.piesat.school.biz.ds.datareview.service;
 
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
@@ -39,4 +40,6 @@ public interface IDataReviewService extends IService<DataReview> {
     List<String> screen(ConditionScreenParamData paramData);
 
     List<DataReviewReVTO> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus);
+
+    TailPage<DataReviewReVTO> selectRevicwInfo(Long dataId, PageQueryParamData paramData);
 }

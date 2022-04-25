@@ -9,6 +9,7 @@ import com.piesat.school.user.vto.RoleVTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ import java.util.Set;
 
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper,Role> implements IRoleService {
-    @Autowired
+    @Resource
     private RoleMapper roleMapper;
     @Override
     public Set<RoleVTO> getRolesByUserId(Long id) {

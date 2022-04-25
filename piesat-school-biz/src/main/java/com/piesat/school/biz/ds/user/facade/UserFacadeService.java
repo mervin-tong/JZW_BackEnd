@@ -2,6 +2,8 @@ package com.piesat.school.biz.ds.user.facade;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.biz.ds.user.check.CheckPhoneOrEmail;
@@ -11,14 +13,19 @@ import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.entity.UserRole;
 import com.piesat.school.biz.ds.user.mapper.EmailMapper;
 import com.piesat.school.biz.ds.user.mapper.UserMapper;
+import com.piesat.school.biz.ds.user.mapper.UserRoleMapper;
 import com.piesat.school.biz.ds.user.service.IRoleService;
 import com.piesat.school.biz.ds.user.service.IUserRoleService;
 import com.piesat.school.biz.ds.user.service.IUserService;
+import com.piesat.school.datainf.vto.DataInfListVTO;
+import com.piesat.school.datareview.vto.DataReviewVTO;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.piesat.school.user.param.*;
 import com.piesat.school.user.vto.RoleVTO;
 import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
+import com.smartwork.api.support.page.CommonPage;
+import com.smartwork.api.support.page.TailPage;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -52,6 +59,9 @@ public class UserFacadeService {
     private CheckUserVerificationCode checkUserVerificationCode;
     @Resource
     private IDatainfService datainfService;
+    @Resource
+    private UserRoleMapper userRoleMapper;
+
     @Resource
     JavaMailSender jms;
     @Resource
@@ -237,5 +247,22 @@ public class UserFacadeService {
             return Result.ofFail("4401","发送邮件失败，请核对邮箱账号");
         }
         return Result.ofSuccess(Boolean.TRUE);
+    }
+
+    public TailPage<UserVTO> getAdminList(PageQueryParamData paramData) {
+        Page<UserVTO> page = new Page<>(paramData.getPn(),paramData.getPs());
+        page.setOptimizeCountSql(false);
+        List<UserVTO> list=userMapper.getAdminList(page);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+    }
+
+    public Result<Boolean> deleteAdmin(Long id) {
+        int i=userMapper.deleteById(id);
+        int j =userRoleMapper.delete(new QueryWrapper<UserRole>().eq("user_id", id));
+        if (i==1&&j==1) {
+            return Result.ofSuccess(true);
+        }else {
+            return Result.ofFail("501","删除失败");
+        }
     }
 }

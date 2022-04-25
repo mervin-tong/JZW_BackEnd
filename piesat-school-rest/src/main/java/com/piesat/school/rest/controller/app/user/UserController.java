@@ -1,5 +1,6 @@
 package com.piesat.school.rest.controller.app.user;
 
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.rest.constants.DubboConstant;
 import com.piesat.school.security.handler.CustomizeAuthenticationFailureHandler;
 import com.piesat.school.user.iservice.IRUserService;
@@ -149,7 +150,7 @@ public class UserController {
             @ApiResponse(code=500,message="后台报错"),
             @ApiResponse(code=4401,message="当前没有登录用户"),
     })
-    @GetMapping("getUserList")
+    @GetMapping("/getUserList")
     public Result<TailPage<UserVTO>> getUserList(UserQueryParamData paramData){
         return irUserService.getUserList(paramData);
     }
@@ -185,5 +186,40 @@ public class UserController {
     @PostMapping("/feedback")
     public Result<Boolean> feedback(FeedBackParamData paramData){
         return userService.feedback(paramData);
+    }
+
+    @ApiOperation(value = "新增管理员")
+    @ApiResponses({
+            @ApiResponse(code=0,message="操作成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+            @ApiResponse(code=4013,message="创建失败"),
+            @ApiResponse(code=4012,message="手机号/邮箱已存在")
+    })
+    @PostMapping("/addAdministrator")
+    public Result<Boolean> addAdministrator(@RequestBody UserParamData userParamData){
+        return userService.addAdministrator(userParamData);
+    }
+
+    @ApiOperation(value = "获取管理员列表信息")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错")
+    })
+    @GetMapping("/getAdminList")
+    public Result<TailPage<UserVTO>> getAdminList(PageQueryParamData paramData){
+        return userService.getAdminList(paramData);
+    }
+
+    @ApiOperation(value = "删除管理员信息")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错")
+    })
+    @GetMapping("/deleteAdmin")
+    public Result<Boolean> deleteAdmin(Long id){
+        return userService.deleteAdmin(id);
     }
 }

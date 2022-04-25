@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.school.biz.ds.user.mapper.UserMapper">
+
+    <select id="getAdminList" resultType="com.piesat.school.user.vto.UserVTO">
+        select u.id as id,
+               u.name as name,
+               u.email as email,
+               u.phone as phone,
+               u.created_at as createdAt
+        from  t_user u left join t_user_role r on u .id = r.user_id
+        where r.role_id=1
+    </select>
+</mapper>

@@ -1,5 +1,6 @@
 package com.piesat.school.provider.serv.datareview;
 
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
 import com.piesat.school.datareview.iservice.IRDataReviewService;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
@@ -67,5 +68,10 @@ public class RDataReviewService implements IRDataReviewService {
     @Override
     public Result<List<DataReviewReVTO>> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus) {
         return Result.ofSuccess(iDataReviewService.checkInOrOut(userId,dataList,checkStatus));
+    }
+
+    @Override
+    public Result<TailPage<DataReviewReVTO>> selectRevicwInfo(Long dataId, PageQueryParamData paramData) {
+        return Result.ofSuccess(iDataReviewService.selectRevicwInfo(dataId,paramData));
     }
 }

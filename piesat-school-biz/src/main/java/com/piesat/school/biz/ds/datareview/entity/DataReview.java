@@ -56,10 +56,27 @@ public class DataReview implements Serializable {
     private Date updatedAt;
 
     /**
-     *  未通过原因
+     *  初审未通过原因
      */
-    @ApiModelProperty(value = "未通过原因")
+    @ApiModelProperty(value = "初审未通过原因")
     private String noPassReason;
+
+    /**
+     *  复审未通过原因
+     */
+    @ApiModelProperty(value = "复审未通过原因")
+    private String recheckPassReason;
+
+    /**
+     * 复审时间
+     */
+    private Date recheckedAt;
+
+    /**
+     * 初审时间
+     */
+    private Date checkedAt;
+
 
 
     public String getNoPassReason() {

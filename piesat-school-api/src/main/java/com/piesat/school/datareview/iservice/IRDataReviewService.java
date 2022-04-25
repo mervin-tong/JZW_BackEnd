@@ -1,5 +1,6 @@
 package com.piesat.school.datareview.iservice;
 
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.param.UserDataReviewParamData;
@@ -28,4 +29,6 @@ public interface IRDataReviewService {
     Result<List<String>> screen(ConditionScreenParamData paramData);
     //签入签出状态更改
     Result<List<DataReviewReVTO>> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus);
+    //查询审核信息
+    Result<TailPage<DataReviewReVTO>> selectRevicwInfo(Long dataId, PageQueryParamData paramData);
 }

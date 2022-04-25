@@ -1,12 +1,11 @@
 package com.piesat.school.user.iservice;
 
 
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.user.param.*;
 import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
-
-import java.util.List;
 
 /**
  * <p>
@@ -35,4 +34,10 @@ public interface IRUserService {
     Result<Boolean> limitUser(LimitUserParamData paramData);
 
     Result<Boolean> feedback(FeedBackParamData paramData);
+
+    Result<Boolean> addAdministrator(UserParamData userParamData);
+
+    Result<TailPage<UserVTO>> getAdminList(PageQueryParamData paramData);
+
+    Result<Boolean> deleteAdmin(Long id);
 }

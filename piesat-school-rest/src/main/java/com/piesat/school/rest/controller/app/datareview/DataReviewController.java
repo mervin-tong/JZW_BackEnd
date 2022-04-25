@@ -1,5 +1,6 @@
 package com.piesat.school.rest.controller.app.datareview;
 
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.datareview.iservice.IRDataReviewService;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
@@ -147,21 +148,19 @@ public class DataReviewController {
             @ApiImplicitParam(name = "dataList", value = "数据id列表", dataType = "List<Long>" ),
             @ApiImplicitParam(name = "checkStatus", value = "1签入 0签出", dataType = "int" )
     })
-    public Result<List<DataReviewReVTO>> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus){
+    public Result<List<DataReviewReVTO>> checkInOrOut(@RequestParam(value = "dataList") List<Long> dataList,Long userId, Integer checkStatus){
         return irDataReviewService.checkInOrOut(userId,dataList,checkStatus);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    @ApiOperation(value = "查询评审信息")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @GetMapping("/selectRevicwInfo")
+    public Result<TailPage<DataReviewReVTO>> selectRevicwInfo(@RequestParam(value = "data") Long dataId,PageQueryParamData paramData){
+        return irDataReviewService.selectRevicwInfo(dataId,paramData);
+    }
 
 }

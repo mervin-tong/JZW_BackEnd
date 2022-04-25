@@ -16,7 +16,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        status, data_id, admin_judge_id, user_judge_id, created_at, updated_at
+        status, data_id, admin_judge_id, user_judge_id, created_at, updated_at,no_pass_reason,recheck_pass_reason,rechecked_at,checked_at
     </sql>
 
     <select id="dataReview" resultType="com.piesat.school.datareview.vto.DataReviewVTO">
@@ -32,21 +32,26 @@
             di.upload_user_id uploadUserId,
             di.id,
             dr.no_pass_reason noPassReason,
+            dr.recheck_pass_reason recheckPassReason,
             dr.admin_judge_id adminJudgeId,
-            dr.user_judge_id userJudgeId
+            dr.user_judge_id userJudgeId,
+            dr.rechecked_at recheckedAt,
+            dr.checked_at checkedAt,
+            u.name uploadName
         FROM
             t_data_review dr
             LEFT JOIN t_data_inf di ON dr.data_id = di.id
             LEFT JOIN t_contact c ON di.con_id = c.id
+            left join t_user u on u.id=di.upload_user_id
         where di.deleted=1
         <if test="param.dataName != null and param.dataName != ''">
-            and di.data_name =#{param.dataName}
+            and di.data_name like concat ('%',#{param.dataName},'%')
         </if>
         <if test="param.start != null">
-            and di.created_at > #{param.createdAt}
+            and di.created_at > str_to_date(#{param.start},'%Y-%m-%d')
         </if>
         <if test="param.end !=null">
-            and di.created_at <![CDATA[< #{param.createdAt}]]>
+            and di.created_at <![CDATA[< str_to_date(#{param.end},'%Y-%m-%d')]]>
         </if>
         <if test="param.status != null">
             and dr.status =#{param.status}
@@ -60,15 +65,17 @@
             di.address address,
             dr.created_at createdAt,
             di.`status` status,
-            di.maker maker
+            di.maker maker,
+            dr.updated_at updatedAt,
+            dr.status reviewStatus
         FROM
             t_data_review dr
             LEFT JOIN t_data_inf di ON dr.data_id = di.id
             WHERE dr.user_judge_id = #{userDataReviewParamData.userJudgeId}
-            <if test="userDataReviewParamData.isAudit">
+            <if test="!userDataReviewParamData.isAudit">
                 and (dr.status=1 or dr.status=2)
             </if>
-            <if test="!userDataReviewParamData.isAudit">
+            <if test="userDataReviewParamData.isAudit">
                 and (dr.status=3 or dr.status=9)
             </if>
     </select>
@@ -77,6 +84,21 @@
             data_name dataName
         from t_data_inf
         where data_name like concat ('%',#{param.dataName},'%')
+    </select>
+    <select id="selectAll" resultType="com.piesat.school.datareview.vto.DataReviewReVTO">
+        select id,
+               status,
+               data_id dataId,
+               admin_judge_id adminJudgeId,
+               user_judge_id userJudgeId,
+               created_at createdAt,
+               updated_at updatedAt,
+               no_pass_reason noPassReason,
+               recheck_pass_reason recheckPassReason,
+               rechecked_at recheckedAt,
+               checked_at checkedAt
+        from t_data_review
+        where id = #{param}
     </select>
 
 </mapper>

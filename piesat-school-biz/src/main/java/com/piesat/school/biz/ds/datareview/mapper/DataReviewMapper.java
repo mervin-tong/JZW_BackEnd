@@ -7,6 +7,7 @@ import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.param.UserDataReviewParamData;
+import com.piesat.school.datareview.vto.DataReviewReVTO;
 import com.piesat.school.datareview.vto.DataReviewUserVTO;
 import com.piesat.school.datareview.vto.DataReviewVTO;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,6 @@ public interface DataReviewMapper extends BaseMapper<DataReview> {
     List<DataReviewUserVTO> userDataReview(@Param("userDataReviewParamData") UserDataReviewParamData userDataReviewParamData, Page<DataInfListVTO> page);
 
     List<String> screen(@Param("param") ConditionScreenParamData paramData);
+
+    List<DataReviewReVTO> selectAll(@Param("param") Long dataId, Page<DataReviewReVTO> page);
 }

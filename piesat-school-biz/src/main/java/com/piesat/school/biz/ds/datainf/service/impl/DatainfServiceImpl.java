@@ -289,7 +289,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         if(paramData.getAuditStatus()!=null){
             queryWrapper.eq("through_review",paramData.getAuditStatus());
         }
-        queryWrapper.lambda().eq(Datainf::getDeleted, BizEnumType.CommonStatus.Invalid.getKey());
+//        queryWrapper.lambda().eq(Datainf::getDeleted, BizEnumType.CommonStatus.Invalid.getKey());
         if(paramData.getPublisher()!=null){
             queryWrapper.eq("upload_user_id",paramData.getPublisher());
         }
@@ -297,7 +297,13 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             queryWrapper.lambda().like(Datainf::getDataName,paramData.getCondition());
         }
 
-        if(!paramData.getLimitUserAble()){
+//        if(!paramData.getLimitUserAble()){
+//            queryWrapper.lambda().eq(Datainf::getPublisherStatus, BizEnumType.CommonStatus.Invalid.getKey());
+//        }
+
+        if(paramData.getLimitUserAble()){
+            queryWrapper.lambda().eq(Datainf::getPublisherStatus, BizEnumType.CommonStatus.Valid.getKey());
+        }else {
             queryWrapper.lambda().eq(Datainf::getPublisherStatus, BizEnumType.CommonStatus.Invalid.getKey());
         }
         Page<Datainf> dataInfos=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);

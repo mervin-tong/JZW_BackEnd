@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.ds.information.builder.InformationBuilder;
 import com.piesat.school.biz.ds.user.bulider.UserBuilder;
 import com.piesat.school.biz.ds.user.entity.User;
+import com.piesat.school.biz.ds.user.entity.UserRole;
 import com.piesat.school.biz.ds.user.mapper.UserMapper;
+import com.piesat.school.biz.ds.user.mapper.UserRoleMapper;
 import com.piesat.school.biz.ds.user.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.user.param.UpdatePasswordParamData;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +40,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private UserRoleMapper userRoleMapper;
     @Override
     public UserVTO findUserByPhoneOrEmail(String phoneOrEmail) {
 //        User user = new User();
@@ -81,6 +86,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if(StringUtils.isNotBlank(paramData.getCondition())){
             queryWrapper.lambda().like(User::getName,paramData.getCondition());
         }
+        if(paramData.getStatus() !=null){
+            queryWrapper.lambda().like(User::getStatus, paramData.getStatus());
+        }
+        List<UserRole> userRole=userRoleMapper.selectList(new QueryWrapper<UserRole>().eq("role_id",3));
+        List<Long> userId = new ArrayList<>();
+        for(UserRole userRole1:userRole){
+            userId.add(userRole1.getUserId());
+        }
+        queryWrapper.in("id", userId);
         Page<User> userPage=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
         return CommonPage.buildPage(userPage.getCurrent(), userPage.getSize(), userPage.getTotal(), UserBuilder.toUserVTOs(userPage.getRecords()));
     }
@@ -97,6 +111,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return Result.ofSuccess(Boolean.TRUE);
         }else {
             return Result.ofFail("4402", "密码修改失败");
+        }
+    }
+
+    @Override
+    public Result<Boolean> addAdministrator(UserParamData userParamData) {
+        User user = UserBuilder.toUser(userParamData);
+        user.setPassword(passwordEncoder.encode("123456"));
+        user.setCreatedAt(new Date());
+        user.setUpdatedAt(new Date());
+        boolean b =this.save(user);
+        UserRole userRole=new UserRole();
+        userRole.setUserId(user.getId());
+        userRole.setRoleId(1L);
+        int i =userRoleMapper.insert(userRole);
+        if (i==1&&b){
+            return Result.ofSuccess(Boolean.TRUE);
+        }else {
+            return Result.ofFail("4013", "创建失败");
         }
     }
 }

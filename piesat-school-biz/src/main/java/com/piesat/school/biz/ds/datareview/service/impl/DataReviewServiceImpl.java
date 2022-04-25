@@ -1,8 +1,9 @@
 package com.piesat.school.biz.ds.datareview.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.protobuf.ServiceException;
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
 import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
 import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
@@ -53,7 +54,7 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
     //初审
     @Override
     public Boolean firstReview(Long dataReviewId, Long reviewUserId, Integer isPass, String reason) {
-            DataReview dataReview=dataReviewMapper.selectById(dataReviewId);
+            DataReview dataReview=dataReviewMapper.selectOne(new QueryWrapper<DataReview>().eq("data_id", dataReviewId));
             if(dataReview == null){
                 return false;
             }
@@ -63,6 +64,7 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
                 dataReview.setStatus(BizEnumType.ReviewStatus.FIRSTREVIEWNOPASS.getKey());
                 dataReview.setNoPassReason(reason);
             }
+            dataReview.setAdminJudgeId(reviewUserId);
             return this.updateById(dataReview);
     }
     //指定专家
@@ -70,7 +72,7 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
     public Boolean assign(Long dataReviewId, Long expertId,Long reviewUserId) {
             UpdateWrapper<DataReview> updateWrapper = new UpdateWrapper<>();
             updateWrapper.set("user_judge_id", expertId)
-                    .eq("id", dataReviewId)
+                    .eq("data_id", dataReviewId)
                     .and(wrapper  -> wrapper
                             .eq("admin_judge_id",reviewUserId)
                             .or()
@@ -135,7 +137,7 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
     //检入检出
     @Override
     public List<DataReviewReVTO> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus) {
-        List<DataReview> dataReviewList =baseMapper.selectBatchIds(dataList);
+        List<DataReview> dataReviewList =baseMapper.selectList(new QueryWrapper<DataReview>().in("data_id", dataList));
         List<DataReviewReVTO> dataReviewReVTOS =new ArrayList<>();
         if(checkStatus == 0){
             for(DataReview dataReview:dataReviewList){
@@ -157,5 +159,13 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
             }
         }
         return dataReviewReVTOS;
+    }
+
+    @Override
+    public TailPage<DataReviewReVTO> selectRevicwInfo(Long dataId, PageQueryParamData paramData) {
+        Page<DataReviewReVTO> page = new Page<>(paramData.getPn(),paramData.getPs());
+        page.setOptimizeCountSql(false);
+        List<DataReviewReVTO> list = baseMapper.selectAll(dataId,page);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
 }

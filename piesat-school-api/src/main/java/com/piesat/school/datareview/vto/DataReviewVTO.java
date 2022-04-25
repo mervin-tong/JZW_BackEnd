@@ -42,6 +42,12 @@ public class DataReviewVTO implements Serializable {
     private Long uploadUserId;
 
     /**
+     * 上传者姓名
+     */
+    @ApiModelProperty(value = "上传者姓名")
+    private String uploadName;
+
+    /**
      * 数据地址
      */
     @ApiModelProperty(value = "数据地址")
