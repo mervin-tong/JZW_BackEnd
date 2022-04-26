@@ -84,12 +84,6 @@ public class DataReviewVTO implements Serializable {
     private String id;
 
     /**
-     *  未通过原因
-     */
-    @ApiModelProperty(value = "未通过原因")
-    private String noPassReason;
-
-    /**
      *  评审人 (一审)
      */
     @ApiModelProperty(value = "评审人 (一审) ")
@@ -100,4 +94,26 @@ public class DataReviewVTO implements Serializable {
      */
     @ApiModelProperty(value = "指定专家（二审）")
     private Long userJudgeId;
+
+    /**
+     *  初审未通过原因
+     */
+    @ApiModelProperty(value = "初审未通过原因")
+    private String noPassReason;
+
+    /**
+     *  复审未通过原因
+     */
+    @ApiModelProperty(value = "复审未通过原因")
+    private String recheckPassReason;
+
+    /**
+     * 复审时间
+     */
+    private Date recheckedAt;
+
+    /**
+     * 初审时间
+     */
+    private Date checkedAt;
 }

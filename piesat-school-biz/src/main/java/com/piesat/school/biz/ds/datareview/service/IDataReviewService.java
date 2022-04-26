@@ -41,5 +41,7 @@ public interface IDataReviewService extends IService<DataReview> {
 
     List<DataReviewReVTO> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus);
 
-    TailPage<DataReviewReVTO> selectRevicwInfo(Long dataId, PageQueryParamData paramData);
+    TailPage<DataReviewReVTO> selectReviewInfo(Long dataId, PageQueryParamData paramData);
+
+    Boolean release(Long reviewUserId, int dataId);
 }

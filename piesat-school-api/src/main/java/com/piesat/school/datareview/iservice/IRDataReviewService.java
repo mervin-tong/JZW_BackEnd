@@ -30,5 +30,7 @@ public interface IRDataReviewService {
     //签入签出状态更改
     Result<List<DataReviewReVTO>> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus);
     //查询审核信息
-    Result<TailPage<DataReviewReVTO>> selectRevicwInfo(Long dataId, PageQueryParamData paramData);
+    Result<TailPage<DataReviewReVTO>> selectReviewInfo(Long dataId, PageQueryParamData paramData);
+    //发布上架
+    Result<Boolean> release(Long reviewUserId, int dataId);
 }

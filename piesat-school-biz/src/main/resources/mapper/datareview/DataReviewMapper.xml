@@ -43,7 +43,7 @@
             LEFT JOIN t_data_inf di ON dr.data_id = di.id
             LEFT JOIN t_contact c ON di.con_id = c.id
             left join t_user u on u.id=di.upload_user_id
-        where di.deleted=1
+        where di.deleted=0
         <if test="param.dataName != null and param.dataName != ''">
             and di.data_name like concat ('%',#{param.dataName},'%')
         </if>
@@ -98,7 +98,7 @@
                rechecked_at recheckedAt,
                checked_at checkedAt
         from t_data_review
-        where id = #{param}
+        where data_id = #{param}
     </select>
 
 </mapper>

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -64,7 +65,9 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
                 dataReview.setStatus(BizEnumType.ReviewStatus.FIRSTREVIEWNOPASS.getKey());
                 dataReview.setNoPassReason(reason);
             }
+            dataReview.setCheckedAt(new Date());
             dataReview.setAdminJudgeId(reviewUserId);
+
             return this.updateById(dataReview);
     }
     //指定专家
@@ -104,6 +107,7 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
         updateWrapper.set("status",isPass);
         updateWrapper.eq("user_judge_id",reviewUserId);
         updateWrapper.eq("data_id",dataId);
+        updateWrapper.set("rechecked_at",new Date());
         return this.update(updateWrapper);
     }
 
@@ -162,10 +166,22 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
     }
 
     @Override
-    public TailPage<DataReviewReVTO> selectRevicwInfo(Long dataId, PageQueryParamData paramData) {
+    public TailPage<DataReviewReVTO> selectReviewInfo(Long dataId, PageQueryParamData paramData) {
         Page<DataReviewReVTO> page = new Page<>(paramData.getPn(),paramData.getPs());
         page.setOptimizeCountSql(false);
         List<DataReviewReVTO> list = baseMapper.selectAll(dataId,page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+    }
+
+    @Override
+    public Boolean release(Long reviewUserId, int dataId) {
+        DataReview dataReview=baseMapper.selectOne(new QueryWrapper<DataReview>().eq("data_id", dataId));
+        if(dataReview.getStatus().equals(BizEnumType.ReviewStatus.RECHECKPASS.getKey())){
+            dataReview.setStatus(BizEnumType.ReviewStatus.RELEASE.getKey());
+            int i=baseMapper.updateById(dataReview);
+            return i==1;
+        }else {
+            return false;
+        }
     }
 }

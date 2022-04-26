@@ -121,8 +121,8 @@ public class DataReviewController {
             @ApiImplicitParam(name = "reviewUserId", value = "评审人id", dataType = "Long" ),
             @ApiImplicitParam(name = "dataId", value = "数据id", dataType = "Long" )
     })
-    public Result<Boolean> recheck(Long reviewUserId,int dataId){
-        return irDataReviewService.recheck(reviewUserId,dataId);
+    public Result<Boolean> release(Long reviewUserId,int dataId){
+        return irDataReviewService.release(reviewUserId,dataId);
     }
 
     @ApiOperation(value = "查询条件筛选")
@@ -158,9 +158,9 @@ public class DataReviewController {
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
             @ApiResponse(code=500,message="后台报错"),
     })
-    @GetMapping("/selectRevicwInfo")
-    public Result<TailPage<DataReviewReVTO>> selectRevicwInfo(@RequestParam(value = "data") Long dataId,PageQueryParamData paramData){
-        return irDataReviewService.selectRevicwInfo(dataId,paramData);
+    @GetMapping("/selectReviewInfo")
+    public Result<TailPage<DataReviewReVTO>> selectReviewInfo(@RequestParam(value = "data") Long dataId,PageQueryParamData paramData){
+        return irDataReviewService.selectReviewInfo(dataId,paramData);
     }
 
 }

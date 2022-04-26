@@ -13,6 +13,7 @@ import com.piesat.school.biz.ds.datainf.service.IContactService;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
+import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
 import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
 import com.piesat.school.biz.ds.order.entity.HistoryDownload;
 import com.piesat.school.biz.ds.order.mapper.HistoryDownloadMapper;
@@ -68,6 +69,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     private IDataReviewService iDataReviewService;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private DataReviewMapper dataReviewMapper;
     @Resource
     private IContactService contactService;
 
@@ -177,7 +180,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             if(paramData.getUploadUserId() != null) {
                 BeanUtils.copyProperties(paramData,datainf);
                 datainf.setThroughReview(BizEnumType.ThroughReview.NOTPASS.getKey());
-                datainf.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
+                datainf.setDeleted(BizEnumType.CommonStatus.Invalid.getKey());
                 Contact contact = new Contact();
                 BeanUtils.copyProperties(paramData.getContact(),contact);
                 contactMapper.insert(contact);
@@ -289,29 +292,24 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         if(paramData.getAuditStatus()!=null){
             queryWrapper.eq("through_review",paramData.getAuditStatus());
         }
-//        queryWrapper.lambda().eq(Datainf::getDeleted, BizEnumType.CommonStatus.Invalid.getKey());
+        queryWrapper.lambda().eq(Datainf::getDeleted, BizEnumType.CommonStatus.Invalid.getKey());
         if(paramData.getPublisher()!=null){
             queryWrapper.eq("upload_user_id",paramData.getPublisher());
         }
         if(StringUtils.isNotBlank(paramData.getCondition())){
             queryWrapper.lambda().like(Datainf::getDataName,paramData.getCondition());
         }
-
-//        if(!paramData.getLimitUserAble()){
-//            queryWrapper.lambda().eq(Datainf::getPublisherStatus, BizEnumType.CommonStatus.Invalid.getKey());
-//        }
-
-        if(paramData.getLimitUserAble()){
-            queryWrapper.lambda().eq(Datainf::getPublisherStatus, BizEnumType.CommonStatus.Valid.getKey());
-        }else {
+        if(!paramData.getLimitUserAble()){
             queryWrapper.lambda().eq(Datainf::getPublisherStatus, BizEnumType.CommonStatus.Invalid.getKey());
         }
+
         Page<Datainf> dataInfos=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
 
         List<MyDataInfVTO> myDataInfVTOS=new ArrayList<>();
         if(dataInfos.getRecords().size()>0){
             List<Long> userIds=dataInfos.getRecords().stream().map(Datainf::getUploadUserId).collect(Collectors.toList());
             List<Long> contactIds=dataInfos.getRecords().stream().filter(e->e.getConId()!=null).map(Datainf::getConId).collect(Collectors.toList());
+            List<Long> dataIds = dataInfos.getRecords().stream().map(Datainf::getId).collect(Collectors.toList());
             List<Contact> contacts=new ArrayList<>();
             if(contactIds!=null&&contactIds.size()>0){
                 contacts=this.contactService.listByIds(contactIds);
@@ -322,6 +320,14 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             }
             List<User> users=this.userMapper.selectBatchIds(userIds);
             myDataInfVTOS=DatainfBuilder.toMyDataInfVTOs(dataInfos.getRecords(),users,contactMap);
+            List<DataReview> dataReviews=dataReviewMapper.selectList(new QueryWrapper<DataReview>().in("data_id",dataIds));
+            for (int i=0 ;i<myDataInfVTOS.size();i++){
+                for (DataReview dataReview:dataReviews){
+                    if(myDataInfVTOS.get(i).getId().equals(dataReview.getDataId())){
+                        myDataInfVTOS.get(i).setStatus(dataReview.getStatus());
+                    }
+                }
+            }
         }
         return CommonPage.buildPage(dataInfos.getCurrent(),dataInfos.getSize(),dataInfos.getTotal(),myDataInfVTOS);
     }

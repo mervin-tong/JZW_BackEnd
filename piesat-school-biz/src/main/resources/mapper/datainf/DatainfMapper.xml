@@ -153,10 +153,11 @@
             b.mobile,
             b.con_unit,
             a.left_up,
-            a.right_down
+            a.right_down,
+            a.pic
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
-        where (a.id = #{dataInfId} AND a.deleted = 1)
+        where (a.id = #{dataInfId} AND a.deleted = 0)
     </select>
     <select id="getThematicData" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
         select tdl.data_id as id,

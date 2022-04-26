@@ -51,6 +51,7 @@ public class DataInfDetailVTO implements Serializable {
      */
     @ApiModelProperty(value = "数据第二分类")
     private String secClass;
+
     /**
      * 尺度
      */
@@ -68,6 +69,7 @@ public class DataInfDetailVTO implements Serializable {
      */
     @ApiModelProperty(value = "唯一标识符")
     private String doi;
+
     /**
      * 公开状态：0 公开；1半公开；2不公开
      */
@@ -147,4 +149,23 @@ public class DataInfDetailVTO implements Serializable {
     private String longitude;
     @ApiModelProperty(value = "纬度")
     private String latitude;
+
+    /**
+     * 图片地址
+     */
+    @ApiModelProperty(value = "图片地址")
+    private String pic;
+
+    /**
+     * 左上坐标
+     */
+    @ApiModelProperty(value = "左上坐标")
+    private String leftUp;
+
+    /**
+     * 右下坐标
+     */
+    @ApiModelProperty(value = "右下坐标")
+    private String rightDown;
+
 }

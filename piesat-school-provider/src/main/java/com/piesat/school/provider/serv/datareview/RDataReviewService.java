@@ -71,7 +71,12 @@ public class RDataReviewService implements IRDataReviewService {
     }
 
     @Override
-    public Result<TailPage<DataReviewReVTO>> selectRevicwInfo(Long dataId, PageQueryParamData paramData) {
-        return Result.ofSuccess(iDataReviewService.selectRevicwInfo(dataId,paramData));
+    public Result<TailPage<DataReviewReVTO>> selectReviewInfo(Long dataId, PageQueryParamData paramData) {
+        return Result.ofSuccess(iDataReviewService.selectReviewInfo(dataId,paramData));
+    }
+
+    @Override
+    public Result<Boolean> release(Long reviewUserId, int dataId) {
+        return Result.ofSuccess(iDataReviewService.release(reviewUserId,dataId));
     }
 }

@@ -40,4 +40,7 @@ public class MyDataInfVTO implements Serializable {
     private String contactName;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date createdAt;
+
+    @ApiModelProperty(value = "评审状态")
+    private Integer status;
 }
