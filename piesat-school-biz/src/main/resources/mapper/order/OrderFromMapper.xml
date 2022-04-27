@@ -38,7 +38,7 @@
             o.created_at,
             o.updated_at
         FROM
-            t_order_from o
+            t_order o
             LEFT JOIN t_data_inf d ON o.data_info_id = d.id
         <if test="orderFromMenuPageParamData.auditorUserId!=null">
             left join t_user u on o.download_user_id=u.id
@@ -87,10 +87,11 @@
             LEFT JOIN t_user u2 ON d.user_id = u2.id
         WHERE
             u.id = #{orderFromAttentionParamData.id}
-        AND
-            d.through_review = 1
+--         AND
+--             d.through_review = 1
         AND
             a.status = 1
+        AND a.id IN (SELECT id FROM t_data_inf WHERE deleted=0)
     </select>
 
     <select id="historyDownload" resultType="com.piesat.school.order.vto.OrderFromHistoryDownLoadVTO">

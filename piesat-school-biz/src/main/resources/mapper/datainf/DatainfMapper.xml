@@ -154,27 +154,30 @@
             b.con_unit,
             a.left_up,
             a.right_down,
+            a.kick_count kickCount,
             a.pic
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
         where (a.id = #{dataInfId} AND a.deleted = 0)
     </select>
     <select id="getThematicData" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
-        select tdl.data_id as id,
-               tdi.created_at as createdAt,
-               tdi.start_at as startAt,
-               tdi.end_at as endAt,
-               tdi.data_name as dataName,
-               u.name as updateName
-        from t_topic_data_rel tdl
-        left join t_data_inf tdi on tdl.data_id=tdi.id
+        select tdi.id as id,
+        tdi.created_at as createdAt,
+        tdi.start_at as startAt,
+        tdi.end_at as endAt,
+        tdi.data_name as dataName,
+        u.name as updateName
+        from  t_data_inf tdi
         left join t_user u on u.id=tdi.upload_user_id
-        where tdl.topic_id=#{param.topicId}
+        left join t_data_review tdr on tdr.data_id = tdi.id
+        where tdr.status = 5
+        and  tdi.deleted=0
+        and  tdi.publisher_status =0
+        and  tdi.id not in (select data_id from t_topic_data_rel where topic_id =#{param.topicId})
         <if test="param.dataName != '' and param.dataName != null">
             and tdi.data_name like concat('%',#{param.dataName},'%')
         </if>
     </select>
-
     <!--    <select id="myDataMenu" parameterType="long" resultType="com.piesat.school.datainf.vto.MyDataInfVTO">-->
 <!--        SELECT-->
 <!--            id,-->

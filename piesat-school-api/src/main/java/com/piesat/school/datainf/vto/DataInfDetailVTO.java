@@ -168,4 +168,10 @@ public class DataInfDetailVTO implements Serializable {
     @ApiModelProperty(value = "右下坐标")
     private String rightDown;
 
+    /**
+     * 点击量
+     */
+    @ApiModelProperty(value = "点击量")
+    private String kickCount;
+
 }

@@ -3,6 +3,7 @@ package com.piesat.school.biz.ds.datainf.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.common.helper.BizCommonValidateHelper;
 import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
 import com.piesat.school.biz.ds.datainf.entity.Contact;
@@ -18,6 +19,11 @@ import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
 import com.piesat.school.biz.ds.order.entity.HistoryDownload;
 import com.piesat.school.biz.ds.order.mapper.HistoryDownloadMapper;
 
+import com.piesat.school.biz.ds.topic.entity.Topic;
+import com.piesat.school.biz.ds.topic.entity.TopicDataRel;
+import com.piesat.school.biz.ds.topic.mapper.TopicDataRelMapper;
+import com.piesat.school.biz.ds.topic.mapper.TopicMapper;
+import com.piesat.school.biz.ds.topic.service.ITopicService;
 import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.biz.ds.user.service.IRoleService;
@@ -26,10 +32,7 @@ import com.piesat.school.datainf.param.DataInfSaveParamData;
 import com.piesat.school.datainf.param.SearchByClassParamData;
 import com.piesat.school.datainf.param.SearchByKeyParamData;
 import com.piesat.school.datainf.param.*;
-import com.piesat.school.datainf.vto.DataInfDetailVTO;
-import com.piesat.school.datainf.vto.DataInfListVTO;
-import com.piesat.school.datainf.vto.DataInfVTO;
-import com.piesat.school.datainf.vto.MyDataInfVTO;
+import com.piesat.school.datainf.vto.*;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
@@ -73,6 +76,13 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     private DataReviewMapper dataReviewMapper;
     @Resource
     private IContactService contactService;
+    @Resource
+    private TopicDataRelMapper topicDataRelMapper;
+    @Resource
+    private TopicMapper topicMapper;
+    @Resource
+    private ITopicService topicService;
+
 
     @Override
     public TailPage<DataInfListVTO> getAllDatainf() {
@@ -209,9 +219,21 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             longs.add(Long.valueOf(s));
         }
         List<Datainf> datainfs=this.listByIds(longs);
+        List<TopicDataRel> topicDataRels = topicDataRelMapper.selectList(new QueryWrapper<TopicDataRel>().in("data_id",longs));
+        List<Long> topicIds = topicDataRels.stream().map(TopicDataRel::getTopicId).collect(Collectors.toList());
+        List<Topic> topics = topicMapper.selectList(new QueryWrapper<Topic>().in("id",topicIds));
         for (Datainf i:datainfs){
             i.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
+            if(topicDataRels.stream().anyMatch(e -> e.getDataId().equals(i.getId()))){
+                Long topicId=topicDataRels.stream().filter(e -> e.getDataId().equals(i.getId())).findFirst().get().getTopicId();
+                for (Topic topic:topics){
+                    if(topic.getId().equals(topicId)){
+                        topic.setDataNum(topic.getDataNum()-1);
+                    }
+                }
+            }
         }
+        topicService.updateBatchById(topics);
         this.updateBatchById(datainfs);
         return Boolean.TRUE;
     }
@@ -337,6 +359,51 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         Page<DataInfListVTO> page = new Page<>(paramData.getPn(),paramData.getPs());
         page.setOptimizeCountSql(false);
         List<DataInfListVTO> list = datainfMapper.getThematicData(paramData,page);
+
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+    }
+
+    @Override
+    public StatisticsVTO statistics() {
+        StatisticsVTO statisticsVTO =new StatisticsVTO();
+        List<Datainf> datainfs =datainfMapper.selectList(new QueryWrapper<Datainf>().isNotNull("id"));
+        statisticsVTO.setTotal(datainfs.size());
+        Long openDataNum=0L;
+        Long semiopenDataNum=0L;
+        Long closedDataNum=0L;
+        Long pageViews=0L;
+        Long downloadNum=0L;
+        for (Datainf datainf:datainfs){
+            if(datainf.getStatus()==BizEnumType.PublicStatus.NoOpen.getKey()){
+                closedDataNum+=1;
+            }else if (datainf.getStatus()==BizEnumType.PublicStatus.HalfOpen.getKey()){
+                semiopenDataNum+=1;
+            }else {
+                openDataNum+=1;
+            }
+            pageViews+=datainf.getKickCount();
+            downloadNum+=datainf.getDownCount();
+        }
+        statisticsVTO.setClosedDataNum(closedDataNum);
+        statisticsVTO.setDownloadNum(downloadNum);
+        statisticsVTO.setOpenDataNum(openDataNum);
+        statisticsVTO.setPageViews(pageViews);
+        statisticsVTO.setSemiopenDataNum(semiopenDataNum);
+        statisticsVTO.setRegistereMembers(userMapper.selectCount(new QueryWrapper<User>().isNotNull("id")));
+        return statisticsVTO;
+    }
+
+    @Override
+    public TailPage<DataInfListVTO> highAttention(PageQueryParamData paramData) {
+        QueryWrapper<Datainf> queryWrapper=new QueryWrapper<>();
+        queryWrapper.orderByDesc("kick_count");
+        Page<Datainf> dataInfos=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
+        List<DataInfListVTO> list=new ArrayList<>();
+        for(Datainf datainf:dataInfos.getRecords()) {
+            DataInfListVTO dataInfListVTO =new DataInfListVTO();
+            BeanUtils.copyProperties(datainf,dataInfListVTO);
+            list.add(dataInfListVTO);
+        }
+        return CommonPage.buildPage(dataInfos.getCurrent(),dataInfos.getSize(),dataInfos.getTotal(),list);
     }
 }

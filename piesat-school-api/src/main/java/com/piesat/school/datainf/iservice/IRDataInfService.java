@@ -1,10 +1,8 @@
 package com.piesat.school.datainf.iservice;
 
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.datainf.param.*;
-import com.piesat.school.datainf.vto.DataInfDetailVTO;
-import com.piesat.school.datainf.vto.DataInfListVTO;
-import com.piesat.school.datainf.vto.DataInfVTO;
-import com.piesat.school.datainf.vto.MyDataInfVTO;
+import com.piesat.school.datainf.vto.*;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 
@@ -30,4 +28,8 @@ public interface IRDataInfService {
     Result<TailPage<MyDataInfVTO>> dataList(DataQueryParamData paramData);
     //获取元数据列表
     Result<TailPage<DataInfListVTO>> thematicData(MetadataQueryParam paramData);
+    //数据集统计
+    Result<StatisticsVTO> statistics();
+    //获取高热度数据列表
+    Result<TailPage<DataInfListVTO>> highAttention(PageQueryParamData paramData);
 }

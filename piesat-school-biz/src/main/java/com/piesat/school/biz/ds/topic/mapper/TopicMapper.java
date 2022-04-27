@@ -2,6 +2,8 @@ package com.piesat.school.biz.ds.topic.mapper;
 
 import com.piesat.school.biz.ds.topic.entity.Topic;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.piesat.school.datainf.vto.MyDataInfVTO;
+import com.piesat.school.topic.param.TopicQueryParamData;
 import com.piesat.school.topic.vto.TopicDetailVTO;
 import com.piesat.school.topic.vto.TopicVTO;
 import org.apache.ibatis.annotations.Param;
@@ -21,5 +23,5 @@ public interface TopicMapper extends BaseMapper<Topic> {
     List<TopicVTO> getAllTopic();
     TopicVTO indexDetailTopic(@Param("topicId") Long topicId);
 
-
+    List<MyDataInfVTO> getTopicDatalist(TopicQueryParamData paramData);
 }

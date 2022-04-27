@@ -6,6 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
+import com.piesat.school.biz.ds.topic.entity.Topic;
+import com.piesat.school.biz.ds.topic.entity.TopicDataRel;
+import com.piesat.school.biz.ds.topic.mapper.TopicDataRelMapper;
+import com.piesat.school.biz.ds.topic.mapper.TopicMapper;
+import com.piesat.school.biz.ds.topic.service.ITopicService;
 import com.piesat.school.biz.ds.user.check.CheckPhoneOrEmail;
 import com.piesat.school.biz.ds.user.check.CheckUserVerificationCode;
 import com.piesat.school.biz.ds.user.entity.Email;
@@ -39,6 +44,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author suweipeng
@@ -61,6 +67,12 @@ public class UserFacadeService {
     private IDatainfService datainfService;
     @Resource
     private UserRoleMapper userRoleMapper;
+    @Resource
+    private TopicDataRelMapper topicDataRelMapper;
+    @Resource
+    private TopicMapper topicMapper;
+    @Resource
+    private ITopicService topicService;
 
     @Resource
     JavaMailSender jms;
@@ -214,9 +226,22 @@ public class UserFacadeService {
         QueryWrapper<Datainf> queryWrapper=new QueryWrapper<>();
         queryWrapper.lambda().eq(Datainf::getUploadUserId,paramData.getUserId());
         List<Datainf> datainfs=this.datainfService.list(queryWrapper);
+        List<Long> dataIds = datainfs.stream().map(Datainf::getId).collect(Collectors.toList());
+        List<TopicDataRel> topicDataRels = topicDataRelMapper.selectList(new QueryWrapper<TopicDataRel>().in("data_id",dataIds));
+        List<Long> topicIds = topicDataRels.stream().map(TopicDataRel::getTopicId).collect(Collectors.toList());
+        List<Topic> topics = topicMapper.selectList(new QueryWrapper<Topic>().in("id",topicIds));
         for(Datainf i:datainfs){
             i.setPublisherStatus(paramData.getLimitStatus());
+            if(topicDataRels.stream().anyMatch(e -> e.getDataId().equals(i.getId()))){
+                Long topicId=topicDataRels.stream().filter(e -> e.getDataId().equals(i.getId())).findFirst().get().getTopicId();
+                for (Topic topic:topics){
+                    if(topic.getId().equals(topicId)){
+                        topic.setDataNum(topic.getDataNum()-1);
+                    }
+                }
+            }
         }
+        topicService.updateBatchById(topics);
         this.datainfService.updateBatchById(datainfs);
         return Result.ofSuccess(Boolean.TRUE);
     }

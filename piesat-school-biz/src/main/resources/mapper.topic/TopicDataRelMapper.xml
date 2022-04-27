@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.school.biz.ds.topic.mapper.TopicDataRelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.topic.entity.TopicDataRel">
+        <result column="id" property="id" />
+        <result column="data_id" property="dataId" />
+        <result column="topic_id" property="topicId" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        data_id, topic_id, created_at, updated_at
+    </sql>
+    <select id="getTopicDatalist" resultType="com.piesat.school.datainf.vto.MyDataInfVTO">
+        select tdi.id id,
+               tdi.address address,
+               tdi.start_at startAt,
+               tdi.end_at endAt,
+               tdi.upload_user_id uploadUserId,
+               u.name uploadUserName,
+               tdi.through_review  throughReview,
+               tdi.data_name dataName,
+               tdi.data_amount dataAmount,
+               tdi.publisher_status publisherStatus,
+               tc.con_name contactName,
+               tdi.created_at createdAt,
+               tdi.pic pic,
+               tdi.introduction introduction,
+               tdr.status status
+        from t_data_inf tdi
+        left join t_contact tc on tdi.con_id = tc.id
+        left join t_topic_data_rel ttdr on tdi.id=ttdr.data_id
+        left join t_data_review tdr on tdr.data_id= tdi .id
+        left join t_user u on tdi.upload_user_id=u.id
+        where ttdr.topic_id = #{paramData.topicId}
+        <if test="paramData.dataName !=null">
+            and tdi.data_name like concat('%',#{paramData.dataName},'%')
+        </if>
+    </select>
+
+</mapper>

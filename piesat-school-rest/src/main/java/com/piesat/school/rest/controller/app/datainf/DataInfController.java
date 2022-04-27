@@ -1,12 +1,10 @@
 package com.piesat.school.rest.controller.app.datainf;
 
 import com.baomidou.mybatisplus.extension.api.R;
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.datainf.iservice.IRDataInfService;
 import com.piesat.school.datainf.param.*;
-import com.piesat.school.datainf.vto.DataInfDetailVTO;
-import com.piesat.school.datainf.vto.DataInfListVTO;
-import com.piesat.school.datainf.vto.DataInfVTO;
-import com.piesat.school.datainf.vto.MyDataInfVTO;
+import com.piesat.school.datainf.vto.*;
 import com.piesat.school.rest.utils.FileDownloadUtils;
 import com.piesat.school.rest.utils.FileUploadUtils;
 import com.piesat.school.rest.utils.FileUtils;
@@ -110,5 +108,17 @@ public class DataInfController{
     @PostMapping("/thematicData")
     public Result<TailPage<DataInfListVTO>> thematicData(MetadataQueryParam paramData){
         return irDataInfService.thematicData(paramData);
+    }
+
+    @ApiOperation(value = "数据数量统计")
+    @GetMapping("/statistics")
+    public Result<StatisticsVTO> statistics(){
+        return irDataInfService.statistics();
+    }
+
+    @ApiOperation(value = "热度数据")
+    @PostMapping("/highAttention")
+    public Result<TailPage<DataInfListVTO>> highAttention(@RequestBody PageQueryParamData paramData){
+        return irDataInfService.highAttention(paramData);
     }
 }

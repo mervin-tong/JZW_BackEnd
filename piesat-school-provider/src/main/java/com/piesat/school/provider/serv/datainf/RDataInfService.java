@@ -1,13 +1,11 @@
 package com.piesat.school.provider.serv.datainf;
 
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.datainf.facade.DataFacadeService;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.datainf.iservice.IRDataInfService;
 import com.piesat.school.datainf.param.*;
-import com.piesat.school.datainf.vto.DataInfDetailVTO;
-import com.piesat.school.datainf.vto.DataInfListVTO;
-import com.piesat.school.datainf.vto.DataInfVTO;
-import com.piesat.school.datainf.vto.MyDataInfVTO;
+import com.piesat.school.datainf.vto.*;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -102,5 +100,15 @@ public class RDataInfService implements IRDataInfService {
     @Override
     public Result<TailPage<DataInfListVTO>> thematicData(MetadataQueryParam paramData) {
         return Result.ofSuccess(iDatainfService.thematicData(paramData));
+    }
+
+    @Override
+    public Result<StatisticsVTO> statistics() {
+        return Result.ofSuccess(iDatainfService.statistics());
+    }
+
+    @Override
+    public Result<TailPage<DataInfListVTO>> highAttention(PageQueryParamData paramData) {
+        return Result.ofSuccess(iDatainfService.highAttention(paramData));
     }
 }

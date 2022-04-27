@@ -42,7 +42,7 @@ public class DataInfListVTO implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    private Date createAt;
+    private Date createdAt;
 
     /**
      * 上传者姓名

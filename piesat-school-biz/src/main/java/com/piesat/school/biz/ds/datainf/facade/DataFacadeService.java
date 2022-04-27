@@ -1,5 +1,7 @@
 package com.piesat.school.biz.ds.datainf.facade;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.biz.ds.order.service.IOrderFromService;
 import com.piesat.school.datainf.param.DataDetailParamData;
@@ -20,6 +22,7 @@ public class DataFacadeService {
             OrderFromInfoVTO orderFromInfoVTO=orderFromService.orderFromInfo(paramData.getOrderId());
             dataInfDetailVTO.setDataType(orderFromInfoVTO.getDataType());
         }
+        dataInfService.update(new UpdateWrapper<Datainf>().set("kick_count", dataInfDetailVTO.getKickCount()+1).eq("id", paramData.getId()));
         return dataInfDetailVTO;
     }
 }

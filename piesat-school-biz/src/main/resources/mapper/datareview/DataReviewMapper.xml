@@ -76,7 +76,7 @@
                 and (dr.status=1 or dr.status=2)
             </if>
             <if test="userDataReviewParamData.isAudit">
-                and (dr.status=3 or dr.status=9)
+                and (dr.status=3 or dr.status=9 or dr.status=4 or dr.status=5)
             </if>
     </select>
     <select id="screen" resultType="java.lang.String">

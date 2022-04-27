@@ -1,12 +1,10 @@
 package com.piesat.school.biz.ds.datainf.service;
 
+import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.piesat.school.datainf.param.*;
-import com.piesat.school.datainf.vto.DataInfDetailVTO;
-import com.piesat.school.datainf.vto.DataInfListVTO;
-import com.piesat.school.datainf.vto.DataInfVTO;
-import com.piesat.school.datainf.vto.MyDataInfVTO;
+import com.piesat.school.datainf.vto.*;
 import com.smartwork.api.support.page.TailPage;
 
 /**
@@ -43,4 +41,8 @@ public interface IDatainfService extends IService<Datainf> {
     TailPage<MyDataInfVTO> dataList(DataQueryParamData paramData);
 
     TailPage<DataInfListVTO> thematicData(MetadataQueryParam paramData);
+
+    StatisticsVTO statistics();
+
+    TailPage<DataInfListVTO> highAttention(PageQueryParamData paramData);
 }
