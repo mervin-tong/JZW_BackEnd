@@ -114,7 +114,10 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
             TopicDataRel topicDataRel=new TopicDataRel();
             topicDataRel.setDataId(Long.valueOf(i));
             topicDataRel.setTopicId(paramData.getTopicId());
-            topicDataRels.add(topicDataRel);
+            TopicDataRel topicDataRel1=topicDataRelMapper.selectOne(new QueryWrapper<TopicDataRel>().eq("data_id", topicDataRel.getDataId()).eq("topic_id", topicDataRel.getTopicId()));
+            if(topicDataRel1 ==null) {
+                topicDataRels.add(topicDataRel);
+            }
         }
         this.topicDataRelService.saveBatch(topicDataRels);
         topic.setDataNum(topic.getDataNum()+dataIds.length);
@@ -139,7 +142,14 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
         QueryWrapper<Topic> queryWrapper=new QueryWrapper<>();
         queryWrapper.lambda().eq(Topic::getStatus, BizEnumType.CommonStatus.Valid.getKey());
         Page<Topic> page = super.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
-        return CommonPage.buildPage(page.getCurrent(), page.getSize(), page.getTotal(), TopicBuilder.toTopicVTOs(page.getRecords()));
+        List<TopicVTO> topicVTOS=TopicBuilder.toTopicVTOs(page.getRecords());
+        if(paramData.getTopicId().equals(-1L)){
+            for(TopicVTO topicVTO:topicVTOS){
+                paramData.setTopicId(topicVTO.getId());
+                topicVTO.setMyDataInfVTO(topicDataRelMapper.getTopicDatalist(paramData,new Page<>(paramData.getPn(),paramData.getPs())));
+            }
+        }
+        return CommonPage.buildPage(page.getCurrent(), page.getSize(), page.getTotal(), topicVTOS);
     }
 
     @Override

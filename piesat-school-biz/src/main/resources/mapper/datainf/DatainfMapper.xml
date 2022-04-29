@@ -155,7 +155,9 @@
             a.left_up,
             a.right_down,
             a.kick_count kickCount,
-            a.pic
+            a.pic,
+            a.data_amount,
+            a.upload_user_id
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
         where (a.id = #{dataInfId} AND a.deleted = 0)

@@ -17,6 +17,8 @@ import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * @author suweipeng
  * @data 2022/2/24 10:47
@@ -38,7 +40,7 @@ public class ROrderFromService implements IROrderFromService {
 
     //创建订单
     @Override
-    public Result<OrderFromVTO> orderFromCreate(OrderFromParamData orderFromParamData) {
+    public Result<Boolean> orderFromCreate(OrderFromParamData orderFromParamData) {
         return Result.ofSuccess(iOrderFromService.orderFromCreate(orderFromParamData));
     }
 
@@ -84,5 +86,20 @@ public class ROrderFromService implements IROrderFromService {
     @Override
     public Result<OrderFromInfoVTO> auditOrder(OrderAuditParamData paramData) {
         return Result.ofSuccess(iOrderFromService.auditOrder(paramData));
+    }
+
+    @Override
+    public Result<List<OrderFromInfoVTO>> checkInOrOut(Long userId, List<Long> idList, Integer checkStatus) {
+        return  Result.ofSuccess(iOrderFromService.checkInOrOut(userId,idList,checkStatus));
+    }
+
+    @Override
+    public Result<Integer> isAttention(OrderFromAttentionSaveParamData orderFromAttentionSaveParamData) {
+        return Result.ofSuccess(iOrderFromService.isAttention(orderFromAttentionSaveParamData));
+    }
+
+    @Override
+    public Result<Integer> isOrder(Long dataInfoId, Long downloadUserId) {
+        return Result.ofSuccess(iOrderFromService.isOrder(dataInfoId,downloadUserId));
     }
 }

@@ -9,6 +9,8 @@ import com.piesat.school.order.vto.OrderFromInfoVTO;
 import com.piesat.school.order.vto.OrderFromVTO;
 import com.smartwork.api.support.page.TailPage;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -21,7 +23,7 @@ public interface IOrderFromService extends IService<OrderFrom> {
 
     TailPage<OrderFromVTO> orderFromMenu(OrderFromMenuPageParamData orderFromMenuPageParamData);
 
-    OrderFromVTO orderFromCreate(OrderFromParamData orderFromParamData);
+    Boolean orderFromCreate(OrderFromParamData orderFromParamData);
 
     OrderFromInfoVTO orderFromInfo(Long orderFromId);
 
@@ -32,4 +34,10 @@ public interface IOrderFromService extends IService<OrderFrom> {
     Boolean orderfromDelete(String orderfromId);
 
     OrderFromInfoVTO auditOrder(OrderAuditParamData paramData);
+
+    List<OrderFromInfoVTO> checkInOrOut(Long userId, List<Long> idList, Integer checkStatus);
+
+    Integer isAttention(OrderFromAttentionSaveParamData orderFromAttentionSaveParamData);
+
+    Integer isOrder(Long dataInfoId, Long downloadUserId);
 }

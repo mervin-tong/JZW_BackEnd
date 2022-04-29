@@ -10,4 +10,5 @@ public class TopicQueryParamData extends PageQueryParamData {
     private Long topicId;
     @ApiModelProperty(value = "数据名称")
     private String dataName;
+
 }

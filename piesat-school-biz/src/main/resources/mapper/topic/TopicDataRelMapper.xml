@@ -37,7 +37,8 @@
         left join t_topic_data_rel ttdr on tdi.id=ttdr.data_id
         left join t_data_review tdr on tdr.data_id= tdi .id
         left join t_user u on tdi.upload_user_id=u.id
-        where ttdr.topic_id = #{paramData.topicId}
+        where
+              ttdr.topic_id = #{paramData.topicId}
         <if test="paramData.dataName !=null">
             and tdi.data_name like concat('%',#{paramData.dataName},'%')
         </if>

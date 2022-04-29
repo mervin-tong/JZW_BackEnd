@@ -12,6 +12,7 @@ import com.piesat.school.order.param.OrderFromAttentionSaveParamData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import java.util.List;
 @Service
 public class AttentionServiceImpl extends ServiceImpl<AttentionMapper, Attention> implements IAttentionService {
 
-    @Autowired
+    @Resource
     private AttentionMapper attentionMapper;
 
     @Override
@@ -34,7 +35,11 @@ public class AttentionServiceImpl extends ServiceImpl<AttentionMapper, Attention
         if(orderFromAttentionSaveParamData.getDataId() == null && orderFromAttentionSaveParamData.getUserId() == null){
             return Boolean.FALSE;
         }
-        Attention attention = new Attention();
+        Attention test=attentionMapper.selectOne(new QueryWrapper<Attention>().eq("user_id",orderFromAttentionSaveParamData.getUserId()).eq("data_id", orderFromAttentionSaveParamData.getDataId()));
+        if (test !=null){
+            return Boolean.FALSE;
+        }
+        Attention attention =new Attention();
         attention.setDataId(orderFromAttentionSaveParamData.getDataId());
         attention.setUserId(orderFromAttentionSaveParamData.getUserId());
         attention.setStatus(BizEnumType.CommonStatus.Valid.getKey());
@@ -51,10 +56,10 @@ public class AttentionServiceImpl extends ServiceImpl<AttentionMapper, Attention
         for (String s : split) {
             longs.add(Long.valueOf(s));
         }
-        UpdateWrapper<Attention> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.set("status",BizEnumType.CommonStatus.Invalid.getKey());//逻辑删除 0为删除
-        updateWrapper.in("id",longs);
-        return this.update(updateWrapper);
+//        UpdateWrapper<Attention> updateWrapper = new UpdateWrapper<>();
+//        updateWrapper.set("status",BizEnumType.CommonStatus.Invalid.getKey());//逻辑删除 0为删除
+//        updateWrapper.in("id",longs);
+        return this.removeByIds(longs);
     }
 
     @Override

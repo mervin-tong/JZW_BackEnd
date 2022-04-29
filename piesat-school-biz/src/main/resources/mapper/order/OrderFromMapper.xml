@@ -31,28 +31,27 @@
             d.start_at,
             d.end_at,
             d.data_amount,
-        <if test="orderFromMenuPageParamData.auditorUserId!=null">
+        <if test="orderFromMenuPageParamData.downloadUserId == null">
             u.name as downloadUserName,
             u.work_unit   as downloadUserWorkUnit,
+            o.auditor_user_id auditorUserId,
         </if>
             o.created_at,
             o.updated_at
         FROM
             t_order o
             LEFT JOIN t_data_inf d ON o.data_info_id = d.id
-        <if test="orderFromMenuPageParamData.auditorUserId!=null">
+        <if test="orderFromMenuPageParamData.downloadUserId==null">
             left join t_user u on o.download_user_id=u.id
         </if>
         WHERE 1=1
-        <if test="orderFromMenuPageParamData.auditorUserId!=null">
-            and o.auditor_user_id = #{orderFromMenuPageParamData.auditorUserId}
-        </if>
         <if test="orderFromMenuPageParamData.downloadUserId!=null">
             and o.download_user_id = #{orderFromMenuPageParamData.downloadUserId}
         </if>
         <if test="orderFromMenuPageParamData.dataType != null and orderFromMenuPageParamData.dataType != 0" >
             AND o.data_type = #{orderFromMenuPageParamData.dataType}
         </if>
+            AND d.data_name != ''
             AND o.is_delete != 1
     </select>
 
@@ -74,24 +73,28 @@
     <select id="attentionList" resultType="com.piesat.school.order.vto.OrderFromAttentionVTO">
         SELECT
             a.id,
+            a.data_id,
             d.data_name,
             d.created_at,
             d.status,
             d.address,
-            u2.name,
-            d.upload_user_id
+            d.publisher_status publisherStatus,
+            u.name,
+            d.upload_user_id,
+            d.start_at startAt,
+            d.end_at endAt
         FROM
             t_user u
             LEFT JOIN t_attention a ON u.id = a.user_id
             LEFT JOIN t_data_inf d ON a.data_id = d.id
-            LEFT JOIN t_user u2 ON d.user_id = u2.id
         WHERE
             u.id = #{orderFromAttentionParamData.id}
 --         AND
 --             d.through_review = 1
         AND
             a.status = 1
-        AND a.id IN (SELECT id FROM t_data_inf WHERE deleted=0)
+        AND
+            a.data_id IN (SELECT id FROM t_data_inf WHERE deleted=0)
     </select>
 
     <select id="historyDownload" resultType="com.piesat.school.order.vto.OrderFromHistoryDownLoadVTO">
@@ -109,7 +112,7 @@
     </select>
 
     <update id="orderfromDelete">
-        UPDATE t_order_from
+        UPDATE t_order
         SET is_delete = 1
         WHERE id IN
         <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">

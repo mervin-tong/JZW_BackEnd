@@ -1,5 +1,6 @@
 package com.piesat.school.rest.controller.app.orderfrom;
 
+import com.piesat.school.datareview.vto.DataReviewReVTO;
 import com.piesat.school.order.iservice.IROrderFromService;
 import com.piesat.school.order.param.OrderFromAttentionParamData;
 import com.piesat.school.order.param.OrderFromHistoryDownLoadParamData;
@@ -15,6 +16,8 @@ import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.*;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author suweipeng
@@ -44,11 +47,7 @@ public class OrderFromController {
             @ApiResponse(code=500,message="后台报错"),
     })
     @PostMapping("/create")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pn", value = "第几页", dataType = "body" ),
-            @ApiImplicitParam(name = "ps", value = "每页几个", dataType = "body" )
-    })
-    public Result<OrderFromVTO> orderFromCreate(@RequestBody OrderFromParamData orderFromParamData){
+    public Result<Boolean> orderFromCreate(@RequestBody OrderFromParamData orderFromParamData){
         return irOrderFromService.orderFromCreate(orderFromParamData);
     }
     @ApiOperation(value = "查看订单详情")
@@ -150,7 +149,37 @@ public class OrderFromController {
         return irOrderFromService.auditOrder(paramData);
     }
 
+    @ApiOperation(value = "订单签入签出")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @GetMapping("/checkInOrOut")
+    public Result<List<OrderFromInfoVTO>> checkInOrOut(@RequestParam(value = "idList") List<Long> idList, Long userId, Integer checkStatus){
+        return irOrderFromService.checkInOrOut(userId,idList,checkStatus);
+    }
 
+    @ApiOperation(value = "是否关注")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @GetMapping("/isAttention")
+    public Result<Integer> isAttention(@RequestBody OrderFromAttentionSaveParamData orderFromAttentionSaveParamData){
+        return irOrderFromService.isAttention(orderFromAttentionSaveParamData);
+    }
 
+    @ApiOperation(value = "是否存在订单")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @GetMapping("/isOrder")
+    public Result<Integer> isOrder(Long dataInfoId,Long downloadUserId){
+        return irOrderFromService.isOrder(dataInfoId,downloadUserId);
+    }
 
 }

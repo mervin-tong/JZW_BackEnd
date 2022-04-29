@@ -11,10 +11,12 @@ import com.piesat.school.order.vto.OrderFromVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 
+import java.util.List;
+
 public interface IROrderFromService {
     Result<TailPage<OrderFromVTO>> orderFromMenu(OrderFromMenuPageParamData orderFromMenuPageParamData);
 
-    Result<OrderFromVTO> orderFromCreate(OrderFromParamData orderFromParamData);
+    Result<Boolean> orderFromCreate(OrderFromParamData orderFromParamData);
 
     Result<OrderFromInfoVTO> orderFromInfo(Long orderFromId);
 
@@ -33,4 +35,10 @@ public interface IROrderFromService {
     Result<Boolean> orderfromDelete(String orderfromId);
 
     Result<OrderFromInfoVTO> auditOrder(OrderAuditParamData paramData);
+    //签入签出
+    Result<List<OrderFromInfoVTO>> checkInOrOut(Long userId, List<Long> idList, Integer checkStatus);
+    //查询是否已关注
+    Result<Integer> isAttention(OrderFromAttentionSaveParamData orderFromAttentionSaveParamData);
+    //是否已加入订单
+    Result<Integer> isOrder(Long dataInfoId, Long downloadUserId);
 }

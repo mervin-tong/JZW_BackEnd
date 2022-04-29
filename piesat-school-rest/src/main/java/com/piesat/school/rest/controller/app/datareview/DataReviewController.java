@@ -136,7 +136,7 @@ public class DataReviewController {
         return irDataReviewService.screen(paramData);
     }
 
-    @ApiOperation(value = "检入检出")
+    @ApiOperation(value = "签入签出")
     @ApiResponses({
             @ApiResponse(code=0,message="访问成功"),
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),

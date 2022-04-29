@@ -22,6 +22,9 @@ public class DataFacadeService {
             OrderFromInfoVTO orderFromInfoVTO=orderFromService.orderFromInfo(paramData.getOrderId());
             dataInfDetailVTO.setDataType(orderFromInfoVTO.getDataType());
         }
+        if(dataInfDetailVTO.getKickCount()==null){
+            dataInfDetailVTO.setKickCount(0);
+        }
         dataInfService.update(new UpdateWrapper<Datainf>().set("kick_count", dataInfDetailVTO.getKickCount()+1).eq("id", paramData.getId()));
         return dataInfDetailVTO;
     }

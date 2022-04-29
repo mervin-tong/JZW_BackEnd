@@ -21,7 +21,7 @@ public class OrderFromInfoVTO implements Serializable {
      * 数据审核状态（1.申请下载  2.同意下载 3.拒绝下载）
      */
     @ApiModelProperty(value = "数据审核状态（1.申请下载  2.同意下载 3.拒绝下载 4.已过期）")
-    private Long dataType;
+    private Integer dataType;
 
     /**
      * 下载用户id
@@ -60,4 +60,10 @@ public class OrderFromInfoVTO implements Serializable {
     @ApiModelProperty(value = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date updatedAt;
+
+    /**
+     * 审核ID
+     */
+    @ApiModelProperty(value = "审核ID")
+    private Long auditorUserId;
 }

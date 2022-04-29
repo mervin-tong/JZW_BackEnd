@@ -143,7 +143,7 @@ public class DataInfDetailVTO implements Serializable {
      * 数据审核状态（1.申请下载  2.同意下载 3.拒绝下载）
      */
     @ApiModelProperty(value = "数据审核状态，1.申请下载  2.同意下载 3.拒绝下载 4.已过期")
-    private Long dataType;
+    private Integer dataType;
 
     @ApiModelProperty(value = "经度")
     private String longitude;
@@ -172,6 +172,17 @@ public class DataInfDetailVTO implements Serializable {
      * 点击量
      */
     @ApiModelProperty(value = "点击量")
-    private String kickCount;
+    private Integer kickCount;
 
+    /**
+     * 上传数据量
+     */
+    @ApiModelProperty(value = "上传数据量")
+    private String dataAmount;
+
+    /**
+     * 上传用户ID
+     */
+    @ApiModelProperty(value = "上传用户ID")
+    private Long uploadUserId;
 }

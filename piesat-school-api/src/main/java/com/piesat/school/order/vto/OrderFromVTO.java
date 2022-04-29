@@ -87,6 +87,8 @@ public class OrderFromVTO implements Serializable {
     private String downloadUserName;
     @ApiModelProperty(value = "申请人工作单位")
     private String downloadUserWorkUnit;
+    @ApiModelProperty(value = "申请人ID")
+    private Long auditorUserId;
 
 
 }

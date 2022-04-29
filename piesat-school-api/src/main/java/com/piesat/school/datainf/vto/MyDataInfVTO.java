@@ -41,4 +41,5 @@ public class MyDataInfVTO implements Serializable {
     private String pic;
     @ApiModelProperty(value = "摘要")
     private String introduction;
+
 }

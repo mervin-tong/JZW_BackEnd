@@ -52,6 +52,12 @@ public class OrderFrom implements Serializable {
     private String mark;
 
     /**
+     * 是否删除
+     */
+    @ApiModelProperty(value = "是否删除")
+    private String isDelete;
+
+    /**
      * 对应数据编号
      */
     private Long dataInfoId;
