@@ -180,7 +180,7 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
 
     @Override
     public Integer isAttention(OrderFromAttentionSaveParamData orderFromAttentionSaveParamData) {
-        List<Attention> attention = attentionMapper.selectList(new QueryWrapper<Attention>().eq("user_id",orderFromAttentionSaveParamData.getUserId()).eq("dataId", orderFromAttentionSaveParamData.getDataId()));
+        List<Attention> attention = attentionMapper.selectList(new QueryWrapper<Attention>().eq("user_id",orderFromAttentionSaveParamData.getUserId()).eq("data_id", orderFromAttentionSaveParamData.getDataId()));
         if (attention.size()!=0) {
             return 1;
         }else {

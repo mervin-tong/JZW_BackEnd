@@ -166,7 +166,7 @@ public class OrderFromController {
             @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
             @ApiResponse(code=500,message="后台报错"),
     })
-    @GetMapping("/isAttention")
+    @PostMapping("/isAttention")
     public Result<Integer> isAttention(@RequestBody OrderFromAttentionSaveParamData orderFromAttentionSaveParamData){
         return irOrderFromService.isAttention(orderFromAttentionSaveParamData);
     }
