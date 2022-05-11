@@ -1,7 +1,9 @@
-package com.piesat.school.biz.ds.dataclass.entity;
+package com.piesat.school.biz.ds.dataClass.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -20,6 +22,12 @@ import java.io.Serializable;
 public class DataClass implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 菜单名称
+     */
+    @TableId
+    private Integer id;
 
     /**
      * 菜单名称
@@ -59,12 +67,13 @@ public class DataClass implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date createdAt;
 
     /**
      * 更新时间
      */
-    @TableField()
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date updatedAt;
 
     @Override

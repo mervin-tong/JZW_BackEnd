@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.base.PageQueryParamData;
-import com.piesat.school.biz.common.helper.BizCommonValidateHelper;
 import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
 import com.piesat.school.biz.ds.datainf.entity.Contact;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
@@ -43,6 +42,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +82,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     private TopicMapper topicMapper;
     @Resource
     private ITopicService topicService;
+
 
 
     @Override
@@ -161,6 +162,9 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             }
             if(StringUtils.isNotBlank(paramData.getRightDown())){
                 datainf.setRightDown(paramData.getRightDown());
+            }
+            if(paramData.getGenerationMode()!=null){
+                datainf.setGenerationMode(paramData.getGenerationMode());
             }
             Contact contact = new Contact();
             if(datainf.getConId()!=null){
@@ -281,8 +285,11 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
 
     @Override
-    public DataInfVTO getFilePath(Long dataId) {
-        Datainf datainf = BizCommonValidateHelper.valdiateGetById(dataId,this);
+    public DataInfVTO getFilePath(Long dataId, Long userId) {
+        Datainf datainf = this.getById(dataId);
+        if(userId != null){
+            addhistory(dataId, userId);
+        }
         return DatainfBuilder.toDataInfVto(datainf);
     }
 
@@ -405,5 +412,43 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             list.add(dataInfListVTO);
         }
         return CommonPage.buildPage(dataInfos.getCurrent(),dataInfos.getSize(),dataInfos.getTotal(),list);
+    }
+
+    @Override
+    public TailPage<DataInfListVTO> upToDateAttention(PageQueryParamData paramData) {
+        QueryWrapper<Datainf> queryWrapper=new QueryWrapper<>();
+        queryWrapper.orderByDesc("update_at");
+        Page<Datainf> dataInfos=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
+        List<DataInfListVTO> list=new ArrayList<>();
+        for(Datainf datainf:dataInfos.getRecords()) {
+            DataInfListVTO dataInfListVTO =new DataInfListVTO();
+            BeanUtils.copyProperties(datainf,dataInfListVTO);
+            list.add(dataInfListVTO);
+        }
+        return CommonPage.buildPage(dataInfos.getCurrent(),dataInfos.getSize(),dataInfos.getTotal(),list);
+    }
+
+    @Override
+    public TailPage<DataInfDetailVTO> menuDataList(MenuDataParam param) {
+        Page<DataInfListVTO> page = new Page<>(param.getPn(),param.getPs());
+        page.setOptimizeCountSql(false);
+        List<DataInfDetailVTO> dataInfDetailVTOS = baseMapper.menuDataList(param,page);
+        List<DataInfDetailVTO> results = new ArrayList<>();
+        if(param.getLeftUp()!=null && param.getRightDown()!=null) {
+            double leftX = Double.parseDouble(param.getLeftUp().split(",")[0]);
+            double leftY = Double.parseDouble(param.getLeftUp().split(",")[1]);
+            double rightX = Double.parseDouble(param.getRightDown().split(",")[0]);
+            double rightY = Double.parseDouble(param.getRightDown().split(",")[1]);
+            for (DataInfDetailVTO dataInfDetailVTO:dataInfDetailVTOS){
+                double leftxx = Double.parseDouble(dataInfDetailVTO.getLeftUp().split(",")[0]);
+                double leftyy = Double.parseDouble(dataInfDetailVTO.getLeftUp().split(",")[1]);
+                double rightxx = Double.parseDouble(dataInfDetailVTO.getRightDown().split(",")[0]);
+                double rightyy = Double.parseDouble(dataInfDetailVTO.getRightDown().split(",")[1]);
+                if(leftxx>leftX && leftyy<leftY && rightxx<rightX && rightyy>rightY){
+                    results.add(dataInfDetailVTO);
+                }
+            }
+        }
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),results);
     }
 }

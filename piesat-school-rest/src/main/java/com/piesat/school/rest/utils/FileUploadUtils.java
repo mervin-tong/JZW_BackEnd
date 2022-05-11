@@ -40,7 +40,7 @@ public class FileUploadUtils {
 
 
     /**
-     * 按照默认的配置上床文件
+     * 按照默认的配置上传文件
      *
      * @param file 文件
      * @return 文件名

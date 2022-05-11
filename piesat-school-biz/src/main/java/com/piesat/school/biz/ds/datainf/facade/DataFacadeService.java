@@ -18,6 +18,7 @@ public class DataFacadeService {
     private IOrderFromService orderFromService;
     public DataInfDetailVTO dataInfDetail(DataDetailParamData paramData) {
         DataInfDetailVTO dataInfDetailVTO=dataInfService.dataInfDetail(paramData.getId());
+        //获取订单
         if(paramData.getOrderId()!=null){
             OrderFromInfoVTO orderFromInfoVTO=orderFromService.orderFromInfo(paramData.getOrderId());
             dataInfDetailVTO.setDataType(orderFromInfoVTO.getDataType());

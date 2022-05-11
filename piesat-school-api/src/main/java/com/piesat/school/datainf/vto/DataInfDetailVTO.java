@@ -185,4 +185,11 @@ public class DataInfDetailVTO implements Serializable {
      */
     @ApiModelProperty(value = "上传用户ID")
     private Long uploadUserId;
+
+    /**
+     * 生成方式
+     */
+    @ApiModelProperty(value = "生成方式")
+    private Integer generationMode;
+
 }

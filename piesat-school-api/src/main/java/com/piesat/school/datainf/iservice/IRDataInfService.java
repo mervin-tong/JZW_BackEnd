@@ -1,10 +1,16 @@
 package com.piesat.school.datainf.iservice;
 
 import com.piesat.school.base.PageQueryParamData;
+import com.piesat.school.dataClass.VTO.DataClassVTO;
+import com.piesat.school.dataClass.param.DataClassParam;
 import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.*;
+import com.piesat.school.generationMode.param.GenerationModeParam;
+import com.piesat.school.generationMode.vto.GenerationModeVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
+
+import java.util.List;
 
 public interface IRDataInfService {
     Result<TailPage<DataInfListVTO>> getAllDatainf();
@@ -19,7 +25,7 @@ public interface IRDataInfService {
 //    Result<Boolean> uploadPic(String pic , Long dataId);
     Result<DataInfDetailVTO> dataInfDetailVTO(DataDetailParamData paramData);
 
-    DataInfVTO getFilePath(Long dataId);
+    DataInfVTO getFilePath(Long dataId, Long userId);
 
     Boolean addDownCount(int downCount,Long dataId);
 
@@ -32,4 +38,22 @@ public interface IRDataInfService {
     Result<StatisticsVTO> statistics();
     //获取高热度数据列表
     Result<TailPage<DataInfListVTO>> highAttention(PageQueryParamData paramData);
+
+    Result<Boolean> saveGeneration(GenerationModeParam param);
+
+    Result<Boolean> deleteGenerationMode(Integer id);
+
+    Result<List<GenerationModeVTO>> generationModeDetail();
+
+    Result<TailPage<DataInfListVTO>> upToDateAttention(PageQueryParamData paramData);
+
+    Result<TailPage<DataInfDetailVTO>> menuDataList(MenuDataParam param);
+
+    Result<Boolean> saveDataClassification(DataClassParam param);
+
+    Result<Boolean> deleteDataClassification(Integer id);
+
+    Result<List<DataClassVTO>> dataClassList(Integer id);
+
+    Result<Boolean> updateDataClassification(List<String> param);
 }

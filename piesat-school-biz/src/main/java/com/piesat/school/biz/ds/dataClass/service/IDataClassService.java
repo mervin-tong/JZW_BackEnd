@@ -1,7 +1,11 @@
-package com.piesat.school.biz.ds.dataclass.service;
+package com.piesat.school.biz.ds.dataClass.service;
 
-import com.piesat.school.biz.ds.dataclass.entity.DataClass;
+import com.piesat.school.biz.ds.dataClass.entity.DataClass;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.piesat.school.dataClass.VTO.DataClassVTO;
+import com.piesat.school.dataClass.param.DataClassParam;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IDataClassService extends IService<DataClass> {
 
+    Boolean saveDataClassification(DataClassParam param);
+
+    Boolean deleteDataClassification(Integer id);
+
+    List<DataClassVTO> dataClassList(Integer id);
+
+    Boolean updateDataClassification(List<String> param);
 }

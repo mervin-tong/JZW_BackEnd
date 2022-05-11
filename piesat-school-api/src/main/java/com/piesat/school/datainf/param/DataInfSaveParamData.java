@@ -84,5 +84,7 @@ public class DataInfSaveParamData extends ParamData {
     private String leftUp;
     @ApiModelProperty(value = "右下坐标")
     private String rightDown;
+    @ApiModelProperty(value = "生成方式")
+    private Integer generationMode;
 
 }

@@ -32,7 +32,7 @@ public interface IDatainfService extends IService<Datainf> {
     DataInfDetailVTO dataInfDetail(Long dataId);
 
 
-    DataInfVTO getFilePath(Long dataId);
+    DataInfVTO getFilePath(Long dataId, Long userId);
 
     Boolean addDownCount(int downCount,Long dataId);
 
@@ -45,4 +45,8 @@ public interface IDatainfService extends IService<Datainf> {
     StatisticsVTO statistics();
 
     TailPage<DataInfListVTO> highAttention(PageQueryParamData paramData);
+
+    TailPage<DataInfListVTO> upToDateAttention(PageQueryParamData paramData);
+
+    TailPage<DataInfDetailVTO> menuDataList(MenuDataParam param);
 }
