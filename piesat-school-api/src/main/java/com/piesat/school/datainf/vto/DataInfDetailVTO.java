@@ -11,6 +11,13 @@ import java.util.Date;
 @Data
 @ApiModel(value = "数据详细信息模型")
 public class DataInfDetailVTO implements Serializable {
+
+    /**
+     * id
+     */
+    @ApiModelProperty(value = "id")
+    private Long id;
+
     /**
      * 数据名
      */
@@ -173,6 +180,12 @@ public class DataInfDetailVTO implements Serializable {
      */
     @ApiModelProperty(value = "点击量")
     private Integer kickCount;
+
+    /**
+     * 下载量
+     */
+    @ApiModelProperty(value = "下载量")
+    private Integer downCount;
 
     /**
      * 上传数据量

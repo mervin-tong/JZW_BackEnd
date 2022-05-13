@@ -9,8 +9,10 @@ import com.piesat.school.datainf.vto.*;
 import com.piesat.school.generationMode.param.GenerationModeParam;
 import com.piesat.school.generationMode.vto.GenerationModeVTO;
 import com.smartwork.api.Result;
+import com.smartwork.api.param.ParamData;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.*;
+import io.swagger.models.auth.In;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
 
@@ -131,19 +133,19 @@ public class DataInfController{
     }
 
     @ApiOperation(value = "新增/修改生成方式")
-    @PostMapping("/save")
+    @PostMapping("/saveGenerationMode")
     public Result<Boolean> saveGenerationMode(GenerationModeParam param){
         return irDataInfService.saveGeneration(param);
     }
 
     @ApiOperation(value = "删除生成方式")
-    @GetMapping("/delete")
+    @GetMapping("/deleteGenerationMode")
     public Result<Boolean> deleteGenerationMode(Integer id){
         return irDataInfService.deleteGenerationMode(id);
     }
 
     @ApiOperation(value = "生成方式详情")
-    @GetMapping("/detail")
+    @GetMapping("/generationModeDetail")
     public Result<List<GenerationModeVTO>> generationModeDetail(){
         return irDataInfService.generationModeDetail();
     }
@@ -176,5 +178,29 @@ public class DataInfController{
     @GetMapping("/dataClassList")
     public Result<List<DataClassVTO>> dataClassList(Integer id){
         return irDataInfService.dataClassList(id);
+    }
+
+    @ApiOperation(value = "合并一级分类")
+    @PostMapping("/mergeFirstClass")
+    public Result<Boolean> mergeFirstClass(@RequestBody String ids,DataClassParam param){
+        return irDataInfService.mergeFirstClass(ids,param);
+    }
+
+    @ApiOperation(value = "合并二级分类")
+    @PostMapping("/mergeSecClass")
+    public Result<Boolean> mergeSecClass(@RequestBody String ids,DataClassParam param){
+        return irDataInfService.mergeSecClass(ids,param);
+    }
+
+    @ApiOperation(value = "查询分类下数据")
+    @GetMapping("/queryClassData")
+    public Result<TailPage<DataInfDetailVTO>> queryClassData(Integer firstClass, Integer secClass, PageQueryParamData param){
+        return irDataInfService.queryClassData(firstClass,secClass,param);
+    }
+
+    @ApiOperation(value = "移动数据")
+    @GetMapping("/moveData")
+    public Result<Boolean> moveData(Long id,Integer firstClass, Integer secClass ){
+        return irDataInfService.moveData(id,firstClass,secClass);
     }
 }

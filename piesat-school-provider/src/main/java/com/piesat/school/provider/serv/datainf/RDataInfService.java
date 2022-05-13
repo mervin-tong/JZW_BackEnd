@@ -14,6 +14,7 @@ import com.piesat.school.datainf.vto.*;
 import com.piesat.school.generationMode.param.GenerationModeParam;
 import com.piesat.school.generationMode.vto.GenerationModeVTO;
 import com.smartwork.api.Result;
+import com.smartwork.api.param.ParamData;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,5 +169,25 @@ public class RDataInfService implements IRDataInfService {
     @Override
     public Result<Boolean> updateDataClassification(List<String> param) {
         return Result.ofSuccess(dataClassService.updateDataClassification(param));
+    }
+
+    @Override
+    public Result<Boolean> mergeFirstClass(String ids, DataClassParam param) {
+        return Result.ofSuccess(dataClassService.mergeFirstClass(ids,param));
+    }
+
+    @Override
+    public Result<Boolean> mergeSecClass(String ids, DataClassParam param) {
+        return Result.ofSuccess(dataClassService.mergeSecClass(ids,param));
+    }
+
+    @Override
+    public Result<TailPage<DataInfDetailVTO>> queryClassData(Integer firstClass, Integer secClass, PageQueryParamData param) {
+        return Result.ofSuccess(dataClassService.queryClassData(firstClass,secClass,param));
+    }
+
+    @Override
+    public Result<Boolean> moveData(Long id, Integer firstClass, Integer secClass) {
+        return Result.ofSuccess(dataClassService.moveData(id,firstClass,secClass));
     }
 }

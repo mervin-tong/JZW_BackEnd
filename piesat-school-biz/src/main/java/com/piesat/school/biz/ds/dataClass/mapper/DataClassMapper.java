@@ -2,6 +2,7 @@ package com.piesat.school.biz.ds.dataClass.mapper;
 
 import com.piesat.school.biz.ds.dataClass.entity.DataClass;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ import java.util.List;
  */
 public interface DataClassMapper extends BaseMapper<DataClass> {
 
+    Boolean updateDataClassification(@Param("item") List<DataClass> dataClasses);
 }

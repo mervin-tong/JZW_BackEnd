@@ -6,7 +6,9 @@ import com.piesat.school.biz.ds.generationmode.mapper.GenerationModeMapper;
 import com.piesat.school.biz.ds.generationmode.service.IGenerationModeService;
 import com.piesat.school.generationMode.param.GenerationModeParam;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GenerationModeServiceImpl extends ServiceImpl<GenerationModeMapper, GenerationMode> implements IGenerationModeService {
 
     @Override
@@ -17,7 +19,7 @@ public class GenerationModeServiceImpl extends ServiceImpl<GenerationModeMapper,
             BeanUtils.copyProperties(param, generationMode);
             i =baseMapper.updateById(generationMode);
         }else {
-            generationMode.setGenerationMod(param.getGenerationMod());
+            generationMode.setGenerationMode(param.getGenerationMode());
             generationMode.setComment(param.getComment());
             i=baseMapper.insert(generationMode);
         }

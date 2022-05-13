@@ -183,6 +183,7 @@
     </select>
     <select id="menuDataList" resultType="com.piesat.school.datainf.vto.DataInfDetailVTO">
         select
+            a.id,
             a.data_name,
             a.data_unit,
             a.maker,
@@ -207,6 +208,7 @@
             a.left_up,
             a.right_down,
             a.kick_count kickCount,
+            a.down_count downCount,
             a.pic,
             a.data_amount,
             a.upload_user_id,
@@ -214,7 +216,7 @@
         from t_data_inf a
                  LEFT JOIN t_contact b on b.id = a.con_id
                  left join t_generation g on g.generation_mode=a.generation_mode
-        where 1=1
+        where a.deleted = 0
         <if test="param.dataName != null">
            and a.data_name like concat('%',#{param.dataName},'%')
         </if>

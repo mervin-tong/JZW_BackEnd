@@ -26,7 +26,7 @@ public class GenerationMode implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "生成方式")
-    private Integer generationMod;
+    private Integer generationMode;
 
     @ApiModelProperty(value = "标注")
     private String comment;

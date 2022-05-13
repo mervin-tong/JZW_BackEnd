@@ -8,6 +8,7 @@ import com.piesat.school.datainf.vto.*;
 import com.piesat.school.generationMode.param.GenerationModeParam;
 import com.piesat.school.generationMode.vto.GenerationModeVTO;
 import com.smartwork.api.Result;
+import com.smartwork.api.param.ParamData;
 import com.smartwork.api.support.page.TailPage;
 
 import java.util.List;
@@ -56,4 +57,12 @@ public interface IRDataInfService {
     Result<List<DataClassVTO>> dataClassList(Integer id);
 
     Result<Boolean> updateDataClassification(List<String> param);
+
+    Result<Boolean> mergeFirstClass(String ids, DataClassParam param);
+
+    Result<Boolean> mergeSecClass(String ids, DataClassParam param);
+
+    Result<TailPage<DataInfDetailVTO>> queryClassData(Integer firstClass, Integer secClass, PageQueryParamData param);
+
+    Result<Boolean> moveData(Long id, Integer firstClass, Integer secClass);
 }

@@ -166,28 +166,30 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             if(paramData.getGenerationMode()!=null){
                 datainf.setGenerationMode(paramData.getGenerationMode());
             }
-            Contact contact = new Contact();
-            if(datainf.getConId()!=null){
-                contact=contactService.getById(datainf.getConId());
-            }
-            if(StringUtils.isNotBlank(paramData.getContact().getConAddress())){
-                contact.setConAddress(paramData.getContact().getConAddress());
-            }
-            if(StringUtils.isNotBlank(paramData.getContact().getConName())){
-                contact.setConName(paramData.getContact().getConName());
-            }
-            if(StringUtils.isNotBlank(paramData.getContact().getEmail())){
-                contact.setEmail(paramData.getContact().getEmail());
-            }
-            if(StringUtils.isNotBlank(paramData.getContact().getMobile())){
-                contact.setMobile(paramData.getContact().getMobile());
-            }
-            if(StringUtils.isNotBlank(paramData.getContact().getConUnit())){
-                contact.setConUnit(paramData.getContact().getConUnit());
-            }
-            contactService.save(contact);
-            if(datainf.getConId()==null){
-                datainf.setConId(contact.getId());
+            if(paramData.getContact() != null ) {
+                Contact contact = new Contact();
+                if(datainf.getConId()!=null){
+                    contact=contactService.getById(datainf.getConId());
+                }
+                if (StringUtils.isNotBlank(paramData.getContact().getConAddress())) {
+                    contact.setConAddress(paramData.getContact().getConAddress());
+                }
+                if (StringUtils.isNotBlank(paramData.getContact().getConName())) {
+                    contact.setConName(paramData.getContact().getConName());
+                }
+                if (StringUtils.isNotBlank(paramData.getContact().getEmail())) {
+                    contact.setEmail(paramData.getContact().getEmail());
+                }
+                if (StringUtils.isNotBlank(paramData.getContact().getMobile())) {
+                    contact.setMobile(paramData.getContact().getMobile());
+                }
+                if (StringUtils.isNotBlank(paramData.getContact().getConUnit())) {
+                    contact.setConUnit(paramData.getContact().getConUnit());
+                }
+                contactService.save(contact);
+                if(datainf.getConId()==null){
+                    datainf.setConId(contact.getId());
+                }
             }
             datainfMapper.updateById(datainf);
         }else{
@@ -223,9 +225,12 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             longs.add(Long.valueOf(s));
         }
         List<Datainf> datainfs=this.listByIds(longs);
+        List<Topic> topics=new ArrayList<>();
         List<TopicDataRel> topicDataRels = topicDataRelMapper.selectList(new QueryWrapper<TopicDataRel>().in("data_id",longs));
-        List<Long> topicIds = topicDataRels.stream().map(TopicDataRel::getTopicId).collect(Collectors.toList());
-        List<Topic> topics = topicMapper.selectList(new QueryWrapper<Topic>().in("id",topicIds));
+        if(topicDataRels.size()!=0) {
+            List<Long> topicIds = topicDataRels.stream().map(TopicDataRel::getTopicId).collect(Collectors.toList());
+            topics = topicMapper.selectList(new QueryWrapper<Topic>().in("id", topicIds));
+        }
         for (Datainf i:datainfs){
             i.setDeleted(BizEnumType.CommonStatus.Valid.getKey());
             if(topicDataRels.stream().anyMatch(e -> e.getDataId().equals(i.getId()))){
@@ -417,7 +422,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     @Override
     public TailPage<DataInfListVTO> upToDateAttention(PageQueryParamData paramData) {
         QueryWrapper<Datainf> queryWrapper=new QueryWrapper<>();
-        queryWrapper.orderByDesc("update_at");
+        queryWrapper.orderByDesc("updated_at");
         Page<Datainf> dataInfos=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
         List<DataInfListVTO> list=new ArrayList<>();
         for(Datainf datainf:dataInfos.getRecords()) {
@@ -448,6 +453,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
                     results.add(dataInfDetailVTO);
                 }
             }
+        }else {
+            results=dataInfDetailVTOS;
         }
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),results);
     }
