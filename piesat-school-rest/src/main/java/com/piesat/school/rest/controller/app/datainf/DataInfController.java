@@ -182,13 +182,13 @@ public class DataInfController{
 
     @ApiOperation(value = "合并一级分类")
     @PostMapping("/mergeFirstClass")
-    public Result<Boolean> mergeFirstClass(@RequestBody String ids,DataClassParam param){
+    public Result<Boolean> mergeFirstClass(@RequestParam(value = "ids",required = true)  String ids,DataClassParam param){
         return irDataInfService.mergeFirstClass(ids,param);
     }
 
     @ApiOperation(value = "合并二级分类")
     @PostMapping("/mergeSecClass")
-    public Result<Boolean> mergeSecClass(@RequestBody String ids,DataClassParam param){
+    public Result<Boolean> mergeSecClass(@RequestParam(value = "ids",required = true) String ids,DataClassParam param){
         return irDataInfService.mergeSecClass(ids,param);
     }
 
@@ -200,7 +200,7 @@ public class DataInfController{
 
     @ApiOperation(value = "移动数据")
     @GetMapping("/moveData")
-    public Result<Boolean> moveData(Long id,Integer firstClass, Integer secClass ){
-        return irDataInfService.moveData(id,firstClass,secClass);
+    public Result<Boolean> moveData(String ids,Integer firstClass, Integer secClass ){
+        return irDataInfService.moveData(ids,firstClass,secClass);
     }
 }

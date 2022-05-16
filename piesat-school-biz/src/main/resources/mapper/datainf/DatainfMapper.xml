@@ -217,25 +217,28 @@
                  LEFT JOIN t_contact b on b.id = a.con_id
                  left join t_generation g on g.generation_mode=a.generation_mode
         where a.deleted = 0
-        <if test="param.dataName != null">
+        <if test="param.publishStatus != null and param.publishStatus != ''">
+            and a.publisher_status =#{param.publishStatus}
+        </if>
+        <if test="param.dataName != null and param.dataName != ''">
            and a.data_name like concat('%',#{param.dataName},'%')
         </if>
-        <if test="param.firstClass!= null">
+        <if test="param.firstClass!= null and param.firstClass != ''">
             and a.first_class = #{param.firstClass}
         </if>
-        <if test="param.secClass!=null">
+        <if test="param.secClass!=null and param.secClass != ''">
             and a.sec_class = #{param.secClass}
         </if>
-        <if test="param.comment != null">
+        <if test="param.comment != null and param.comment != ''">
             and g.comment=#{param.comment}
         </if>
-        <if test="param.address !=null">
+        <if test="param.address !=null and param.address != ''">
             and a.address like concat('%',#{param.address},'%')
         </if>
-        <if test="param.startDate !=null">
+        <if test="param.startDate !=null and param.startDate != ''">
             and a.start_at > #{param.startDate}
         </if>
-        <if test="param.endDate != null">
+        <if test="param.endDate != null and param.endDate != ''">
             and a.end_at <![CDATA[< #{param.endDate}]]>
         </if>
     </select>

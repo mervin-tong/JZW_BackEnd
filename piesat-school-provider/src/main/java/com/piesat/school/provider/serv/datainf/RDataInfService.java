@@ -187,7 +187,7 @@ public class RDataInfService implements IRDataInfService {
     }
 
     @Override
-    public Result<Boolean> moveData(Long id, Integer firstClass, Integer secClass) {
-        return Result.ofSuccess(dataClassService.moveData(id,firstClass,secClass));
+    public Result<Boolean> moveData(String ids, Integer firstClass, Integer secClass) {
+        return Result.ofSuccess(dataClassService.moveData(ids,firstClass,secClass));
     }
 }

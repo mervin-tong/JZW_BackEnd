@@ -35,5 +35,5 @@ public interface IDataClassService extends IService<DataClass> {
 
     TailPage<DataInfDetailVTO> queryClassData(Integer firstClass, Integer secClass, PageQueryParamData param);
 
-    Boolean moveData(Long id, Integer firstClass, Integer secClass);
+    Boolean moveData(String ids, Integer firstClass, Integer secClass);
 }

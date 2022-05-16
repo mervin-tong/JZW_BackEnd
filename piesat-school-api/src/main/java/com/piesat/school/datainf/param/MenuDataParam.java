@@ -32,4 +32,7 @@ public class MenuDataParam extends PageQueryParamData {
 
     @ApiModelProperty(value = "结束日期")
     private String endDate;
+
+    @ApiModelProperty(value = "是否被封禁 0 正常  1 封禁")
+    private Integer publishStatus;
 }

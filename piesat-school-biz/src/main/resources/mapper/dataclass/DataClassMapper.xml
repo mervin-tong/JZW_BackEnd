@@ -22,7 +22,7 @@
         name, level, parent_id, path, order_number, data_num, status, created_at, updated_at
     </sql>
     <update id="updateDataClassification"  parameterType="java.util.List">
-        <foreach collection="list" item="item" index="index">
+        <foreach collection="list" item="item" index="index" separator=";">
             update t_data_class set order_number=#{item.orderNumber} where id =#{item.id}
         </foreach>
     </update>

@@ -23,10 +23,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -73,16 +70,21 @@ public class DataClassServiceImpl extends ServiceImpl<DataClassMapper, DataClass
             List<DataClassVTO> dataClassVTOList =new ArrayList<>();
             //vto转换
             for(DataClass dataClass:dataClasses){
-                DataClassVTO dataClassVTO = new DataClassVTO();
-                BeanUtils.copyProperties(dataClass, dataClassVTO);
-                dataClassVTOList.add(dataClassVTO);
+                if(dataClass.getStatus()!=1) {
+                    DataClassVTO dataClassVTO = new DataClassVTO();
+                    BeanUtils.copyProperties(dataClass, dataClassVTO);
+                    dataClassVTOList.add(dataClassVTO);
+                }
             }
             //组装树形结构
             for(DataClassVTO dataClassVTO:dataClassVTOList){
                 if(dataClassVTO.getParentId()==0){
-                    dataClassVTO.setChuildrenList(getChildMenu(dataClassVTO.getId(),dataClassVTOList));
                     results.add(dataClassVTO);
                 }
+            }
+            results.sort(Comparator.comparingInt(DataClassVTO::getOrderNumber));
+            for(DataClassVTO dataClassVTO:results){
+                dataClassVTO.setChuildrenList(getChildMenu(dataClassVTO.getId(),dataClassVTOList));
             }
         }
         return results;
@@ -119,7 +121,7 @@ public class DataClassServiceImpl extends ServiceImpl<DataClassMapper, DataClass
         });
         Boolean a=this.updateBatchById(dataClasses);
         //逻辑删除原一级分类
-        this.update(new UpdateWrapper<DataClass>().set("status", 1).in("id", id));
+        this.update(new UpdateWrapper<DataClass>().set("status", 1).in("id", id).set("updated_at", new Date()));
         //更改原一级分类所属数据
         List<Datainf> datainfs=datainfService.list(new QueryWrapper<Datainf>().in("first_class", id));
         datainfs.forEach(infs->{
@@ -156,8 +158,12 @@ public class DataClassServiceImpl extends ServiceImpl<DataClassMapper, DataClass
     @Override
     public TailPage<DataInfDetailVTO> queryClassData(Integer firstClass, Integer secClass, PageQueryParamData param) {
         MenuDataParam menuDataParam=new MenuDataParam();
-        menuDataParam.setFirstClass(String.valueOf(firstClass));
-        menuDataParam.setSecClass(String.valueOf(secClass));
+        if(firstClass!= null) {
+            menuDataParam.setFirstClass(String.valueOf(firstClass));
+        }
+        if(secClass !=null) {
+            menuDataParam.setSecClass(String.valueOf(secClass));
+        }
         Page<DataInfListVTO> page = new Page<>(param.getPn(),param.getPs());
         page.setOptimizeCountSql(false);
         List<DataInfDetailVTO> dataInfDetailVTOS = datainfMapper.menuDataList(menuDataParam,page);
@@ -166,17 +172,20 @@ public class DataClassServiceImpl extends ServiceImpl<DataClassMapper, DataClass
     }
 
     @Override
-    public Boolean moveData(Long id, Integer firstClass, Integer secClass) {
-        Datainf datainf=datainfService.getById(id);
-        DataClass formDataClass = this.getById(datainf.getFirstClass());
-        DataClass formDataClass2 = this.getById(datainf.getSecClass());
-        formDataClass.setDataNum(formDataClass.getDataNum()-1);
-        formDataClass2.setDataNum(formDataClass2.getDataNum()-1);
-        this.updateById(formDataClass);
-        this.updateById(formDataClass2);
-        datainf.setFirstClass(String.valueOf(firstClass));
-        datainf.setSecClass(String.valueOf(secClass));
-        return datainfService.updateById(datainf);
+    public Boolean moveData(String ids, Integer firstClass, Integer secClass) {
+        List<Integer> id = Arrays.stream(ids.split(",")).mapToInt(Integer::parseInt).boxed().collect(Collectors.toList());
+        List<Datainf> datainfs = datainfService.listByIds(id);
+        for(Datainf datainf:datainfs) {
+            DataClass formDataClass = this.getById(datainf.getFirstClass());
+            DataClass formDataClass2 = this.getById(datainf.getSecClass());
+            formDataClass.setDataNum(formDataClass.getDataNum() - 1);
+            formDataClass2.setDataNum(formDataClass2.getDataNum() - 1);
+            this.updateById(formDataClass);
+            this.updateById(formDataClass2);
+            datainf.setFirstClass(String.valueOf(firstClass));
+            datainf.setSecClass(String.valueOf(secClass));
+        }
+        return datainfService.updateBatchById(datainfs);
     }
 
     private List<DataClassVTO> getChildMenu(Integer parentId,List<DataClassVTO> dataClasses){
@@ -189,6 +198,7 @@ public class DataClassServiceImpl extends ServiceImpl<DataClassMapper, DataClass
                 }
             }
         }
+        childList.sort(Comparator.comparingInt(DataClassVTO::getOrderNumber));
         for(DataClassVTO dataClass:childList){
             dataClass.setChuildrenList(getChildMenu(dataClass.getId(),dataClasses));
         }

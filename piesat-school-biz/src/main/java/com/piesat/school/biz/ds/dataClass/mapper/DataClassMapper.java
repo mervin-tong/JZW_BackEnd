@@ -16,5 +16,5 @@ import java.util.List;
  */
 public interface DataClassMapper extends BaseMapper<DataClass> {
 
-    Boolean updateDataClassification(@Param("item") List<DataClass> dataClasses);
+    Boolean updateDataClassification(@Param("list") List<DataClass> dataClasses);
 }
