@@ -1,5 +1,6 @@
 package com.piesat.school.biz.ds.generationmode.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.generationmode.entity.GenerationMode;
 import com.piesat.school.biz.ds.generationmode.mapper.GenerationModeMapper;
@@ -19,7 +20,6 @@ public class GenerationModeServiceImpl extends ServiceImpl<GenerationModeMapper,
             BeanUtils.copyProperties(param, generationMode);
             i =baseMapper.updateById(generationMode);
         }else {
-            generationMode.setGenerationMode(param.getGenerationMode());
             generationMode.setComment(param.getComment());
             i=baseMapper.insert(generationMode);
         }

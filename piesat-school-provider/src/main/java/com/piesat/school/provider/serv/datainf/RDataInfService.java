@@ -190,4 +190,14 @@ public class RDataInfService implements IRDataInfService {
     public Result<Boolean> moveData(String ids, Integer firstClass, Integer secClass) {
         return Result.ofSuccess(dataClassService.moveData(ids,firstClass,secClass));
     }
+
+    @Override
+    public Result<Boolean> updateDataClassInfo(DataClassParam param) {
+        return Result.ofSuccess(dataClassService.updateDataClassInfo(param));
+    }
+
+    @Override
+    public Result<TailPage<FirstPageVTO>> firstPage(MenuDataParam param) {
+        return Result.ofSuccess(dataClassService.firstPage(param));
+    }
 }

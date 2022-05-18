@@ -161,6 +161,7 @@
             a.generation_mode
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
+        LEFT JOIN t_generation g on g.id=a.generation_mode
         where (a.id = #{dataInfId} AND a.deleted = 0)
     </select>
     <select id="getThematicData" resultType="com.piesat.school.datainf.vto.DataInfListVTO">
@@ -212,10 +213,11 @@
             a.pic,
             a.data_amount,
             a.upload_user_id,
-            a.generation_mode
+            a.generation_mode,
+            g.comment
         from t_data_inf a
                  LEFT JOIN t_contact b on b.id = a.con_id
-                 left join t_generation g on g.generation_mode=a.generation_mode
+                 left join t_generation g on g.id=a.generation_mode
         where a.deleted = 0
         <if test="param.publishStatus != null and param.publishStatus != ''">
             and a.publisher_status =#{param.publishStatus}

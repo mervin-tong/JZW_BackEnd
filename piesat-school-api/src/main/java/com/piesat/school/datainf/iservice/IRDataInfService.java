@@ -65,4 +65,8 @@ public interface IRDataInfService {
     Result<TailPage<DataInfDetailVTO>> queryClassData(Integer firstClass, Integer secClass, PageQueryParamData param);
 
     Result<Boolean> moveData(String ids, Integer firstClass, Integer secClass);
+
+    Result<Boolean> updateDataClassInfo(DataClassParam param);
+
+    Result<TailPage<FirstPageVTO>> firstPage(MenuDataParam param);
 }

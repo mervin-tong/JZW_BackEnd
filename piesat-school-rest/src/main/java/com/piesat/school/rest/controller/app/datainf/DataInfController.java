@@ -156,16 +156,28 @@ public class DataInfController{
         return irDataInfService.menuDataList(param);
     }
 
+    @ApiOperation(value = "首页展示")
+    @PostMapping("/firstPage")
+    public Result<TailPage<FirstPageVTO>> firstPage(@RequestBody MenuDataParam param){
+        return irDataInfService.firstPage(param);
+    }
+
     @ApiOperation(value = "新增数据分类")
     @PostMapping("/saveDataClassification")
     public Result<Boolean> saveDataClassification(@RequestBody DataClassParam param){
         return irDataInfService.saveDataClassification(param);
     }
 
-    @ApiOperation(value = "修改数据分类")
+    @ApiOperation(value = "修改数据分类排序")
     @PostMapping("/updateDataClassification")
     public Result<Boolean> updateDataClassification(@RequestBody List<String> param){
         return irDataInfService.updateDataClassification(param);
+    }
+
+    @ApiOperation(value = "修改数据分类内容")
+    @PostMapping("/updateDataClassInfo")
+    public Result<Boolean> updateDataClassInfo(@RequestBody DataClassParam param){
+        return irDataInfService.updateDataClassInfo(param);
     }
 
     @ApiOperation(value = "删除分类")

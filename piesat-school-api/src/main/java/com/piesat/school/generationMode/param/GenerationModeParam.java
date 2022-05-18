@@ -10,9 +10,6 @@ public class GenerationModeParam extends ParamData {
     @ApiModelProperty(value = "序号")
     private Integer id;
 
-    @ApiModelProperty(value = "生成方式")
-    private Integer generationMode;
-
     @ApiModelProperty(value = "标注")
     private String comment;
 }

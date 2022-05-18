@@ -456,6 +456,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         }else {
             results=dataInfDetailVTOS;
         }
+        page.setTotal(results.size());
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),results);
     }
 }

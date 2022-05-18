@@ -16,10 +16,12 @@ import com.piesat.school.dataClass.param.DataClassParam;
 import com.piesat.school.datainf.param.MenuDataParam;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
+import com.piesat.school.datainf.vto.FirstPageVTO;
 import com.smartwork.api.param.ParamData;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -178,14 +180,58 @@ public class DataClassServiceImpl extends ServiceImpl<DataClassMapper, DataClass
         for(Datainf datainf:datainfs) {
             DataClass formDataClass = this.getById(datainf.getFirstClass());
             DataClass formDataClass2 = this.getById(datainf.getSecClass());
+            DataClass afterDataClass = this.getById(firstClass);
+            DataClass afterDataClass2 = this.getById(secClass);
             formDataClass.setDataNum(formDataClass.getDataNum() - 1);
             formDataClass2.setDataNum(formDataClass2.getDataNum() - 1);
+            afterDataClass.setDataNum(afterDataClass.getDataNum()+1);
+            afterDataClass2.setDataNum(afterDataClass.getDataNum()+1);
             this.updateById(formDataClass);
             this.updateById(formDataClass2);
+            this.updateById(afterDataClass);
+            this.updateById(afterDataClass2);
             datainf.setFirstClass(String.valueOf(firstClass));
             datainf.setSecClass(String.valueOf(secClass));
         }
         return datainfService.updateBatchById(datainfs);
+    }
+
+    @Override
+    public Boolean updateDataClassInfo(DataClassParam param) {
+        DataClass dataClass =this.getById(param.getId());
+        if(param.getName()!=null){
+            dataClass.setName(param.getName());
+        }else if(param.getLevel()!=null){
+            dataClass.setLevel(param.getLevel());
+        }else if(param.getParentId()!=null) {
+            dataClass.setParentId(param.getParentId());
+        }else if(param.getPath()!=null){
+            dataClass.setPath(param.getPath());
+        }else if (param.getOrderNumber()!=null){
+            dataClass.setOrderNumber(param.getOrderNumber());
+        }
+        dataClass.setUpdatedAt(new Date());
+        return this.updateById(dataClass);
+    }
+
+    @Override
+    public TailPage<FirstPageVTO> firstPage(MenuDataParam param) {
+        Page<DataClass> dataClasses = this.page(new Page<DataClass>(param.getPn(),param.getPs()),new QueryWrapper<DataClass>().eq("level", 1));
+        List<FirstPageVTO> firstPageVTOS = new ArrayList<>();
+        for(DataClass dataClass:dataClasses.getRecords()) {
+            FirstPageVTO firstPageVTO = new FirstPageVTO();
+            List<Datainf> datainfs=datainfService.list(new QueryWrapper<Datainf>().eq("first_class", dataClass.getId()).last("limit 4"));
+            List<DataInfDetailVTO> detailVTOS =new ArrayList<>();
+            for(Datainf datainf:datainfs){
+                DataInfDetailVTO dataInfDetailVTO = new DataInfDetailVTO();
+                BeanUtils.copyProperties(datainf, dataInfDetailVTO);
+                detailVTOS.add(dataInfDetailVTO);
+            }
+            firstPageVTO.setDetailVTOS(detailVTOS);
+            firstPageVTO.setName(dataClass.getName());
+            firstPageVTOS.add(firstPageVTO);
+        }
+        return  CommonPage.buildPage(dataClasses.getCurrent(),dataClasses.getSize(),dataClasses.getTotal(),firstPageVTOS);
     }
 
     private List<DataClassVTO> getChildMenu(Integer parentId,List<DataClassVTO> dataClasses){
