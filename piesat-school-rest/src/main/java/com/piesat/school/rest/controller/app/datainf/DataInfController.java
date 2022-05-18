@@ -138,6 +138,12 @@ public class DataInfController{
         return irDataInfService.saveGeneration(param);
     }
 
+    @ApiOperation(value = "合并生成方式")
+    @PostMapping("/mergeGenerationMode")
+    public Result<Boolean> mergeGenerationMode(@RequestParam(value = "ids")String ids, @RequestParam(value = "name")String name ){
+        return irDataInfService.mergeGenerationMode(ids,name);
+    }
+
     @ApiOperation(value = "删除生成方式")
     @GetMapping("/deleteGenerationMode")
     public Result<Boolean> deleteGenerationMode(Integer id){

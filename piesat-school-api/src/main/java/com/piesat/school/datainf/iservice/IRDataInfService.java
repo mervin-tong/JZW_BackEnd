@@ -69,4 +69,6 @@ public interface IRDataInfService {
     Result<Boolean> updateDataClassInfo(DataClassParam param);
 
     Result<TailPage<FirstPageVTO>> firstPage(MenuDataParam param);
+
+    Result<Boolean> mergeGenerationMode(String ids, String name);
 }

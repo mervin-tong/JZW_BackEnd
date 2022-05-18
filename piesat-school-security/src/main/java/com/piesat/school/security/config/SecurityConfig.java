@@ -61,8 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .formLogin()
                 .loginProcessingUrl("/login")
-                .successForwardUrl("/login/success").
-                failureForwardUrl("/login/failure")
+                .successForwardUrl("/login/success")
+                .failureForwardUrl("/login/failure")
 //                .disable()
                 .and()
                 .authorizeRequests()//指定那些接口需要认证

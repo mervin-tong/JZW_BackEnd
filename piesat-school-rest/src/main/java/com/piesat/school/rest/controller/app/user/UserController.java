@@ -170,7 +170,7 @@ public class UserController {
             @ApiResponse(code=4401,message="原密码错误"),
             @ApiResponse(code=4402,message="密码修改失败"),
     })
-    @PostMapping("updatePassword")
+    @PostMapping("/updatePassword")
     public Result<Boolean> updatePassword(UpdatePasswordParamData paramData){
         return irUserService.updatePassword(paramData);
     }

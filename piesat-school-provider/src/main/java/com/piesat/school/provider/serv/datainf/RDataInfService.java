@@ -200,4 +200,9 @@ public class RDataInfService implements IRDataInfService {
     public Result<TailPage<FirstPageVTO>> firstPage(MenuDataParam param) {
         return Result.ofSuccess(dataClassService.firstPage(param));
     }
+
+    @Override
+    public Result<Boolean> mergeGenerationMode(String ids, String name) {
+        return Result.ofSuccess(generationModeService.mergeGenerationMode(ids,name));
+    }
 }

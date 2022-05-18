@@ -8,7 +8,7 @@ import lombok.Data;
 public class GenerationModeParam extends ParamData {
 
     @ApiModelProperty(value = "序号")
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "标注")
     private String comment;

@@ -42,4 +42,5 @@ public interface IDataClassService extends IService<DataClass> {
     Boolean updateDataClassInfo(DataClassParam param);
 
     TailPage<FirstPageVTO> firstPage(MenuDataParam param);
+
 }

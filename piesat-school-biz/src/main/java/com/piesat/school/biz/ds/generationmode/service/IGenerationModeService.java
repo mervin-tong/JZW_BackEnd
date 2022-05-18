@@ -9,4 +9,5 @@ public interface IGenerationModeService  extends IService<GenerationMode> {
 
     Boolean deleteGenerationMode(Integer id);
 
+    Boolean mergeGenerationMode(String ids, String name);
 }

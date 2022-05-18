@@ -105,7 +105,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if(!passwordEncoder.matches(paramData.getFormerPassword(), user.getPassword())){
             return Result.ofFail("4401","原密码错误");
         }
-        user.setPassword(passwordEncoder.encode(paramData.getFormerPassword()));
+        user.setPassword(passwordEncoder.encode(paramData.getNewPassword()));
         int i=userMapper.updateById(user);
         if(i==1) {
             return Result.ofSuccess(Boolean.TRUE);
