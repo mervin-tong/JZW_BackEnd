@@ -182,4 +182,15 @@ public class OrderFromController {
         return irOrderFromService.isOrder(dataInfoId,downloadUserId);
     }
 
+    @ApiOperation(value = "是否过期")
+    @ApiResponses({
+            @ApiResponse(code=0,message="访问成功"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对"),
+            @ApiResponse(code=500,message="后台报错"),
+    })
+    @GetMapping("/isOutOfDate")
+    public Result<Integer> isOutOfDate(Long id){
+        return irOrderFromService.isOutOfDate(id);
+    }
+
 }

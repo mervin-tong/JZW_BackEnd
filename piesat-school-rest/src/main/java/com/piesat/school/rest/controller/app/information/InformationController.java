@@ -37,7 +37,7 @@ public class InformationController extends BaseController {
         return informationService.delInformation(id);
     }
 
-    @ApiOperation(value = "删除资讯")
+    @ApiOperation(value = "资讯详情")
     @PostMapping("/detail")
     @ApiImplicitParam(name = "id", value = "资讯id", dataType = "Long" )
     public Result<InformationVTO> detail(Long id){

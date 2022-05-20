@@ -16,7 +16,7 @@ public class MenuDataParam extends PageQueryParamData {
     private String secClass;
 
     @ApiModelProperty(value = "生产方式")
-    private String comment;
+    private Long generation;
 
     @ApiModelProperty(value = "左上坐标")
     private String leftUp;

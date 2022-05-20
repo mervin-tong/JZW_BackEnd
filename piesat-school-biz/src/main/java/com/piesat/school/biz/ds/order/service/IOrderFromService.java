@@ -40,4 +40,6 @@ public interface IOrderFromService extends IService<OrderFrom> {
     Integer isAttention(OrderFromAttentionSaveParamData orderFromAttentionSaveParamData);
 
     Integer isOrder(Long dataInfoId, Long downloadUserId);
+
+    Integer isOutOfDate(Long id);
 }

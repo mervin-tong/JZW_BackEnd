@@ -169,8 +169,7 @@ public class DataClassServiceImpl extends ServiceImpl<DataClassMapper, DataClass
         Page<DataInfListVTO> page = new Page<>(param.getPn(),param.getPs());
         page.setOptimizeCountSql(false);
         List<DataInfDetailVTO> dataInfDetailVTOS = datainfMapper.menuDataList(menuDataParam,page);
-        TailPage<DataInfDetailVTO> e = CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),dataInfDetailVTOS);
-        return e;
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),dataInfDetailVTOS);
     }
 
     @Override

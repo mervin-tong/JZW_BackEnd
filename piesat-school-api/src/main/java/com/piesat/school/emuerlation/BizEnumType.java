@@ -371,8 +371,8 @@ public interface BizEnumType {
 	 * 公开状态
 	 */
 	enum RoleStatus  {
-		ADMIN(1L, "系统管理员"),
-		EGCADMIN(2L, "EGC管理员"),
+		ADMIN(1L, "EGC管理员"),
+		EGCADMIN(2L, "系统管理员"),
 		USER(3L,"普通用户"),
 		;
 		static Map<Long, RoleStatus> allTypes;

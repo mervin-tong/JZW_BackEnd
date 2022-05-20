@@ -231,8 +231,8 @@
         <if test="param.secClass!=null and param.secClass != ''">
             and a.sec_class = #{param.secClass}
         </if>
-        <if test="param.comment != null and param.comment != ''">
-            and g.comment=#{param.comment}
+        <if test="param.generation != null and param.generation != ''">
+            and g.id=#{param.generation}
         </if>
         <if test="param.address !=null and param.address != ''">
             and a.address like concat('%',#{param.address},'%')
@@ -264,6 +264,67 @@
 <!--        </foreach>-->
 
 <!--    </update>-->
-
+    <select id="menuDataListDetail" resultType="com.piesat.school.datainf.vto.DataInfDetailVTO">
+        select
+        a.id,
+        a.data_name,
+        a.data_unit,
+        a.maker,
+        a.address,
+        a.keyword,
+        a.doi,
+        a.first_class,
+        a.sec_class,
+        a.introduction,
+        a.meas,
+        a.`status`,
+        a.start_at,
+        a.solution,
+        a.origin,
+        a.end_at,
+        a.ratio,
+        b.con_name,
+        b.con_address,
+        b.email,
+        b.mobile,
+        b.con_unit,
+        a.left_up,
+        a.right_down,
+        a.kick_count kickCount,
+        a.down_count downCount,
+        a.pic,
+        a.data_amount,
+        a.upload_user_id,
+        a.generation_mode,
+        g.comment
+        from t_data_inf a
+        LEFT JOIN t_contact b on b.id = a.con_id
+        left join t_generation g on g.id=a.generation_mode
+        where a.deleted = 0
+        <if test="param.publishStatus != null and param.publishStatus != ''">
+            and a.publisher_status =#{param.publishStatus}
+        </if>
+        <if test="param.dataName != null and param.dataName != ''">
+            and a.data_name like concat('%',#{param.dataName},'%')
+        </if>
+        <if test="param.firstClass!= null and param.firstClass != ''">
+            and a.first_class = #{param.firstClass}
+        </if>
+        <if test="param.secClass!=null and param.secClass != ''">
+            and a.sec_class = #{param.secClass}
+        </if>
+        <if test="param.generation != null and param.generation != ''">
+            and g.id=#{param.generation}
+        </if>
+        <if test="param.address !=null and param.address != ''">
+            and a.address like concat('%',#{param.address},'%')
+        </if>
+        <if test="param.startDate !=null and param.startDate != ''">
+            and a.start_at > #{param.startDate}
+        </if>
+        <if test="param.endDate != null and param.endDate != ''">
+            and a.end_at <![CDATA[< #{param.endDate}]]>
+        </if>
+    </select>
 
 </mapper>

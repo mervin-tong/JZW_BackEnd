@@ -21,6 +21,7 @@ import com.piesat.school.order.vto.OrderFromInfoVTO;
 import com.piesat.school.order.vto.OrderFromVTO;
 import com.smartwork.api.exception.SmartworkI18nException;
 import com.smartwork.api.support.page.CommonPage;
+import com.smartwork.api.support.page.PageHelper;
 import com.smartwork.api.support.page.TailPage;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -52,9 +53,9 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
     //获取订单列表
     @Override
     public TailPage<OrderFromVTO> orderFromMenu(OrderFromMenuPageParamData orderFromMenuPageParamData) {
-        Page<OrderFromVTO> page = new Page<>(orderFromMenuPageParamData.getPn(),orderFromMenuPageParamData.getPs());
-        page.setOptimizeCountSql(false);
-        List<OrderFromVTO> list = orderFromMapper.orderFromMenu(orderFromMenuPageParamData, page);
+//        Page<OrderFromVTO> page = new Page<>(orderFromMenuPageParamData.getPn(),orderFromMenuPageParamData.getPs());
+//        page.setOptimizeCountSql(false);
+        List<OrderFromVTO> list = orderFromMapper.orderFromMenu(orderFromMenuPageParamData, null);
         list.forEach(e->{
             if(e.getUpdatedAt()!=null&&(new Date()).getTime()>(e.getUpdatedAt().getTime()+3*24*60*60*1000)&&e.getDataType()==2){
                 e.setDataType(4l);
@@ -68,7 +69,8 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         }else {
             result=list;
         }
-        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),result);
+        List<OrderFromVTO> results = PageHelper.pageList(result, orderFromMenuPageParamData.getPn(), orderFromMenuPageParamData.getPs());
+        return CommonPage.buildPage(orderFromMenuPageParamData.getPn(),orderFromMenuPageParamData.getPs(),result.size(),results);
     }
     //创建订单
     @Override
@@ -202,6 +204,18 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
     public Integer isOrder(Long dataInfoId, Long downloadUserId) {
         List<OrderFrom> orderFrom=baseMapper.selectList(new QueryWrapper<OrderFrom>().eq("data_info_id",dataInfoId).eq("download_user_id",downloadUserId));
         if (orderFrom.size()!=0) {
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
+    @Override
+    public Integer isOutOfDate(Long id) {
+        OrderFrom orderFrom = baseMapper.selectById(id);
+        if (orderFrom.getDataType() == 4) {
+            return 1;
+        } else if (orderFrom.getUpdatedAt() != null && (new Date()).getTime() > (orderFrom.getUpdatedAt().getTime() + 3 * 24 * 60 * 60 * 1000) && orderFrom.getDataType() == 2){
             return 1;
         }else {
             return 0;

@@ -59,8 +59,6 @@ public class ROrderFromService implements IROrderFromService {
     @Override
     public Result<TailPage<OrderFromHistoryDownLoadVTO>> historyDownload(OrderFromHistoryDownLoadParamData orderFromHistoryDownLoadParamData) {
         return Result.ofSuccess(iOrderFromService.historyDownload(orderFromHistoryDownLoadParamData));
-
-
     }
 
     @Override
@@ -101,5 +99,10 @@ public class ROrderFromService implements IROrderFromService {
     @Override
     public Result<Integer> isOrder(Long dataInfoId, Long downloadUserId) {
         return Result.ofSuccess(iOrderFromService.isOrder(dataInfoId,downloadUserId));
+    }
+
+    @Override
+    public Result<Integer> isOutOfDate(Long id) {
+        return Result.ofSuccess(iOrderFromService.isOutOfDate(id));
     }
 }

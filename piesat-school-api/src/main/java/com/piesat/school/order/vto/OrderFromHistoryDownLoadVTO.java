@@ -16,6 +16,13 @@ public class OrderFromHistoryDownLoadVTO implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "历史记录id")
     private Long id;
+
+    /**
+     * 数据名称
+     */
+    @ApiModelProperty(value ="数据名称" )
+    private Long dataId;
+
     /**
      * 数据名称
      */
@@ -38,7 +45,7 @@ public class OrderFromHistoryDownLoadVTO implements Serializable {
      * 下载次数
      */
     @ApiModelProperty(value = "下载次数")
-    private Integer downCount;
+    private Integer downloadCount;
 
     /**
      * 下载时间时间
@@ -46,6 +53,14 @@ public class OrderFromHistoryDownLoadVTO implements Serializable {
     @ApiModelProperty(value ="下载时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date createdAt;
+
+    /**
+     * 更新时间
+     */
+    @ApiModelProperty(value ="更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Date updatedAt;
+
     @ApiModelProperty(value = "是否可下载")
     private Boolean isDownloadAble;
 

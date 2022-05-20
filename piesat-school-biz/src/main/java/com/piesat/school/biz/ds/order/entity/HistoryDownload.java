@@ -41,6 +41,21 @@ public class HistoryDownload implements Serializable {
      */
     private Date updatedAt;
 
+    /**
+     * 修改时间
+     */
+    private Integer downloadCount;
+
+    public Integer getDownloadCount() {
+        return downloadCount;
+    }
+
+    public void setDownloadCount(Integer downloadCount) {
+        this.downloadCount = downloadCount;
+    }
+
+
+
 
     public Long getUserId() {
         return userId;

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.base.PageQueryParamData;
+import com.piesat.school.biz.ds.dataClass.entity.DataClass;
+import com.piesat.school.biz.ds.dataClass.service.IDataClassService;
 import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
 import com.piesat.school.biz.ds.datainf.entity.Contact;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
@@ -34,6 +36,7 @@ import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.*;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.smartwork.api.support.page.CommonPage;
+import com.smartwork.api.support.page.PageHelper;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -44,6 +47,7 @@ import javax.annotation.Resource;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -82,6 +86,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     private TopicMapper topicMapper;
     @Resource
     private ITopicService topicService;
+    @Resource
+    private IDataClassService dataClassService;
 
 
 
@@ -186,7 +192,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
                 if (StringUtils.isNotBlank(paramData.getContact().getConUnit())) {
                     contact.setConUnit(paramData.getContact().getConUnit());
                 }
-                contactService.save(contact);
+                contactService.saveOrUpdate(contact);
                 if(datainf.getConId()==null){
                     datainf.setConId(contact.getId());
                 }
@@ -210,6 +216,18 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
                     dataReview.setUserJudgeId(BizEnumType.Default.NULL.getKey());
                     iDataReviewService.createReview(dataReview);
                 }
+            }
+            if(paramData.getFirstClass()!=null){
+                DataClass dataClass =dataClassService.getById(paramData.getFirstClass());
+                dataClass.setDataNum(dataClass.getDataNum()+1);
+                dataClass.setUpdatedAt(new Date());
+                dataClassService.updateById(dataClass);
+            }
+            if(paramData.getSecClass()!=null){
+                DataClass dataClass =dataClassService.getById(paramData.getSecClass());
+                dataClass.setDataNum(dataClass.getDataNum()+1);
+                dataClass.setUpdatedAt(new Date());
+                dataClassService.updateById(dataClass);
             }
         }
 
@@ -308,15 +326,29 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
     @Override
     public Boolean addhistory(Long dataId, Long userId) {
-        HistoryDownload historyDownload = new HistoryDownload();
-        historyDownload.setDataId(dataId);
-        historyDownload.setUserId(userId);
-        try {
-            int insert = historyDownloadMapper.insert(historyDownload);
-        }catch (DataAccessException e){
+        HistoryDownload historyDownload = historyDownloadMapper.selectOne(new QueryWrapper<HistoryDownload>().eq("data_id",dataId).eq("user_id", userId));
+        int i;
+        if(historyDownload==null) {
+            HistoryDownload historyDownload1=new HistoryDownload();
+            historyDownload1.setDataId(dataId);
+            historyDownload1.setUserId(userId);
+            historyDownload1.setCreatedAt(new Date());
+            historyDownload1.setDownloadCount(1);
+            i=historyDownloadMapper.insert(historyDownload1);
+        }else {
+            historyDownload.setDownloadCount(historyDownload.getDownloadCount()+1);
+            historyDownload.setUpdatedAt(new Date());
+            i=historyDownloadMapper.updateById(historyDownload);
+        }
+
+        Datainf datainf =this.getById(dataId);
+        datainf.setDownCount(datainf.getDownCount()+1);
+        this.updateById(datainf);
+        if(i==1) {
+            return true;
+        }else {
             return false;
         }
-        return true;
     }
 
 
@@ -435,9 +467,9 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
     @Override
     public TailPage<DataInfDetailVTO> menuDataList(MenuDataParam param) {
-        Page<DataInfListVTO> page = new Page<>(param.getPn(),param.getPs());
-        page.setOptimizeCountSql(false);
-        List<DataInfDetailVTO> dataInfDetailVTOS = baseMapper.menuDataList(param,page);
+//        Page<DataInfDetailVTO> page = new Page<>(param.getPn(),param.getPs());
+//        page.setOptimizeCountSql(false);
+        List<DataInfDetailVTO> dataInfDetailVTOS = baseMapper.menuDataListDetail(param,null);
         List<DataInfDetailVTO> results = new ArrayList<>();
         if(param.getLeftUp()!=null && param.getRightDown()!=null) {
             double leftX = Double.parseDouble(param.getLeftUp().split(",")[0]);
@@ -454,9 +486,10 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
                 }
             }
         }else {
+//            results=page1.getRecords();
             results=dataInfDetailVTOS;
         }
-        page.setTotal(results.size());
-        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),results);
+        List<DataInfDetailVTO> detailVTOS= PageHelper.pageList(results, param.getPn(), param.getPs());
+        return CommonPage.buildPage(param.getPn(),param.getPs(),results.size(),detailVTOS);
     }
 }

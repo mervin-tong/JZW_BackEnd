@@ -41,4 +41,6 @@ public interface IROrderFromService {
     Result<Integer> isAttention(OrderFromAttentionSaveParamData orderFromAttentionSaveParamData);
     //是否已加入订单
     Result<Integer> isOrder(Long dataInfoId, Long downloadUserId);
+
+    Result<Integer> isOutOfDate(Long id);
 }

@@ -77,6 +77,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()//不需要权限直接访问
 //                .anyRequest().authenticated()//所有请求都需要认证
                 .and()
+                .authorizeRequests()
+                .antMatchers("/app/dataInf/mergeFirstClass",
+                        "/app/dataInf/mergeSecClass",
+                        "/app/dataInf/deleteDataClassification",
+                        "/app/dataInf/saveDataClassification",
+                        "/app/dataInf/deleteGenerationMode",
+//                        "/app/dataInf/mergeGenerationMode",
+                        "/app/orderfrom/assign",
+                        "/app/orderfrom/release",
+                        "/app/order/orderfromDelete",
+                        "/app/order/checkInOrOut",
+                        "/app/topic/del",
+                        "/app/topic/saveOrUpdate",
+                        "/app/uploadPermissions/setApprover",
+                        "/app/uploadPermissions/cleanApprover",
+                        "/app/uploadPermissions/closeUpPermissions"
+                        )
+                .hasAnyRole("ROLE_ADMIN","ROLE_EGCADMIN")
+                .and()
                 .logout()
                 .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理逻辑
                 .deleteCookies("JSESSIONID");//登出之后删除cookie

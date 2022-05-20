@@ -48,7 +48,7 @@
         <if test="orderFromMenuPageParamData.downloadUserId!=null">
             and o.download_user_id = #{orderFromMenuPageParamData.downloadUserId}
         </if>
-        <if test="orderFromMenuPageParamData.dataType != null and orderFromMenuPageParamData.dataType != 0" >
+        <if test="orderFromMenuPageParamData.dataType != null and orderFromMenuPageParamData.dataType != 0 and orderFromMenuPageParamData.dataType != 4" >
             AND o.data_type = #{orderFromMenuPageParamData.dataType}
         </if>
             AND d.data_name != ''
@@ -100,11 +100,13 @@
     <select id="historyDownload" resultType="com.piesat.school.order.vto.OrderFromHistoryDownLoadVTO">
         SELECT
             hd.id,
+            hd.data_id dataId,
             di.data_name,
-            di.down_count,
             di.`status`,
             di.data_amount,
-            hd.created_at
+            hd.download_count downloadCount,
+            hd.created_at,
+            hd.updated_at
         FROM
             t_history_download hd
             LEFT JOIN t_data_inf di ON hd.data_id = di.id
