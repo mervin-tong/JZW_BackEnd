@@ -470,7 +470,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 //        Page<DataInfDetailVTO> page = new Page<>(param.getPn(),param.getPs());
 //        page.setOptimizeCountSql(false);
         List<DataInfDetailVTO> dataInfDetailVTOS = baseMapper.menuDataListDetail(param,null);
-        List<DataInfDetailVTO> results = new ArrayList<>();
+        List<DataInfDetailVTO> result = new ArrayList<>();
         if(param.getLeftUp()!=null && param.getRightDown()!=null) {
             double leftX = Double.parseDouble(param.getLeftUp().split(",")[0]);
             double leftY = Double.parseDouble(param.getLeftUp().split(",")[1]);
@@ -482,12 +482,20 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
                 double rightxx = Double.parseDouble(dataInfDetailVTO.getRightDown().split(",")[0]);
                 double rightyy = Double.parseDouble(dataInfDetailVTO.getRightDown().split(",")[1]);
                 if(leftxx>leftX && leftyy<leftY && rightxx<rightX && rightyy>rightY){
-                    results.add(dataInfDetailVTO);
+                    result.add(dataInfDetailVTO);
                 }
             }
         }else {
 //            results=page1.getRecords();
-            results=dataInfDetailVTOS;
+            result=dataInfDetailVTOS;
+        }
+        List<DataInfDetailVTO> results = new ArrayList<>();
+        for(DataInfDetailVTO detailVTOS:result){
+            if(param.getRelease()==0 && !detailVTOS.getThroughReview().equals(BizEnumType.ReviewStatus.RELEASE.getKey())){
+                results.add(detailVTOS);
+            }else if(param.getRelease()==1 && detailVTOS.getThroughReview().equals(BizEnumType.ReviewStatus.RELEASE.getKey())){
+                results.add(detailVTOS);
+            }
         }
         List<DataInfDetailVTO> detailVTOS= PageHelper.pageList(results, param.getPn(), param.getPs());
         return CommonPage.buildPage(param.getPn(),param.getPs(),results.size(),detailVTOS);

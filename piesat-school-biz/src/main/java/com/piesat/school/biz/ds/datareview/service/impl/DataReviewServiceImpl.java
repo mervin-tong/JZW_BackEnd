@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.base.PageQueryParamData;
+import com.piesat.school.biz.ds.datainf.entity.Datainf;
+import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
+import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
 import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
 import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
@@ -38,6 +41,8 @@ import java.util.List;
 public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataReview> implements IDataReviewService {
     @Resource
     private DataReviewMapper dataReviewMapper;
+    @Resource
+    private IDatainfService datainfService;
     //获取评审列表
     @Override
     public TailPage<DataReviewVTO> dataReview(DataReviewParamData dataReviewParamData) {
@@ -179,6 +184,7 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
         if(dataReview.getStatus().equals(BizEnumType.ReviewStatus.RECHECKPASS.getKey())){
             dataReview.setStatus(BizEnumType.ReviewStatus.RELEASE.getKey());
             int i=baseMapper.updateById(dataReview);
+            datainfService.update(new UpdateWrapper<Datainf>().eq("id",dataId).set("throw_review", BizEnumType.ThroughReview.PASS.getKey()));
             return i==1;
         }else {
             return false;

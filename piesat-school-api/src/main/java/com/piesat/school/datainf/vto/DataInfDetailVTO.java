@@ -205,4 +205,10 @@ public class DataInfDetailVTO implements Serializable {
     @ApiModelProperty(value = "生成方式")
     private Integer generationMode;
 
+    /**
+     * 是否上架
+     */
+    @ApiModelProperty(value = "是否上架")
+    private Integer throughReview;
+
 }

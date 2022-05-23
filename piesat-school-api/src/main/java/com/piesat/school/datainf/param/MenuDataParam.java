@@ -35,4 +35,7 @@ public class MenuDataParam extends PageQueryParamData {
 
     @ApiModelProperty(value = "是否被封禁 0 正常  1 封禁")
     private Integer publishStatus;
+
+    @ApiModelProperty(value = "是否被发布 0 未发布  1 发布")
+    private Integer release;
 }

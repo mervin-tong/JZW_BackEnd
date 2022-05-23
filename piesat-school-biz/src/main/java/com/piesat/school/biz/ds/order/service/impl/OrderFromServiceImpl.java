@@ -104,6 +104,7 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         if(orderFrom.getUpdatedAt()!=null&&((new Date()).getTime()>(orderFrom.getUpdatedAt().getTime()+3*24*60*60*1000))&&orderFrom.getDataType()==2){
             orderFromInfoVTO.setDataType(4);
         }
+        orderFromInfoVTO.setDataId(datainf.getId());
         return orderFromInfoVTO;
     }
 

@@ -296,10 +296,12 @@
         a.data_amount,
         a.upload_user_id,
         a.generation_mode,
-        g.comment
+        g.comment,
+        r.status throughReview
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
         left join t_generation g on g.id=a.generation_mode
+        left join t_data_review r on a.id=r.data_id
         where a.deleted = 0
         <if test="param.publishStatus != null and param.publishStatus != ''">
             and a.publisher_status =#{param.publishStatus}

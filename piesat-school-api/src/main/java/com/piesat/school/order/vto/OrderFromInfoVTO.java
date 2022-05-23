@@ -35,6 +35,11 @@ public class OrderFromInfoVTO implements Serializable {
     @ApiModelProperty(value = "数据名称")
     private String dataName;
 
+    /**
+     * 数据id
+     */
+    @ApiModelProperty(value = "数据id")
+    private Long dataId;
 
     /**
      * 公开状态（1.完全公开 2.申请获取 3.保护期内）
