@@ -3,11 +3,10 @@ package com.piesat.school.biz.ds.dataClass.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.piesat.school.base.PageQueryParamData;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.dataClass.entity.DataClass;
 import com.piesat.school.biz.ds.dataClass.mapper.DataClassMapper;
 import com.piesat.school.biz.ds.dataClass.service.IDataClassService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
@@ -17,11 +16,10 @@ import com.piesat.school.datainf.param.MenuDataParam;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.FirstPageVTO;
-import com.smartwork.api.param.ParamData;
 import com.smartwork.api.support.page.CommonPage;
+import com.smartwork.api.support.page.PageHelper;
 import com.smartwork.api.support.page.TailPage;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -130,6 +128,8 @@ public class DataClassServiceImpl extends ServiceImpl<DataClassMapper, DataClass
             infs.setFirstClass(String.valueOf(dataClass.getId()));
         });
         Boolean b = datainfService.updateBatchById(datainfs);
+        //新分类数据统计
+        dataClass.setDataNum(dataClasses.stream().mapToInt(DataClass::getDataNum).sum());
 
         Boolean c=this.save(dataClass);
         return a && b && c ;
@@ -146,6 +146,7 @@ public class DataClassServiceImpl extends ServiceImpl<DataClassMapper, DataClass
         dataClass.setCreatedAt(new Date());
 
         List<Integer> id = Arrays.stream(ids.split(",")).mapToInt(Integer::parseInt).boxed().collect(Collectors.toList());
+        List<DataClass> dataClasses=baseMapper.selectList(new QueryWrapper<DataClass>().in("id", id));
         Boolean a=this.update(new UpdateWrapper<DataClass>().set("status", 1).in("id", id));
 
         List<Datainf> datainfs=datainfService.list(new QueryWrapper<Datainf>().in("sec_class", id));
@@ -153,22 +154,17 @@ public class DataClassServiceImpl extends ServiceImpl<DataClassMapper, DataClass
             infs.setSecClass(String.valueOf(dataClass.getId()));
         });
         Boolean b = datainfService.updateBatchById(datainfs);
+
+        dataClass.setDataNum(dataClasses.stream().mapToInt(DataClass::getDataNum).sum());
         Boolean c=this.save(dataClass);
         return a && b && c;
     }
 
     @Override
-    public TailPage<DataInfDetailVTO> queryClassData(Integer firstClass, Integer secClass, PageQueryParamData param) {
-        MenuDataParam menuDataParam=new MenuDataParam();
-        if(firstClass!= null) {
-            menuDataParam.setFirstClass(String.valueOf(firstClass));
-        }
-        if(secClass !=null) {
-            menuDataParam.setSecClass(String.valueOf(secClass));
-        }
+    public TailPage<DataInfDetailVTO> queryClassData(MenuDataParam param) {
         Page<DataInfListVTO> page = new Page<>(param.getPn(),param.getPs());
         page.setOptimizeCountSql(false);
-        List<DataInfDetailVTO> dataInfDetailVTOS = datainfMapper.menuDataList(menuDataParam,page);
+        List<DataInfDetailVTO> dataInfDetailVTOS = datainfMapper.menuDataList(param,page);
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),dataInfDetailVTOS);
     }
 
@@ -215,22 +211,28 @@ public class DataClassServiceImpl extends ServiceImpl<DataClassMapper, DataClass
 
     @Override
     public TailPage<FirstPageVTO> firstPage(MenuDataParam param) {
-        Page<DataClass> dataClasses = this.page(new Page<DataClass>(param.getPn(),param.getPs()),new QueryWrapper<DataClass>().eq("level", 1));
+//        Page<DataClass> dataClasses = this.page(new Page<>(param.getPn(),param.getPs()),new QueryWrapper<DataClass>().eq("level", 1));
+        List<DataClass> dataClasses = this.list(new QueryWrapper<DataClass>().eq("level", 1));
         List<FirstPageVTO> firstPageVTOS = new ArrayList<>();
-        for(DataClass dataClass:dataClasses.getRecords()) {
+        for(DataClass dataClass:dataClasses) {
             FirstPageVTO firstPageVTO = new FirstPageVTO();
-            List<Datainf> datainfs=datainfService.list(new QueryWrapper<Datainf>().eq("first_class", dataClass.getId()).last("limit 4"));
-            List<DataInfDetailVTO> detailVTOS =new ArrayList<>();
-            for(Datainf datainf:datainfs){
-                DataInfDetailVTO dataInfDetailVTO = new DataInfDetailVTO();
-                BeanUtils.copyProperties(datainf, dataInfDetailVTO);
-                detailVTOS.add(dataInfDetailVTO);
+            List<Datainf> datainfs=datainfService.list(new QueryWrapper<Datainf>().eq("first_class", dataClass.getId()).last("limit 4").eq("deleted", 0));
+            if(datainfs.size()==0){
+             dataClass=null;
+            }else {
+                List<DataInfDetailVTO> detailVTOS = new ArrayList<>();
+                for (Datainf datainf : datainfs) {
+                    DataInfDetailVTO dataInfDetailVTO = new DataInfDetailVTO();
+                    BeanUtils.copyProperties(datainf, dataInfDetailVTO);
+                    detailVTOS.add(dataInfDetailVTO);
+                }
+                firstPageVTO.setDetailVTOS(detailVTOS);
+                firstPageVTO.setName(dataClass.getName());
+                firstPageVTOS.add(firstPageVTO);
             }
-            firstPageVTO.setDetailVTOS(detailVTOS);
-            firstPageVTO.setName(dataClass.getName());
-            firstPageVTOS.add(firstPageVTO);
         }
-        return  CommonPage.buildPage(dataClasses.getCurrent(),dataClasses.getSize(),dataClasses.getTotal(),firstPageVTOS);
+        List<FirstPageVTO> firstPageVTOList = PageHelper.pageList(firstPageVTOS, param.getPn(), param.getPs());
+        return  CommonPage.buildPage(param.getPn(),param.getPs(),firstPageVTOList.size(),firstPageVTOList);
     }
 
     private List<DataClassVTO> getChildMenu(Integer parentId,List<DataClassVTO> dataClasses){

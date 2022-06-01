@@ -1,8 +1,9 @@
 package com.piesat.school.security.config;
 
+import com.piesat.school.security.filter.JWTAuthenticationFilter;
+import com.piesat.school.security.filter.JWTAuthorizationFilter;
 import com.piesat.school.security.handler.*;
 import com.piesat.school.security.service.SpringSecurityUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.annotation.Resource;
@@ -64,17 +66,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successForwardUrl("/login/success")
                 .failureForwardUrl("/login/failure")
 //                .disable()
-                .and()
-                .authorizeRequests()//指定那些接口需要认证
-                .antMatchers("/app/user/addUser",
-                        "/app/user/sendEmail",
-                        "/app/user/forgetPassword",
-                        "/v2/api-docs",
-                        "/webjars/**",
-                        "/swagger-resources/**",
-                        "/swagger-ui.html",
-                        "/doc.html"
-                ).permitAll()//不需要权限直接访问
+//                .and()
+//                .authorizeRequests()//指定那些接口需要认证
+//                .antMatchers("/app/user/addUser",
+//                        "/app/user/sendEmail",
+//                        "/app/user/forgetPassword",
+//                        "/v2/api-docs",
+//                        "/webjars/**",
+//                        "/swagger-resources/**",
+//                        "/swagger-ui.html",
+//                        "/doc.html"
+//                ).permitAll()//不需要权限直接访问
 //                .anyRequest().authenticated()//所有请求都需要认证
                 .and()
                 .authorizeRequests()
@@ -83,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/app/dataInf/deleteDataClassification",
                         "/app/dataInf/saveDataClassification",
                         "/app/dataInf/deleteGenerationMode",
-//                        "/app/dataInf/mergeGenerationMode",
+                        "/app/dataInf/mergeGenerationMode",
                         "/app/orderfrom/assign",
                         "/app/orderfrom/release",
                         "/app/order/orderfromDelete",
@@ -92,9 +94,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/app/topic/saveOrUpdate",
                         "/app/uploadPermissions/setApprover",
                         "/app/uploadPermissions/cleanApprover",
-                        "/app/uploadPermissions/closeUpPermissions"
+                        "/app/uploadPermissions/closeUpPermissions",
+                        "/app/information/del",
+                        "/app/uploadPermissions/detail",
+                        "/app/uploadPermissions/checkPermissions"
                         )
-                .hasAnyRole("ROLE_ADMIN","ROLE_EGCADMIN")
+                .authenticated()//所有请求都需要认证
+                .anyRequest().permitAll()
+                .and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .logout()
                 .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理逻辑

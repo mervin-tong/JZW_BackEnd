@@ -103,6 +103,12 @@ public class UserVTO implements Serializable {
     @ApiModelProperty(value = "用户权限")
     private Set<RoleVTO> roles = new HashSet<RoleVTO>(0);
 
+    /**
+     * 姓名（实名）
+     */
+    @ApiModelProperty(value = "用户名称")
+    private String username;
+
 
     @Override
     public String toString() {

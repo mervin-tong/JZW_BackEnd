@@ -3,11 +3,13 @@ package com.piesat.school.biz.ds.generationmode.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
+import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.biz.ds.generationmode.entity.GenerationMode;
 import com.piesat.school.biz.ds.generationmode.mapper.GenerationModeMapper;
 import com.piesat.school.biz.ds.generationmode.service.IGenerationModeService;
 import com.piesat.school.generationMode.param.GenerationModeParam;
+import com.piesat.school.generationMode.vto.GenerationModeVTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class GenerationModeServiceImpl extends ServiceImpl<GenerationModeMapper,
 
     @Resource
     private IDatainfService iDatainfService;
+    @Resource
+    private DatainfMapper datainfMapper;
 
     @Override
     public Boolean saveGeneration(GenerationModeParam param) {
@@ -58,6 +62,17 @@ public class GenerationModeServiceImpl extends ServiceImpl<GenerationModeMapper,
             datainf.setGenerationMode(Math.toIntExact(generationMode.getId()));
         }
         return iDatainfService.updateBatchById(datainfs);
+    }
+
+    @Override
+    public List<GenerationModeVTO> getDetail() {
+        List<GenerationModeVTO> generationModes=datainfMapper.getGenerationModeDetail();
+        generationModes.forEach(e-> {
+            if(e.getNumber()==null)
+                e.setNumber(0);
+                }
+        );
+        return generationModes ;
     }
 
 }

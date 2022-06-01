@@ -4,8 +4,8 @@ import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.param.UserDataReviewParamData;
+import com.piesat.school.datareview.vto.DataReviewListVTO;
 import com.piesat.school.datareview.vto.DataReviewReVTO;
-import com.piesat.school.datareview.vto.DataReviewUserVTO;
 import com.piesat.school.datareview.vto.DataReviewVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
@@ -20,7 +20,7 @@ public interface IRDataReviewService {
     //指定专家id
     Result<Boolean> assign(Long dataReviewId, Long expertId,Long reviewUserId);
     //获取用户评审列表
-    Result<TailPage<DataReviewUserVTO>> userDataReview(UserDataReviewParamData userDataReviewParamData);
+    Result<DataReviewListVTO> userDataReview(UserDataReviewParamData userDataReviewParamData);
     //专家处理评审
     Result<Boolean> userReview(Long dataId, Long reviewUserId, int status, String reason);
     //管理员复审

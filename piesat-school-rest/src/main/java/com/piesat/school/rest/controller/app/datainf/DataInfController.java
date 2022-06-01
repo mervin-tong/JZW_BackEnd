@@ -9,10 +9,10 @@ import com.piesat.school.datainf.vto.*;
 import com.piesat.school.generationMode.param.GenerationModeParam;
 import com.piesat.school.generationMode.vto.GenerationModeVTO;
 import com.smartwork.api.Result;
-import com.smartwork.api.param.ParamData;
 import com.smartwork.api.support.page.TailPage;
-import io.swagger.annotations.*;
-import io.swagger.models.auth.In;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
 
@@ -103,9 +103,13 @@ public class DataInfController{
 
     @ApiOperation(value = "文件下载")
     @GetMapping("/historyDownload")
-    public Result<String> historyDownload(Long dataId,Long userId) throws IOException {
-        DataInfVTO datainf = irDataInfService.getFilePath(dataId,userId);
-        return Result.ofSuccess(datainf.getContent());
+    public Result<String> historyDownload(Long dataId,Long userId,Long id) throws IOException {
+        DataInfVTO datainf = irDataInfService.getFilePath(dataId,userId,id);
+        if(datainf!=null) {
+            return Result.ofSuccess(datainf.getContent());
+        }else {
+            return null;
+        }
     }
 
     @ApiOperation(value = "获取元数据")
@@ -211,9 +215,9 @@ public class DataInfController{
     }
 
     @ApiOperation(value = "查询分类下数据")
-    @GetMapping("/queryClassData")
-    public Result<TailPage<DataInfDetailVTO>> queryClassData(Integer firstClass, Integer secClass, PageQueryParamData param){
-        return irDataInfService.queryClassData(firstClass,secClass,param);
+    @PostMapping("/queryClassData")
+    public Result<TailPage<DataInfDetailVTO>> queryClassData(MenuDataParam param){
+        return irDataInfService.queryClassData(param);
     }
 
     @ApiOperation(value = "移动数据")

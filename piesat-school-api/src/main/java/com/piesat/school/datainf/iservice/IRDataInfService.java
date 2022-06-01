@@ -8,7 +8,6 @@ import com.piesat.school.datainf.vto.*;
 import com.piesat.school.generationMode.param.GenerationModeParam;
 import com.piesat.school.generationMode.vto.GenerationModeVTO;
 import com.smartwork.api.Result;
-import com.smartwork.api.param.ParamData;
 import com.smartwork.api.support.page.TailPage;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public interface IRDataInfService {
 //    Result<Boolean> uploadPic(String pic , Long dataId);
     Result<DataInfDetailVTO> dataInfDetailVTO(DataDetailParamData paramData);
 
-    DataInfVTO getFilePath(Long dataId, Long userId);
+    DataInfVTO getFilePath(Long dataId, Long userId,Long id);
 
     Boolean addDownCount(int downCount,Long dataId);
 
@@ -62,7 +61,7 @@ public interface IRDataInfService {
 
     Result<Boolean> mergeSecClass(String ids, DataClassParam param);
 
-    Result<TailPage<DataInfDetailVTO>> queryClassData(Integer firstClass, Integer secClass, PageQueryParamData param);
+    Result<TailPage<DataInfDetailVTO>> queryClassData(MenuDataParam param);
 
     Result<Boolean> moveData(String ids, Integer firstClass, Integer secClass);
 

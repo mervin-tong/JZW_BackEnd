@@ -4,7 +4,6 @@ import com.piesat.school.user.iservice.IRUserService;
 import com.piesat.school.user.vto.RoleVTO;
 import com.piesat.school.user.vto.UserVTO;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

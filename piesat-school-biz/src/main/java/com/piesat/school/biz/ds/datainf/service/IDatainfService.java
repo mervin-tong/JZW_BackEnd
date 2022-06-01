@@ -1,8 +1,8 @@
 package com.piesat.school.biz.ds.datainf.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.*;
 import com.smartwork.api.support.page.TailPage;
@@ -32,7 +32,7 @@ public interface IDatainfService extends IService<Datainf> {
     DataInfDetailVTO dataInfDetail(Long dataId);
 
 
-    DataInfVTO getFilePath(Long dataId, Long userId);
+    DataInfVTO getFilePath(Long dataId, Long userId,Long id);
 
     Boolean addDownCount(int downCount,Long dataId);
 
@@ -49,4 +49,5 @@ public interface IDatainfService extends IService<Datainf> {
     TailPage<DataInfListVTO> upToDateAttention(PageQueryParamData paramData);
 
     TailPage<DataInfDetailVTO> menuDataList(MenuDataParam param);
+
 }

@@ -14,4 +14,7 @@ public class GenerationModeVTO implements Serializable {
 
     @ApiModelProperty(value = "标注")
     private String comment;
+
+    @ApiModelProperty(value = "标注")
+    private Integer number;
 }

@@ -3,6 +3,7 @@ package com.piesat.school.biz.ds.datainf.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.dataClass.entity.DataClass;
 import com.piesat.school.biz.ds.dataClass.service.IDataClassService;
@@ -13,13 +14,12 @@ import com.piesat.school.biz.ds.datainf.mapper.ContactMapper;
 import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
 import com.piesat.school.biz.ds.datainf.service.IContactService;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
 import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
 import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
 import com.piesat.school.biz.ds.order.entity.HistoryDownload;
 import com.piesat.school.biz.ds.order.mapper.HistoryDownloadMapper;
-
+import com.piesat.school.biz.ds.order.service.IOrderFromService;
 import com.piesat.school.biz.ds.topic.entity.Topic;
 import com.piesat.school.biz.ds.topic.entity.TopicDataRel;
 import com.piesat.school.biz.ds.topic.mapper.TopicDataRelMapper;
@@ -28,10 +28,6 @@ import com.piesat.school.biz.ds.topic.service.ITopicService;
 import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.biz.ds.user.service.IRoleService;
-
-import com.piesat.school.datainf.param.DataInfSaveParamData;
-import com.piesat.school.datainf.param.SearchByClassParamData;
-import com.piesat.school.datainf.param.SearchByKeyParamData;
 import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.*;
 import com.piesat.school.emuerlation.BizEnumType;
@@ -40,12 +36,9 @@ import com.smartwork.api.support.page.PageHelper;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -88,7 +81,8 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     private ITopicService topicService;
     @Resource
     private IDataClassService dataClassService;
-
+    @Resource
+    private IOrderFromService orderFromService;
 
 
     @Override
@@ -261,6 +255,19 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             }
         }
         topicService.updateBatchById(topics);
+
+        //分类数量处理
+        List<Integer> firId=datainfs.stream().map(Datainf::getFirstClass).map(Integer::parseInt).collect(Collectors.toList());
+        List<Integer> secId=datainfs.stream().map(Datainf::getSecClass).map(Integer::parseInt).collect(Collectors.toList());
+        firId.addAll(secId);
+        List<DataClass> dataClasses = dataClassService.list(new QueryWrapper<DataClass>().in("id",firId));
+        for (Datainf i:datainfs){
+            for(DataClass d :dataClasses){
+                if(d.getId().equals(Integer.parseInt(i.getFirstClass())) || d.getId().equals(Integer.parseInt(i.getSecClass()))){
+                    d.setDataNum(d.getDataNum()-1);
+                }
+            }
+        }
         this.updateBatchById(datainfs);
         return Boolean.TRUE;
     }
@@ -308,12 +315,28 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
 
 
     @Override
-    public DataInfVTO getFilePath(Long dataId, Long userId) {
+    public DataInfVTO getFilePath(Long dataId, Long userId,Long id) {
         Datainf datainf = this.getById(dataId);
-        if(userId != null){
-            addhistory(dataId, userId);
+        int i=0;
+        if(userId !=null) {
+            if (datainf.getStatus().equals(BizEnumType.PublicStatus.NoOpen.getKey()) && userId.equals(datainf.getUploadUserId())) {
+                i = 1;
+            } else if (datainf.getStatus().equals(BizEnumType.PublicStatus.FullOpen.getKey())) {
+                i = 1;
+            } else if (datainf.getStatus().equals(BizEnumType.PublicStatus.HalfOpen.getKey()) && orderFromService.getById(id).getDataType().equals(BizEnumType.NotificationPushStatus.Pushing.getId())) {
+                i = 1;
+            }
+        }else {
+            i=1;
         }
-        return DatainfBuilder.toDataInfVto(datainf);
+        if(i==1&&userId != null){
+            addhistory(dataId, userId);
+            return DatainfBuilder.toDataInfVto(datainf);
+        }else if(i==1) {
+            return DatainfBuilder.toDataInfVto(datainf);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -490,12 +513,16 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
             result=dataInfDetailVTOS;
         }
         List<DataInfDetailVTO> results = new ArrayList<>();
-        for(DataInfDetailVTO detailVTOS:result){
-            if(param.getRelease()==0 && !detailVTOS.getThroughReview().equals(BizEnumType.ReviewStatus.RELEASE.getKey())){
-                results.add(detailVTOS);
-            }else if(param.getRelease()==1 && detailVTOS.getThroughReview().equals(BizEnumType.ReviewStatus.RELEASE.getKey())){
-                results.add(detailVTOS);
+        if(param.getRelease()!=null) {
+            for (DataInfDetailVTO detailVTOS : result) {
+                if (param.getRelease() == 0 && !detailVTOS.getThroughReview().equals(BizEnumType.ReviewStatus.RELEASE.getKey())) {
+                    results.add(detailVTOS);
+                } else if (param.getRelease() == 1 && detailVTOS.getThroughReview().equals(BizEnumType.ReviewStatus.RELEASE.getKey())) {
+                    results.add(detailVTOS);
+                }
             }
+        }else{
+            results=result;
         }
         List<DataInfDetailVTO> detailVTOS= PageHelper.pageList(results, param.getPn(), param.getPs());
         return CommonPage.buildPage(param.getPn(),param.getPs(),results.size(),detailVTOS);

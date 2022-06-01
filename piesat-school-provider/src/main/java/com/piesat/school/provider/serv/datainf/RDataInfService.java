@@ -4,7 +4,6 @@ import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.dataClass.service.IDataClassService;
 import com.piesat.school.biz.ds.datainf.facade.DataFacadeService;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
-import com.piesat.school.biz.ds.generationmode.builder.GenerationBuilder;
 import com.piesat.school.biz.ds.generationmode.service.IGenerationModeService;
 import com.piesat.school.dataClass.VTO.DataClassVTO;
 import com.piesat.school.dataClass.param.DataClassParam;
@@ -14,7 +13,6 @@ import com.piesat.school.datainf.vto.*;
 import com.piesat.school.generationMode.param.GenerationModeParam;
 import com.piesat.school.generationMode.vto.GenerationModeVTO;
 import com.smartwork.api.Result;
-import com.smartwork.api.param.ParamData;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,8 +90,8 @@ public class RDataInfService implements IRDataInfService {
     }
 
     @Override
-    public DataInfVTO getFilePath(Long dataId, Long userId) {
-        return iDatainfService.getFilePath(dataId,userId);
+    public DataInfVTO getFilePath(Long dataId, Long userId,Long id) {
+        return iDatainfService.getFilePath(dataId,userId,id);
     }
 
     @Override
@@ -138,7 +136,7 @@ public class RDataInfService implements IRDataInfService {
 
     @Override
     public Result<List<GenerationModeVTO>> generationModeDetail() {
-        return Result.ofSuccess(GenerationBuilder.toVTO(generationModeService.list()));
+        return Result.ofSuccess(generationModeService.getDetail());
     }
 
     @Override
@@ -182,8 +180,8 @@ public class RDataInfService implements IRDataInfService {
     }
 
     @Override
-    public Result<TailPage<DataInfDetailVTO>> queryClassData(Integer firstClass, Integer secClass, PageQueryParamData param) {
-        return Result.ofSuccess(dataClassService.queryClassData(firstClass,secClass,param));
+    public Result<TailPage<DataInfDetailVTO>> queryClassData(MenuDataParam param) {
+        return Result.ofSuccess(dataClassService.queryClassData(param));
     }
 
     @Override

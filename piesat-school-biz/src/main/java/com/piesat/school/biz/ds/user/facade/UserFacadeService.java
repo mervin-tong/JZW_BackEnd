@@ -11,7 +11,6 @@ import com.piesat.school.biz.ds.topic.entity.TopicDataRel;
 import com.piesat.school.biz.ds.topic.mapper.TopicDataRelMapper;
 import com.piesat.school.biz.ds.topic.mapper.TopicMapper;
 import com.piesat.school.biz.ds.topic.service.ITopicService;
-import com.piesat.school.biz.ds.user.check.CheckPhoneOrEmail;
 import com.piesat.school.biz.ds.user.check.CheckUserVerificationCode;
 import com.piesat.school.biz.ds.user.entity.Email;
 import com.piesat.school.biz.ds.user.entity.User;
@@ -22,8 +21,6 @@ import com.piesat.school.biz.ds.user.mapper.UserRoleMapper;
 import com.piesat.school.biz.ds.user.service.IRoleService;
 import com.piesat.school.biz.ds.user.service.IUserRoleService;
 import com.piesat.school.biz.ds.user.service.IUserService;
-import com.piesat.school.datainf.vto.DataInfListVTO;
-import com.piesat.school.datareview.vto.DataReviewVTO;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.piesat.school.user.param.*;
 import com.piesat.school.user.vto.RoleVTO;
@@ -31,11 +28,9 @@ import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.SimpleMailMessage;
@@ -43,7 +38,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -235,8 +233,10 @@ public class UserFacadeService {
             if(topicDataRels.stream().anyMatch(e -> e.getDataId().equals(i.getId()))){
                 Long topicId=topicDataRels.stream().filter(e -> e.getDataId().equals(i.getId())).findFirst().get().getTopicId();
                 for (Topic topic:topics){
-                    if(topic.getId().equals(topicId)){
+                    if(topic.getId().equals(topicId)&& paramData.getLimitStatus()==1 ){
                         topic.setDataNum(topic.getDataNum()-1);
+                    }else if(topic.getId().equals(topicId)&& paramData.getLimitStatus()==0){
+                        topic.setDataNum(topic.getDataNum()+1);
                     }
                 }
             }

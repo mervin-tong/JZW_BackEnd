@@ -328,5 +328,9 @@
             and a.end_at <![CDATA[< #{param.endDate}]]>
         </if>
     </select>
+    <select id="getGenerationModeDetail"
+            resultType="com.piesat.school.generationMode.vto.GenerationModeVTO">
+        select g.id,g.comment,a.num as number from t_generation g left JOIN (select count(1)as num ,generation_mode from t_data_inf GROUP BY generation_mode ) a on a.generation_mode=g.id
+    </select>
 
 </mapper>

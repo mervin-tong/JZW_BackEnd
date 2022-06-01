@@ -3,18 +3,18 @@ package com.piesat.school.biz.ds.datareview.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
-import com.piesat.school.biz.ds.datainf.mapper.DatainfMapper;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
 import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
 import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.param.UserDataReviewParamData;
+import com.piesat.school.datareview.vto.DataReviewListVTO;
 import com.piesat.school.datareview.vto.DataReviewReVTO;
 import com.piesat.school.datareview.vto.DataReviewUserVTO;
 import com.piesat.school.datareview.vto.DataReviewVTO;
@@ -80,21 +80,26 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
     public Boolean assign(Long dataReviewId, Long expertId,Long reviewUserId) {
             UpdateWrapper<DataReview> updateWrapper = new UpdateWrapper<>();
             updateWrapper.set("user_judge_id", expertId)
-                    .eq("data_id", dataReviewId)
-                    .and(wrapper  -> wrapper
-                            .eq("admin_judge_id",reviewUserId)
-                            .or()
-                            .eq("admin_judge_id",BizEnumType.Default.NULL.getKey()));
+                    .set("admin_judge_id",reviewUserId)
+                    .eq("data_id", dataReviewId);
+//                    .and(wrapper  -> wrapper
+//                            .eq("admin_judge_id",reviewUserId)
+//                            .or()
+//                            .eq("admin_judge_id",BizEnumType.Default.NULL.getKey()));
             return this.update(updateWrapper);
     }
 
     //专家获取评审列表
     @Override
-    public TailPage<DataReviewUserVTO> userDataReview(UserDataReviewParamData userDataReviewParamData) {
+    public DataReviewListVTO userDataReview(UserDataReviewParamData userDataReviewParamData) {
+        DataReviewListVTO dataReviewListVTO =new DataReviewListVTO();
         Page<DataInfListVTO> page = new Page<>(userDataReviewParamData.getPn(),userDataReviewParamData.getPs());
         page.setOptimizeCountSql(false);
         List<DataReviewUserVTO> list = dataReviewMapper.userDataReview(userDataReviewParamData,page);
-        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+        dataReviewListVTO.setDataReviewUserVTOS(CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list));
+        List<Long> ids =dataReviewMapper.selectIds(userDataReviewParamData);
+        dataReviewListVTO.setIds(ids);
+        return dataReviewListVTO;
     }
 
     //专家进行评审
@@ -184,7 +189,7 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
         if(dataReview.getStatus().equals(BizEnumType.ReviewStatus.RECHECKPASS.getKey())){
             dataReview.setStatus(BizEnumType.ReviewStatus.RELEASE.getKey());
             int i=baseMapper.updateById(dataReview);
-            datainfService.update(new UpdateWrapper<Datainf>().eq("id",dataId).set("throw_review", BizEnumType.ThroughReview.PASS.getKey()));
+            datainfService.update(new UpdateWrapper<Datainf>().eq("id",dataId).set("through_review", BizEnumType.ThroughReview.PASS.getKey()));
             return i==1;
         }else {
             return false;

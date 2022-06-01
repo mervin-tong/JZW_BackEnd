@@ -1,14 +1,12 @@
 package com.piesat.school.biz.ds.dataClass.service;
 
-import com.piesat.school.base.PageQueryParamData;
-import com.piesat.school.biz.ds.dataClass.entity.DataClass;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.piesat.school.biz.ds.dataClass.entity.DataClass;
 import com.piesat.school.dataClass.VTO.DataClassVTO;
 import com.piesat.school.dataClass.param.DataClassParam;
 import com.piesat.school.datainf.param.MenuDataParam;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.FirstPageVTO;
-import com.smartwork.api.param.ParamData;
 import com.smartwork.api.support.page.TailPage;
 
 import java.util.List;
@@ -35,7 +33,7 @@ public interface IDataClassService extends IService<DataClass> {
 
     Boolean mergeSecClass(String ids, DataClassParam param);
 
-    TailPage<DataInfDetailVTO> queryClassData(Integer firstClass, Integer secClass, PageQueryParamData param);
+    TailPage<DataInfDetailVTO> queryClassData(MenuDataParam param);
 
     Boolean moveData(String ids, Integer firstClass, Integer secClass);
 

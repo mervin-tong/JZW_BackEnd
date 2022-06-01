@@ -5,8 +5,8 @@ import com.piesat.school.datareview.iservice.IRDataReviewService;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
 import com.piesat.school.datareview.param.UserDataReviewParamData;
+import com.piesat.school.datareview.vto.DataReviewListVTO;
 import com.piesat.school.datareview.vto.DataReviewReVTO;
-import com.piesat.school.datareview.vto.DataReviewUserVTO;
 import com.piesat.school.datareview.vto.DataReviewVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
@@ -89,7 +89,7 @@ public class DataReviewController {
             @ApiResponse(code=500,message="后台报错"),
     })
     @PostMapping("/userdatareview")
-    public Result<TailPage<DataReviewUserVTO>> userDataReview( UserDataReviewParamData userDataReviewParamData){
+    public Result<DataReviewListVTO> userDataReview(UserDataReviewParamData userDataReviewParamData){
         return irDataReviewService.userDataReview(userDataReviewParamData);
     }
 

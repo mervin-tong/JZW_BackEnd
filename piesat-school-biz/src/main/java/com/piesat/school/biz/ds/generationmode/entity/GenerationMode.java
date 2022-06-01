@@ -1,6 +1,5 @@
 package com.piesat.school.biz.ds.generationmode.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -25,9 +24,6 @@ public class GenerationMode implements Serializable {
     @TableId(value = "id",type = IdType.AUTO)
     @ApiModelProperty(value = "序号")
     private Long id;
-//
-//    @ApiModelProperty(value = "生成方式")
-//    private Integer generationMode;
 
     @ApiModelProperty(value = "标注")
     private String comment;

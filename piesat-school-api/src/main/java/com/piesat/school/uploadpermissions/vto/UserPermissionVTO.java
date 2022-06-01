@@ -13,6 +13,8 @@ public class UserPermissionVTO implements java.io.Serializable{
     private Boolean isDataUpload;
     @ApiModelProperty(value = "当前是否有上传数据权限（0否 1是） ")
     private Boolean currentUpload;
+    @ApiModelProperty(value = "当前是否有申请上传数据权限（0否 1是） ")
+    private Boolean isApply;
     @ApiModelProperty(value = "申请拒绝信息")
     private String rejectMark;
 }

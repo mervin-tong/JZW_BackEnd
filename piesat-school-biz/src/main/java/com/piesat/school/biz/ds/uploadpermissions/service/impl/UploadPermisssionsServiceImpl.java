@@ -149,6 +149,9 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermissions
         if (uploadPermissions!=null&&uploadPermissions.size()>0) {
             vto.setRejectMark(uploadPermissions.get(0).getAuditMark());
         }
+        if(uploadPermissions!=null && uploadPermissions.get(0).getStatus().equals(0)){
+            vto.setIsApply(true);
+        }
         return vto;
     }
 

@@ -2,26 +2,19 @@ package com.piesat.school.rest.controller.app.login;
 
 import com.piesat.school.security.ResultCode;
 import com.piesat.school.user.iservice.IRUserService;
-import com.piesat.school.user.param.LoginRequest;
 import com.piesat.school.user.vto.UserVTO;
 import com.smartwork.api.Result;
 import com.smartwork.web.controller.BaseController;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.security.authentication.*;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -82,6 +75,7 @@ public class LoginController extends BaseController {
             return Result.ofFail("4401","当前没有用户登录");
         }
         UserVTO userVTO = irUserService.findUserByPhoneOrEmail(principal.getUsername());
+//        userVTO.setToken(TokenUtils.token(userVTO.getPhone(), userVTO.getPassword()));
         return  Result.ofSuccess(userVTO);
     }
 }

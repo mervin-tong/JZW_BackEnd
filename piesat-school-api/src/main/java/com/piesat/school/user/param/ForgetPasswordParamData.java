@@ -1,15 +1,16 @@
 package com.piesat.school.user.param;
 
-import com.smartwork.api.param.UIDParamData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @author suweipeng
  * @data 2022/2/23 15:24
  */
 @Data
-public class ForgetPasswordParamData {
+public class ForgetPasswordParamData implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "注册邮箱")
     private String email;

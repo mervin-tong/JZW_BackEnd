@@ -1,12 +1,12 @@
 package com.piesat.school.biz.ds.datainf.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
-import com.piesat.school.datainf.vto.MyDataInfVTO;
+import com.piesat.school.generationMode.vto.GenerationModeVTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -35,6 +35,8 @@ public interface DatainfMapper extends BaseMapper<Datainf> {
     List<DataInfDetailVTO> menuDataList(@Param("param")  MenuDataParam param, Page<DataInfListVTO> page);
 
     List<DataInfDetailVTO> menuDataListDetail(@Param("param") MenuDataParam param, Page<DataInfDetailVTO> page);
+
+    List<GenerationModeVTO> getGenerationModeDetail();
 
 //    Page<DataInfDetailVTO> menuDataListDetail(@Param("param") MenuDataParam param, Page<DataInfDetailVTO> page);
 

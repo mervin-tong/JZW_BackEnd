@@ -31,4 +31,6 @@ public interface DataReviewMapper extends BaseMapper<DataReview> {
     List<String> screen(@Param("param") ConditionScreenParamData paramData);
 
     List<DataReviewReVTO> selectAll(@Param("param") Long dataId, Page<DataReviewReVTO> page);
+
+    List<Long> selectIds(@Param("userDataReviewParamData") UserDataReviewParamData userDataReviewParamData);
 }

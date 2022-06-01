@@ -1,24 +1,19 @@
 package com.piesat.school.emuerlation;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.smartwork.api.enums.IEnum;
-import io.swagger.annotations.ApiModelProperty;
-import org.springframework.util.CollectionUtils;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.joining;
+import java.util.HashMap;
+import java.util.Map;
 
 public interface BizEnumType {
 	/**
 	 * 公开状态
 	 */
 	enum PublicStatus  {
-		FullOpen(1, "完全公开"),
-		HalfOpen(2, "申请获取"),
-		NoOpen(3,"保护期内"),
+		FullOpen(0, "完全公开"),
+		HalfOpen(1, "申请获取"),
+		NoOpen(2,"保护期内"),
 		;
 		static Map<Integer, PublicStatus> allTypes;
 		private int key;
