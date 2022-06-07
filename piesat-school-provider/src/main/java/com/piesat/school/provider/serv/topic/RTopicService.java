@@ -49,7 +49,7 @@ public class RTopicService implements IRTopicService {
     }
 
     @Override
-    public Result<TailPage<TopicVTO>> list(TopicQueryParamData paramData) {
+    public Result<List<TopicVTO>> list(TopicQueryParamData paramData) {
         return Result.ofSuccess(iTopicService.topicPage(paramData));
     }
 

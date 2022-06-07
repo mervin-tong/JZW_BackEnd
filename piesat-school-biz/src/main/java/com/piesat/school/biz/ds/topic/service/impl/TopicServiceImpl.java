@@ -2,9 +2,7 @@ package com.piesat.school.biz.ds.topic.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
-import com.piesat.school.biz.ds.datainf.entity.Contact;
-import com.piesat.school.biz.ds.datainf.entity.Datainf;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.datainf.service.IContactService;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.biz.ds.topic.builder.TopicBuilder;
@@ -14,10 +12,7 @@ import com.piesat.school.biz.ds.topic.mapper.TopicDataRelMapper;
 import com.piesat.school.biz.ds.topic.mapper.TopicMapper;
 import com.piesat.school.biz.ds.topic.service.ITopicDataRelService;
 import com.piesat.school.biz.ds.topic.service.ITopicService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.piesat.school.biz.ds.user.entity.User;
 import com.piesat.school.biz.ds.user.service.IUserService;
-import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.emuerlation.BizEnumType;
 import com.piesat.school.topic.param.*;
@@ -31,8 +26,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -138,7 +131,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
     }
 
     @Override
-    public TailPage<TopicVTO> topicPage(TopicQueryParamData paramData) {
+    public List<TopicVTO> topicPage(TopicQueryParamData paramData) {
         QueryWrapper<Topic> queryWrapper=new QueryWrapper<>();
         queryWrapper.lambda().eq(Topic::getStatus, BizEnumType.CommonStatus.Valid.getKey());
         Page<Topic> page = super.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
@@ -149,7 +142,7 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, Topic> implements
                 topicVTO.setMyDataInfVTO(topicDataRelMapper.getTopicDatalist(paramData,new Page<>(paramData.getPn(),paramData.getPs())));
             }
         }
-        return CommonPage.buildPage(page.getCurrent(), page.getSize(), page.getTotal(), topicVTOS);
+        return topicVTOS;
     }
 
     @Override

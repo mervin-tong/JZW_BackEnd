@@ -3,15 +3,15 @@ package com.piesat.school.rest.controller.app.topic;
 import com.piesat.school.datainf.vto.MyDataInfVTO;
 import com.piesat.school.topic.iservice.IRTopicService;
 import com.piesat.school.topic.param.*;
-import com.piesat.school.topic.vto.TopicDetailVTO;
 import com.piesat.school.topic.vto.TopicVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class TopicController {
     }
     @ApiOperation(value = "专题列表")
     @PostMapping("/list")
-    public Result<TailPage<TopicVTO>> topicList(TopicQueryParamData paramData){
+    public Result<List<TopicVTO>> topicList(TopicQueryParamData paramData){
         return irTopicService.list(paramData);
     }
 

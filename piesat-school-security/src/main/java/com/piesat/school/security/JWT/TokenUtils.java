@@ -1,5 +1,8 @@
 package com.piesat.school.security.JWT;
+
+
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -12,7 +15,7 @@ public class TokenUtils {
     public static final String TOKEN_PREFIX = "Bearer";
 
     // TOKEN 过期时间
-    public static final long EXPIRATION = 1000 * 60 * 30; // 三十分钟
+    public static final long EXPIRATION = 10 * 60 * 30; // 三十分钟
 
     public static final String APP_SECRET_KEY = "secret";
 
@@ -61,7 +64,7 @@ public class TokenUtils {
      */
     public static String getUserRole(String token) {
         Claims claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJws(token).getBody();
-        return claims.get("rol").toString();
+        return claims.get("role").toString();
     }
 
     /**
@@ -85,8 +88,12 @@ public class TokenUtils {
      * @param token
      * @return
      */
-    public static boolean isExpiration(String token) {
-        Claims claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJws(token).getBody();
-        return claims.getExpiration().before(new Date());
+    public static boolean isExpiration(String token) throws RuntimeException {
+        try {
+            Claims claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJws(token).getBody();
+            return claims.getExpiration().before(new Date());
+        }catch (ExpiredJwtException e){
+            return false;
+        }
     }
 }

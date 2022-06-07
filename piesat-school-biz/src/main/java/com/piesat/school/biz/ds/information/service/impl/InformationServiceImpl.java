@@ -20,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,14 +98,17 @@ public class InformationServiceImpl extends ServiceImpl<InformationMapper, Infor
 
     @Override
     public TailPage<InformationVTO> informationPage(InformationPageParam paramData) {
-        QueryWrapper<Information> queryWrapper=new QueryWrapper<>();
-        if(paramData.getType()!=null){
-            queryWrapper.eq("type",paramData.getType());
+        QueryWrapper<Information> queryWrapper = new QueryWrapper<>();
+        List<User> users=new ArrayList<>();
+        if (paramData.getType() != null) {
+            queryWrapper.eq("type", paramData.getType());
         }
         queryWrapper.eq("status", BizEnumType.CommonStatus.Valid.getKey());
         Page<Information> page = super.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
-        List<Long> publisherIds= page.getRecords().stream().map(Information::getPublisher).collect(Collectors.toList());
-        List<User> users= userMapper.selectBatchIds(publisherIds);
+        if (page.getRecords().size()!=0){
+            List<Long> publisherIds = page.getRecords().stream().map(Information::getPublisher).collect(Collectors.toList());
+            users = userMapper.selectBatchIds(publisherIds);
+        }
         return CommonPage.buildPage(page.getCurrent(), page.getSize(), page.getTotal(), InformationBuilder.toVTO(page.getRecords(),users));
     }
 }

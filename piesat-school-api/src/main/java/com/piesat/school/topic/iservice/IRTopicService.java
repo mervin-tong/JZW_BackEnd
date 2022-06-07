@@ -25,7 +25,7 @@ public interface IRTopicService {
 
     Result<Boolean> delTopicData(TopicDataDelParamData paramData);
 
-    Result<TailPage<TopicVTO>> list(TopicQueryParamData paramData);
+    Result<List<TopicVTO>> list(TopicQueryParamData paramData);
 
     Result<TailPage<MyDataInfVTO>> topicDatalist(TopicQueryParamData paramData);
 

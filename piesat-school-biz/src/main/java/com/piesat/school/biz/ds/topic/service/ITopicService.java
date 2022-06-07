@@ -30,7 +30,7 @@ public interface ITopicService extends IService<Topic> {
 
     Boolean delTopicData(TopicDataDelParamData paramData);
 
-    TailPage<TopicVTO> topicPage(TopicQueryParamData paramData);
+    List<TopicVTO> topicPage(TopicQueryParamData paramData);
 
     TailPage<MyDataInfVTO> topicDatalist(TopicQueryParamData paramData);
 
