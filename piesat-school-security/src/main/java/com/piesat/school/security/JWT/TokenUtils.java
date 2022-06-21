@@ -15,7 +15,7 @@ public class TokenUtils {
     public static final String TOKEN_PREFIX = "Bearer";
 
     // TOKEN 过期时间
-    public static final long EXPIRATION = 10 * 60 * 30; // 三十分钟
+    public static final long EXPIRATION = 1000 * 60 * 5; // 三十分钟
 
     public static final String APP_SECRET_KEY = "secret";
 
@@ -91,7 +91,7 @@ public class TokenUtils {
     public static boolean isExpiration(String token) throws RuntimeException {
         try {
             Claims claims = Jwts.parser().setSigningKey(APP_SECRET_KEY).parseClaimsJws(token).getBody();
-            return claims.getExpiration().before(new Date());
+            return claims.getExpiration().after(new Date());
         }catch (ExpiredJwtException e){
             return false;
         }

@@ -1,10 +1,12 @@
 package com.piesat.school.security.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.piesat.school.security.JWT.TokenUtils;
+import com.piesat.school.security.JsonResult;
+import com.piesat.school.security.ResultCode;
 import com.piesat.school.user.iservice.IRUserService;
 import com.piesat.school.user.vto.UserVTO;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -83,7 +85,44 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     // 失败 返回错误就行
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        response.getWriter().write("authentication failed, reason: " + failed.getMessage());
+        response.setContentType("application/json;charset=UTF-8");
+        JsonResult<String> jsonResult = new JsonResult<>();
+        if (failed instanceof AccountExpiredException) {
+            //账号过期
+            jsonResult.setcode(ResultCode.USER_ACCOUNT_EXPIRED.getCode());
+            jsonResult.setmessage(ResultCode.USER_ACCOUNT_EXPIRED.getMessage());
+            response.getWriter().write(JSON.toJSONString(jsonResult));
+        } else if (failed instanceof BadCredentialsException) {
+            //密码错误
+            jsonResult.setcode(ResultCode.USER_CREDENTIALS_ERROR.getCode());
+            jsonResult.setmessage(ResultCode.USER_CREDENTIALS_ERROR.getMessage());
+            response.getWriter().write(JSON.toJSONString(jsonResult));
+        } else if (failed instanceof CredentialsExpiredException) {
+            //密码过期
+            jsonResult.setcode(ResultCode.USER_CREDENTIALS_EXPIRED.getCode());
+            jsonResult.setmessage(ResultCode.USER_CREDENTIALS_EXPIRED.getMessage());
+            response.getWriter().write(JSON.toJSONString(jsonResult));
+        } else if (failed instanceof DisabledException) {
+            //账号不可用
+            jsonResult.setcode(ResultCode.USER_ACCOUNT_DISABLE.getCode());
+            jsonResult.setmessage(ResultCode.USER_ACCOUNT_DISABLE.getMessage());
+            response.getWriter().write(JSON.toJSONString(jsonResult));
+        } else if (failed instanceof LockedException) {
+            //账号锁定
+            jsonResult.setcode(ResultCode.USER_ACCOUNT_LOCKED.getCode());
+            jsonResult.setmessage(ResultCode.USER_ACCOUNT_LOCKED.getMessage());
+            response.getWriter().write(JSON.toJSONString(jsonResult));
+        } else if (failed instanceof InternalAuthenticationServiceException) {
+            //用户不存在
+            jsonResult.setcode(ResultCode.USER_ACCOUNT_NOT_EXIST.getCode());
+            jsonResult.setmessage(ResultCode.USER_ACCOUNT_NOT_EXIST.getMessage());
+            response.getWriter().write(JSON.toJSONString(jsonResult));
+        }else{
+            //其他错误
+            jsonResult.setcode(ResultCode.COMMON_FAIL.getCode());
+            jsonResult.setmessage(ResultCode.COMMON_FAIL.getMessage());
+            response.getWriter().write(JSON.toJSONString(jsonResult));
+        }
     }
 
 }

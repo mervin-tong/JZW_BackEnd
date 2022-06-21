@@ -8,6 +8,7 @@ import com.piesat.school.datainf.param.*;
 import com.piesat.school.datainf.vto.*;
 import com.piesat.school.generationMode.param.GenerationModeParam;
 import com.piesat.school.generationMode.vto.GenerationModeVTO;
+import com.piesat.school.rest.aspect.AroundRecord;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.Api;
@@ -29,7 +30,7 @@ public class DataInfController{
     @GetMapping("/dataMenu")
     public Result<TailPage<DataInfListVTO>> getAllDataInf(){return irDataInfService.getAllDatainf();}
 
-
+    @AroundRecord
     @ApiOperation(value = "会员数据列表")
     @PostMapping("/dataList")
     public Result<TailPage<MyDataInfVTO>> dataList(DataQueryParamData paramData){
