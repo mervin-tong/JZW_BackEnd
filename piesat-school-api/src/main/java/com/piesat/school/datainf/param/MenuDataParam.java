@@ -38,4 +38,8 @@ public class MenuDataParam extends PageQueryParamData {
 
     @ApiModelProperty(value = "是否被发布 0 未发布  1 发布")
     private Integer release;
+    @ApiModelProperty(value = "正序字段")
+    private String ascAttributes;
+    @ApiModelProperty(value = "倒序字段")
+    private String descAttributes;
 }

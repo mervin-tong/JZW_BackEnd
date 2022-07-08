@@ -210,5 +210,6 @@ public class DataInfDetailVTO implements Serializable {
      */
     @ApiModelProperty(value = "是否上架")
     private Integer throughReview;
-
+    @ApiModelProperty(value = "创建时间")
+    private Date createdAt;
 }

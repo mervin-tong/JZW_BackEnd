@@ -26,11 +26,12 @@ public class RequestAspect {
     private IRAspectService aspectService;
 
     @Around(value = "@annotation(aroundRecord)")
-    public Boolean aroundLog(ProceedingJoinPoint point, AroundRecord aroundRecord) {
+    public Object aroundLog(ProceedingJoinPoint point, AroundRecord aroundRecord) {
         StringBuilder sb = new StringBuilder();
         StopWatch started = new StopWatch();
         StringBuilder params= new StringBuilder();
         Date operationTime = new Date();
+        started.start();
         try {
             MethodSignature signature = (MethodSignature) point.getSignature();
             Method method = signature.getMethod();
@@ -63,7 +64,8 @@ public class RequestAspect {
                 username = TokenUtils.getUsername(token);
             }
             Boolean a =aspectService.addRecord(url,params,username,operationTime);
-            return true;
+            return point.proceed();
+//            return true;
         } catch (RuntimeException e) {
             params.append("RuntimeException:>").append(e.getMessage()).append("\n");
             throw e;
@@ -72,6 +74,7 @@ public class RequestAspect {
             throw new RuntimeException("系统异常!");
         }finally {
             started.stop();
+
         }
     }
 }
