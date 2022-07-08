@@ -304,7 +304,7 @@
         left join t_generation g on g.id=a.generation_mode
         left join t_data_review r on a.id=r.data_id
         where a.deleted = 0
-        <if test="param.publishStatus != null and param.publishStatus != ''">
+        <if test="param.publishStatus != null ">
             and a.publisher_status =#{param.publishStatus}
         </if>
         <if test="param.dataName != null and param.dataName != ''">

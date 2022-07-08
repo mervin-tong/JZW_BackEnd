@@ -482,8 +482,10 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         List<DataInfListVTO> list=new ArrayList<>();
         for(Datainf datainf:dataInfos.getRecords()) {
             DataInfListVTO dataInfListVTO =new DataInfListVTO();
-            BeanUtils.copyProperties(datainf,dataInfListVTO);
-            list.add(dataInfListVTO);
+            if(!datainf.getDeleted().equals(1) && !datainf.getPublisherStatus().equals(1)) {
+                BeanUtils.copyProperties(datainf, dataInfListVTO);
+                list.add(dataInfListVTO);
+            }
         }
         return CommonPage.buildPage(dataInfos.getCurrent(),dataInfos.getSize(),dataInfos.getTotal(),list);
     }
