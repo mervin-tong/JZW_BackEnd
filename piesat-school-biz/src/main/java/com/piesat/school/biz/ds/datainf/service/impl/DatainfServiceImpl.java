@@ -496,7 +496,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         if(StringUtils.isNotBlank(param.getAscAttributes())){
             String[] istr=param.getAscAttributes().split(",");
             for(String i:istr){
-                if(orderStr.split(",").length>1){
+                if(StringUtils.isNotBlank(orderStr)&&orderStr.split(",").length>=1){
                     orderStr+=",";
                 }
                 orderStr+=" a."+i+" asc";
@@ -505,7 +505,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         if(StringUtils.isNotBlank(param.getDescAttributes())){
             String[] istr=param.getDescAttributes().split(",");
             for(String i:istr){
-                if(orderStr.split(",").length>1){
+                if(StringUtils.isNotBlank(orderStr)&&orderStr.split(",").length>=1){
                     orderStr+=",";
                 }
                 orderStr+=" a."+i+" desc";
