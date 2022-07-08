@@ -34,7 +34,7 @@ public interface DatainfMapper extends BaseMapper<Datainf> {
 
     List<DataInfDetailVTO> menuDataList(@Param("param")  MenuDataParam param, Page<DataInfListVTO> page);
 
-    List<DataInfDetailVTO> menuDataListDetail(@Param("param") MenuDataParam param, Page<DataInfDetailVTO> page);
+    List<DataInfDetailVTO> menuDataListDetail(@Param("param") MenuDataParam param, Page<DataInfDetailVTO> page,@Param("orderStr") String orderStr);
 
     List<GenerationModeVTO> getGenerationModeDetail();
 

@@ -494,9 +494,28 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     public TailPage<DataInfDetailVTO> menuDataList(MenuDataParam param) {
 //        Page<DataInfDetailVTO> page = new Page<>(param.getPn(),param.getPs());
 //        page.setOptimizeCountSql(false);
-        List<DataInfDetailVTO> dataInfDetailVTOS = baseMapper.menuDataListDetail(param,null);
+        String orderStr="";
+        if(StringUtils.isNotBlank(param.getAscAttributes())){
+            String[] istr=param.getAscAttributes().split(",");
+            for(String i:istr){
+                if(StringUtils.isNotBlank(orderStr)&&orderStr.split(",").length>=1){
+                    orderStr+=",";
+                }
+                orderStr+=" a."+i+" asc";
+            }
+        }
+        if(StringUtils.isNotBlank(param.getDescAttributes())){
+            String[] istr=param.getDescAttributes().split(",");
+            for(String i:istr){
+                if(StringUtils.isNotBlank(orderStr)&&orderStr.split(",").length>=1){
+                    orderStr+=",";
+                }
+                orderStr+=" a."+i+" desc";
+            }
+        }
+        List<DataInfDetailVTO> dataInfDetailVTOS = baseMapper.menuDataListDetail(param,null,orderStr);
         List<DataInfDetailVTO> result = new ArrayList<>();
-        if(param.getLeftUp()!=null && param.getRightDown()!=null) {
+        if(StringUtils.isNotBlank(param.getLeftUp()) && StringUtils.isNotBlank(param.getRightDown())) {
             double leftX = Double.parseDouble(param.getLeftUp().split(",")[0]);
             double leftY = Double.parseDouble(param.getLeftUp().split(",")[1]);
             double rightX = Double.parseDouble(param.getRightDown().split(",")[0]);

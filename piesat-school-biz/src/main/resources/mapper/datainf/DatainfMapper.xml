@@ -297,8 +297,7 @@
         a.upload_user_id,
         a.generation_mode,
         g.comment,
-        r.status throughReview,
-        a.created_at
+        r.status throughReview
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
         left join t_generation g on g.id=a.generation_mode
@@ -328,18 +327,21 @@
         <if test="param.endDate != null and param.endDate != ''">
             and a.end_at <![CDATA[< #{param.endDate}]]>
         </if>
-        <if test="param.ascAttributes!=null|| param.descAttributes!=null">
-            and order by
-            <if test="param.ascAttributes!=null">
-                #{param.ascAttributes} asc
-                <if test="param.descAttributes!=null">
-                    ,
-                </if>
-            </if>
-            <if test="param.descAttributes!=null">
-                #{param.descAttributes} asc
-            </if>
+        <if test="orderStr!=null and orderStr!=''">
+            order by ${orderStr}
         </if>
+<!--        <if test="(param.ascAttributes!=null and param.ascAttributes!='')|| (param.descAttributes!=null and param.descAttributes!='')">-->
+<!--            order by-->
+<!--            <if test="param.ascAttributes!=null and param.ascAttributes!=''">-->
+<!--                ${param.ascAttributes} asc-->
+<!--                <if test="param.descAttributes!=null and param.descAttributes!=''">-->
+<!--                    ,-->
+<!--                </if>-->
+<!--            </if>-->
+<!--            <if test="param.descAttributes!=null and param.descAttributes!=''">-->
+<!--                <![CDATA[ ${param.descAttributes} desc]]>-->
+<!--            </if>-->
+<!--        </if>-->
     </select>
     <select id="getGenerationModeDetail"
             resultType="com.piesat.school.generationMode.vto.GenerationModeVTO">
