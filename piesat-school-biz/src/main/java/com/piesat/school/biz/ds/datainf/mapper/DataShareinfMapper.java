@@ -28,7 +28,7 @@ public interface DataShareinfMapper extends BaseMapper<DataShareinf> {
                                        Page<DataInfListVTO> page);
     List<DataInfListVTO> searchByTime(@Param("searchByTimeParamData") SearchByTimeParamData searchByTimeParamData,
                                       Page<DataInfListVTO> page);
-    List<DataInfListVTO> searchAll(@Param("searchAllParamData") SearchAllParamData searchAllParamData, Page<DataInfListVTO> page);
+    List<ShareInfVTO> searchAll(@Param("searchAllParamData") DataShareParamData dataShareParamData, Page<ShareInfVTO> page);
     DataInfDetailVTO dataInfDetail(@Param("dataInfId") Long dataInfId);
 
     List<DataInfListVTO> getThematicData(@Param("param") MetadataQueryParam paramData, Page<DataInfListVTO> page);

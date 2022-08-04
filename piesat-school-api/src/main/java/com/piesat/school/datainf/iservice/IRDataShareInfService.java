@@ -8,5 +8,6 @@ import com.smartwork.api.support.page.TailPage;
 public interface IRDataShareInfService {
 
 
-    Result<TailPage<ShareInfVTO>> datalist(DataShareParamData paramData);
+    TailPage<ShareInfVTO> datalist(DataShareParamData paramData);
+
 }

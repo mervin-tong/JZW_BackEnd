@@ -12,17 +12,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 @Api(tags = "模块")
 @RestController
 @RequestMapping("/app/share")
 public class ShareServerController {
 
-   private IRDataShareInfService dataInfService;
+    @Resource
+    private IRDataShareInfService dataInfService;
     @AroundRecord
     @ApiOperation(value = "会员数据列表")
     @PostMapping("/dataList")
     public Result<TailPage<ShareInfVTO>> datalist(DataShareParamData paramData){
-        return dataInfService.datalist(paramData);
+        TailPage<ShareInfVTO> shareInfVTOS=dataInfService.datalist(paramData);
+        return Result.ofSuccess(dataInfService.datalist(paramData));
     }
 
 
