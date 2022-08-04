@@ -8,6 +8,8 @@ import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,7 @@ import javax.annotation.Resource;
 @RequestMapping("/app/share")
 public class ShareServerController {
 
-    @Resource
+    @DubboReference
     private IRDataShareInfService dataInfService;
     @AroundRecord
     @ApiOperation(value = "会员数据列表")

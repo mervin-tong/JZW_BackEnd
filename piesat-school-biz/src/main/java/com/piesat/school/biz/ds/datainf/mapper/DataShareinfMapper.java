@@ -21,27 +21,7 @@ import java.util.List;
  * @since 2022-01-17
  */
 public interface DataShareinfMapper extends BaseMapper<DataShareinf> {
-    List<DataInfListVTO> getAllDatainf(Page<ShareInfVTO> page);
-    List<DataInfListVTO> searchByKeyword(@Param("searchByKeyParamData") SearchByKeyParamData searchByKeyParamData,
-                                         Page<DataInfListVTO> page);
-    List<DataInfListVTO> searchByClass(@Param("searchByClassParamData") SearchByClassParamData searchByClassParamData,
-                                       Page<DataInfListVTO> page);
-    List<DataInfListVTO> searchByTime(@Param("searchByTimeParamData") SearchByTimeParamData searchByTimeParamData,
-                                      Page<DataInfListVTO> page);
-    List<ShareInfVTO> searchAll(@Param("searchAllParamData") DataShareParamData dataShareParamData, Page<ShareInfVTO> page);
-    DataInfDetailVTO dataInfDetail(@Param("dataInfId") Long dataInfId);
 
-    List<DataInfListVTO> getThematicData(@Param("param") MetadataQueryParam paramData, Page<DataInfListVTO> page);
+    List<ShareInfVTO> searchAll(@Param("dataShareParamData") DataShareParamData dataShareParamData, Page<ShareInfVTO> page);
 
-    List<DataInfDetailVTO> menuDataList(@Param("param") MenuDataParam param, Page<DataInfListVTO> page);
-
-    List<DataInfDetailVTO> menuDataListDetail(@Param("param") MenuDataParam param, Page<DataInfDetailVTO> page, @Param("orderStr") String orderStr);
-
-    List<GenerationModeVTO> getGenerationModeDetail();
-
-//    Page<DataInfDetailVTO> menuDataListDetail(@Param("param") MenuDataParam param, Page<DataInfDetailVTO> page);
-
-//    List<MyDataInfVTO> myDataMenu(@Param("userId") Long userId, Page<MyDataInfVTO> page);
-
-//    Boolean delDataInf(List<Long> longs);
 }

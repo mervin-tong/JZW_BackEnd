@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.school.biz.ds.datainf.mapper.DataShareinfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.datainf.entity.DataShareinf">
+        <result column="id" property="id" />
+        <result column="applyId" property="applyId" />
+        <result column="checkId" property="checkId" />
+        <result column="apply_status" property="apply_status" />
+        <result column="apply_content" property="apply_content" />
+        <result column="apply_explan" property="apply_explan" />
+        <result column="apikey" property="apikey" />
+        <result column="updated_at" property="updated_at"/>
+        <result column="created_at" property="created_at" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        applyId,checkId,apply_status,apply_content,apply_explan,apikey,updated_at,created_at
+    </sql>
+    <select id="searchAll" resultType="com.piesat.school.datainf.vto.ShareInfVTO">
+        select
+        *
+        from t_data_share
+    </select>
+
+
+</mapper>

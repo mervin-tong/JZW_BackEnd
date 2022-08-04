@@ -29,12 +29,7 @@ import java.util.stream.Collectors;
 public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, DataShareinf> implements IDataShareinfService {
 
 
-    @Resource
-    private UserMapper userMapper;
-    @Resource
-    private DataReviewMapper dataReviewMapper;
-    @Resource
-    private IContactService contactService;
+
     @Resource
     private  DataShareinfMapper dataShareinfMapper;
 

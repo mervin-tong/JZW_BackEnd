@@ -4,7 +4,10 @@ import com.piesat.school.datainf.param.DataShareParamData;
 import com.piesat.school.datainf.vto.ShareInfVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
+import org.mapstruct.Mapper;
+import org.springframework.stereotype.Service;
 
+@Mapper
 public interface IRDataShareInfService {
 
 
