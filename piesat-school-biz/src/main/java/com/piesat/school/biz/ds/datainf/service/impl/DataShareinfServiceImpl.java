@@ -17,9 +17,12 @@ import com.piesat.school.emuerlation.BizEnumType;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,20 +38,7 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     @Override
     public TailPage<ShareInfVTO> dataList(DataShareParamData paramData) {
-//        QueryWrapper<DataShareinf> queryWrapper=new QueryWrapper<>();
-//
-//        queryWrapper.lambda().eq(DataShareinf::getApplyId, BizEnumType.CommonStatus.Invalid.getKey());
-//
-//        Page<DataShareinf> dataInfos=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
-//
-//        List<ShareInfVTO> myDataInfVTOS=new ArrayList<>();
-//        if(dataInfos.getRecords().size()>0){
-//            List<Long> userIds=dataInfos.getRecords().stream().map(DataShareinf::getId).collect(Collectors.toList());
-//            List<Long> applyids=dataInfos.getRecords().stream().filter(e->e.getApplyId()!=null).map(DataShareinf::getApplyId).collect(Collectors.toList());
-//            List<Long> dataIds = dataInfos.getRecords().stream().map(DataShareinf::getId).collect(Collectors.toList());
-//            List<DataReview> dataReviews=dataReviewMapper.selectList(new QueryWrapper<DataReview>().in("data_id",dataIds));
-//        }
-//        return CommonPage.buildPage(dataInfos.getCurrent(),dataInfos.getSize(),dataInfos.getTotal(),myDataInfVTOS);
+
         Page<ShareInfVTO> page = new Page<>(paramData.getPn(),paramData.getPs());
         page.setOptimizeCountSql(false);
         List<ShareInfVTO> list = dataShareinfMapper.searchAll(paramData,page);
@@ -56,7 +46,38 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     }
 
+    @Override
+    public Result<ShareInfVTO> applyForKey(DataShareParamData paramData) {
+        ShareInfVTO shareInfVTO=null;
+        Page<ShareInfVTO> page = new Page<>(paramData.getPn(),paramData.getPs());
+//              flag为判断状态，0表示已经不通过，1表示审核通过，2表示审核中，3表示从未申请
 
+        List<ShareInfVTO> list = dataShareinfMapper.checkStatus(paramData,page);
+        return Result.ofSuccess(shareInfVTO);
+    }
+
+    @Override
+    public Result<ShareInfVTO> checkStatus(DataShareParamData paramData) {
+//      判断状态，0表示审核不通过，1表示审核通过，2表示审核中
+        ShareInfVTO vto=null;
+        QueryWrapper<DataShareinf> queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(DataShareinf::getApplyId,paramData.getApplyId()).orderByDesc(DataShareinf::getUpdatedAt);
+        List<DataShareinf> dataShareInfos=this.list(queryWrapper);
+        if(dataShareInfos!=null&&dataShareInfos.size()>0){
+            vto=new ShareInfVTO();
+            BeanUtils.copyProperties(dataShareInfos.get(0),vto);
+        }
+        return Result.ofSuccess(vto);
+//        Page<ShareInfVTO> page = new Page<>(paramData.getPn(),paramData.getPs());
+//        if (dataShareinfMapper.checkStatus(paramData,page).size()!=0){
+//            paramData.setApplyStatus(3);
+//        }
+//        List<ShareInfVTO> list = dataShareinfMapper.checkStatus(paramData,page);
+//
+//
+//        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+
+    }
 
 
 }

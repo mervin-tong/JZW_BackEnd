@@ -23,5 +23,8 @@ import java.util.List;
 public interface DataShareinfMapper extends BaseMapper<DataShareinf> {
 
     List<ShareInfVTO> searchAll(@Param("dataShareParamData") DataShareParamData dataShareParamData, Page<ShareInfVTO> page);
+    List<ShareInfVTO> applyForKey(@Param("dataShareParamdata") DataShareParamData dataShareParamData,Page<ShareInfVTO> page);
+    List<ShareInfVTO> checkStatus(@Param("dataShareParamdata") DataShareParamData dataShareParamData,Page<ShareInfVTO> page);
+
 
 }

@@ -11,24 +11,24 @@ import java.util.Date;
 public class ShareInfVTO implements Serializable {
     @ApiModelProperty(value = "id")
     private Long id;
-    @ApiModelProperty(value = "apply-id")
+    @ApiModelProperty(value = "apply_id")
     private Long applyId;
-    @ApiModelProperty(value = "check-id")
+    @ApiModelProperty(value = "check_id")
     private Long checkId;
-    @ApiModelProperty(value = "apply-status")
-    private Integer apply_status;
+    @ApiModelProperty(value = "apply_status")
+    private Integer applyStatus;
     @ApiModelProperty(value = "apply-content")
-    private String apply_content;
-    @ApiModelProperty(value = "apply-explan")
-    private String apply_explan;
-    @ApiModelProperty(value = "apikey")
-    private Long apikey;
+    private String applyContent;
+    @ApiModelProperty(value = "apply-explain")
+    private String applyExplain;
+    @ApiModelProperty(value = "api_key")
+    private Long apiKey;
     @ApiModelProperty(value = "updated_at")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
-    private Date updated_at;
+    private Date updatedAt;
     @ApiModelProperty(value = "created_at")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
-    private Date created_at;
+    private Date createdAt;
 
 
 }

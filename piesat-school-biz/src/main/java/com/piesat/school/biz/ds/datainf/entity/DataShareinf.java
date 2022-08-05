@@ -20,17 +20,17 @@ public class DataShareinf implements Serializable {
 
     private Long checkId;
 
-    private Integer apply_status;
+    private Integer applyStatus;
 
-    private String apply_content;
+    private String applyContent;
 
-    private String apply_explan;
+    private String applyExplain;
 
-    private Long apikey;
+    private Long apiKey;
 
-    private Date updated_at;
+    private Date updatedAt;
 
-    private Date created_at;
+    private Date createdAt;
 
 
 }

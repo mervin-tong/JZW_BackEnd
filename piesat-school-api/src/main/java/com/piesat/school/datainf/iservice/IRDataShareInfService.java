@@ -13,4 +13,7 @@ public interface IRDataShareInfService {
 
     TailPage<ShareInfVTO> datalist(DataShareParamData paramData);
 
+    Result<ShareInfVTO> applyForKey(DataShareParamData paramData);
+
+    Result<ShareInfVTO> checkStatus(DataShareParamData paramData);
 }

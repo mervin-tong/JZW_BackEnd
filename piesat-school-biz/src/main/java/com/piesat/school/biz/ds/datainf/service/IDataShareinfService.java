@@ -11,4 +11,8 @@ public interface IDataShareinfService extends IService<DataShareinf> {
     TailPage<ShareInfVTO> dataList(DataShareParamData paramData);
 
 
+    Result<ShareInfVTO> applyForKey(DataShareParamData paramData);
+
+    Result<ShareInfVTO> checkStatus(DataShareParamData paramData);
+
 }

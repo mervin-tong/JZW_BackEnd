@@ -9,26 +9,26 @@ import java.util.Date;
 
 @Data
 public class DataShareParamData extends PageQueryParamData {
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "唯一标识")
     private Long id;
-    @ApiModelProperty(value = "apply-id")
+    @ApiModelProperty(value = "申请者id")
     private Long applyId;
-    @ApiModelProperty(value = "check-id")
+    @ApiModelProperty(value = "审核者id")
     private Long checkId;
-    @ApiModelProperty(value = "apply-status")
-    private Integer apply_status;
-    @ApiModelProperty(value = "apply-content")
-    private String apply_content;
-    @ApiModelProperty(value = "apply-explan")
-    private String apply_explan;
-    @ApiModelProperty(value = "apikey")
-    private Long apikey;
-    @ApiModelProperty(value = "updated_at")
+    @ApiModelProperty(value = "申请状态")
+    private Integer applyStatus;
+    @ApiModelProperty(value = "申请内容")
+    private String applyContent;
+    @ApiModelProperty(value = "申请说明")
+    private String applyExplain;
+    @ApiModelProperty(value = "接口钥匙")
+    private Long apiKey;
+    @ApiModelProperty(value = "最新更新的时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
-    private Date updated_at;
-    @ApiModelProperty(value = "created_at")
+    private Date updatedAt;
+    @ApiModelProperty(value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
-    private Date created_at;
+    private Date createdAt;
 
 
 }
