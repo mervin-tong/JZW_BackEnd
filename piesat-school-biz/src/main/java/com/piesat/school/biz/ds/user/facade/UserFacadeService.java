@@ -109,6 +109,8 @@ public class UserFacadeService {
 
 
     //读取配置文件邮箱账号参数
+
+    //TODO 邮箱配置动态化更改位置
     @Value("${spring.mail.username}")
     private String sender;
     public Result<Boolean> sendEmail(String email) {
