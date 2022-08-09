@@ -11,23 +11,27 @@ import java.util.Date;
 public class ShareInfVTO implements Serializable {
     @ApiModelProperty(value = "id")
     private Long id;
-    @ApiModelProperty(value = "apply_id")
+    @ApiModelProperty(value = "申请者id")
     private Long applyId;
-    @ApiModelProperty(value = "check_id")
+    @ApiModelProperty(value = "审核者id")
     private Long checkId;
-    @ApiModelProperty(value = "apply_status")
+    @ApiModelProperty(value = "申请状态")
     private Integer applyStatus;
-    @ApiModelProperty(value = "apply-content")
+    @ApiModelProperty(value = "申请内容")
     private String applyContent;
-    @ApiModelProperty(value = "apply-explain")
+    @ApiModelProperty(value = "申请说明")
     private String applyExplain;
+    @ApiModelProperty(value = "不通过理由")
+    private String mark;
     @ApiModelProperty(value = "api_key")
-    private Long apiKey;
-    @ApiModelProperty(value = "updated_at")
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
+    private String apiKey;
+    @ApiModelProperty(value = "url")
+    private String url;
+    @ApiModelProperty(value = "更新时间")
+    @JsonFormat(timezone="GMT+8")
     private Date updatedAt;
-    @ApiModelProperty(value = "created_at")
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
+    @ApiModelProperty(value = "创建时间")
+    @JsonFormat(timezone="GMT+8")
     private Date createdAt;
 
 

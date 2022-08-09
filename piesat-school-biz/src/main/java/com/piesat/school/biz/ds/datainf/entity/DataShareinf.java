@@ -1,8 +1,6 @@
 package com.piesat.school.biz.ds.datainf.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -26,11 +24,17 @@ public class DataShareinf implements Serializable {
 
     private String applyExplain;
 
-    private Long apiKey;
+    private String apiKey;
 
-    private Date updatedAt;
+    private String mark;
 
+    private String url;
+
+    @TableField(fill = FieldFill.INSERT)
     private Date createdAt;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date updatedAt;
 
 
 }

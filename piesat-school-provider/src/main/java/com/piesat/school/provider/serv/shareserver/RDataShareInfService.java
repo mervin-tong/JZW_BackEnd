@@ -31,4 +31,9 @@ public class RDataShareInfService implements IRDataShareInfService {
     public Result<ShareInfVTO> checkStatus(DataShareParamData paramData) {
         return iDataShareInfService.checkStatus(paramData);
     }
+
+    @Override
+    public Result<ShareInfVTO> keyToUrl(DataShareParamData dataShareParamData) {
+        return iDataShareInfService.keyToUrl(dataShareParamData);
+    }
 }

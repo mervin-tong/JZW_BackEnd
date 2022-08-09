@@ -15,4 +15,6 @@ public interface IDataShareinfService extends IService<DataShareinf> {
 
     Result<ShareInfVTO> checkStatus(DataShareParamData paramData);
 
+
+    Result<ShareInfVTO> keyToUrl(DataShareParamData dataShareParamData);
 }

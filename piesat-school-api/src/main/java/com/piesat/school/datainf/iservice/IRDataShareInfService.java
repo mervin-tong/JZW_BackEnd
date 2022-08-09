@@ -16,4 +16,7 @@ public interface IRDataShareInfService {
     Result<ShareInfVTO> applyForKey(DataShareParamData paramData);
 
     Result<ShareInfVTO> checkStatus(DataShareParamData paramData);
+
+
+    Result<ShareInfVTO> keyToUrl(DataShareParamData dataShareParamData);
 }

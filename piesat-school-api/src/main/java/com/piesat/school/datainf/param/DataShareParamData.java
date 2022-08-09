@@ -2,6 +2,7 @@ package com.piesat.school.datainf.param;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.piesat.school.base.PageQueryParamData;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -21,8 +22,12 @@ public class DataShareParamData extends PageQueryParamData {
     private String applyContent;
     @ApiModelProperty(value = "申请说明")
     private String applyExplain;
+    @ApiModelProperty(value = "不通过理由")
+    private String mark;
     @ApiModelProperty(value = "接口钥匙")
-    private Long apiKey;
+    private String apiKey;
+    @ApiModelProperty(value = "url")
+    private String url;
     @ApiModelProperty(value = "最新更新的时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date updatedAt;

@@ -34,12 +34,16 @@ public class ShareServerController {
         return Result.ofSuccess(dataInfService.datalist(paramData));
     }
     @PostMapping("/applyForKey")
-    public Result<ShareInfVTO> applyForKey(HttpServletRequest request){
-        return dataInfService.applyForKey((DataShareParamData) request);
+    public Result<ShareInfVTO> applyForKey(DataShareParamData paramData){
+        return dataInfService.applyForKey(paramData);
     }
     @PostMapping("/checkStatus")
     public Result<ShareInfVTO> checkStatus(DataShareParamData dataShareParamData){
         return dataInfService.checkStatus(dataShareParamData);
+    }
+    @PostMapping("/keyToUrl")
+    public Result<ShareInfVTO> keyToUrl(DataShareParamData dataShareParamData){
+        return dataInfService.keyToUrl(dataShareParamData);
     }
 
 
