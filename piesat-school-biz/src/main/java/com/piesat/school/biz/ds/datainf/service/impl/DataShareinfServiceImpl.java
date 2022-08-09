@@ -21,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Time;
@@ -50,14 +51,25 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     @Override
     public Result<ShareInfVTO> applyForKey(DataShareParamData paramData) {
+//      传入applyExplain、applyId
+        ShareInfVTO shareInfVTO=new ShareInfVTO();
+        if (paramData.getApplyId()!=null){
+           QueryWrapper<DataShareinf> queryWrapper=new QueryWrapper<>();
+           queryWrapper.lambda().eq(DataShareinf::getApplyId,paramData.getApplyId()).orderByDesc(DataShareinf::getUpdatedAt);
+            List<DataShareinf> dataShareInfos=this.list(queryWrapper);
+            if(dataShareInfos!=null&&dataShareInfos.size()>0){
+                shareInfVTO=new ShareInfVTO();
+                BeanUtils.copyProperties(dataShareInfos.get(0),shareInfVTO);
+
+            }
+            shareInfVTO.setApplyExplain(paramData.getApplyExplain());
+        }
 
         DataShareinf dataShareinf=new DataShareinf();
-        ShareInfVTO shareInfVTO=new ShareInfVTO();
         BeanUtils.copyProperties(paramData,dataShareinf);
-        dataShareinf.setId(paramData.getId());
-        dataShareinf.setApplyId(paramData.getApplyId());
         dataShareinfMapper.insert(dataShareinf);
-        BeanUtils.copyProperties(dataShareinf,shareInfVTO);
+
+
         return Result.ofSuccess(shareInfVTO);
     }
 
@@ -73,20 +85,21 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
             BeanUtils.copyProperties(dataShareInfos.get(0),vto);
         }
         return Result.ofSuccess(vto);
-//        Page<ShareInfVTO> page = new Page<>(paramData.getPn(),paramData.getPs());
-//        if (dataShareinfMapper.checkStatus(paramData,page).size()!=0){
-//            paramData.setApplyStatus(3);
-//        }
-//        List<ShareInfVTO> list = dataShareinfMapper.checkStatus(paramData,page);
-//
-//
-//        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
 
     }
 
+
     @Override
-    public Result<ShareInfVTO> keyToUrl(DataShareParamData dataShareParamData) {
-        return null;
+    public ShareInfVTO keyToUrl(DataShareParamData dataShareParamData) {
+//      传入参数key，返回拼接好的url
+        ShareInfVTO vto=new ShareInfVTO();
+        QueryWrapper<DataShareinf> queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(DataShareinf::getApiKey,dataShareParamData.getApiKey());
+        List<DataShareinf> dataShareInfos=this.list(queryWrapper);
+        if(dataShareInfos!=null&&dataShareInfos.size()>0){
+            BeanUtils.copyProperties(dataShareInfos.get(0),vto);
+        }
+        return vto;
     }
 
 

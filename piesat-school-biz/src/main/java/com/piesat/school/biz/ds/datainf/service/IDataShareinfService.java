@@ -7,6 +7,9 @@ import com.piesat.school.datainf.vto.ShareInfVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
 public interface IDataShareinfService extends IService<DataShareinf> {
     TailPage<ShareInfVTO> dataList(DataShareParamData paramData);
 
@@ -15,6 +18,7 @@ public interface IDataShareinfService extends IService<DataShareinf> {
 
     Result<ShareInfVTO> checkStatus(DataShareParamData paramData);
 
+    ShareInfVTO keyToUrl(DataShareParamData dataShareParamData);
 
-    Result<ShareInfVTO> keyToUrl(DataShareParamData dataShareParamData);
+
 }

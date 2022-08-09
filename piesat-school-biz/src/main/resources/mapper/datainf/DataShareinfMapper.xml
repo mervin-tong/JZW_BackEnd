@@ -29,7 +29,13 @@
         select
         *
         from t_data_share a
-        where (a.apply_id = #{dataShareParamdata.apply_id})
+        where (a.apply_id = #{dataShareParamdata.applyId})
+    </select>
+    <select id="selectByApiKey" resultType="com.piesat.school.datainf.vto.ShareInfVTO">
+        select
+        *
+        from t_data_share a
+        where (a.api_key = #{dataShareParamdata.apiKey})
     </select>
 
 
