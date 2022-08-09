@@ -23,7 +23,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,11 +50,14 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     @Override
     public Result<ShareInfVTO> applyForKey(DataShareParamData paramData) {
-        ShareInfVTO shareInfVTO=null;
-        Page<ShareInfVTO> page = new Page<>(paramData.getPn(),paramData.getPs());
-//              flag为判断状态，0表示已经不通过，1表示审核通过，2表示审核中，3表示从未申请
 
-        List<ShareInfVTO> list = dataShareinfMapper.checkStatus(paramData,page);
+        DataShareinf dataShareinf=new DataShareinf();
+        ShareInfVTO shareInfVTO=new ShareInfVTO();
+        BeanUtils.copyProperties(paramData,dataShareinf);
+        dataShareinf.setId(paramData.getId());
+        dataShareinf.setApplyId(paramData.getApplyId());
+        dataShareinfMapper.insert(dataShareinf);
+        BeanUtils.copyProperties(dataShareinf,shareInfVTO);
         return Result.ofSuccess(shareInfVTO);
     }
 
@@ -77,6 +82,11 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 //
 //        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
 
+    }
+
+    @Override
+    public Result<ShareInfVTO> keyToUrl(DataShareParamData dataShareParamData) {
+        return null;
     }
 
 
