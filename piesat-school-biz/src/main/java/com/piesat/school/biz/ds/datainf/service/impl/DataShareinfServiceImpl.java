@@ -10,7 +10,9 @@ import com.piesat.school.biz.ds.datainf.service.IDataShareinfService;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
 import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
 import com.piesat.school.biz.ds.user.mapper.UserMapper;
+import com.piesat.school.datainf.param.AuditApplyListParamData;
 import com.piesat.school.datainf.param.DataShareParamData;
+import com.piesat.school.datainf.vto.AuditApplyListVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.ShareInfVTO;
 import com.piesat.school.emuerlation.BizEnumType;
@@ -41,7 +43,7 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     @Override
     public TailPage<ShareInfVTO> dataList(DataShareParamData paramData) {
-
+//      审核申请列表查询
         Page<ShareInfVTO> page = new Page<>(paramData.getPn(),paramData.getPs());
         page.setOptimizeCountSql(false);
         List<ShareInfVTO> list = dataShareinfMapper.searchAll(paramData,page);
@@ -66,12 +68,16 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         }
 
         DataShareinf dataShareinf=new DataShareinf();
-        BeanUtils.copyProperties(paramData,dataShareinf);
+        BeanUtils.copyProperties(shareInfVTO,dataShareinf);
+        if (dataShareinf.getApplyStatus()==0){
+            dataShareinfMapper.updateById(dataShareinf);
+        }
         dataShareinfMapper.insert(dataShareinf);
 
 
         return Result.ofSuccess(shareInfVTO);
     }
+
 
     @Override
     public Result<ShareInfVTO> checkStatus(DataShareParamData paramData) {
@@ -100,6 +106,23 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
             BeanUtils.copyProperties(dataShareInfos.get(0),vto);
         }
         return vto;
+    }
+
+    @Override
+    public TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData) {
+        Page<AuditApplyListVTO> page = new Page<>(auditApplyListParamData.getPn(),auditApplyListParamData.getPs());
+        page.setOptimizeCountSql(false);
+        List<AuditApplyListVTO> list = dataShareinfMapper.auditApplyList(auditApplyListParamData,page);
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
+
+    }
+
+    @Override
+    public AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData) {
+        List<AuditApplyListVTO> list=dataShareinfMapper.detail(auditApplyListParamData);
+
+
+        return list.get(0);
     }
 
 

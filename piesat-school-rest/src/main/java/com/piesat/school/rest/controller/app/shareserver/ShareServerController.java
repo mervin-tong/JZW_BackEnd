@@ -1,7 +1,9 @@
 package com.piesat.school.rest.controller.app.shareserver;
 
 import com.piesat.school.datainf.iservice.IRDataShareInfService;
+import com.piesat.school.datainf.param.AuditApplyListParamData;
 import com.piesat.school.datainf.param.DataShareParamData;
+import com.piesat.school.datainf.vto.AuditApplyListVTO;
 import com.piesat.school.datainf.vto.ShareInfVTO;
 import com.piesat.school.rest.aspect.AroundRecord;
 import com.smartwork.api.Result;
@@ -34,11 +36,13 @@ public class ShareServerController {
     public Result<ShareInfVTO> applyForKey(DataShareParamData paramData){
         return dataInfService.applyForKey(paramData);
     }
+
     @ApiModelProperty(value = "查询申请状态")
     @PostMapping("/checkStatus")
     public Result<ShareInfVTO> checkStatus(DataShareParamData dataShareParamData){
         return dataInfService.checkStatus(dataShareParamData);
     }
+
     @ApiModelProperty(value = "apiKey转url")
     @PostMapping("/keyToUrl")
     public Result<String> keyToUrl(DataShareParamData dataShareParamData,HttpServletRequest request){
@@ -46,16 +50,20 @@ public class ShareServerController {
         ShareInfVTO vto=dataInfService.keyToUrl(dataShareParamData);
         if (vto.getApplyStatus()==1){
 //            申请状态为通过
-            URL=request.getRequestURL()+dataShareParamData.getApiKey();
-        }
-        try {
-            dataInfService.keyToUrl(dataShareParamData);
-        } catch (Exception e){
-            e.getMessage();
+            URL=request.getRequestURL().toString()+dataShareParamData.getApiKey();
         }
         return Result.ofSuccess(URL);
     }
-
+    @ApiModelProperty(value = "申请审核信息列表")
+    @PostMapping("/auditApplyList")
+    public TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData){
+        return dataInfService.auditApplyList(auditApplyListParamData);
+    }
+    @ApiModelProperty(value = "API服务申请详情")
+    @PostMapping("/detail")
+    public AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData){
+        return dataInfService.detail(auditApplyListParamData);
+    }
 
 
 }

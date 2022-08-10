@@ -31,11 +31,24 @@
         from t_data_share a
         where (a.apply_id = #{dataShareParamdata.applyId})
     </select>
-    <select id="selectByApiKey" resultType="com.piesat.school.datainf.vto.ShareInfVTO">
+    <select id="auditApplyList" resultType="com.piesat.school.datainf.vto.AuditApplyListVTO">
         select
-        *
-        from t_data_share a
-        where (a.api_key = #{dataShareParamdata.apiKey})
+        a.*,
+        b.apply_status
+
+        from t_user a
+        inner join t_data_share b on a.id=b.apply_id
+    </select>
+    <select id="detail" resultType="com.piesat.school.datainf.vto.AuditApplyListVTO">
+        select
+        a.*,
+        b.apply_status,
+        b.apply_explain
+
+        from t_user a
+        inner join t_data_share b on a.id=b.apply_id
+        where (a.id=#{auditApplyListParamData.apply_id})
+        order by a.updated_at desc
     </select>
 
 

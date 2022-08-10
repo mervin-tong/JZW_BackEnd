@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.biz.ds.datainf.entity.DataShareinf;
 import com.piesat.school.datainf.param.*;
+import com.piesat.school.datainf.vto.AuditApplyListVTO;
 import com.piesat.school.datainf.vto.DataInfDetailVTO;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.ShareInfVTO;
@@ -14,11 +15,9 @@ import java.util.List;
 
 /**
  * <p>
- * 数据信息表 Mapper 接口
+ * 申请Key表 Mapper 接口
  * </p>
  *
- * @author 周悦尧
- * @since 2022-01-17
  */
 public interface DataShareinfMapper extends BaseMapper<DataShareinf> {
 
@@ -26,6 +25,8 @@ public interface DataShareinfMapper extends BaseMapper<DataShareinf> {
 
     List<ShareInfVTO> checkStatus(@Param("dataShareParamdata") DataShareParamData dataShareParamData,Page<ShareInfVTO> page);
 
+    List<AuditApplyListVTO> auditApplyList(@Param("dataShareParamData") AuditApplyListParamData auditApplyListParamData, Page<AuditApplyListVTO> page);
 
+    List<AuditApplyListVTO> detail(@Param("dataShareParamData") AuditApplyListParamData auditApplyListParamData);
 
 }
