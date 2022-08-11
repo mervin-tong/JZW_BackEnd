@@ -26,4 +26,6 @@ public interface IDataShareinfService extends IService<DataShareinf> {
     TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData);
 
     AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData);
+
+    Result<ShareInfVTO> pass(DataShareParamData dataShareParamData);
 }

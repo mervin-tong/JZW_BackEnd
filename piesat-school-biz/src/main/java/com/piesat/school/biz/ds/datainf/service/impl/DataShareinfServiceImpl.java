@@ -125,5 +125,30 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         return list.get(0);
     }
 
+    @Override
+    public Result<ShareInfVTO> pass(DataShareParamData dataShareParamData) {
+//      传入参数applyId、applyStatus、mark
+        ShareInfVTO vto=null;
+        QueryWrapper<DataShareinf> queryWrapper=new QueryWrapper<>();
+        queryWrapper.lambda().eq(DataShareinf::getApplyId,dataShareParamData.getApplyId()).orderByDesc(DataShareinf::getUpdatedAt);
+        List<DataShareinf> dataShareInfos=this.list(queryWrapper);
+        if(dataShareInfos!=null&&dataShareInfos.size()>0){
+            vto=new ShareInfVTO();
+            BeanUtils.copyProperties(dataShareInfos.get(0),vto);
+        }
+        DataShareinf dataShareinf=new DataShareinf();
+        if (dataShareParamData.getApplyStatus()==1){
+            vto.setApplyStatus(1);
+            BeanUtils.copyProperties(vto,dataShareinf);
+        }
+        else if (dataShareParamData.getApplyStatus()==0){
+            vto.setApplyStatus(0);
+            vto.setMark(dataShareParamData.getMark());
+            BeanUtils.copyProperties(vto,dataShareinf);
+        }
+        dataShareinfMapper.updateById(dataShareinf);
+        return Result.ofSuccess(vto);
+    }
+
 
 }

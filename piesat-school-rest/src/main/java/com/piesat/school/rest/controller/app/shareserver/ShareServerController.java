@@ -64,6 +64,14 @@ public class ShareServerController {
     public AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData){
         return dataInfService.detail(auditApplyListParamData);
     }
+    @ApiModelProperty(value = "审核通过")
+    @PostMapping("/pass")
+    public void pass(DataShareParamData dataShareParamData){
+        dataShareParamData.setApplyStatus(1);
+        dataInfService.pass(dataShareParamData);
+
+
+    }
 
 
 }

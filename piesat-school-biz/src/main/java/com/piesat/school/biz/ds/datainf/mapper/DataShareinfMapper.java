@@ -29,4 +29,5 @@ public interface DataShareinfMapper extends BaseMapper<DataShareinf> {
 
     List<AuditApplyListVTO> detail(@Param("dataShareParamData") AuditApplyListParamData auditApplyListParamData);
 
+    void update(@Param("pass") DataShareParamData dataShareParamData);
 }

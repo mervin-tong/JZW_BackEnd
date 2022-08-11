@@ -47,7 +47,7 @@
 
         from t_user a
         inner join t_data_share b on a.id=b.apply_id
-        where (a.id=#{auditApplyListParamData.apply_id})
+        where (a.id=#{dataShareParamData.id})
         order by a.updated_at desc
     </select>
 

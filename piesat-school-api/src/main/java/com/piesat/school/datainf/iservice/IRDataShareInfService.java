@@ -28,4 +28,6 @@ public interface IRDataShareInfService {
     Result<ShareInfVTO> addLink(DataShareParamData paramData);
 
     AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData);
+
+    void pass(DataShareParamData dataShareParamData);
 }
