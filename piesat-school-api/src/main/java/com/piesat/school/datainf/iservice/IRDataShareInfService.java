@@ -21,11 +21,6 @@ public interface IRDataShareInfService {
 
     TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData);
 
-    Result<ShareInfVTO> updateLink(DataShareParamData dataShareParamData);
-
-    Result<String> deleteLink(DataShareParamData dataShareParamData);
-
-    Result<ShareInfVTO> addLink(DataShareParamData paramData);
 
     AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData);
 

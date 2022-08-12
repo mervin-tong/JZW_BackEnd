@@ -5,14 +5,14 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.datainf.entity.DataShareinf">
         <result column="id" property="id" />
-        <result column="apply_id" property="apply_id" />
-        <result column="check_id" property="check_id" />
-        <result column="apply_status" property="apply_status" />
-        <result column="apply_content" property="apply_content" />
-        <result column="apply_explain" property="apply_explain" />
-        <result column="api_key" property="api_key" />
-        <result column="updated_at" property="updated_at"/>
-        <result column="created_at" property="created_at" />
+        <result column="apply_id" property="applyId" />
+        <result column="check_id" property="checkId" />
+        <result column="apply_status" property="applyStatus" />
+        <result column="apply_content" property="applyContent" />
+        <result column="apply_explain" property="applyExplain" />
+        <result column="api_key" property="apiKey" />
+        <result column="updated_at" property="updatedAt"/>
+        <result column="created_at" property="createdAt" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -43,12 +43,13 @@
         select
         a.*,
         b.apply_status,
-        b.apply_explain
+        b.apply_explain,
+        b.id as bid,
+        b.mark
 
         from t_user a
         inner join t_data_share b on a.id=b.apply_id
-        where (a.id=#{dataShareParamData.id})
-        order by a.updated_at desc
+        where (b.id=#{dataShareParamData.bid})
     </select>
 
 

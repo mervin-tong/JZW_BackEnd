@@ -14,10 +14,14 @@ public class AuditApplyListVTO implements Serializable{
 
     @ApiModelProperty(value = "申请人名字")
     private String name;
+    @ApiModelProperty(value = "不通过原因")
+    private String mark;
     @ApiModelProperty(value = "申请状态")
     private Integer applyStatus;
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "用户表的id")
     private Long id;
+    @ApiModelProperty(value = "申请表的id")
+    private Long bid;
     @ApiModelProperty(value = "工作单位")
     private String workUnit;
     @ApiModelProperty(value = "申请时间")

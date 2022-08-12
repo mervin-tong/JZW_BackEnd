@@ -81,7 +81,7 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     @Override
     public Result<ShareInfVTO> checkStatus(DataShareParamData paramData) {
-//      判断状态，0表示审核不通过，1表示审核通过，2表示审核中
+//      判断状态，0表示审核不通过，1表示审核通过，2表示审核中，传入参数applyId
         ShareInfVTO vto=null;
         QueryWrapper<DataShareinf> queryWrapper=new QueryWrapper<>();
         queryWrapper.lambda().eq(DataShareinf::getApplyId,paramData.getApplyId()).orderByDesc(DataShareinf::getUpdatedAt);
@@ -119,10 +119,10 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     @Override
     public AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData) {
-        List<AuditApplyListVTO> list=dataShareinfMapper.detail(auditApplyListParamData);
+        AuditApplyListVTO auditApplyListVTOS=dataShareinfMapper.detail(auditApplyListParamData);
 
 
-        return list.get(0);
+        return auditApplyListVTOS;
     }
 
     @Override

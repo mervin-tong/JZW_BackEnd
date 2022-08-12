@@ -47,20 +47,6 @@ public class RDataShareInfService implements IRDataShareInfService {
         return iDataShareInfService.auditApplyList(auditApplyListParamData);
     }
 
-    @Override
-    public Result<ShareInfVTO> updateLink(DataShareParamData dataShareParamData) {
-        return null;
-    }
-
-    @Override
-    public Result<String> deleteLink(DataShareParamData dataShareParamData) {
-        return null;
-    }
-
-    @Override
-    public Result<ShareInfVTO> addLink(DataShareParamData paramData) {
-        return null;
-    }
 
     @Override
     public AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData) {

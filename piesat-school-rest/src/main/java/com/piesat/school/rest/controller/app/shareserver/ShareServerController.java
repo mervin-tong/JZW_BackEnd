@@ -27,24 +27,28 @@ public class ShareServerController {
     @AroundRecord
     @ApiOperation(value = "api服务申请列表")
     @PostMapping("/dataList")
+//    无需参数
     public Result<TailPage<ShareInfVTO>> datalist(DataShareParamData paramData){
 //        TailPage<ShareInfVTO> shareInfVTOS=dataInfService.datalist(paramData);
         return Result.ofSuccess(dataInfService.datalist(paramData));
     }
     @ApiModelProperty(value = "申请Key")
     @PostMapping("/applyForKey")
+//    传入applyExplain、applyId
     public Result<ShareInfVTO> applyForKey(DataShareParamData paramData){
         return dataInfService.applyForKey(paramData);
     }
 
     @ApiModelProperty(value = "查询申请状态")
     @PostMapping("/checkStatus")
+//    传入参数applyId，查询最新的一条申请的状态
     public Result<ShareInfVTO> checkStatus(DataShareParamData dataShareParamData){
         return dataInfService.checkStatus(dataShareParamData);
     }
 
     @ApiModelProperty(value = "apiKey转url")
     @PostMapping("/keyToUrl")
+//    传入apiKey,返回拼接好的url
     public Result<String> keyToUrl(DataShareParamData dataShareParamData,HttpServletRequest request){
         String URL=null;
         ShareInfVTO vto=dataInfService.keyToUrl(dataShareParamData);
@@ -56,18 +60,19 @@ public class ShareServerController {
     }
     @ApiModelProperty(value = "申请审核信息列表")
     @PostMapping("/auditApplyList")
+//    无需参数
     public TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData){
         return dataInfService.auditApplyList(auditApplyListParamData);
     }
     @ApiModelProperty(value = "API服务申请详情")
     @PostMapping("/detail")
+//    传入参数申请表的id=bid，user表中的id，
     public AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData){
         return dataInfService.detail(auditApplyListParamData);
     }
     @ApiModelProperty(value = "审核通过")
     @PostMapping("/pass")
     public void pass(DataShareParamData dataShareParamData){
-        dataShareParamData.setApplyStatus(1);
         dataInfService.pass(dataShareParamData);
 
 

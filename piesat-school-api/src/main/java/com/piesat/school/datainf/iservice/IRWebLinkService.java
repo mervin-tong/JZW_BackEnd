@@ -1,18 +1,21 @@
 package com.piesat.school.datainf.iservice;
 
 import com.piesat.school.datainf.param.DataShareParamData;
+import com.piesat.school.datainf.param.WebLinkParamData;
 import com.piesat.school.datainf.vto.ShareInfVTO;
+import com.piesat.school.datainf.vto.WebLinkVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 
 public interface IRWebLinkService {
 
 
-    TailPage<ShareInfVTO> datalist(DataShareParamData paramData);
+    TailPage<WebLinkVTO> linkList(WebLinkParamData webLinkParamData);
 
-    Result<ShareInfVTO> applyForKey(DataShareParamData paramData);
+    void addLink(WebLinkParamData webLinkParamData);
 
-    Result<ShareInfVTO> checkStatus(DataShareParamData paramData);
+    void deleteLink(WebLinkParamData webLinkParamData);
 
-    ShareInfVTO keyToUrl(DataShareParamData dataShareParamData);
+    void updateLink(WebLinkParamData webLinkParamData);
+
 }

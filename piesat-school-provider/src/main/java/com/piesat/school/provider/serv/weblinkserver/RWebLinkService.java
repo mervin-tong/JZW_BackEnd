@@ -1,10 +1,13 @@
 package com.piesat.school.provider.serv.weblinkserver;
 
 import com.piesat.school.biz.ds.datainf.service.IDataShareinfService;
+import com.piesat.school.biz.ds.datainf.service.IWebLinkService;
 import com.piesat.school.datainf.iservice.IRDataShareInfService;
 import com.piesat.school.datainf.iservice.IRWebLinkService;
 import com.piesat.school.datainf.param.DataShareParamData;
+import com.piesat.school.datainf.param.WebLinkParamData;
 import com.piesat.school.datainf.vto.ShareInfVTO;
+import com.piesat.school.datainf.vto.WebLinkVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -15,27 +18,25 @@ import javax.annotation.Resource;
 public class RWebLinkService implements IRWebLinkService {
 
     @Resource
-    private IDataShareinfService iDataShareInfService;
+    private IWebLinkService iWebLinkService;
+
     @Override
-    public TailPage<ShareInfVTO> datalist(DataShareParamData paramData) {
-        return iDataShareInfService.dataList(paramData);
+    public TailPage<WebLinkVTO> linkList(WebLinkParamData webLinkParamData) {
+        return iWebLinkService.linkList(webLinkParamData);
     }
 
     @Override
-    public Result<ShareInfVTO> applyForKey(DataShareParamData paramData) {
-        return iDataShareInfService.applyForKey(paramData);
+    public void addLink(WebLinkParamData webLinkParamData) {
+        iWebLinkService.addLink(webLinkParamData);
     }
 
-
-
     @Override
-    public Result<ShareInfVTO> checkStatus(DataShareParamData paramData) {
-        return iDataShareInfService.checkStatus(paramData);
+    public void deleteLink(WebLinkParamData webLinkParamData) {
+        iWebLinkService.deleteLink(webLinkParamData);
     }
 
-
     @Override
-    public ShareInfVTO keyToUrl(DataShareParamData dataShareParamData) {
-        return iDataShareInfService.keyToUrl(dataShareParamData);
+    public void updateLink(WebLinkParamData webLinkParamData) {
+        iWebLinkService.updateLink(webLinkParamData);
     }
 }
