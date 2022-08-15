@@ -60,22 +60,28 @@ public class ShareServerController {
     }
     @ApiModelProperty(value = "申请审核信息列表")
     @PostMapping("/auditApplyList")
-//    无需参数
+//    无需参数,列表
     public TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData){
         return dataInfService.auditApplyList(auditApplyListParamData);
     }
     @ApiModelProperty(value = "API服务申请详情")
     @PostMapping("/detail")
-//    传入参数申请表的id=bid，user表中的id，
-    public AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData){
-        return dataInfService.detail(auditApplyListParamData);
+//    传入参数申请表中的id，返回审核状态，用途说明，不通过原因，更新时间，applyId,
+    public ShareInfVTO detail(DataShareParamData dataShareParamData){
+        return dataInfService.detail(dataShareParamData);
     }
     @ApiModelProperty(value = "审核通过")
     @PostMapping("/pass")
+//    传入参数申请表中的id,不通过的原因mark，传入mark代表不通过
     public void pass(DataShareParamData dataShareParamData){
         dataInfService.pass(dataShareParamData);
 
-
+    }
+    @ApiModelProperty(value = "发送key到邮箱")
+    @PostMapping("sendKey")
+//    传入参数申请表id，apply_explain,apply_id,邮箱地址email
+    public Result<String> sendKey(DataShareParamData dataShareParamData){
+        return dataInfService.sendKey(dataShareParamData);
     }
 
 

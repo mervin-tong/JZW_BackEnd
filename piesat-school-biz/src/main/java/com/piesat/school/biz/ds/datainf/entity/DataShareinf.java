@@ -30,6 +30,8 @@ public class DataShareinf implements Serializable {
 
     private String url;
 
+    private String email;
+
     @TableField(fill = FieldFill.INSERT)
     private Date createdAt;
 

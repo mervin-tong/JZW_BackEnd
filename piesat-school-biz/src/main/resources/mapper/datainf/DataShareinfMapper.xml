@@ -33,23 +33,18 @@
     </select>
     <select id="auditApplyList" resultType="com.piesat.school.datainf.vto.AuditApplyListVTO">
         select
-        a.*,
-        b.apply_status
-
+        a.name,a.work_unit,a.id,a.email,
+        b.created_at,b.apply_status,b.id as bid
         from t_user a
         inner join t_data_share b on a.id=b.apply_id
     </select>
-    <select id="detail" resultType="com.piesat.school.datainf.vto.AuditApplyListVTO">
+    <select id="detail" resultType="com.piesat.school.datainf.vto.ShareInfVTO">
         select
-        a.*,
         b.apply_status,
-        b.apply_explain,
-        b.id as bid,
-        b.mark
+        b.apply_explain,b.updated_at,b.id,b.mark,b.apply_id
 
-        from t_user a
-        inner join t_data_share b on a.id=b.apply_id
-        where (b.id=#{dataShareParamData.bid})
+        from t_data_share b
+        where (b.id=#{dataShareParamData.id})
     </select>
 
 

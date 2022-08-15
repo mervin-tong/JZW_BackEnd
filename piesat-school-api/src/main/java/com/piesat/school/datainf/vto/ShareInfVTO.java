@@ -27,6 +27,8 @@ public class ShareInfVTO implements Serializable {
     private String apiKey;
     @ApiModelProperty(value = "url")
     private String url;
+    @ApiModelProperty(value = "邮箱地址")
+    private String email;
     @ApiModelProperty(value = "更新时间")
     @JsonFormat(timezone="GMT+8")
     private Date updatedAt;

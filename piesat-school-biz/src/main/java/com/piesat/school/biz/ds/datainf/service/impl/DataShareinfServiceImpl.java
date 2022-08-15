@@ -20,6 +20,10 @@ import com.smartwork.api.Result;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,6 +34,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 
@@ -40,6 +45,10 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     @Resource
     private  DataShareinfMapper dataShareinfMapper;
+
+    @Resource
+    JavaMailSender jms;
+
 
     @Override
     public TailPage<ShareInfVTO> dataList(DataShareParamData paramData) {
@@ -62,17 +71,29 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
             if(dataShareInfos!=null&&dataShareInfos.size()>0){
                 shareInfVTO=new ShareInfVTO();
                 BeanUtils.copyProperties(dataShareInfos.get(0),shareInfVTO);
+                shareInfVTO.setApplyExplain(paramData.getApplyExplain());
+                DataShareinf dataShareinf=new DataShareinf();
+                if (shareInfVTO.getApplyStatus()==2){
+                    BeanUtils.copyProperties(shareInfVTO,dataShareinf);
+                    dataShareinfMapper.updateById(dataShareinf);
+                }
+                else if (shareInfVTO.getApplyStatus()==0){
+                    BeanUtils.copyProperties(shareInfVTO,dataShareinf);
+                    dataShareinfMapper.insert(dataShareinf);
+                }
 
             }
-            shareInfVTO.setApplyExplain(paramData.getApplyExplain());
+            else {
+                BeanUtils.copyProperties(paramData,shareInfVTO);
+                shareInfVTO.setApplyStatus(2);
+                DataShareinf dataShareinf=new DataShareinf();
+                BeanUtils.copyProperties(shareInfVTO,dataShareinf);
+                dataShareinfMapper.insert(dataShareinf);
+            }
         }
-
-        DataShareinf dataShareinf=new DataShareinf();
-        BeanUtils.copyProperties(shareInfVTO,dataShareinf);
-        if (dataShareinf.getApplyStatus()==0){
-            dataShareinfMapper.updateById(dataShareinf);
+        else {
+            return null;
         }
-        dataShareinfMapper.insert(dataShareinf);
 
 
         return Result.ofSuccess(shareInfVTO);
@@ -118,37 +139,71 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
     }
 
     @Override
-    public AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData) {
-        AuditApplyListVTO auditApplyListVTOS=dataShareinfMapper.detail(auditApplyListParamData);
+    public ShareInfVTO detail(DataShareParamData dataShareParamData) {
+        ShareInfVTO shareInfVTO=dataShareinfMapper.detail(dataShareParamData);
 
 
-        return auditApplyListVTOS;
+        return shareInfVTO;
     }
 
     @Override
-    public Result<ShareInfVTO> pass(DataShareParamData dataShareParamData) {
-//      传入参数applyId、applyStatus、mark
-        ShareInfVTO vto=null;
-        QueryWrapper<DataShareinf> queryWrapper=new QueryWrapper<>();
-        queryWrapper.lambda().eq(DataShareinf::getApplyId,dataShareParamData.getApplyId()).orderByDesc(DataShareinf::getUpdatedAt);
-        List<DataShareinf> dataShareInfos=this.list(queryWrapper);
-        if(dataShareInfos!=null&&dataShareInfos.size()>0){
-            vto=new ShareInfVTO();
-            BeanUtils.copyProperties(dataShareInfos.get(0),vto);
+    public ShareInfVTO pass(DataShareParamData dataShareParamData) {
+//      传入参数申请表中的id,是否传入mark,邮箱
+        DataShareinf dataShareinf=dataShareinfMapper.selectById(dataShareParamData.getId());
+
+        if (dataShareParamData.getMark()!=null){
+//            不通过
+            dataShareinf.setApplyStatus(0);
+            dataShareinf.setMark(dataShareParamData.getMark());
         }
-        DataShareinf dataShareinf=new DataShareinf();
-        if (dataShareParamData.getApplyStatus()==1){
-            vto.setApplyStatus(1);
-            BeanUtils.copyProperties(vto,dataShareinf);
-        }
-        else if (dataShareParamData.getApplyStatus()==0){
-            vto.setApplyStatus(0);
-            vto.setMark(dataShareParamData.getMark());
-            BeanUtils.copyProperties(vto,dataShareinf);
+        else {
+//            通过，信息发送到邮箱
+            dataShareinf.setApplyStatus(1);
+            dataShareinf.setMark(null);
         }
         dataShareinfMapper.updateById(dataShareinf);
-        return Result.ofSuccess(vto);
+        ShareInfVTO vto=new ShareInfVTO();
+        BeanUtils.copyProperties(dataShareinf,vto);
+        return vto;
+    }
+
+    @Value("${spring.mail.username}")
+    private String sender;
+    @Override
+    public Result<String> sendKey(DataShareParamData dataShareParamData) {
+//        生成随机字符串==key，长度为length
+        int length = 25;
+        String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(62);
+            sb.append(str.charAt(number));
+        }
+        String key = sb.toString();
+        try {
+            //建立邮件消息
+            SimpleMailMessage mainMessage = new SimpleMailMessage();
+
+            //发送者
+            mainMessage.setFrom(sender);
+
+            //接收者
+            mainMessage.setTo(dataShareParamData.getEmail());
+
+            //发送的标题
+            mainMessage.setSubject("发送申请的key");
+
+            //发送的内容
+            mainMessage.setText("您申请的key是："+key);
+
+            //发送邮件
+            jms.send(mainMessage);
+        } catch (MailException e) {
+            e.printStackTrace();
+        }
+        return Result.ofSuccess(key);
     }
 
 
-}
+    }

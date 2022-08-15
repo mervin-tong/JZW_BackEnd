@@ -22,7 +22,10 @@ public interface IRDataShareInfService {
     TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData);
 
 
-    AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData);
+    ShareInfVTO detail(DataShareParamData dataShareParamData);
 
-    void pass(DataShareParamData dataShareParamData);
+
+    ShareInfVTO pass(DataShareParamData dataShareParamData);
+
+    Result<String> sendKey(DataShareParamData dataShareParamData);
 }

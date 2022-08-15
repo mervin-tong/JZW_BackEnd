@@ -24,8 +24,10 @@ public class DataShareParamData extends PageQueryParamData {
     private String applyExplain;
     @ApiModelProperty(value = "不通过理由")
     private String mark;
-    @ApiModelProperty(value = "接口钥匙")
+    @ApiModelProperty(value = "apikey")
     private String apiKey;
+    @ApiModelProperty(value = "邮箱地址")
+    private String email;
     @ApiModelProperty(value = "url")
     private String url;
     @ApiModelProperty(value = "最新更新的时间")

@@ -49,12 +49,17 @@ public class RDataShareInfService implements IRDataShareInfService {
 
 
     @Override
-    public AuditApplyListVTO detail(AuditApplyListParamData auditApplyListParamData) {
-        return iDataShareInfService.detail(auditApplyListParamData);
+    public ShareInfVTO detail(DataShareParamData dataShareParamData) {
+        return iDataShareInfService.detail(dataShareParamData);
     }
 
     @Override
-    public void pass(DataShareParamData dataShareParamData) {
-        iDataShareInfService.pass(dataShareParamData);
+    public ShareInfVTO pass(DataShareParamData dataShareParamData) {
+        return iDataShareInfService.pass(dataShareParamData);
+    }
+
+    @Override
+    public Result<String> sendKey(DataShareParamData dataShareParamData) {
+        return iDataShareInfService.sendKey(dataShareParamData);
     }
 }
