@@ -4,23 +4,20 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.biz.ds.datainf.entity.DataShareinf;
+import com.piesat.school.biz.ds.datainf.entity.SystemEmail;
 import com.piesat.school.biz.ds.datainf.mapper.DataShareinfMapper;
-import com.piesat.school.biz.ds.datainf.service.IContactService;
+import com.piesat.school.biz.ds.datainf.mapper.SystemEmailMapper;
 import com.piesat.school.biz.ds.datainf.service.IDataShareinfService;
-import com.piesat.school.biz.ds.datareview.entity.DataReview;
-import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
-import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.datainf.param.AuditApplyListParamData;
 import com.piesat.school.datainf.param.DataShareParamData;
+import com.piesat.school.datainf.param.SystemEmailParamData;
 import com.piesat.school.datainf.vto.AuditApplyListVTO;
-import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datainf.vto.ShareInfVTO;
-import com.piesat.school.emuerlation.BizEnumType;
+import com.piesat.school.datainf.vto.SystemEmailVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -31,10 +28,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -45,6 +39,9 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     @Resource
     private  DataShareinfMapper dataShareinfMapper;
+
+    @Resource
+    private SystemEmailMapper systemEmailMapper;
 
     @Resource
     JavaMailSender jms;
@@ -73,11 +70,15 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
                 BeanUtils.copyProperties(dataShareInfos.get(0),shareInfVTO);
                 shareInfVTO.setApplyExplain(paramData.getApplyExplain());
                 DataShareinf dataShareinf=new DataShareinf();
+                Date date=new Date();
+                shareInfVTO.setUpdatedAt(date);
+                shareInfVTO.setCreatedAt(date);
                 if (shareInfVTO.getApplyStatus()==2){
                     BeanUtils.copyProperties(shareInfVTO,dataShareinf);
                     dataShareinfMapper.updateById(dataShareinf);
                 }
                 else if (shareInfVTO.getApplyStatus()==0){
+                    shareInfVTO.setApplyStatus(2);
                     BeanUtils.copyProperties(shareInfVTO,dataShareinf);
                     dataShareinfMapper.insert(dataShareinf);
                 }
@@ -147,9 +148,23 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
     }
 
     @Override
-    public ShareInfVTO pass(DataShareParamData dataShareParamData) {
+    public Result<ShareInfVTO> pass(DataShareParamData dataShareParamData) {
 //      传入参数申请表中的id,是否传入mark,邮箱
         DataShareinf dataShareinf=dataShareinfMapper.selectById(dataShareParamData.getId());
+//      生成随机key25位随机码
+        int length = 25;
+        String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(62);
+            sb.append(str.charAt(number));
+        }
+        String key = sb.toString();
+//===================================================================================================
+        SystemEmail sender=systemEmailMapper.selectById(1);
+
+
 
         if (dataShareParamData.getMark()!=null){
 //            不通过
@@ -160,50 +175,64 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 //            通过，信息发送到邮箱
             dataShareinf.setApplyStatus(1);
             dataShareinf.setMark(null);
+            try {
+                //建立邮件消息
+                SimpleMailMessage mainMessage = new SimpleMailMessage();
+
+                //发送者
+                mainMessage.setFrom(sender.getEmail());
+
+                //接收者
+                mainMessage.setTo(dataShareParamData.getEmail());
+
+                //发送的标题
+                mainMessage.setSubject("发送申请的key");
+
+                //发送的内容
+                mainMessage.setText("您申请的key是："+key);
+
+                //发送邮件
+                jms.send(mainMessage);
+            } catch (MailException e) {
+                e.printStackTrace();
+            }
+
         }
         dataShareinfMapper.updateById(dataShareinf);
         ShareInfVTO vto=new ShareInfVTO();
         BeanUtils.copyProperties(dataShareinf,vto);
-        return vto;
+        return Result.ofSuccess(vto);
     }
 
-    @Value("${spring.mail.username}")
-    private String sender;
+
     @Override
-    public Result<String> sendKey(DataShareParamData dataShareParamData) {
-//        生成随机字符串==key，长度为length
-        int length = 25;
-        String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        Random random = new Random();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < length; i++) {
-            int number = random.nextInt(62);
-            sb.append(str.charAt(number));
-        }
-        String key = sb.toString();
-        try {
-            //建立邮件消息
-            SimpleMailMessage mainMessage = new SimpleMailMessage();
-
-            //发送者
-            mainMessage.setFrom(sender);
-
-            //接收者
-            mainMessage.setTo(dataShareParamData.getEmail());
-
-            //发送的标题
-            mainMessage.setSubject("发送申请的key");
-
-            //发送的内容
-            mainMessage.setText("您申请的key是："+key);
-
-            //发送邮件
-            jms.send(mainMessage);
-        } catch (MailException e) {
-            e.printStackTrace();
-        }
-        return Result.ofSuccess(key);
+    public Result<SystemEmailVTO> setEmail(SystemEmailParamData systemEmailParamData) {
+        SystemEmail email=new SystemEmail();
+        SystemEmailVTO emailVTO=new SystemEmailVTO();
+        systemEmailParamData.setId((long) 1);
+        BeanUtils.copyProperties(systemEmailParamData,email);
+        systemEmailMapper.updateById(email);
+        BeanUtils.copyProperties(email,emailVTO);
+        return Result.ofSuccess(emailVTO);
     }
+
+    @Override
+    public SystemEmailVTO seeEmail() {
+        SystemEmailVTO systemEmailVTO=new SystemEmailVTO();
+        BeanUtils.copyProperties(systemEmailMapper.selectById(1),systemEmailVTO);
+        return systemEmailVTO;
+    }
+
+    @Override
+    public String random(String url) {
+        List<String> stringList = Arrays.asList(url.split(""));
+        Collections.shuffle(stringList);
+        StringBuffer Url=new StringBuffer();
+        stringList.forEach(Url::append);
+
+        return Url.toString();
+    }
+
 
 
     }

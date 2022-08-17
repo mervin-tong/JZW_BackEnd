@@ -4,8 +4,10 @@ import com.piesat.school.biz.ds.datainf.service.IDataShareinfService;
 import com.piesat.school.datainf.iservice.IRDataShareInfService;
 import com.piesat.school.datainf.param.AuditApplyListParamData;
 import com.piesat.school.datainf.param.DataShareParamData;
+import com.piesat.school.datainf.param.SystemEmailParamData;
 import com.piesat.school.datainf.vto.AuditApplyListVTO;
 import com.piesat.school.datainf.vto.ShareInfVTO;
+import com.piesat.school.datainf.vto.SystemEmailVTO;
 import com.piesat.school.order.iservice.IROrderFromService;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
@@ -54,12 +56,23 @@ public class RDataShareInfService implements IRDataShareInfService {
     }
 
     @Override
-    public ShareInfVTO pass(DataShareParamData dataShareParamData) {
+    public Result<SystemEmailVTO> setEmail(SystemEmailParamData systemEmailParamData) {
+        return iDataShareInfService.setEmail(systemEmailParamData);
+    }
+
+    @Override
+    public Result<ShareInfVTO> pass(DataShareParamData dataShareParamData) {
         return iDataShareInfService.pass(dataShareParamData);
     }
 
     @Override
-    public Result<String> sendKey(DataShareParamData dataShareParamData) {
-        return iDataShareInfService.sendKey(dataShareParamData);
+    public String random(String url) {
+        return iDataShareInfService.random(url);
+    }
+
+
+    @Override
+    public SystemEmailVTO seeEmail() {
+        return iDataShareInfService.seeEmail();
     }
 }

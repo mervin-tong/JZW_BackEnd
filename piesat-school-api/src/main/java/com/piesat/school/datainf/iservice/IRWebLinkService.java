@@ -7,15 +7,17 @@ import com.piesat.school.datainf.vto.WebLinkVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 
+import java.util.List;
+
 public interface IRWebLinkService {
 
 
     TailPage<WebLinkVTO> linkList(WebLinkParamData webLinkParamData);
 
-    void addLink(WebLinkParamData webLinkParamData);
+    Result<WebLinkVTO> addLink(WebLinkParamData webLinkParamData);
 
-    void deleteLink(WebLinkParamData webLinkParamData);
+    Result<WebLinkVTO> deleteLink(WebLinkParamData webLinkParamData);
 
-    void updateLink(WebLinkParamData webLinkParamData);
+    Result<WebLinkVTO> updateLink(WebLinkParamData webLinkParamData);
 
 }

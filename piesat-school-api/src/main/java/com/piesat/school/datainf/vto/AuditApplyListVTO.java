@@ -27,6 +27,9 @@ public class AuditApplyListVTO implements Serializable{
     @ApiModelProperty(value = "申请时间")
     @JsonFormat(timezone="GMT+8")
     private Date createdAt;
+    @ApiModelProperty(value = "更新后的时间")
+    @JsonFormat(timezone="GMT+8")
+    private Date updatedAt;
     @ApiModelProperty(value = "手机号")
     private Long phone;
     @ApiModelProperty(value = "邮箱")

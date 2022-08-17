@@ -1,5 +1,6 @@
 package com.piesat.school.provider.serv.weblinkserver;
 
+import com.piesat.school.biz.ds.datainf.entity.WebLink;
 import com.piesat.school.biz.ds.datainf.service.IDataShareinfService;
 import com.piesat.school.biz.ds.datainf.service.IWebLinkService;
 import com.piesat.school.datainf.iservice.IRDataShareInfService;
@@ -13,6 +14,7 @@ import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @DubboService(interfaceClass = IRWebLinkService.class)
 public class RWebLinkService implements IRWebLinkService {
@@ -26,17 +28,17 @@ public class RWebLinkService implements IRWebLinkService {
     }
 
     @Override
-    public void addLink(WebLinkParamData webLinkParamData) {
-        iWebLinkService.addLink(webLinkParamData);
+    public Result<WebLinkVTO> addLink(WebLinkParamData webLinkParamData) {
+        return iWebLinkService.addLink(webLinkParamData);
     }
 
     @Override
-    public void deleteLink(WebLinkParamData webLinkParamData) {
-        iWebLinkService.deleteLink(webLinkParamData);
+    public Result<WebLinkVTO> deleteLink(WebLinkParamData webLinkParamData) {
+        return iWebLinkService.deleteLink(webLinkParamData);
     }
 
     @Override
-    public void updateLink(WebLinkParamData webLinkParamData) {
-        iWebLinkService.updateLink(webLinkParamData);
+    public Result<WebLinkVTO> updateLink(WebLinkParamData webLinkParamData) {
+        return iWebLinkService.updateLink(webLinkParamData);
     }
 }

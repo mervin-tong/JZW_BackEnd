@@ -15,11 +15,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Api(tags = "web链接管理模块")
 @RestController
@@ -33,25 +35,26 @@ public class WebLinkController {
     private IRWebLinkService irWebLinkService;
     @AroundRecord
     @ApiOperation(value = "web链接管理列表")
-    @PostMapping("/linkList")
+    @GetMapping("/linkList")
     public TailPage<WebLinkVTO> linkList(WebLinkParamData webLinkParamData){
         return irWebLinkService.linkList(webLinkParamData);
     }
     @ApiModelProperty(value = "新增链接")
-    @PostMapping("/addLink")
-    public void addLink(WebLinkParamData webLinkParamData){
-        irWebLinkService.addLink(webLinkParamData);
+    @PostMapping ("/addLink")
+    public Result<WebLinkVTO> addLink(WebLinkParamData webLinkParamData){
+
+        return irWebLinkService.addLink(webLinkParamData);
     }
 
     @ApiModelProperty(value = "修改链接")
     @PostMapping("/updateLink")
-    public void updateLink(WebLinkParamData webLinkParamData){
-        irWebLinkService.updateLink(webLinkParamData);
+    public Result<WebLinkVTO> updateLink(WebLinkParamData webLinkParamData){
+        return irWebLinkService.updateLink(webLinkParamData);
     }
     @ApiModelProperty(value = "删除链接")
     @PostMapping("/deleteLink")
-    public void deleteLink(WebLinkParamData webLinkParamData){
-        irWebLinkService.deleteLink(webLinkParamData);
+    public Result<WebLinkVTO> deleteLink(WebLinkParamData webLinkParamData){
+        return irWebLinkService.deleteLink(webLinkParamData);
     }
 
 
