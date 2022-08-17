@@ -115,7 +115,7 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
         List<OrderFromAttentionVTO> list = orderFromMapper.attentionList(orderFromAttentionParamData, page);
         for(OrderFromAttentionVTO order : list){
             List<OrderFrom> orderFrom = orderFromMapper.selectList(new QueryWrapper<OrderFrom>().eq("data_info_id", order.getDataId()).eq("is_delete",0));
-            if(orderFrom.size()!=0){
+            if(orderFrom!=null&&orderFrom.size()!=0){
                 order.setIsAddOrder(1);
             }else {
                 order.setIsAddOrder(0);

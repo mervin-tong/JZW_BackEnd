@@ -67,7 +67,8 @@
             di.`status` status,
             di.maker maker,
             dr.updated_at updatedAt,
-            dr.status reviewStatus
+            dr.status reviewStatus,
+            dr.rechecked_at recheckedAt
         FROM
             t_data_review dr
             LEFT JOIN t_data_inf di ON dr.data_id = di.id

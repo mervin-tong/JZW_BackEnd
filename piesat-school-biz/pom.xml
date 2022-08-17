@@ -199,8 +199,8 @@
         </dependency>
         <!--引入邮件 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -217,6 +217,20 @@
             <artifactId>redisson-spring-boot-starter</artifactId>
             <version>3.8.2</version>
         </dependency>
+        <!-- SpringBootTest注解依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Junit依赖 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 
         <!--        <dependency>-->
 <!--            <groupId>org.springframework.security</groupId>-->

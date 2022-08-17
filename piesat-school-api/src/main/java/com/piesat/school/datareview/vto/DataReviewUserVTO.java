@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author suweipeng
@@ -60,5 +61,12 @@ public class DataReviewUserVTO implements Serializable {
      */
     @ApiModelProperty(value = "审核时间")
     private String updatedAt;
+
+    /**
+    * 二审时间
+    * */
+
+    @ApiModelProperty(value = "二审时间")
+    private String recheckedAt;
 
 }
