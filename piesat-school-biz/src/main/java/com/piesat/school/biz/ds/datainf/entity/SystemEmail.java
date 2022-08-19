@@ -14,7 +14,7 @@ public class SystemEmail implements Serializable {
     @TableId(value = "id",type = IdType.AUTO)
     private Long id;
     private String email;
-    private String code;
+    private String hotCode;
     private Date updatedAt;
     private Date createdAt;
 

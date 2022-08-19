@@ -18,6 +18,7 @@ import com.smartwork.api.Result;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, DataShareinf> implements IDataShareinfService {
+public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, DataShareinf> implements IDataShareinfService{
 
 
 
@@ -45,7 +46,7 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
     private SystemEmailMapper systemEmailMapper;
 
     @Resource
-    JavaMailSender jms;
+    private JavaMailSender jms;
 
 
     @Override
@@ -151,6 +152,8 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
     @Override
     public Result<ShareInfVTO> pass(DataShareParamData dataShareParamData) {
 //      传入参数申请表中的id,是否传入mark,邮箱
+//      没有判断key是否有效
+
         DataShareinf dataShareinf=dataShareinfMapper.selectById(dataShareParamData.getId());
 //      生成随机key25位随机码
         int length = 25;

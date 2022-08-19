@@ -11,10 +11,14 @@ var:
       group: test
   datasource:
     username: root
-    password: okmijn
-    master: 47.100.53.132
-    slave1: 47.100.53.132
-    slave2: 47.100.53.132
+#    password: okmijn
+    password: root
+    master: 127.0.0.1
+    slave1: 127.0.0.1
+    slave2: 127.0.0.1
+#    master: 47.100.53.132
+#    slave1: 47.100.53.132
+#    slave2: 47.100.53.132
   jpush:
     masterSecret: 78b5a100ade7b01dafe0e6f6
     appKey: dc9d599c9047437068fd7fba

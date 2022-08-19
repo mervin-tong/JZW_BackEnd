@@ -71,7 +71,7 @@ public class ShareServerController {
     }
     @ApiModelProperty(value = "审核是否通过")
     @PostMapping("/pass")
-//    传入参数申请表中的id,email不通过的原因mark，传入mark代表不通过，通过后发送key到传入的email
+//    传入参数申请表中的id,email,不通过的原因mark，传入mark代表不通过，通过后发送key到传入的email
     public Result<ShareInfVTO> pass(DataShareParamData dataShareParamData){
        return dataInfService.pass(dataShareParamData);
 
@@ -84,8 +84,8 @@ public class ShareServerController {
 //    }
     @ApiModelProperty(value = "显示系统设置的邮箱")
     @GetMapping("seeEmail")
-    public SystemEmailVTO seeEmail(){
-        return dataInfService.seeEmail();
+    public Result<SystemEmailVTO> seeEmail(){
+        return Result.ofSuccess(dataInfService.seeEmail());
     }
     @ApiModelProperty(value = "设置邮箱")
     @PostMapping("setEmail")

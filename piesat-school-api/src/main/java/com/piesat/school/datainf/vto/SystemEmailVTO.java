@@ -17,7 +17,7 @@ public class SystemEmailVTO implements Serializable{
     @ApiModelProperty(value = "邮箱地址")
     private String email;
     @ApiModelProperty(value = "动态码")
-    private String code;
+    private String hotCode;
     @JsonFormat(timezone="GMT+8")
     private Date createdAt;
     @ApiModelProperty(value = "更新后的时间")

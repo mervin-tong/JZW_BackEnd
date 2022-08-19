@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="com.piesat.school.biz.ds.datainf.entity.SystemEmail">
         <result column="id" property="id" />
         <result column="email" property="email" />
-        <result column="code" property="code" />
+        <result column="hot_code" property="hotCode" />
         <result column="created_at" property="createdAt" />
         <result column="updated_at" property="updatedAt" />
 
@@ -15,7 +15,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        email,created_at,code,updated_at
+        email,created_at,hot_code,updated_at
     </sql>
     <select id="seeEmail" resultType="com.piesat.school.datainf.vto.SystemEmailVTO">
         select
