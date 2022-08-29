@@ -147,10 +147,11 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermissions
         queryWrapper.lambda().orderByDesc(UploadPermissions::getUpdatedAt);
         List<UploadPermissions> uploadPermissions= this.list(queryWrapper);
         if (uploadPermissions!=null&&uploadPermissions.size()>0) {
-            vto.setRejectMark(uploadPermissions.get(0).getAuditMark());
-        }
-        if(uploadPermissions!=null && uploadPermissions.get(0).getStatus().equals(0)){
+            if (uploadPermissions.get(0).getStatus()==0) {
             vto.setIsApply(true);
+            }
+
+            vto.setRejectMark(uploadPermissions.get(0).getAuditMark());
         }
         return vto;
     }

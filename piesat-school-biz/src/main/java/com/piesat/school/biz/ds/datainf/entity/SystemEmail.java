@@ -8,6 +8,12 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Created with IntelliJ IDEA.
+ * @Author: liqiteng
+ * @Date: 2022/8/23
+ * @Description:
+ */
 @Data
 @TableName("t_system_email")
 public class SystemEmail implements Serializable {

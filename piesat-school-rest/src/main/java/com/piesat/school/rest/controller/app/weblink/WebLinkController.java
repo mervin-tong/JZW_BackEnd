@@ -22,7 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
+/**
+ * Created with IntelliJ IDEA.
+ * @Author: liqiteng
+ * @Date: 2022/8/23
+ * @Description:
+ */
 @Api(tags = "web链接管理模块")
 @RestController
 @RequestMapping("/app/webLink")

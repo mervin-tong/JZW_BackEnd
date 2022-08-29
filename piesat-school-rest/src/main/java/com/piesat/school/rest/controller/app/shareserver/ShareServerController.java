@@ -20,6 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Created with IntelliJ IDEA.
+ * @Author: liqiteng
+ * @Date: 2022/8/23
+ * @Description:
+ */
 @Api(tags = "api服务模块")
 @RestController
 @RequestMapping("/app/share")
@@ -53,8 +59,10 @@ public class ShareServerController {
     @PostMapping("/keyToUrl")
 //    传入apiKey,返回加密并拼接好的url
     public Result<String> keyToUrl(DataShareParamData dataShareParamData,HttpServletRequest request){
-        String URL;
-        URL=request.getRequestURL().toString()+"/"+dataInfService.random(dataShareParamData.getApiKey());
+        String URL = null;
+        if (dataInfService.keyToUrl(dataShareParamData)){
+            URL=request.getRequestURL().toString()+"/"+dataInfService.random(dataShareParamData.getApiKey());
+        }
         return Result.ofSuccess(URL);
     }
     @ApiModelProperty(value = "申请审核信息列表")
@@ -76,12 +84,6 @@ public class ShareServerController {
        return dataInfService.pass(dataShareParamData);
 
     }
-//    @ApiModelProperty(value = "发送key到邮箱")
-//    @PostMapping("sendKey")
-////    传入参数邮箱地址email
-//    public Result<String> sendKey(DataShareParamData dataShareParamData){
-//        return dataInfService.sendKey(dataShareParamData);
-//    }
     @ApiModelProperty(value = "显示系统设置的邮箱")
     @GetMapping("seeEmail")
     public Result<SystemEmailVTO> seeEmail(){

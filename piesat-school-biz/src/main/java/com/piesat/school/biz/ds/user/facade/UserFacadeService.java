@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
+import com.piesat.school.biz.ds.datainf.entity.SystemEmail;
+import com.piesat.school.biz.ds.datainf.mapper.SystemEmailMapper;
 import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.biz.ds.topic.entity.Topic;
 import com.piesat.school.biz.ds.topic.entity.TopicDataRel;
@@ -31,17 +33,17 @@ import com.smartwork.api.support.page.TailPage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import javax.mail.internet.MimeMessage;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -71,11 +73,12 @@ public class UserFacadeService {
     private TopicMapper topicMapper;
     @Resource
     private ITopicService topicService;
+    @Resource
+    private SystemEmailMapper systemEmailMapper;
 
     @Resource
-    JavaMailSender jms;
-    @Resource
     private EmailMapper emailMapper;
+
     public UserVTO findUserByPhoneOrEmail(String phoneOrEmail){
         UserVTO userVTO = userService.findUserByPhoneOrEmail(phoneOrEmail);
         Set<RoleVTO> roleVTOs = roleService.getRolesByUserId(userVTO.getId());
@@ -108,34 +111,48 @@ public class UserFacadeService {
     }
 
 
-    //读取配置文件邮箱账号参数
+    //读取数据库系统邮箱表邮箱账号参数
 
     //TODO 邮箱配置动态化更改位置
-    @Value("${spring.mail.username}")
-    private String sender;
+
     public Result<Boolean> sendEmail(String email) {
         //随机数用作验证
         Integer userVerificationCode = new Random().nextInt(9999-1000+1)+1000;
+        SystemEmail sender=systemEmailMapper.selectById(1);
+
+
+        JavaMailSenderImpl javaMailSender=new JavaMailSenderImpl();
+        javaMailSender.setUsername(sender.getEmail());
+        javaMailSender.setPassword(sender.getHotCode());
+        javaMailSender.setHost("smtp."+sender.getEmail().substring(sender.getEmail().indexOf("@")+1));
+        javaMailSender.setProtocol("smtp");
+        javaMailSender.setPort(25);
+        Properties properties=new Properties();
+        properties.put("mail.smtp.auth", true);
+        properties.put("mail.smtp.timeout", 2500);
+        javaMailSender.setJavaMailProperties(properties);
+
 
         try {
             //建立邮件消息
-            SimpleMailMessage mainMessage = new SimpleMailMessage();
+            MimeMessage mainMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper=new MimeMessageHelper(mainMessage,true);
 
             //发送者
-            mainMessage.setFrom(sender);
+            mimeMessageHelper.setFrom(javaMailSender.getUsername());
 
             //接收者
-            mainMessage.setTo(email);
+            mimeMessageHelper.setTo(email);
 
             //发送的标题
-            mainMessage.setSubject("邮箱验证");
+            mimeMessageHelper.setSubject("邮箱验证");
 
             //发送的内容
             String msg = "您好！" + email + ",您正在使用邮箱验证，验证码：" + userVerificationCode + "。";
-            mainMessage.setText(msg);
+            mimeMessageHelper.setText(msg);
 
             //发送邮件
-            jms.send(mainMessage);
+            javaMailSender.send(mainMessage);
 
             //把验证码存入数据库
             Email toEmail = new Email();
@@ -251,23 +268,38 @@ public class UserFacadeService {
     public Result<Boolean> feedback(FeedBackParamData paramData) {
         User user=this.userService.getById(paramData.getUserId());
         try {
+            JavaMailSenderImpl javaMailSender=new JavaMailSenderImpl();
+            SystemEmail sender=systemEmailMapper.selectById(1);
+
+            javaMailSender.setUsername(sender.getEmail());
+            javaMailSender.setPassword(sender.getHotCode());
+            javaMailSender.setHost("smtp."+sender.getEmail().substring(sender.getEmail().indexOf("@")+1));
+            javaMailSender.setProtocol("smtp");
+            javaMailSender.setPort(465);
+            Properties properties=new Properties();
+            properties.put("mail.smtp.auth", true);
+            properties.put("mail.smtp.timeout", 2500);
+            javaMailSender.setJavaMailProperties(properties);
+
             //建立邮件消息
-            SimpleMailMessage mainMessage = new SimpleMailMessage();
+            MimeMessage mimeMessage =  javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true);
+
 
             //发送者
-            mainMessage.setFrom(sender);
+            mimeMessageHelper.setFrom(javaMailSender.getUsername());
 
             //接收者
-            mainMessage.setTo(sender);
+            mimeMessageHelper.setTo(user.getEmail());
 
             //发送的标题
-            mainMessage.setSubject("意见反馈");
+            mimeMessageHelper.setSubject("意见反馈");
 
             //发送的内容
             String msg = paramData.getContent()+"。 我的联系方式是："+paramData.getContactWay();
-            mainMessage.setText(msg);
+            mimeMessageHelper.setText(msg);
             //发送邮件
-            jms.send(mainMessage);
+            javaMailSender.send(mimeMessage);
 
             //TODO 反馈入库
         } catch (Exception e) {

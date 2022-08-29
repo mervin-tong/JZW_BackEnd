@@ -17,6 +17,12 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * Created with IntelliJ IDEA.
+ * @Author: liqiteng
+ * @Date: 2022/8/23
+ * @Description:
+ */
 @Service
 public class WebLinkServiceImpl extends ServiceImpl<WebLinkMapper, WebLink> implements IWebLinkService {
 

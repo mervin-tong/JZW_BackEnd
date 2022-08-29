@@ -12,6 +12,12 @@ import com.smartwork.api.support.page.TailPage;
 
 import java.util.List;
 
+/**
+ * Created with IntelliJ IDEA.
+ * @Author: liqiteng
+ * @Date: 2022/8/23
+ * @Description:
+ */
 public interface IWebLinkService extends IService<WebLink> {
     TailPage<WebLinkVTO> linkList(WebLinkParamData webLinkParamData);
 

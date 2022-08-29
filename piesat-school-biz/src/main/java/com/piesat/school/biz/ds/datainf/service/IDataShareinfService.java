@@ -10,7 +10,12 @@ import com.piesat.school.datainf.vto.ShareInfVTO;
 import com.piesat.school.datainf.vto.SystemEmailVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
-
+/**
+ * Created with IntelliJ IDEA.
+ * @Author: liqiteng
+ * @Date: 2022/8/23
+ * @Description:
+ */
 public interface IDataShareinfService extends IService<DataShareinf> {
     TailPage<ShareInfVTO> dataList(DataShareParamData paramData);
 
@@ -20,7 +25,7 @@ public interface IDataShareinfService extends IService<DataShareinf> {
 
     Result<ShareInfVTO> checkStatus(DataShareParamData paramData);
 
-    ShareInfVTO keyToUrl(DataShareParamData dataShareParamData);
+    Boolean keyToUrl(DataShareParamData dataShareParamData);
 
     TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData);
 

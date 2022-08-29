@@ -23,9 +23,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,6 +37,12 @@ import java.sql.Time;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Created with IntelliJ IDEA.
+ * @Author: liqiteng
+ * @Date: 2022/8/23
+ * @Description:
+ */
 
 @Service
 public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, DataShareinf> implements IDataShareinfService{
@@ -45,8 +55,7 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
     @Resource
     private SystemEmailMapper systemEmailMapper;
 
-    @Resource
-    private JavaMailSender jms;
+
 
 
     @Override
@@ -120,16 +129,12 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
 
     @Override
-    public ShareInfVTO keyToUrl(DataShareParamData dataShareParamData) {
-//      传入参数key，返回拼接好的url
-        ShareInfVTO vto=new ShareInfVTO();
+    public Boolean keyToUrl(DataShareParamData dataShareParamData) {
+//      传入参数key，返回true or false
         QueryWrapper<DataShareinf> queryWrapper=new QueryWrapper<>();
         queryWrapper.lambda().eq(DataShareinf::getApiKey,dataShareParamData.getApiKey());
         List<DataShareinf> dataShareInfos=this.list(queryWrapper);
-        if(dataShareInfos!=null&&dataShareInfos.size()>0){
-            BeanUtils.copyProperties(dataShareInfos.get(0),vto);
-        }
-        return vto;
+        return dataShareInfos != null && dataShareInfos.size() > 0;
     }
 
     @Override
@@ -154,6 +159,8 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 //      传入参数申请表中的id,是否传入mark,邮箱
 //      没有判断key是否有效
 
+        JavaMailSenderImpl javaMailSender=new JavaMailSenderImpl();
+
         DataShareinf dataShareinf=dataShareinfMapper.selectById(dataShareParamData.getId());
 //      生成随机key25位随机码
         int length = 25;
@@ -166,7 +173,13 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         }
         String key = sb.toString();
 //===================================================================================================
+
         SystemEmail sender=systemEmailMapper.selectById(1);
+        javaMailSender.setUsername(sender.getEmail());
+        javaMailSender.setPassword(sender.getHotCode());
+        javaMailSender.setHost("smtp."+sender.getEmail().substring(sender.getEmail().indexOf("@")+1));
+        javaMailSender.setProtocol("smtp");
+        javaMailSender.setPort(465);
 
 
 
@@ -181,26 +194,29 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
             dataShareinf.setMark(null);
             try {
                 //建立邮件消息
-                SimpleMailMessage mainMessage = new SimpleMailMessage();
+                MimeMessage mimeMessage =  javaMailSender.createMimeMessage();
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true);
 
                 //发送者
-                mainMessage.setFrom(sender.getEmail());
+                mimeMessageHelper.setFrom(javaMailSender.getUsername());
 
                 //接收者
-                mainMessage.setTo(dataShareParamData.getEmail());
+                mimeMessageHelper.setTo(dataShareParamData.getEmail());
 
                 //发送的标题
-                mainMessage.setSubject("发送申请的key");
+                mimeMessageHelper.setSubject("发送申请的key");
 
                 //发送的内容
-                mainMessage.setText("您申请的key是："+key);
+                mimeMessageHelper.setText("您申请的key是："+key);
 
                 //发送邮件
-                jms.send(mainMessage);
-            } catch (MailException e) {
+                javaMailSender.send(mimeMessage);
+
+
+            } catch (MailException | MessagingException e) {
                 e.printStackTrace();
             }
-
+            dataShareinf.setApiKey(key);
         }
         dataShareinfMapper.updateById(dataShareinf);
         ShareInfVTO vto=new ShareInfVTO();

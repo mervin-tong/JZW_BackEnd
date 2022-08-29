@@ -15,7 +15,12 @@ import org.apache.dubbo.config.annotation.DubboService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
+/**
+ * Created with IntelliJ IDEA.
+ * @Author: liqiteng
+ * @Date: 2022/8/23
+ * @Description:
+ */
 @DubboService(interfaceClass = IRDataShareInfService.class)
 public class RDataShareInfService implements IRDataShareInfService {
 
@@ -40,7 +45,7 @@ public class RDataShareInfService implements IRDataShareInfService {
 
 
     @Override
-    public ShareInfVTO keyToUrl(DataShareParamData dataShareParamData) {
+    public Boolean keyToUrl(DataShareParamData dataShareParamData) {
         return iDataShareInfService.keyToUrl(dataShareParamData);
     }
 

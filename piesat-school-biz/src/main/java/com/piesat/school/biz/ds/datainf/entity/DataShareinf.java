@@ -6,6 +6,12 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Created with IntelliJ IDEA.
+ * @Author: liqiteng
+ * @Date: 2022/8/23
+ * @Description:
+ */
 @Data
 @TableName("t_data_share")
 public class DataShareinf implements Serializable {
