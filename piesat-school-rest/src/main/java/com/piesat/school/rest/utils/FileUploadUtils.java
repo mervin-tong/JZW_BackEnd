@@ -30,7 +30,7 @@ public class FileUploadUtils {
     /**
      * 默认上传的地址
      */
-    private static String DEFAULT_BASE_FILE = "../upload";
+    private static String DEFAULT_BASE_FILE = "/apps/school/upload/";
 
     /**
      * 默认上传的图片地址
@@ -103,7 +103,7 @@ public class FileUploadUtils {
 
         File desc = getAbsoluteFile(baseDir, fileName);
         file.transferTo(desc.getAbsoluteFile());
-        return desc.getCanonicalPath();
+        return desc.getPath();
     }
 
     public static final String uploadPicture(String baseDir, MultipartFile file, String[] allowedExtension)
@@ -115,11 +115,11 @@ public class FileUploadUtils {
 
         File desc = getAbsoluteFile(baseDir, fileName);
         file.transferTo(desc);
-        return desc.getAbsolutePath();
+        return desc.getPath();
     }
 
     private static final File getAbsoluteFile(String uploadDir, String fileName) throws IOException {
-        File desc = new File(uploadDir + File.separator + fileName);
+        File desc = new File(uploadDir +fileName);
 
         if (!desc.getParentFile().exists()) {
             desc.getParentFile().mkdirs();

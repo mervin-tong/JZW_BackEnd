@@ -26,7 +26,7 @@ public class FileUploadController extends BaseController {
     @PostMapping("/uploadData")
     public Result<UploadFileParamData> uploadDataInf(MultipartFile file) throws Exception {
         UploadFileParamData res=new UploadFileParamData();
-        String fileLocation = FileUploadUtils.upload(file);
+        String fileLocation = FileUploadUtils.upload(file).replaceAll( "\\\\",   "/");
         String amount = FileUtils.getAmount(file.getSize());
         res.setAmount(amount);
         res.setUploadPath(fileLocation);

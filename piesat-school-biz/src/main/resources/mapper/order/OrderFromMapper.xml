@@ -110,7 +110,7 @@
         FROM
             t_history_download hd
             LEFT JOIN t_data_inf di ON hd.data_id = di.id
-            WHERE hd.user_id = #{orderFromAttentionParamData.historyUserId}
+            WHERE hd.user_id = #{orderFromAttentionParamData.historyUserId} and di.deleted=0
     </select>
 
     <update id="orderfromDelete">
