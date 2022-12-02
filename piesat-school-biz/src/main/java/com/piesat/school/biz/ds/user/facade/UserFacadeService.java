@@ -126,7 +126,7 @@ public class UserFacadeService {
         javaMailSender.setPassword(sender.getHotCode());
         javaMailSender.setHost("smtp."+sender.getEmail().substring(sender.getEmail().indexOf("@")+1));
         javaMailSender.setProtocol("smtp");
-        javaMailSender.setPort(25);
+        javaMailSender.setPort(587);
         Properties properties=new Properties();
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.timeout", 2500);
