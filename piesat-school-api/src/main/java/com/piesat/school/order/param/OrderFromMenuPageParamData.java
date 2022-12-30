@@ -4,6 +4,8 @@ import com.piesat.school.base.PageQueryParamData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author suweipeng
  * @data 2022/2/25 15:30

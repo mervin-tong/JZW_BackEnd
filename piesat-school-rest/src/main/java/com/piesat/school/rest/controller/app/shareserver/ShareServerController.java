@@ -10,10 +10,10 @@ import com.piesat.school.datainf.vto.SystemEmailVTO;
 import com.piesat.school.rest.aspect.AroundRecord;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.netty.util.Constant;
+import io.swagger.annotations.*;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,7 +67,12 @@ public class ShareServerController {
     }
     @ApiModelProperty(value = "申请审核信息列表")
     @PostMapping("/auditApplyList")
-//    无需参数,列表
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "applyStatus", value = "申请状态", paramType = "query", required = false, dataType = "int"),
+            @ApiImplicitParam(name = "name", value = "申请人", paramType = "query", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "startDate", value = "筛选开始时间", paramType = "query", required = false, dataType = "Date"),
+            @ApiImplicitParam(name = "endDate", value = "筛选结束时间", paramType = "query", required = false, dataType = "Date")
+    })
     public TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData){
         return dataInfService.auditApplyList(auditApplyListParamData);
     }

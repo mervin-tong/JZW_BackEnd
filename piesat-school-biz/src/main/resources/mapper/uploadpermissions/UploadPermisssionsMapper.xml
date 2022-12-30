@@ -36,6 +36,7 @@
             t_upload_permissions up
             LEFT JOIN t_user u ON u.id = up.applicat_id
         where 1=1
+        order by up.created_at desc
         <if test="uploadPermissionsStatus !=null">
            and up.status =#{uploadPermissionsStatus}
         </if>

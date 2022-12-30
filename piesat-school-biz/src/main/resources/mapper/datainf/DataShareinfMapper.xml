@@ -29,7 +29,7 @@
         select
         *
         from t_data_share a
-        where (a.apply_id = #{dataShareParamdata.applyId})
+        where (a.apply_id = #{dataShareParamData.applyId})
     </select>
     <select id="auditApplyList" resultType="com.piesat.school.datainf.vto.AuditApplyListVTO">
         select
@@ -37,6 +37,17 @@
         b.created_at,b.updated_at,b.apply_status,b.id as bid
         from t_user a
         inner join t_data_share b on a.id=b.apply_id
+        where 1=1
+        <if test="dataShareParamData.applyStatus!=null and dataShareParamData.applyStatus!=''">
+            and b.apply_status=#{dataShareParamData.applyStatus}
+        </if>
+        <if test="dataShareParamData.name!=null and dataShareParamData.name!=''">
+            and a.name=#{dataShareParamData.name}
+        </if>
+        <if test="dataShareParamData.startDate!=null and dataShareParamData.endDate!=null">
+            and b.created_at >= #{dataShareParamData.startDate}
+            <![CDATA[and b.created_at <=#{endDate}]]>
+        </if>
     </select>
     <select id="detail" resultType="com.piesat.school.datainf.vto.ShareInfVTO">
         select

@@ -175,6 +175,10 @@ public class UploadPermisssionsServiceImpl extends ServiceImpl<UploadPermissions
         vto.setName(user.getName());
         vto.setProfession(user.getProfession());
         vto.setUnitAddress(user.getUnitAddress());
+        vto.setApplyStatus(uploadPermissions.getStatus());
+        if (uploadPermissions.getStatus()!=0){
+            vto.setUpdatedAt(uploadPermissions.getUpdatedAt());
+        }
         return vto;
     }
 

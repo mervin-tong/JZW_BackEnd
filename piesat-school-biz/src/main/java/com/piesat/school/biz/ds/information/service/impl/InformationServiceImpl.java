@@ -104,7 +104,7 @@ public class InformationServiceImpl extends ServiceImpl<InformationMapper, Infor
             queryWrapper.eq("type", paramData.getType());
         }
         queryWrapper.eq("status", BizEnumType.CommonStatus.Valid.getKey());
-        Page<Information> page = super.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
+        Page<Information> page = super.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper.orderByDesc("updated_at"));
         if (page.getRecords().size()!=0){
             List<Long> publisherIds = page.getRecords().stream().map(Information::getPublisher).collect(Collectors.toList());
             users = userMapper.selectBatchIds(publisherIds);

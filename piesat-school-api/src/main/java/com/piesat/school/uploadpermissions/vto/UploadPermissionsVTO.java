@@ -37,6 +37,10 @@ public class UploadPermissionsVTO implements Serializable {
     @ApiModelProperty(value = "申请时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date createdAt;
+    @ApiModelProperty(value = "审核时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Date updatedAt;
+
     @ApiModelProperty(value = "申请状态")
     private Integer applyStatus;
     @ApiModelProperty(value = "审核者id")

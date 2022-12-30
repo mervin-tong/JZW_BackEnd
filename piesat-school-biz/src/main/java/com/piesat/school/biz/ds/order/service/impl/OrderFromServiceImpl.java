@@ -62,9 +62,9 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
             }
         });
         List<OrderFromVTO> result;
-        if(orderFromMenuPageParamData.getDataType().equals(2L)) {
+        if (orderFromMenuPageParamData.getDataType()!=null&&orderFromMenuPageParamData.getDataType().equals(2L)) {
             result= list.stream().filter(e -> Long.valueOf("2").equals(e.getDataType())).collect(Collectors.toList());
-        }else if (orderFromMenuPageParamData.getDataType().equals(4L)) {
+        }else if (orderFromMenuPageParamData.getDataType()!=null&&orderFromMenuPageParamData.getDataType().equals(4L)) {
             result=list.stream().filter(e -> Long.valueOf("4").equals(e.getDataType())).collect(Collectors.toList());
         }else {
             result=list;

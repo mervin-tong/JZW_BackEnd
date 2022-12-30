@@ -53,6 +53,7 @@
         </if>
             AND d.data_name != ''
             AND o.is_delete != 1
+        order by o.created_at desc
     </select>
 
     <select id="orderFromInfo" parameterType="long" resultType="com.piesat.school.order.vto.OrderFromInfoVTO">
@@ -95,6 +96,7 @@
             a.status = 1
         AND
             a.data_id IN (SELECT id FROM t_data_inf WHERE deleted=0)
+        order by d.created_at desc 
     </select>
 
     <select id="historyDownload" resultType="com.piesat.school.order.vto.OrderFromHistoryDownLoadVTO">

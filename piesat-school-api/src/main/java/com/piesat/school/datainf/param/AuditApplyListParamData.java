@@ -36,6 +36,10 @@ public class AuditApplyListParamData extends PageQueryParamData{
     private String highEducation;
     @ApiModelProperty(value = "用途说明")
     private String applyExplain;
+    @ApiModelProperty(value = "筛选开始时间")
+    private Date startDate;
+    @ApiModelProperty(value = "筛选结束时间")
+    private Date endDate;
 
 
 }
