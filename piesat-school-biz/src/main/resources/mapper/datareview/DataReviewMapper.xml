@@ -56,30 +56,33 @@
         <if test="param.status != null">
             and dr.status =#{param.status}
         </if>
+        order by di.created_at desc
     </select>
 
     <select id="userDataReview" resultType="com.piesat.school.datareview.vto.DataReviewUserVTO">
         SELECT
-            di.id,
-            di.data_name dataName,
-            di.address address,
-            dr.created_at createdAt,
-            di.`status` status,
-            di.maker maker,
-            dr.updated_at updatedAt,
-            dr.status reviewStatus,
-            dr.rechecked_at recheckedAt
+                di.id,
+                di.data_name dataName,
+                di.address address,
+                dr.created_at createdAt,
+                di.`status` status,
+                di.maker maker,
+                dr.updated_at updatedAt,
+                dr.status reviewStatus,
+                dr.sent_review sentReview,
+                dr.rechecked_at recheckedAt
         FROM
             t_data_review dr
             LEFT JOIN t_data_inf di ON dr.data_id = di.id
             WHERE dr.user_judge_id = #{userDataReviewParamData.userJudgeId}
               and di.deleted = 0
             <if test="!userDataReviewParamData.isAudit">
-                and (dr.status=1 or dr.status=2)
+                 and (dr.status=1 or dr.status=2) order by sentReview desc
             </if>
             <if test="userDataReviewParamData.isAudit">
-                and (dr.status=3 or dr.status=9 or dr.status=4 or dr.status=5)
+                and (dr.status=3 or dr.status=9 or dr.status=4 or dr.status=5) order by dr.rechecked_at desc
             </if>
+
     </select>
     <select id="screen" resultType="java.lang.String">
         select

@@ -34,7 +34,7 @@ public class DataInfController{
     @AroundRecord
     @ApiOperation(value = "会员数据列表")
     @PostMapping("/dataList")
-    public Result<TailPage<MyDataInfVTO>> dataList(DataQueryParamData paramData){
+    public Result<TailPage<MyDataInfVTO>> dataList(@RequestBody DataQueryParamData paramData){
         return irDataInfService.dataList(paramData);
     }
 

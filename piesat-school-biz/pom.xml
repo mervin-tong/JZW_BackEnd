@@ -41,6 +41,11 @@
         -->
         <!--smartwork cache -->
         <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.3.1</version>
+        </dependency>
+        <dependency>
             <groupId>com.smartwork</groupId>
             <artifactId>smartwork-jetcache-starter</artifactId>
             <version>${smartwork.core.jetcache.starter.version}</version>

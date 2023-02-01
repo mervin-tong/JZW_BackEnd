@@ -154,6 +154,11 @@ public class UserController {
     public Result<TailPage<UserVTO>> getUserList(UserQueryParamData paramData){
         return irUserService.getUserList(paramData);
     }
+    @ApiOperation(value = "删除会员")
+    @GetMapping("/deleteVip")
+    public Result<UserVTO> deleteVip(Long id){
+        return irUserService.deleteVip(id);
+    }
 
 
     @ApiOperation(value = "用户信息修改")

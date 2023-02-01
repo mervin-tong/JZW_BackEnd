@@ -40,4 +40,6 @@ public interface IRUserService {
     Result<TailPage<UserVTO>> getAdminList(PageQueryParamData paramData);
 
     Result<Boolean> deleteAdmin(Long id);
+
+    Result<UserVTO> deleteVip(Long id);
 }

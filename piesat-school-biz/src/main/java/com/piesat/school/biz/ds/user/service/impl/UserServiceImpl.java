@@ -63,6 +63,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public UserVTO addUser(UserParamData userParamData)  {
         User user = UserBuilder.toUser(userParamData);
         user.setPassword(passwordEncoder.encode(userParamData.getPassword()));
+        user.setDeleteYou(0);
         this.save(user);
         return UserBuilder.toUserVTO(user);
     }
@@ -95,6 +96,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             userId.add(userRole1.getUserId());
         }
         queryWrapper.in("id", userId);
+        queryWrapper.ne("delete_you",1);
         Page<User> userPage=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
         return CommonPage.buildPage(userPage.getCurrent(), userPage.getSize(), userPage.getTotal(), UserBuilder.toUserVTOs(userPage.getRecords()));
     }
@@ -117,7 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public Result<Boolean> addAdministrator(UserParamData userParamData) {
         User user = UserBuilder.toUser(userParamData);
-        user.setPassword(passwordEncoder.encode("123456"));
+        user.setPassword(passwordEncoder.encode(userParamData.getPassword()));
         user.setCreatedAt(new Date());
         user.setUpdatedAt(new Date());
         boolean b =this.save(user);

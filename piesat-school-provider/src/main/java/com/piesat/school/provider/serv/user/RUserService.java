@@ -11,6 +11,7 @@ import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * @author suweipeng
@@ -86,5 +87,10 @@ public class RUserService implements IRUserService {
     @Override
     public Result<Boolean> deleteAdmin(Long id) {
         return userFacadeService.deleteAdmin(id);
+    }
+
+    @Override
+    public Result<UserVTO> deleteVip(Long id) {
+        return userFacadeService.deleteVip(id);
     }
 }

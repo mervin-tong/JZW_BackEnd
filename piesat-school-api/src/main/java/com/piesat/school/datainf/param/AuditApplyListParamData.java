@@ -15,15 +15,15 @@ public class AuditApplyListParamData extends PageQueryParamData{
     @ApiModelProperty(value = "id")
     private Long id;
     @ApiModelProperty(value = "申请状态")
-    private Integer applyStatus;
+    private String applyStatus;
     @ApiModelProperty(value = "工作单位")
     private String workUnit;
     @ApiModelProperty(value = "申请时间")
     @JsonFormat(timezone="GMT+8")
-    private Date createdAt;
+    private String createdAt;
     @ApiModelProperty(value = "更新后的时间")
     @JsonFormat(timezone="GMT+8")
-    private Date updatedAt;
+    private String updatedAt;
     @ApiModelProperty(value = "手机号")
     private Long phone;
     @ApiModelProperty(value = "邮箱")
@@ -37,9 +37,9 @@ public class AuditApplyListParamData extends PageQueryParamData{
     @ApiModelProperty(value = "用途说明")
     private String applyExplain;
     @ApiModelProperty(value = "筛选开始时间")
-    private Date startDate;
+    private String startDate;
     @ApiModelProperty(value = "筛选结束时间")
-    private Date endDate;
+    private String endDate;
 
 
 }

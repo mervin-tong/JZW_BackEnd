@@ -19,6 +19,14 @@ public class OrderFromMenuPageParamData extends PageQueryParamData {
     private Long auditorUserId;
     @ApiModelProperty(value = "订单所属人员id")
     private Long downloadUserId;
+    @ApiModelProperty(value = "数据真状态")
+    private Long type;
+    @ApiModelProperty(value = "申请人")
+    private String downloadUserName;
+    @ApiModelProperty(value = "申请开始时间")
+    private String startDate;
+    @ApiModelProperty(value = "申请结束时间")
+    private String endDate;
 
 
 }

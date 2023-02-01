@@ -5,6 +5,8 @@ import com.smartwork.api.param.ParamData;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class DataQueryParamData extends PageQueryParamData {
     @ApiModelProperty(value = "审核状态，0未通过，1通过")
@@ -15,5 +17,8 @@ public class DataQueryParamData extends PageQueryParamData {
     private Boolean limitUserAble=false;
     @ApiModelProperty(value = "搜索条件")
     private String condition;
+    @ApiModelProperty(value = "评审状态")
+    private List<String> status;
+
 
 }

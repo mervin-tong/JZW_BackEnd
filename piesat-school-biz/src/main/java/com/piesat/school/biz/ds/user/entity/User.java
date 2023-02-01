@@ -96,6 +96,12 @@ public class User implements Serializable {
      */
     private Boolean currentUpload;
 
+    /**
+     * 删除会员标识
+     *
+     */
+    private Integer deleteYou;
+
     @Override
     public String toString() {
         return "User{" +
@@ -109,6 +115,7 @@ public class User implements Serializable {
         ", profession=" + profession +
         ", createdAt=" + createdAt +
         ", updatedAt=" + updatedAt +
+        ", deleteYou=" + deleteYou +
         ", isDataUpload=" + isDataUpload +
         ", status=" + status +
         "}";

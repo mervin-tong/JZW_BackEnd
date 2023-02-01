@@ -2,12 +2,14 @@ package com.piesat.school.biz.ds.datainf.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.piesat.school.base.PageQueryParamData;
 import com.piesat.school.biz.ds.dataClass.entity.DataClass;
 import com.piesat.school.biz.ds.dataClass.service.IDataClassService;
 import com.piesat.school.biz.ds.datainf.builder.DatainfBuilder;
+import com.piesat.school.biz.ds.datainf.builder.PageBuilder;
 import com.piesat.school.biz.ds.datainf.entity.Contact;
 import com.piesat.school.biz.ds.datainf.entity.Datainf;
 import com.piesat.school.biz.ds.datainf.mapper.ContactMapper;
@@ -37,6 +39,7 @@ import com.smartwork.api.support.page.TailPage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import sun.applet.Main;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -388,18 +391,19 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         if(StringUtils.isNotBlank(paramData.getCondition())){
             queryWrapper.lambda().like(Datainf::getDataName,paramData.getCondition());
         }
-        if(!paramData.getLimitUserAble()){
+        if(paramData.getLimitUserAble()!=null&&!paramData.getLimitUserAble()){
             queryWrapper.lambda().eq(Datainf::getPublisherStatus, BizEnumType.CommonStatus.Invalid.getKey());
         }
         queryWrapper.orderByDesc("created_at");
 
-        Page<Datainf> dataInfos=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
-
+//        Page<Datainf> dataInfos1=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
+        List<Datainf> dataInfos=baseMapper.selectList(queryWrapper);
         List<MyDataInfVTO> myDataInfVTOS=new ArrayList<>();
-        if(dataInfos.getRecords().size()>0){
-            List<Long> userIds=dataInfos.getRecords().stream().map(Datainf::getUploadUserId).collect(Collectors.toList());
-            List<Long> contactIds=dataInfos.getRecords().stream().filter(e->e.getConId()!=null).map(Datainf::getConId).collect(Collectors.toList());
-            List<Long> dataIds = dataInfos.getRecords().stream().map(Datainf::getId).collect(Collectors.toList());
+//        if(dataInfos.getRecords().size()>0){
+        if(dataInfos.size()>0){
+            List<Long> userIds=dataInfos.stream().map(Datainf::getUploadUserId).collect(Collectors.toList());
+            List<Long> contactIds=dataInfos.stream().filter(e->e.getConId()!=null).map(Datainf::getConId).collect(Collectors.toList());
+            List<Long> dataIds = dataInfos.stream().map(Datainf::getId).collect(Collectors.toList());
             List<Contact> contacts=new ArrayList<>();
             if(contactIds!=null&&contactIds.size()>0){
                 contacts=this.contactService.listByIds(contactIds);
@@ -409,7 +413,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
                 contactMap=contacts.stream().collect(Collectors.toMap(Contact::getId,Contact::getConName,(key1, key2)->key2));
             }
             List<User> users=this.userMapper.selectBatchIds(userIds);
-            myDataInfVTOS=DatainfBuilder.toMyDataInfVTOs(dataInfos.getRecords(),users,contactMap);
+            myDataInfVTOS=DatainfBuilder.toMyDataInfVTOs(dataInfos,users,contactMap);
             List<DataReview> dataReviews=dataReviewMapper.selectList(new QueryWrapper<DataReview>().in("data_id",dataIds));
             for (int i=0 ;i<myDataInfVTOS.size();i++){
                 for (DataReview dataReview:dataReviews){
@@ -419,8 +423,22 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
                 }
             }
         }
-        return CommonPage.buildPage(dataInfos.getCurrent(),dataInfos.getSize(),dataInfos.getTotal(),myDataInfVTOS);
+
+        Page<MyDataInfVTO> page=new Page<>(paramData.getPn(),paramData.getPs(),myDataInfVTOS.size());
+        if (paramData.getStatus().size()!=0){
+            List<MyDataInfVTO> collects = myDataInfVTOS.stream().filter(o -> paramData.getStatus().contains(o.getStatus().toString())).collect(Collectors.toList());
+            List<MyDataInfVTO> target= PageBuilder.page(page.getCurrent(),page.getSize(), collects);
+            page.setRecords(target);
+            page.setTotal(collects.size());
+            return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(), target);
+        }
+//        page.setRecords(PageBuilder.page(page.getCurrent(),page.getSize(),myDataInfVTOS));
+        List<MyDataInfVTO> vtoList=PageBuilder.page(page.getCurrent(),page.getSize(),myDataInfVTOS);
+        page.setRecords(vtoList);
+        page.setTotal(myDataInfVTOS.size());
+        return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),vtoList);
     }
+
 
     @Override
     public TailPage<DataInfListVTO> thematicData(MetadataQueryParam paramData) {

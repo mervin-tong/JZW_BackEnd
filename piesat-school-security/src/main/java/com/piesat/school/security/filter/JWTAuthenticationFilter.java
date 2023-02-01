@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
@@ -26,6 +28,7 @@ import java.util.Map;
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Resource
     private IRUserService irUserService;
+
 
     private AuthenticationManager authenticationManager;
 
@@ -52,6 +55,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UserVTO loginUser=new UserVTO();
         loginUser.setEmail(b.get("username")[0]);
         loginUser.setPassword(b.get("password")[0]);
+//        UserVTO userVTO=irUserService.findUserByPhoneOrEmail(loginUser.getEmail());
+//        if (!userVTO.getDeleteYou().equals(0)){
+//            return null;
+//        }
         return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getPassword()));
     }catch (IOException e){
         e.printStackTrace();

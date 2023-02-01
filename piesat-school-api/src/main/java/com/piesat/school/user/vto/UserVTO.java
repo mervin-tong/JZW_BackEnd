@@ -109,12 +109,19 @@ public class UserVTO implements Serializable {
     @ApiModelProperty(value = "用户名称")
     private String username;
 
+    /**
+     * 删除会员标识
+     */
+    @ApiModelProperty(value = "删除会员标识")
+    private Integer deleteYou;
+
 
     @Override
     public String toString() {
         return "UserVTO{" +
                 "name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
+                ", deleteYou='" + deleteYou + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", workUnit='" + workUnit + '\'' +

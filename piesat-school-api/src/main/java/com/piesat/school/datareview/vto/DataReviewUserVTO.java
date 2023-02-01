@@ -69,4 +69,10 @@ public class DataReviewUserVTO implements Serializable {
     @ApiModelProperty(value = "二审时间")
     private String recheckedAt;
 
+    /**
+     * 送审时间
+     */
+    @ApiModelProperty(value = "送审时间")
+    private String sentReview;
+
 }

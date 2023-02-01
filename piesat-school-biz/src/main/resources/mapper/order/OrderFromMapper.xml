@@ -51,8 +51,19 @@
         <if test="orderFromMenuPageParamData.dataType != null and orderFromMenuPageParamData.dataType != 0 and orderFromMenuPageParamData.dataType != 4" >
             AND o.data_type = #{orderFromMenuPageParamData.dataType}
         </if>
+        <if test="orderFromMenuPageParamData.type !=null">
+            and o.data_type=#{orderFromMenuPageParamData.type}
+        </if>
+        <if test="orderFromMenuPageParamData.startDate!=null and orderFromMenuPageParamData.startDate!='' and orderFromMenuPageParamData.startDate!= '' and orderFromMenuPageParamData.endDate!=null">
+            and o.created_at >= #{orderFromMenuPageParamData.startDate}
+            <![CDATA[and o.created_at <=#{orderFromMenuPageParamData.endDate}]]>
+        </if>
+        <if test="orderFromMenuPageParamData.downloadUserName!=null and orderFromMenuPageParamData.downloadUserName!=''">
+            and u.name like CONCAT( #{orderFromMenuPageParamData.downloadUserName} ,'%')
+        </if>
             AND d.data_name != ''
             AND o.is_delete != 1
+            AND d.deleted !=1
         order by o.created_at desc
     </select>
 
@@ -84,6 +95,7 @@
             d.upload_user_id,
             d.start_at startAt,
             d.end_at endAt
+
         FROM
             t_user u
             LEFT JOIN t_attention a ON u.id = a.user_id
@@ -96,7 +108,7 @@
             a.status = 1
         AND
             a.data_id IN (SELECT id FROM t_data_inf WHERE deleted=0)
-        order by d.created_at desc 
+        order by a.created_at desc
     </select>
 
     <select id="historyDownload" resultType="com.piesat.school.order.vto.OrderFromHistoryDownLoadVTO">

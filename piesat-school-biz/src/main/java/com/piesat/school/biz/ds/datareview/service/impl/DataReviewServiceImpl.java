@@ -81,6 +81,7 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
             UpdateWrapper<DataReview> updateWrapper = new UpdateWrapper<>();
             updateWrapper.set("user_judge_id", expertId)
                     .set("admin_judge_id",reviewUserId)
+                    .set("sent_review",new Date())
                     .eq("data_id", dataReviewId);
 //                    .and(wrapper  -> wrapper
 //                            .eq("admin_judge_id",reviewUserId)

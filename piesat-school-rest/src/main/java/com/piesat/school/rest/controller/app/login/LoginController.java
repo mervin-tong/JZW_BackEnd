@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.rmi.AlreadyBoundException;
 
 @RestController
 @RequestMapping("/login")
@@ -75,6 +77,9 @@ public class LoginController extends BaseController {
             return Result.ofFail("4401","当前没有用户登录");
         }
         UserVTO userVTO = irUserService.findUserByPhoneOrEmail(principal.getUsername());
+        if (userVTO.getDeleteYou().equals(1)){
+            return Result.ofFail("2010", "账号已被删除");
+        }
 //        userVTO.setToken(TokenUtils.token(userVTO.getPhone(), userVTO.getPassword()));
         return  Result.ofSuccess(userVTO);
     }

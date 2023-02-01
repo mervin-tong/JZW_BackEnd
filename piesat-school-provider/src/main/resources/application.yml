@@ -127,7 +127,6 @@ management:
       enabled: false
 #log:
 #  path: ${log-path}
-
 logging:
   config: classpath:logback-spring.xml
   file:

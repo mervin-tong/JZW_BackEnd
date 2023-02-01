@@ -48,7 +48,10 @@ public class DataReview implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT)
     private Date createdAt;
-
+    /**
+     * 送审时间
+     */
+    private Date sentReview;
     /**
      * 修改时间
      */

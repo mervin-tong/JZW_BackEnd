@@ -202,32 +202,32 @@ public class UserFacadeService {
             return Result.ofFail("1111","id为空");
         }
         User user=this.userMapper.selectById(paramData.getId());
-        if(user==null){
+        if(user.getDeleteYou()!=0) {
 
+            if (StringUtils.isNotBlank(paramData.getAvatar())) {
+                user.setAvatar(paramData.getAvatar());
+            }
+            if (StringUtils.isNotBlank(paramData.getHighEducation())) {
+                user.setHighEducation(paramData.getHighEducation());
+            }
+            if (StringUtils.isNotBlank(paramData.getName())) {
+                user.setName(paramData.getName());
+            }
+            if (StringUtils.isNotBlank(paramData.getPhone())) {
+                user.setPhone(paramData.getPhone());
+            }
+            if (StringUtils.isNotBlank(paramData.getProfession())) {
+                user.setProfession(paramData.getProfession());
+            }
+            if (StringUtils.isNotBlank(paramData.getUnitAddress())) {
+                user.setUnitAddress(paramData.getUnitAddress());
+            }
+            if (StringUtils.isNotBlank(paramData.getWorkUnit())) {
+                user.setWorkUnit(paramData.getWorkUnit());
+            }
+            user.setUpdatedAt(new Date());
+            this.userMapper.updateById(user);
         }
-        if(StringUtils.isNotBlank(paramData.getAvatar())){
-            user.setAvatar(paramData.getAvatar());
-        }
-        if(StringUtils.isNotBlank(paramData.getHighEducation())){
-            user.setHighEducation(paramData.getHighEducation());
-        }
-        if(StringUtils.isNotBlank(paramData.getName())){
-            user.setName(paramData.getName());
-        }
-        if(StringUtils.isNotBlank(paramData.getPhone())){
-            user.setPhone(paramData.getPhone());
-        }
-        if(StringUtils.isNotBlank(paramData.getProfession())){
-            user.setProfession(paramData.getProfession());
-        }
-        if(StringUtils.isNotBlank(paramData.getUnitAddress())){
-            user.setUnitAddress(paramData.getUnitAddress());
-        }
-        if (StringUtils.isNotBlank(paramData.getWorkUnit())){
-            user.setWorkUnit(paramData.getWorkUnit());
-        }
-        user.setUpdatedAt(new Date());
-        this.userMapper.updateById(user);
         UserVTO userVTO=new UserVTO();
         BeanUtils.copyProperties(user,userVTO);
         return Result.ofSuccess(userVTO);
@@ -244,23 +244,28 @@ public class UserFacadeService {
         queryWrapper.lambda().eq(Datainf::getUploadUserId,paramData.getUserId());
         List<Datainf> datainfs=this.datainfService.list(queryWrapper);
         List<Long> dataIds = datainfs.stream().map(Datainf::getId).collect(Collectors.toList());
+        if (dataIds.size()!=0){
         List<TopicDataRel> topicDataRels = topicDataRelMapper.selectList(new QueryWrapper<TopicDataRel>().in("data_id",dataIds));
         List<Long> topicIds = topicDataRels.stream().map(TopicDataRel::getTopicId).collect(Collectors.toList());
-        List<Topic> topics = topicMapper.selectList(new QueryWrapper<Topic>().in("id",topicIds));
-        for(Datainf i:datainfs){
-            i.setPublisherStatus(paramData.getLimitStatus());
-            if(topicDataRels.stream().anyMatch(e -> e.getDataId().equals(i.getId()))){
-                Long topicId=topicDataRels.stream().filter(e -> e.getDataId().equals(i.getId())).findFirst().get().getTopicId();
-                for (Topic topic:topics){
-                    if(topic.getId().equals(topicId)&& paramData.getLimitStatus()==1 ){
-                        topic.setDataNum(topic.getDataNum()-1);
-                    }else if(topic.getId().equals(topicId)&& paramData.getLimitStatus()==0){
-                        topic.setDataNum(topic.getDataNum()+1);
+        if (topicIds.size()!=0) {
+            List<Topic> topics = topicMapper.selectList(new QueryWrapper<Topic>().in("id", topicIds));
+            for (Datainf i : datainfs) {
+                i.setPublisherStatus(paramData.getLimitStatus());
+                if (topicDataRels.stream().anyMatch(e -> e.getDataId().equals(i.getId()))) {
+                    Long topicId = topicDataRels.stream().filter(e -> e.getDataId().equals(i.getId())).findFirst().get().getTopicId();
+                    for (Topic topic : topics) {
+                        if (topic.getId().equals(topicId) && paramData.getLimitStatus() == 1) {
+                            topic.setDataNum(topic.getDataNum() - 1);
+                        } else if (topic.getId().equals(topicId) && paramData.getLimitStatus() == 0) {
+                            topic.setDataNum(topic.getDataNum() + 1);
+                        }
                     }
                 }
             }
+
+            topicService.updateBatchById(topics);
         }
-        topicService.updateBatchById(topics);
+        }
         this.datainfService.updateBatchById(datainfs);
         return Result.ofSuccess(Boolean.TRUE);
     }
@@ -275,7 +280,8 @@ public class UserFacadeService {
             javaMailSender.setPassword(sender.getHotCode());
             javaMailSender.setHost("smtp."+sender.getEmail().substring(sender.getEmail().indexOf("@")+1));
             javaMailSender.setProtocol("smtp");
-            javaMailSender.setPort(465);
+            javaMailSender.setPort(587);
+//            javaMailSender.setPort(465);
             Properties properties=new Properties();
             properties.put("mail.smtp.auth", true);
             properties.put("mail.smtp.timeout", 2500);
@@ -323,5 +329,13 @@ public class UserFacadeService {
         }else {
             return Result.ofFail("501","删除失败");
         }
+    }
+
+    public Result<UserVTO> deleteVip(Long id) {
+        User user=userMapper.selectById(id);
+        user.setDeleteYou(1);
+        user.setStatus(1);
+        userMapper.updateById(user);
+        return Result.ofSuccess(userService.findUserByPhoneOrEmail(user.getEmail()));
     }
 }
