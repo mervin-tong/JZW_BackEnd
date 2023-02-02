@@ -3,11 +3,11 @@ school:
     message-application-key: 40cae304ab63cba1237faaee259393ff
 
 
-smartwork:
-  jpush:
-    master-secret: ${var.jpush.masterSecret}
-    app-key: ${var.jpush.appKey}
-    apns-production: ${var.jpush.apnsProduction}
-  pieengine:
-    app-key: ${var.pieengine.appKey}
-    app-secret: ${var.pieengine.appSecret}
+#smartwork:
+#  jpush:
+#    master-secret: ${var.jpush.masterSecret}
+#    app-key: ${var.jpush.appKey}
+#    apns-production: ${var.jpush.apnsProduction}
+#  pieengine:
+#    app-key: ${var.pieengine.appKey}
+#    app-secret: ${var.pieengine.appSecret}
