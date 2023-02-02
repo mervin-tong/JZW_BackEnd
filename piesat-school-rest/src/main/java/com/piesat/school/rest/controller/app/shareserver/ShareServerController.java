@@ -59,9 +59,10 @@ public class ShareServerController {
     @PostMapping("/keyToUrl")
 //    传入apiKey,返回加密并拼接好的url
     public Result<String> keyToUrl(DataShareParamData dataShareParamData,HttpServletRequest request){
-        String URL = null;
-        if (dataInfService.keyToUrl(dataShareParamData)){
-            URL=request.getRequestURL().toString()+"/"+dataInfService.random(dataShareParamData.getApiKey());
+        String URL = "http://49.52.30.132/apps/school/upload/";
+        if (dataInfService.keyToUrl(dataShareParamData,URL)){
+//            URL=URL+"/"+dataInfService.random(dataShareParamData.getApiKey());
+            URL="http://49.52.30.132/"+dataShareParamData.getApiKey();
         }
         return Result.ofSuccess(URL);
     }

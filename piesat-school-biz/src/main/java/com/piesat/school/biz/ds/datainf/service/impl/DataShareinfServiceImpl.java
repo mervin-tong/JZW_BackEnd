@@ -3,8 +3,10 @@ package com.piesat.school.biz.ds.datainf.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.piesat.school.biz.ds.datainf.entity.DataShareLocation;
 import com.piesat.school.biz.ds.datainf.entity.DataShareinf;
 import com.piesat.school.biz.ds.datainf.entity.SystemEmail;
+import com.piesat.school.biz.ds.datainf.mapper.DataShareLocationMapper;
 import com.piesat.school.biz.ds.datainf.mapper.DataShareinfMapper;
 import com.piesat.school.biz.ds.datainf.mapper.SystemEmailMapper;
 import com.piesat.school.biz.ds.datainf.service.IDataShareinfService;
@@ -56,7 +58,8 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
     @Resource
     private SystemEmailMapper systemEmailMapper;
 
-
+    @Resource
+    private DataShareLocationMapper dataShareLocationMapper;
 
 
     @Override
@@ -130,12 +133,17 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
 
     @Override
-    public Boolean keyToUrl(DataShareParamData dataShareParamData) {
+    public Boolean keyToUrl(DataShareParamData dataShareParamData,String URL) {
 //      传入参数key，返回true or false
         QueryWrapper<DataShareinf> queryWrapper=new QueryWrapper<>();
-        queryWrapper.lambda().eq(DataShareinf::getApiKey,dataShareParamData.getApiKey());
-        List<DataShareinf> dataShareInfos=this.list(queryWrapper);
-        return dataShareInfos != null && dataShareInfos.size() > 0;
+        String apiKey=dataShareParamData.getApiKey();
+        queryWrapper.eq("api_key",apiKey);
+        DataShareinf dataShareinf=baseMapper.selectOne(queryWrapper);
+        String name=dataShareLocationMapper.selectOne(new QueryWrapper<DataShareLocation>().eq("api_key",apiKey)).getFileName();
+        dataShareinf.setUrl(URL+name);
+//        List<DataShareinf> dataShareInfos=this.list(queryWrapper);
+//        return dataShareInfos != null && dataShareInfos.size()>0 ;
+        return baseMapper.updateById(dataShareinf)>0 ;
     }
 
     @Override

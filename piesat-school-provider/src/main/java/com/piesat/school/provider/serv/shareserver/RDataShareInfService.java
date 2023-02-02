@@ -45,8 +45,8 @@ public class RDataShareInfService implements IRDataShareInfService {
 
 
     @Override
-    public Boolean keyToUrl(DataShareParamData dataShareParamData) {
-        return iDataShareInfService.keyToUrl(dataShareParamData);
+    public Boolean keyToUrl(DataShareParamData dataShareParamData,String URL) {
+        return iDataShareInfService.keyToUrl(dataShareParamData,URL);
     }
 
     @Override

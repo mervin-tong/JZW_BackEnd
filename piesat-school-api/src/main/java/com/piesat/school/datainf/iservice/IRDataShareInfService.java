@@ -19,7 +19,7 @@ public interface IRDataShareInfService {
 
     Result<ShareInfVTO> checkStatus(DataShareParamData paramData);
 
-    Boolean keyToUrl(DataShareParamData dataShareParamData);
+    Boolean keyToUrl(DataShareParamData dataShareParamData,String URL);
 
     TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData);
 
