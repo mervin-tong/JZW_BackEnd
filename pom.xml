@@ -67,7 +67,7 @@
         <repository>
             <id>pie</id>
             <name>Pie Repositories</name>
-            <url>http://rapdevplus.piesat.cn:8090/repository/pie_maven_public/</url>
+            <url>http://rapdevplus.piesat.cn:8091/repository/pie_maven_public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -81,7 +81,7 @@
         <pluginRepository>
             <id>pie</id>
             <name>Pie Plugin Repositories</name>
-            <url>http://rapdevplus.piesat.cn:8090/repository/pie_maven_public/</url>
+            <url>http://rapdevplus.piesat.cn:8091/repository/pie_maven_public/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
