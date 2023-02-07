@@ -25,7 +25,7 @@ public interface IDataShareinfService extends IService<DataShareinf> {
 
     Result<ShareInfVTO> checkStatus(DataShareParamData paramData);
 
-    Boolean keyToUrl(DataShareParamData dataShareParamData,String URL);
+    Result<String> keyToUrl(DataShareParamData dataShareParamData);
 
     TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData);
 
@@ -38,4 +38,6 @@ public interface IDataShareinfService extends IService<DataShareinf> {
     SystemEmailVTO seeEmail();
 
     String random(String url);
+
+    String encrypt(String apiKey);
 }

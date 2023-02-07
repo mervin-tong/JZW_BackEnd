@@ -58,13 +58,11 @@ public class ShareServerController {
     @ApiModelProperty(value = "apiKey转url")
     @PostMapping("/keyToUrl")
 //    传入apiKey,返回加密并拼接好的url
-    public Result<String> keyToUrl(DataShareParamData dataShareParamData,HttpServletRequest request){
-        String URL = "http://49.52.30.132/apps/school/upload/";
-        if (dataInfService.keyToUrl(dataShareParamData,URL)){
-//            URL=URL+"/"+dataInfService.random(dataShareParamData.getApiKey());
-            URL="http://49.52.30.132/"+dataShareParamData.getApiKey();
-        }
-        return Result.ofSuccess(URL);
+    public Result<String> keyToUrl(DataShareParamData dataShareParamData){
+//        String URL = "http://49.52.30.132/apps/school/upload/";
+
+
+        return dataInfService.keyToUrl(dataShareParamData);
     }
     @ApiModelProperty(value = "申请审核信息列表")
     @PostMapping("/auditApplyList")

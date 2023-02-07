@@ -3,10 +3,8 @@ package com.piesat.school.biz.ds.datainf.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.piesat.school.biz.ds.datainf.entity.DataShareLocation;
 import com.piesat.school.biz.ds.datainf.entity.DataShareinf;
 import com.piesat.school.biz.ds.datainf.entity.SystemEmail;
-import com.piesat.school.biz.ds.datainf.mapper.DataShareLocationMapper;
 import com.piesat.school.biz.ds.datainf.mapper.DataShareinfMapper;
 import com.piesat.school.biz.ds.datainf.mapper.SystemEmailMapper;
 import com.piesat.school.biz.ds.datainf.service.IDataShareinfService;
@@ -19,13 +17,8 @@ import com.piesat.school.datainf.vto.SystemEmailVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -33,12 +26,12 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.sql.Time;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created with IntelliJ IDEA.
@@ -58,8 +51,6 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
     @Resource
     private SystemEmailMapper systemEmailMapper;
 
-    @Resource
-    private DataShareLocationMapper dataShareLocationMapper;
 
 
     @Override
@@ -131,19 +122,53 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     }
 
+//    public static void main(String[] args) {
+////        File packages=new File("D:\\apps\\school\\upload\\1");
+////        System.out.println(packages.mkdir());
+////        File source=new File("D:\\apps\\school\\upload\\1\\1.rar");
+////        File dest=new File("D:\\apps\\school\\upload\\1\\2.rar");
+//        LocalDate localDate=LocalDate.now();
+//        String date=localDate.format(DateTimeFormatter.BASIC_ISO_DATE);
+//        File source=new File("D:\\apps\\school\\hsd\\1.rar");
+//        File dest=new File("D:\\apps\\school\\hsd\\"+date+".rar");
+//        try {
+//            Files.copy(source.toPath(),dest.toPath());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
-    public Boolean keyToUrl(DataShareParamData dataShareParamData,String URL) {
-//      传入参数key，返回true or false
+    public Result<String> keyToUrl(DataShareParamData dataShareParamData) {
+//      传入参数key，返回url
         QueryWrapper<DataShareinf> queryWrapper=new QueryWrapper<>();
+        String URL="/apps/school/hsd/";
         String apiKey=dataShareParamData.getApiKey();
         queryWrapper.eq("api_key",apiKey);
         DataShareinf dataShareinf=baseMapper.selectOne(queryWrapper);
-        String name=dataShareLocationMapper.selectOne(new QueryWrapper<DataShareLocation>().eq("api_key",apiKey)).getFileName();
-        dataShareinf.setUrl(URL+name);
-//        List<DataShareinf> dataShareInfos=this.list(queryWrapper);
-//        return dataShareInfos != null && dataShareInfos.size()>0 ;
-        return baseMapper.updateById(dataShareinf)>0 ;
+        if (dataShareinf!=null) {
+
+//          创建文件夹
+            File packages = new File("\\apps\\school\\hsd\\" + apiKey);
+            if (!packages.exists()) {
+                System.out.println(packages.mkdir());
+            }
+//          复制文件到该文件夹
+            LocalDate localDate = LocalDate.now();
+            String date = localDate.format(DateTimeFormatter.BASIC_ISO_DATE);
+            File source = new File("\\apps\\school\\hsd\\1.rar");
+            File dest = new File(packages.getPath() + "\\" + date + apiKey + ".rar");
+            try {
+                System.out.println(Files.copy(source.toPath(), dest.toPath()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//        url存入库
+            dataShareinf.setUrl(URL + dest.getName());
+            baseMapper.updateById(dataShareinf);
+            return Result.ofSuccess(dataShareinf.getUrl());
+        }
+        return Result.ofFail("200001","key输入不正确");
     }
 
     @Override
@@ -162,6 +187,19 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
         return shareInfVTO;
     }
+
+//    public static void main(String[] args) {
+//        String fileName="D:\\work\\htht\\apps\\test1.txt";
+////        Files.write(Paths.get(fileName),"hello,创建文件".getBytes(StandardCharsets.UTF_8));
+//        File file=new File(fileName);
+//        try {
+//            System.out.println(file.createNewFile());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(file.getAbsolutePath());
+//        System.out.println(file.delete());
+//    }
 
     @Override
     public Result<ShareInfVTO> pass(DataShareParamData dataShareParamData) {
@@ -262,6 +300,11 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         return Url.toString();
     }
 
+    @Override
+    public String encrypt(String apiKey) {
 
-
+        return null;
     }
+
+
+}

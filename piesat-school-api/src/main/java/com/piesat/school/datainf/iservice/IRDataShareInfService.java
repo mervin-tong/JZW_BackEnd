@@ -19,7 +19,7 @@ public interface IRDataShareInfService {
 
     Result<ShareInfVTO> checkStatus(DataShareParamData paramData);
 
-    Boolean keyToUrl(DataShareParamData dataShareParamData,String URL);
+    Result<String> keyToUrl(DataShareParamData dataShareParamData);
 
     TailPage<AuditApplyListVTO> auditApplyList(AuditApplyListParamData auditApplyListParamData);
 
@@ -34,4 +34,6 @@ public interface IRDataShareInfService {
     String random(String url);
 
     SystemEmailVTO seeEmail();
+
+    String encrypt(String apiKey);
 }

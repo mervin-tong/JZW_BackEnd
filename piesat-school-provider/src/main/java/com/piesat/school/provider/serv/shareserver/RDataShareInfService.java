@@ -45,8 +45,8 @@ public class RDataShareInfService implements IRDataShareInfService {
 
 
     @Override
-    public Boolean keyToUrl(DataShareParamData dataShareParamData,String URL) {
-        return iDataShareInfService.keyToUrl(dataShareParamData,URL);
+    public Result<String> keyToUrl(DataShareParamData dataShareParamData) {
+        return iDataShareInfService.keyToUrl(dataShareParamData);
     }
 
     @Override
@@ -79,5 +79,10 @@ public class RDataShareInfService implements IRDataShareInfService {
     @Override
     public SystemEmailVTO seeEmail() {
         return iDataShareInfService.seeEmail();
+    }
+
+    @Override
+    public String encrypt(String apiKey) {
+        return iDataShareInfService.encrypt(apiKey);
     }
 }
