@@ -156,7 +156,9 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 //          复制文件到该文件夹
             LocalDate localDate = LocalDate.now();
             String date = localDate.format(DateTimeFormatter.BASIC_ISO_DATE);
+            //TODO 需补足处理：对方文件名称不定（该位置应查找上传文件夹下的第一个压缩包文件），而不是自己指定名称
             File source = new File("\\apps\\school\\hsd\\1.rar");
+            //TODO 需补足处理：以当前逻辑处理，会导致每次该方法被执行会新建一个新的下载文件，占用大量内存；在实际使用中，若文件过大，则用户在一定时间内使用兑换的url去下载只会得到破损的文件
             File dest = new File(packages.getPath() + "\\" + date + apiKey + ".rar");
             try {
                 System.out.println(Files.copy(source.toPath(), dest.toPath()));
