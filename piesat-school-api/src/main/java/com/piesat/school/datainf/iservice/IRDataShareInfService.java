@@ -8,7 +8,6 @@ import com.piesat.school.datainf.vto.ShareInfVTO;
 import com.piesat.school.datainf.vto.SystemEmailVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
-import org.mapstruct.Mapper;
 
 public interface IRDataShareInfService {
 

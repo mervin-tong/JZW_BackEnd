@@ -88,6 +88,7 @@ public class ShareServerController {
        return dataInfService.pass(dataShareParamData);
 
     }
+
     @ApiModelProperty(value = "显示系统设置的邮箱")
     @GetMapping("seeEmail")
     public Result<SystemEmailVTO> seeEmail(){

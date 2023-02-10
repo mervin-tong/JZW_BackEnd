@@ -17,6 +17,7 @@ import com.piesat.school.datainf.vto.SystemEmailVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.CommonPage;
 import com.smartwork.api.support.page.TailPage;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -29,8 +30,6 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -122,21 +121,6 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     }
 
-//    public static void main(String[] args) {
-////        File packages=new File("D:\\apps\\school\\upload\\1");
-////        System.out.println(packages.mkdir());
-////        File source=new File("D:\\apps\\school\\upload\\1\\1.rar");
-////        File dest=new File("D:\\apps\\school\\upload\\1\\2.rar");
-//        LocalDate localDate=LocalDate.now();
-//        String date=localDate.format(DateTimeFormatter.BASIC_ISO_DATE);
-//        File source=new File("D:\\apps\\school\\hsd\\1.rar");
-//        File dest=new File("D:\\apps\\school\\hsd\\"+date+".rar");
-//        try {
-//            Files.copy(source.toPath(),dest.toPath());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     @Override
     public Result<String> keyToUrl(DataShareParamData dataShareParamData) {
@@ -148,25 +132,7 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         DataShareinf dataShareinf=baseMapper.selectOne(queryWrapper);
         if (dataShareinf!=null) {
 
-//          创建文件夹
-            File packages = new File("\\apps\\school\\hsd\\" + apiKey);
-            if (!packages.exists()) {
-                System.out.println(packages.mkdir());
-            }
-//          复制文件到该文件夹
-            LocalDate localDate = LocalDate.now();
-            String date = localDate.format(DateTimeFormatter.BASIC_ISO_DATE);
-            //TODO 需补足处理：对方文件名称不定（该位置应查找上传文件夹下的第一个压缩包文件），而不是自己指定名称
-            File source = new File("\\apps\\school\\hsd\\1.rar");
-            //TODO 需补足处理：以当前逻辑处理，会导致每次该方法被执行会新建一个新的下载文件，占用大量内存；在实际使用中，若文件过大，则用户在一定时间内使用兑换的url去下载只会得到破损的文件
-            File dest = new File(packages.getPath() + "\\" + date + apiKey + ".rar");
-            try {
-                System.out.println(Files.copy(source.toPath(), dest.toPath()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//        url存入库
-            dataShareinf.setUrl(URL + dest.getName());
+            dataShareinf.setUrl(URL + apiKey+"/"+apiKey+".rar");
             baseMapper.updateById(dataShareinf);
             return Result.ofSuccess(dataShareinf.getUrl());
         }
@@ -205,12 +171,15 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     @Override
     public Result<ShareInfVTO> pass(DataShareParamData dataShareParamData) {
-//      传入参数申请表中的id,是否传入mark,邮箱
-//      没有判断key是否有效
+//      传入参数申请表中的id,是否传入mark（mark为空表示通过），邮箱
 
         JavaMailSenderImpl javaMailSender=new JavaMailSenderImpl();
 
         DataShareinf dataShareinf=dataShareinfMapper.selectById(dataShareParamData.getId());
+//       判断是否已经申请过，申请过则不会进行发送邮件、创建文件操作
+        if (StringUtils.isNotBlank(dataShareinf.getApiKey())){
+            return Result.ofFail("2000001","已申请过");
+        }
 //      生成随机key25位随机码
         int length = 25;
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -228,7 +197,7 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         javaMailSender.setPassword(sender.getHotCode());
         javaMailSender.setHost("smtp."+sender.getEmail().substring(sender.getEmail().indexOf("@")+1));
         javaMailSender.setProtocol("smtp");
-        javaMailSender.setPort(465);
+        javaMailSender.setPort(587);
 
 
 
@@ -240,7 +209,7 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         else {
 //            通过，信息发送到邮箱
             dataShareinf.setApplyStatus(1);
-            dataShareinf.setMark(null);
+            dataShareinf.setMark("");
             try {
                 //建立邮件消息
                 MimeMessage mimeMessage =  javaMailSender.createMimeMessage();
@@ -261,11 +230,36 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
                 //发送邮件
                 javaMailSender.send(mimeMessage);
 
+//              创建文件夹并复制临时缓存文件夹
+                File packages = new File("\\apps\\school\\hsd\\" + key);
+                if (!packages.exists()) {
+                    System.out.println(packages.mkdir());
+                }
+
+//              复制文件夹下的第一个压缩包文件到该文件夹
+                //TODO 需补足处理：对方文件名称不定（该位置应查找上传文件夹下的第一个压缩包文件），而不是自己指定名称
+                File currentDir=new File("\\apps\\school\\hsd\\target");
+                File[] files=currentDir.listFiles();
+                String targetFile="\\apps\\school\\hsd\\1.rar";
+                if (files!=null&&files.length>0){
+                    targetFile=files[0].getPath();
+                }
+                File source = new File(targetFile);
+                //TODO 需补足处理：以当前逻辑处理，会导致每次该方法被执行会新建一个新的下载文件，占用大量内存；在实际使用中，若文件过大，则用户在一定时间内使用兑换的url去下载只会得到破损的文件
+                File dest = new File(packages.getPath() + "\\"  + key + ".rar");
+                try {
+                    System.out.println(Files.copy(source.toPath(), dest.toPath()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
 
             } catch (MailException | MessagingException e) {
                 e.printStackTrace();
             }
             dataShareinf.setApiKey(key);
+            dataShareinf.setPassDate(new Date());
+
         }
         dataShareinfMapper.updateById(dataShareinf);
         ShareInfVTO vto=new ShareInfVTO();

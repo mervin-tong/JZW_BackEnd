@@ -24,6 +24,8 @@ public class DataShareinf implements Serializable {
 
     private Long checkId;
 
+    private Date passDate;
+
     private Integer applyStatus;
 
     private String applyContent;
