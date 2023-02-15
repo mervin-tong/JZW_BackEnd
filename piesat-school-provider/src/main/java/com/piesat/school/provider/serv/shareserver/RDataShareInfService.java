@@ -70,10 +70,6 @@ public class RDataShareInfService implements IRDataShareInfService {
         return iDataShareInfService.pass(dataShareParamData);
     }
 
-    @Override
-    public String random(String url) {
-        return iDataShareInfService.random(url);
-    }
 
 
     @Override
@@ -81,8 +77,4 @@ public class RDataShareInfService implements IRDataShareInfService {
         return iDataShareInfService.seeEmail();
     }
 
-    @Override
-    public String encrypt(String apiKey) {
-        return iDataShareInfService.encrypt(apiKey);
-    }
 }

@@ -30,9 +30,5 @@ public interface IRDataShareInfService {
 
     Result<ShareInfVTO> pass(DataShareParamData dataShareParamData);
 
-    String random(String url);
-
     SystemEmailVTO seeEmail();
-
-    String encrypt(String apiKey);
 }

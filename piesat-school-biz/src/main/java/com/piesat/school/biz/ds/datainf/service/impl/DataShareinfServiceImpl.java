@@ -156,18 +156,6 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         return shareInfVTO;
     }
 
-//    public static void main(String[] args) {
-//        String fileName="D:\\work\\htht\\apps\\test1.txt";
-////        Files.write(Paths.get(fileName),"hello,创建文件".getBytes(StandardCharsets.UTF_8));
-//        File file=new File(fileName);
-//        try {
-//            System.out.println(file.createNewFile());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(file.getAbsolutePath());
-//        System.out.println(file.delete());
-//    }
 
     @Override
     public Result<ShareInfVTO> pass(DataShareParamData dataShareParamData) {
@@ -240,7 +228,7 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
                 //TODO 需补足处理：对方文件名称不定（该位置应查找上传文件夹下的第一个压缩包文件），而不是自己指定名称
                 File currentDir=new File("\\apps\\school\\hsd\\target");
                 File[] files=currentDir.listFiles();
-                String targetFile="\\apps\\school\\hsd\\1.rar";
+                String targetFile="\\apps\\school\\hsd\\1.rar";  //设置一个默认名称
                 if (files!=null&&files.length>0){
                     targetFile=files[0].getPath();
                 }
@@ -284,22 +272,6 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         SystemEmailVTO systemEmailVTO=new SystemEmailVTO();
         BeanUtils.copyProperties(systemEmailMapper.selectById(1),systemEmailVTO);
         return systemEmailVTO;
-    }
-
-    @Override
-    public String random(String url) {
-        List<String> stringList = Arrays.asList(url.split(""));
-        Collections.shuffle(stringList);
-        StringBuffer Url=new StringBuffer();
-        stringList.forEach(Url::append);
-
-        return Url.toString();
-    }
-
-    @Override
-    public String encrypt(String apiKey) {
-
-        return null;
     }
 
 

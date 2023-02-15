@@ -37,7 +37,4 @@ public interface IDataShareinfService extends IService<DataShareinf> {
 
     SystemEmailVTO seeEmail();
 
-    String random(String url);
-
-    String encrypt(String apiKey);
 }

@@ -27,7 +27,7 @@ public class QuartzConfig {
 
 //        测试定时任务是否运行
 //                SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-//                .withIntervalInSeconds(1)    //每5秒执行一次
+//                .withIntervalInSeconds(20)    //每5秒执行一次
 //                .repeatForever();
 
 
