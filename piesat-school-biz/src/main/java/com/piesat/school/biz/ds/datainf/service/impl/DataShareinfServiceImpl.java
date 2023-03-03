@@ -30,7 +30,9 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -159,14 +161,15 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
     @Override
     public Result<ShareInfVTO> pass(DataShareParamData dataShareParamData) {
+
+
 //      传入参数申请表中的id,是否传入mark（mark为空表示通过），邮箱
 
-        JavaMailSenderImpl javaMailSender=new JavaMailSenderImpl();
 
-        DataShareinf dataShareinf=dataShareinfMapper.selectById(dataShareParamData.getId());
+        DataShareinf dataShareinf = dataShareinfMapper.selectById(dataShareParamData.getId());
 //       判断是否已经申请过，申请过则不会进行发送邮件、创建文件操作
-        if (StringUtils.isNotBlank(dataShareinf.getApiKey())){
-            return Result.ofFail("2000001","已申请过");
+        if (StringUtils.isNotBlank(dataShareinf.getApiKey())) {
+            return Result.ofFail("2000001", "已申请过");
         }
 //      生成随机key25位随机码
         int length = 25;
@@ -178,30 +181,49 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
             sb.append(str.charAt(number));
         }
         String key = sb.toString();
-//===================================================================================================
+        //              创建文件夹并复制临时缓存文件夹
+        File packages = new File("\\apps\\school\\hsd\\" + key);
+        if (!packages.exists()) {
+            System.out.println(packages.mkdir());
+        }
 
-        SystemEmail sender=systemEmailMapper.selectById(1);
+//      复制文件夹下的第一个压缩包文件到该文件夹
+        File currentDir = new File("\\apps\\school\\hsd\\target");
+        File[] files = currentDir.listFiles();
+        String targetFile = "\\apps\\school\\hsd\\1.rar";  //设置一个默认名称
+        if (files != null && files.length > 0) {
+            targetFile = files[0].getPath();
+        }
+        File source = new File(targetFile);
+        File dest = new File(packages.getPath() + "\\" + key + ".rar");
+        try {
+            System.out.println(Files.copy(source.toPath(), dest.toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//===================================================================================================
+//      调用邮件服务发送key到指定邮箱
+        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        SystemEmail sender = systemEmailMapper.selectById(1);
         javaMailSender.setUsername(sender.getEmail());
         javaMailSender.setPassword(sender.getHotCode());
-        javaMailSender.setHost("smtp."+sender.getEmail().substring(sender.getEmail().indexOf("@")+1));
+        javaMailSender.setHost("smtp." + sender.getEmail().substring(sender.getEmail().indexOf("@") + 1));
         javaMailSender.setProtocol("smtp");
         javaMailSender.setPort(587);
 
 
-
-        if (dataShareParamData.getMark()!=null){
+        if (dataShareParamData.getMark() != null) {
 //            不通过
             dataShareinf.setApplyStatus(0);
             dataShareinf.setMark(dataShareParamData.getMark());
-        }
-        else {
+        } else {
 //            通过，信息发送到邮箱
             dataShareinf.setApplyStatus(1);
             dataShareinf.setMark("");
             try {
                 //建立邮件消息
-                MimeMessage mimeMessage =  javaMailSender.createMimeMessage();
-                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true);
+                MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
                 //发送者
                 mimeMessageHelper.setFrom(javaMailSender.getUsername());
@@ -213,33 +235,10 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
                 mimeMessageHelper.setSubject("发送申请的key");
 
                 //发送的内容
-                mimeMessageHelper.setText("您申请的key是："+key);
+                mimeMessageHelper.setText("您申请的key是：" + key);
 
                 //发送邮件
                 javaMailSender.send(mimeMessage);
-
-//              创建文件夹并复制临时缓存文件夹
-                File packages = new File("\\apps\\school\\hsd\\" + key);
-                if (!packages.exists()) {
-                    System.out.println(packages.mkdir());
-                }
-
-//              复制文件夹下的第一个压缩包文件到该文件夹
-                //TODO 需补足处理：对方文件名称不定（该位置应查找上传文件夹下的第一个压缩包文件），而不是自己指定名称
-                File currentDir=new File("\\apps\\school\\hsd\\target");
-                File[] files=currentDir.listFiles();
-                String targetFile="\\apps\\school\\hsd\\1.rar";  //设置一个默认名称
-                if (files!=null&&files.length>0){
-                    targetFile=files[0].getPath();
-                }
-                File source = new File(targetFile);
-                //TODO 需补足处理：以当前逻辑处理，会导致每次该方法被执行会新建一个新的下载文件，占用大量内存；在实际使用中，若文件过大，则用户在一定时间内使用兑换的url去下载只会得到破损的文件
-                File dest = new File(packages.getPath() + "\\"  + key + ".rar");
-                try {
-                    System.out.println(Files.copy(source.toPath(), dest.toPath()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
 
             } catch (MailException | MessagingException e) {
@@ -250,8 +249,8 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
 
         }
         dataShareinfMapper.updateById(dataShareinf);
-        ShareInfVTO vto=new ShareInfVTO();
-        BeanUtils.copyProperties(dataShareinf,vto);
+        ShareInfVTO vto = new ShareInfVTO();
+        BeanUtils.copyProperties(dataShareinf, vto);
         return Result.ofSuccess(vto);
     }
 
