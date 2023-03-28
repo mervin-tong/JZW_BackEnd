@@ -1,7 +1,6 @@
 package com.piesat.school.biz.ds.job.config;
 
 import com.piesat.school.biz.ds.job.bulider.ScheduleJob;
-import org.bouncycastle.jcajce.provider.digest.Tiger;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +18,7 @@ public class QuartzConfig {
     public JobDetail jobDetail1(){
         return JobBuilder.newJob(ScheduleJob.class).storeDurably().build();
     }
+
 
     @Bean
     public Trigger trigger1(){

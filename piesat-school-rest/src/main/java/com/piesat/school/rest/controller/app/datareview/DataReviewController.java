@@ -144,7 +144,7 @@ public class DataReviewController {
     })
     @GetMapping("/checkInOrOut")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", value = "评审人id ", dataType = "Lond" ),
+            @ApiImplicitParam(name = "userId", value = "评审人id ", dataType = "Long" ),
             @ApiImplicitParam(name = "dataList", value = "数据id列表", dataType = "List<Long>" ),
             @ApiImplicitParam(name = "checkStatus", value = "1签入 0签出", dataType = "int" )
     })
