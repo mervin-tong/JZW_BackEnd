@@ -24,6 +24,11 @@ public class DataReview implements Serializable {
     private Long id;
 
     /**
+     * 签入者
+     */
+    private String checkMan;
+
+    /**
      * 评审状态
      */
     private Integer status;

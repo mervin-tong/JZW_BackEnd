@@ -6,6 +6,7 @@ import com.piesat.school.security.JsonResult;
 import com.piesat.school.security.ResultCode;
 import com.piesat.school.user.iservice.IRUserService;
 import com.piesat.school.user.vto.UserVTO;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -20,8 +21,10 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
+import java.rmi.ServerException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -55,6 +58,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UserVTO loginUser=new UserVTO();
         loginUser.setEmail(b.get("username")[0]);
         loginUser.setPassword(b.get("password")[0]);
+
+
 //        UserVTO userVTO=irUserService.findUserByPhoneOrEmail(loginUser.getEmail());
 //        if (!userVTO.getDeleteYou().equals(0)){
 //            return null;
@@ -77,6 +82,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         for (GrantedAuthority authority : authorities) {
             role = authority.getAuthority();
         }
+
+
+
 
         String token = TokenUtils.createToken(jwtUser.getUsername(), role);
         // 返回创建成功的token  但是这里创建的token只是单纯的token

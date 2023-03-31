@@ -10,6 +10,7 @@ import com.piesat.school.biz.ds.datainf.service.IDatainfService;
 import com.piesat.school.biz.ds.datareview.entity.DataReview;
 import com.piesat.school.biz.ds.datareview.mapper.DataReviewMapper;
 import com.piesat.school.biz.ds.datareview.service.IDataReviewService;
+import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.datainf.vto.DataInfListVTO;
 import com.piesat.school.datareview.param.ConditionScreenParamData;
 import com.piesat.school.datareview.param.DataReviewParamData;
@@ -43,6 +44,8 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
     private DataReviewMapper dataReviewMapper;
     @Resource
     private IDatainfService datainfService;
+    @Resource
+    private UserMapper userMapper;
     //获取评审列表
     @Override
     public TailPage<DataReviewVTO> dataReview(DataReviewParamData dataReviewParamData) {
@@ -149,25 +152,28 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
             return null;
         }
     }
-    //检入检出
+    //签入签出
     @Override
     public List<DataReviewReVTO> checkInOrOut(Long userId, List<Long> dataList, Integer checkStatus) {
         List<DataReview> dataReviewList =baseMapper.selectList(new QueryWrapper<DataReview>().in("data_id", dataList));
         List<DataReviewReVTO> dataReviewReVTOS =new ArrayList<>();
+//        签出
         if(checkStatus == 0){
             for(DataReview dataReview:dataReviewList){
                 DataReviewReVTO dataReviewReVT=new DataReviewReVTO();
                 dataReview.setStatus(0);
                 dataReview.setAdminJudgeId(-1L);
+                dataReview.setCheckMan("");
                 baseMapper.updateById(dataReview);
                 BeanUtils.copyProperties(dataReview, dataReviewReVT);
                 dataReviewReVTOS.add(dataReviewReVT);
             }
-        }else {
+        }else {//签入
             for(DataReview dataReview:dataReviewList){
                 DataReviewReVTO dataReviewReVT=new DataReviewReVTO();
                 dataReview.setStatus(0);
                 dataReview.setAdminJudgeId(userId);
+                dataReview.setCheckMan(userMapper.selectById(userId).getName());
                 baseMapper.updateById(dataReview);
                 BeanUtils.copyProperties(dataReview, dataReviewReVT);
                 dataReviewReVTOS.add(dataReviewReVT);

@@ -21,6 +21,9 @@ public class DataReviewVTO implements Serializable {
     @ApiModelProperty(value = "数据名称")
     private String dataName;
 
+    @ApiModelProperty(value = "签入者")
+    private String checkMan;
+
     /**
      * 数据所属开始时间
      */

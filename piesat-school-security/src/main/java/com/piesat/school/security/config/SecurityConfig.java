@@ -14,8 +14,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 //springSecurity配置类
 @Configuration
@@ -42,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private CustomizeAccessDeniedHandler accessDeniedHandler;
 
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -57,6 +61,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
+
+    @Bean
+//
+    HttpSessionEventPublisher httpSessionEventPublisher(){
+        return new HttpSessionEventPublisher();
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -104,17 +116,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
                 .logout()
                 .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理逻辑
-                .deleteCookies("JSESSIONID");//登出之后删除cookie
+                .deleteCookies("JSESSIONID")//登出之后删除cookie
+                .and()
+//               登陆限制
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .sessionAuthenticationStrategy(new ConcurrentSessionControlAuthenticationStrategy())
+                .maximumSessions(1)
+//                .sessionRegistry()
+                .maxSessionsPreventsLogin(true);
+
                 //异常处理(权限拒绝、登录失效等)
                 http.exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler)//权限拒绝处理逻辑
                 .authenticationEntryPoint(authenticationEntryPoint);//匿名用户访问无权限资源时的异常处理
 
+//        http.sessionManagement().maximumSessions(1).expiredUrl("/login");
 //        http.addFilterBefore(securityInterceptor, FilterSecurityInterceptor.class);
 
     }

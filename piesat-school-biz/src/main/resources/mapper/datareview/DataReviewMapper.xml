@@ -22,6 +22,7 @@
     <select id="dataReview" resultType="com.piesat.school.datareview.vto.DataReviewVTO">
         SELECT
             di.data_name  dataName,
+            dr.check_man checkMan,
             di.start_at startAt,
             di.end_at endAt,
             di.address address,
