@@ -28,6 +28,8 @@ public class DataShareinf implements Serializable {
 
     private Integer applyStatus;
 
+    private Long checkManId;
+
     private String applyContent;
 
     private String applyExplain;

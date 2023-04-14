@@ -72,5 +72,4 @@ public class OrderFrom implements Serializable {
      */
     private Date updatedAt;
 
-
 }

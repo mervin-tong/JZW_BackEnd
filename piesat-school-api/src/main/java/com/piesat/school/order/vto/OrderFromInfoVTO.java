@@ -71,4 +71,6 @@ public class OrderFromInfoVTO implements Serializable {
      */
     @ApiModelProperty(value = "审核ID")
     private Long auditorUserId;
+    @ApiModelProperty(value = "签入者")
+    private String checkMan;
 }

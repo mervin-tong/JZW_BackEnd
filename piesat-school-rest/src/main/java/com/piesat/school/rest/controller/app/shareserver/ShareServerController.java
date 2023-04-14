@@ -14,11 +14,10 @@ import io.netty.util.Constant;
 import io.swagger.annotations.*;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -40,6 +39,16 @@ public class ShareServerController {
     public Result<TailPage<ShareInfVTO>> datalist(DataShareParamData paramData){
 //        TailPage<ShareInfVTO> shareInfVTOS=dataInfService.datalist(paramData);
         return Result.ofSuccess(dataInfService.datalist(paramData));
+    }
+    @ApiModelProperty(value = "签入签出")
+    @GetMapping("/checkinOrOut")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "评审人id ", dataType = "Long" ),
+            @ApiImplicitParam(name = "dataList", value = "数据id列表", dataType = "List<Long>" ),
+            @ApiImplicitParam(name = "checkStatus", value = "1签入 0签出", dataType = "int" )
+    })
+    public Result<List<AuditApplyListVTO>> checkinOrOut(@RequestParam(value = "dataList",required = false) List<Long> dataList, Long userId, Integer checkStatus){
+        return dataInfService.checkinOrOut(dataList,userId,checkStatus);
     }
     @ApiModelProperty(value = "申请Key")
     @PostMapping("/applyForKey")

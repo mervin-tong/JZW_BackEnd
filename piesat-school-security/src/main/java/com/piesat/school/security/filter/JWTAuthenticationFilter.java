@@ -4,17 +4,20 @@ import com.alibaba.fastjson.JSON;
 import com.piesat.school.security.JWT.TokenUtils;
 import com.piesat.school.security.JsonResult;
 import com.piesat.school.security.ResultCode;
+import com.piesat.school.security.handler.CustomSessionInformationExpiredStrategy;
 import com.piesat.school.user.iservice.IRUserService;
 import com.piesat.school.user.vto.UserVTO;
-import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
+import org.springframework.session.Session;
+import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -24,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
-import java.rmi.ServerException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -35,8 +37,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private AuthenticationManager authenticationManager;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, SpringSessionBackedSessionRegistry springSessionBackedSessionRegistry) {
         this.authenticationManager = authenticationManager;
+        ConcurrentSessionControlAuthenticationStrategy strategy=new ConcurrentSessionControlAuthenticationStrategy( springSessionBackedSessionRegistry);
+        strategy.setMaximumSessions(1);
+        this.setSessionAuthenticationStrategy(strategy);
+
         super.setFilterProcessesUrl("/login");
     }
 
@@ -58,7 +64,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UserVTO loginUser=new UserVTO();
         loginUser.setEmail(b.get("username")[0]);
         loginUser.setPassword(b.get("password")[0]);
-
+        HttpSession session=request.getSession();
+        System.out.println(session.getAttribute(loginUser.getEmail()));
 
 //        UserVTO userVTO=irUserService.findUserByPhoneOrEmail(loginUser.getEmail());
 //        if (!userVTO.getDeleteYou().equals(0)){

@@ -9,6 +9,8 @@ import com.piesat.school.datainf.vto.SystemEmailVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
 
+import java.util.List;
+
 public interface IRDataShareInfService {
 
 
@@ -31,4 +33,6 @@ public interface IRDataShareInfService {
     Result<ShareInfVTO> pass(DataShareParamData dataShareParamData);
 
     SystemEmailVTO seeEmail();
+
+    Result<List<AuditApplyListVTO>> checkinOrOut(List<Long> dataList, Long userId, Integer checkStatus);
 }

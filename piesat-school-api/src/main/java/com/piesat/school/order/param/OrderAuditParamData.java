@@ -11,4 +11,6 @@ public class OrderAuditParamData implements java.io.Serializable{
     private String auditMark;
     @ApiModelProperty(value = "数据状态（2.同意下载 3.拒绝下载）")
     private Integer auditStatus;
+    @ApiModelProperty(value = "评审id")
+    private Long auditorUserId;
 }

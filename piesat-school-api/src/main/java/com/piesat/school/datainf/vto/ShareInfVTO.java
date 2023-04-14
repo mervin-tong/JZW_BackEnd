@@ -3,6 +3,7 @@ package com.piesat.school.datainf.vto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.Value;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -35,6 +36,10 @@ public class ShareInfVTO implements Serializable {
     @ApiModelProperty(value = "创建时间")
     @JsonFormat(timezone="GMT+8")
     private Date createdAt;
+    @ApiModelProperty(value = "签入者")
+    private String checkMan;
+    @ApiModelProperty(value = "签入者Id")
+    private Long checkManId;
 
 
 }

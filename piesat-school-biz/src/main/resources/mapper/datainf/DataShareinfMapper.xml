@@ -18,7 +18,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        apply_id,check_id,apply_status,apply_content,apply_explain,api_key,updated_at,created_at
+        apply_id,check_id,apply_status,apply_content,apply_explain,api_key,updated_at,created_at,check_man_id
     </sql>
     <select id="searchAll" resultType="com.piesat.school.datainf.vto.ShareInfVTO">
         select
@@ -34,7 +34,7 @@
     <select id="auditApplyList" resultType="com.piesat.school.datainf.vto.AuditApplyListVTO">
         select
         a.name,a.work_unit,a.id,a.email,
-        b.created_at,b.updated_at,b.apply_status,b.id as bid
+        b.created_at,b.updated_at,b.apply_status,b.check_man_id,b.id as bid
         from t_user a
         inner join t_data_share b on a.id=b.apply_id
         where 1=1

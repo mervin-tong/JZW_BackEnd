@@ -21,7 +21,7 @@ import java.util.List;
  * @author suweipeng
  * @data 2022/2/24 10:18
  */
-@Api(tags = "数据评审")
+@Api(tags = "")
 @RestController
 @RequestMapping("/app/orderfrom")
 public class DataReviewController {
@@ -148,7 +148,7 @@ public class DataReviewController {
             @ApiImplicitParam(name = "dataList", value = "数据id列表", dataType = "List<Long>" ),
             @ApiImplicitParam(name = "checkStatus", value = "1签入 0签出", dataType = "int" )
     })
-    public Result<List<DataReviewReVTO>> checkInOrOut(@RequestParam(value = "dataList") List<Long> dataList,Long userId, Integer checkStatus){
+    public Result<List<DataReviewReVTO>> checkInOrOut(@RequestParam(value = "dataList" ,required = false) List<Long> dataList,Long userId, Integer checkStatus){
         return irDataReviewService.checkInOrOut(userId,dataList,checkStatus);
     }
 

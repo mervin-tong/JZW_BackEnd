@@ -12,6 +12,8 @@ import com.piesat.school.biz.ds.order.mapper.AttentionMapper;
 import com.piesat.school.biz.ds.order.mapper.OrderFromMapper;
 import com.piesat.school.biz.ds.order.service.IOrderFromService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.piesat.school.biz.ds.user.entity.User;
+import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.datareview.vto.DataReviewReVTO;
 import com.piesat.school.i18n.ResponseErrorCode;
 import com.piesat.school.order.param.*;
@@ -50,6 +52,8 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
     private AttentionMapper attentionMapper;
     @Resource
     private DatainfMapper datainfMapper;
+    @Resource
+    private UserMapper userMapper;
     //获取订单列表
     @Override
     public TailPage<OrderFromVTO> orderFromMenu(OrderFromMenuPageParamData orderFromMenuPageParamData) {
@@ -68,6 +72,12 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
             result=list.stream().filter(e -> Long.valueOf("4").equals(e.getDataType())).collect(Collectors.toList());
         }else {
             result=list;
+        }
+        for (OrderFromVTO o:result){
+            if (o.getAuditorUserId()!=null&&o.getAuditorUserId()!=0&&o.getAuditorUserId()!=-1L){
+                o.setCheckMan(userMapper.selectById(o.getAuditorUserId()).getName());
+            }
+            else o.setCheckMan("");
         }
         List<OrderFromVTO> results = PageHelper.pageList(result, orderFromMenuPageParamData.getPn(), orderFromMenuPageParamData.getPs());
         return CommonPage.buildPage(orderFromMenuPageParamData.getPn(),orderFromMenuPageParamData.getPs(),result.size(),results);
@@ -160,6 +170,7 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
                 orderFrom.setAuditMark(paramData.getAuditMark());
                 orderFrom.setUpdatedAt(new Date());
                 orderFrom.setDataType(paramData.getAuditStatus());
+                orderFrom.setAuditorUserId(paramData.getAuditorUserId());
                 this.orderFromMapper.updateById(orderFrom);
                 BeanUtils.copyProperties(orderFrom,vto);
             }
@@ -177,6 +188,7 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
                 order.setAuditorUserId(-1L);
                 this.updateById(order);
                 BeanUtils.copyProperties(order, orderFromInfoVTO);
+                orderFromInfoVTO.setCheckMan("");
                 orderFromInfoVTOS.add(orderFromInfoVTO);
             }
         }else {
@@ -185,6 +197,7 @@ public class OrderFromServiceImpl extends ServiceImpl<OrderFromMapper, OrderFrom
                 order.setAuditorUserId(userId);
                 this.updateById(order);
                 BeanUtils.copyProperties(order, orderFromInfoVTO);
+                orderFromInfoVTO.setCheckMan(userMapper.selectById(userId).getName());
                 orderFromInfoVTOS.add(orderFromInfoVTO);
             }
         }

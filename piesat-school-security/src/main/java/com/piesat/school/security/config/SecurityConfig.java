@@ -4,25 +4,31 @@ import com.piesat.school.security.filter.JWTAuthenticationFilter;
 import com.piesat.school.security.filter.JWTAuthorizationFilter;
 import com.piesat.school.security.handler.*;
 import com.piesat.school.security.service.SpringSecurityUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.FlushMode;
+import org.springframework.session.Session;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 //springSecurity配置类
 @Configuration
 @EnableWebSecurity
+@EnableRedisHttpSession(redisNamespace = "spring:session:myframe",maxInactiveIntervalInSeconds = 5000,flushMode = FlushMode.ON_SAVE)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //登录成功处理逻辑
@@ -44,7 +50,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomizeAuthenticationEntryPoint authenticationEntryPoint;
     @Resource
     private CustomizeAccessDeniedHandler accessDeniedHandler;
-
+//    @Resource
+//    private CustomSessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+    //redis获取sessionRepository
+    @Autowired
+    @Lazy
+    private FindByIndexNameSessionRepository<? extends Session> sessionRepository;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
@@ -61,13 +72,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
-
+    //注入
 
     @Bean
-//
-    HttpSessionEventPublisher httpSessionEventPublisher(){
-        return new HttpSessionEventPublisher();
+    @ConditionalOnMissingBean(SessionInformationExpiredStrategy.class)
+    public SessionInformationExpiredStrategy sessionInformationExpiredStrategy(){
+        return new CustomSessionInformationExpiredStrategy();
     }
+
+
+
+
+
+//    @Autowired
+//    public SecurityConfig(JsonSessionInformationExpiredHandler sessionInformationExpiredStrategy){
+//        this.sessionInformationExpiredStrategy=sessionInformationExpiredStrategy;
+//    }
+
+
+    // 用于在集群环境下控制会话并发的会话注册表实现
+    @Bean
+    public SpringSessionBackedSessionRegistry sessionRegistry(){
+        return new SpringSessionBackedSessionRegistry<>(sessionRepository);
+    }
+
+//    @Bean
+//    public SessionRegistry getSessionRegistry(){
+//        SessionRegistry sessionRegistry=new SessionRegistryImpl();
+//        return sessionRegistry;
+//    }
 
 
     @Override
@@ -114,19 +147,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authenticated()//所有请求都需要认证
 //                .anyRequest().permitAll()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(),sessionRegistry()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 .logout()
                 .logoutSuccessHandler(logoutSuccessHandler)//登出成功处理逻辑
                 .deleteCookies("JSESSIONID")//登出之后删除cookie
                 .and()
-//               登陆限制
+//        http
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .sessionAuthenticationStrategy(new ConcurrentSessionControlAuthenticationStrategy())
                 .maximumSessions(1)
-//                .sessionRegistry()
-                .maxSessionsPreventsLogin(true);
+                .maxSessionsPreventsLogin(false)//不阻止登录，覆盖
+                .expiredSessionStrategy(new CustomSessionInformationExpiredStrategy());
 
                 //异常处理(权限拒绝、登录失效等)
                 http.exceptionHandling()

@@ -90,5 +90,8 @@ public class OrderFromVTO implements Serializable {
     @ApiModelProperty(value = "申请人ID")
     private Long auditorUserId;
 
-
+    @ApiModelProperty(value = "签入者")
+    private String checkMan;
+    @ApiModelProperty(value = "签入状态")
+    private Integer checkStatus;
 }

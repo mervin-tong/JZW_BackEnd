@@ -43,6 +43,9 @@ public class AuditApplyListVTO implements Serializable{
     @ApiModelProperty(value = "用途说明")
     private String applyExplain;
 
-
+    @ApiModelProperty(value = "签入者")
+    private String checkMan;
+    @ApiModelProperty(value = "签入者id")
+    private Long checkManId;
 
 }

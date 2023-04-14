@@ -8,6 +8,7 @@ import com.piesat.school.biz.ds.datainf.entity.SystemEmail;
 import com.piesat.school.biz.ds.datainf.mapper.DataShareinfMapper;
 import com.piesat.school.biz.ds.datainf.mapper.SystemEmailMapper;
 import com.piesat.school.biz.ds.datainf.service.IDataShareinfService;
+import com.piesat.school.biz.ds.user.mapper.UserMapper;
 import com.piesat.school.datainf.param.AuditApplyListParamData;
 import com.piesat.school.datainf.param.DataShareParamData;
 import com.piesat.school.datainf.param.SystemEmailParamData;
@@ -30,6 +31,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -52,6 +54,8 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
     @Resource
     private SystemEmailMapper systemEmailMapper;
 
+    @Resource
+    private UserMapper userMapper;
 
 
     @Override
@@ -146,6 +150,8 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         Page<AuditApplyListVTO> page = new Page<>(auditApplyListParamData.getPn(),auditApplyListParamData.getPs());
         page.setOptimizeCountSql(false);
         List<AuditApplyListVTO> list = dataShareinfMapper.auditApplyList(auditApplyListParamData,page);
+        list.stream().filter(o->o.getCheckManId()!=null&&o.getCheckManId()!=-1L)
+                .forEach(o->{o.setCheckMan(userMapper.selectById(o.getCheckManId()).getName());});
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
 
     }
@@ -201,7 +207,6 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         } catch (IOException e) {
             e.printStackTrace();
         }
-//===================================================================================================
 //      调用邮件服务发送key到指定邮箱
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         SystemEmail sender = systemEmailMapper.selectById(1);
@@ -273,5 +278,32 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         return systemEmailVTO;
     }
 
+    @Override
+    public List<AuditApplyListVTO> checkinOrOut(List<Long> dataList, Long userId, Integer checkStatus) {
+        List<DataShareinf> dataShareinfs=baseMapper.selectList(new QueryWrapper<DataShareinf>().in("id", dataList));
+        List<AuditApplyListVTO> auditApplyListVTOS=new ArrayList<>();
 
+        if (checkStatus == 1){//签入
+            for (DataShareinf dataShareinf:dataShareinfs) {
+                AuditApplyListVTO auditApplyListVTO = new AuditApplyListVTO();
+                dataShareinf.setCheckManId(userId);
+                BeanUtils.copyProperties(dataShareinf,auditApplyListVTO);
+                auditApplyListVTO.setCheckMan(userMapper.selectById(userId).getName());
+                auditApplyListVTOS.add(auditApplyListVTO);
+                baseMapper.updateById(dataShareinf);
+            }
+        }
+        if (checkStatus==0){//签出
+            for (DataShareinf dataShareinf:dataShareinfs){
+                AuditApplyListVTO auditApplyListVTO=new AuditApplyListVTO();
+                dataShareinf.setCheckManId(-1L);
+                BeanUtils.copyProperties(dataShareinf,auditApplyListVTO);
+                auditApplyListVTO.setCheckMan("");
+
+                auditApplyListVTOS.add(auditApplyListVTO);
+                baseMapper.updateById(dataShareinf);
+            }
+        }
+        return auditApplyListVTOS;
+    }
 }

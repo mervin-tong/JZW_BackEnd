@@ -13,6 +13,7 @@ import com.smartwork.api.support.page.TailPage;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -71,6 +72,10 @@ public class RDataShareInfService implements IRDataShareInfService {
     }
 
 
+    @Override
+    public Result<List<AuditApplyListVTO>> checkinOrOut(List<Long> dataList, Long userId, Integer checkStatus) {
+        return Result.ofSuccess(iDataShareInfService.checkinOrOut(dataList,userId,checkStatus));
+    }
 
     @Override
     public SystemEmailVTO seeEmail() {

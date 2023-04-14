@@ -15,6 +15,10 @@ public class DataReviewReVTO implements Serializable {
      * 评审状态
      */
     private Integer status;
+    /**
+     * 签入者
+     */
+    private String checkMan;
 
     /**
      * 申请数据id

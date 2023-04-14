@@ -52,6 +52,8 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
         Page<DataInfListVTO> page = new Page<>(dataReviewParamData.getPn(),dataReviewParamData.getPs());
         page.setOptimizeCountSql(false);
         List<DataReviewVTO> list = dataReviewMapper.dataReview(dataReviewParamData,page);
+        list.stream().filter(o->o.getAdminJudgeId()!=null&&o.getAdminJudgeId()!=-1L&&o.getAdminJudgeId()!=0)
+                .forEach(o->{o.setCheckMan(userMapper.selectById(o.getAdminJudgeId()).getName());});
         return CommonPage.buildPage(page.getCurrent(),page.getSize(),page.getTotal(),list);
     }
     //创建评审
@@ -163,9 +165,9 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
                 DataReviewReVTO dataReviewReVT=new DataReviewReVTO();
                 dataReview.setStatus(0);
                 dataReview.setAdminJudgeId(-1L);
-                dataReview.setCheckMan("");
                 baseMapper.updateById(dataReview);
                 BeanUtils.copyProperties(dataReview, dataReviewReVT);
+                dataReviewReVT.setCheckMan("");
                 dataReviewReVTOS.add(dataReviewReVT);
             }
         }else {//签入
@@ -173,9 +175,9 @@ public class DataReviewServiceImpl extends ServiceImpl<DataReviewMapper, DataRev
                 DataReviewReVTO dataReviewReVT=new DataReviewReVTO();
                 dataReview.setStatus(0);
                 dataReview.setAdminJudgeId(userId);
-                dataReview.setCheckMan(userMapper.selectById(userId).getName());
                 baseMapper.updateById(dataReview);
                 BeanUtils.copyProperties(dataReview, dataReviewReVT);
+                dataReviewReVT.setCheckMan(userMapper.selectById(userId).getName());
                 dataReviewReVTOS.add(dataReviewReVT);
             }
         }

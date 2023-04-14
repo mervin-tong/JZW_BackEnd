@@ -10,6 +10,9 @@ import com.piesat.school.datainf.vto.ShareInfVTO;
 import com.piesat.school.datainf.vto.SystemEmailVTO;
 import com.smartwork.api.Result;
 import com.smartwork.api.support.page.TailPage;
+
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * @Author: liqiteng
@@ -37,4 +40,5 @@ public interface IDataShareinfService extends IService<DataShareinf> {
 
     SystemEmailVTO seeEmail();
 
+    List<AuditApplyListVTO> checkinOrOut(List<Long> dataList, Long userId, Integer checkStatus);
 }
