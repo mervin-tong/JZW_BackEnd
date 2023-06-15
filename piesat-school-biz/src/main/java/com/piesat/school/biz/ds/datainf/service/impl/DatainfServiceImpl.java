@@ -498,7 +498,7 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
     @Override
     public TailPage<DataInfListVTO> upToDateAttention(PageQueryParamData paramData) {
         QueryWrapper<Datainf> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("through_review", BizEnumType.ThroughReview.PASS.getKey()).orderByDesc("updated_at");
+        queryWrapper.eq("through_review", BizEnumType.ThroughReview.PASS.getKey()).orderByDesc("created_at");
         Page<Datainf> dataInfos=this.page(new Page<>(paramData.getPn(), paramData.getPs()), queryWrapper);
         List<DataInfListVTO> list=new ArrayList<>();
         for(Datainf datainf:dataInfos.getRecords()) {

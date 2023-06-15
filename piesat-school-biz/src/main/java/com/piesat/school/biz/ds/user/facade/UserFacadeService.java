@@ -202,32 +202,33 @@ public class UserFacadeService {
             return Result.ofFail("1111","id为空");
         }
         User user=this.userMapper.selectById(paramData.getId());
-        if(user.getDeleteYou()!=0) {
-
-            if (StringUtils.isNotBlank(paramData.getAvatar())) {
-                user.setAvatar(paramData.getAvatar());
-            }
-            if (StringUtils.isNotBlank(paramData.getHighEducation())) {
-                user.setHighEducation(paramData.getHighEducation());
-            }
-            if (StringUtils.isNotBlank(paramData.getName())) {
-                user.setName(paramData.getName());
-            }
-            if (StringUtils.isNotBlank(paramData.getPhone())) {
-                user.setPhone(paramData.getPhone());
-            }
-            if (StringUtils.isNotBlank(paramData.getProfession())) {
-                user.setProfession(paramData.getProfession());
-            }
-            if (StringUtils.isNotBlank(paramData.getUnitAddress())) {
-                user.setUnitAddress(paramData.getUnitAddress());
-            }
-            if (StringUtils.isNotBlank(paramData.getWorkUnit())) {
-                user.setWorkUnit(paramData.getWorkUnit());
-            }
-            user.setUpdatedAt(new Date());
-            this.userMapper.updateById(user);
+        if(user.getDeleteYou()==1) {
+            return Result.ofFail("1112","该账号已被删除");
         }
+        if (StringUtils.isNotBlank(paramData.getAvatar())) {
+            user.setAvatar(paramData.getAvatar());
+        }
+        if (StringUtils.isNotBlank(paramData.getHighEducation())) {
+            user.setHighEducation(paramData.getHighEducation());
+        }
+        if (StringUtils.isNotBlank(paramData.getName())) {
+            user.setName(paramData.getName());
+        }
+        if (StringUtils.isNotBlank(paramData.getPhone())) {
+            user.setPhone(paramData.getPhone());
+        }
+        if (StringUtils.isNotBlank(paramData.getProfession())) {
+            user.setProfession(paramData.getProfession());
+        }
+        if (StringUtils.isNotBlank(paramData.getUnitAddress())) {
+            user.setUnitAddress(paramData.getUnitAddress());
+        }
+        if (StringUtils.isNotBlank(paramData.getWorkUnit())) {
+            user.setWorkUnit(paramData.getWorkUnit());
+        }
+        user.setUpdatedAt(new Date());
+        this.userMapper.updateById(user);
+
         UserVTO userVTO=new UserVTO();
         BeanUtils.copyProperties(user,userVTO);
         return Result.ofSuccess(userVTO);

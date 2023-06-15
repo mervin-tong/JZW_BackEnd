@@ -118,10 +118,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public Result<Boolean> addAdministrator(UserParamData userParamData) {
+        if (userParamData.getEmail()!=null&&isDuplicate(userParamData.getEmail())){
+            return Result.ofFail("001","邮箱已存在");
+        }
         User user = UserBuilder.toUser(userParamData);
         user.setPassword(passwordEncoder.encode(userParamData.getPassword()));
         user.setCreatedAt(new Date());
         user.setUpdatedAt(new Date());
+        user.setDeleteYou(0);
         boolean b =this.save(user);
         UserRole userRole=new UserRole();
         userRole.setUserId(user.getId());
@@ -132,5 +136,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }else {
             return Result.ofFail("4013", "创建失败");
         }
+    }
+
+    private boolean isDuplicate(String email) {
+        List<User> userList=userMapper.selectList(new QueryWrapper<User>().eq("delete_you",0));
+        boolean flag=false;
+        for (User user:userList) {
+            if (email.equals(user.getEmail())){
+                flag= true;
+            }
+        }
+        return flag;
     }
 }

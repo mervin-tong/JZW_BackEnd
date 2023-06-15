@@ -25,7 +25,9 @@ public class DataShareinf implements Serializable {
     private Long checkId;
 
     private Date passDate;
-
+    /**
+     * 申请状态 0未通过，1已通过，2待审核
+     */
     private Integer applyStatus;
 
     private Long checkManId;

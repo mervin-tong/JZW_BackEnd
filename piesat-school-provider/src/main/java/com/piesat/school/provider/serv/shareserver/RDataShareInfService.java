@@ -65,7 +65,6 @@ public class RDataShareInfService implements IRDataShareInfService {
     public Result<SystemEmailVTO> setEmail(SystemEmailParamData systemEmailParamData) {
         return iDataShareInfService.setEmail(systemEmailParamData);
     }
-
     @Override
     public Result<ShareInfVTO> pass(DataShareParamData dataShareParamData) {
         return iDataShareInfService.pass(dataShareParamData);

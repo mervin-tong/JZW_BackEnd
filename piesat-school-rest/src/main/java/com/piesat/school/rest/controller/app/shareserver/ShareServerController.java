@@ -36,7 +36,7 @@ public class ShareServerController {
     @ApiOperation(value = "api服务申请列表")
     @PostMapping("/dataList")
 //    无需参数
-    public Result<TailPage<ShareInfVTO>> datalist(DataShareParamData paramData){
+    public Result<TailPage<ShareInfVTO>> datalist(@RequestBody DataShareParamData paramData){
 //        TailPage<ShareInfVTO> shareInfVTOS=dataInfService.datalist(paramData);
         return Result.ofSuccess(dataInfService.datalist(paramData));
     }

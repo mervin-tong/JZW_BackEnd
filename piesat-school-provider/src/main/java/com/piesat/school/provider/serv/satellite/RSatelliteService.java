@@ -7,6 +7,7 @@ import com.smartwork.api.Result;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,11 @@ import java.util.List;
 public class RSatelliteService implements IRSatelliteService {
     @Resource
     private ISatelliteService iSatelliteService;
+
+    @Override
+    public Result<List<SatelliteVTO>> test() {
+        return iSatelliteService.test();
+    }
 
     @Override
     public Result<List<SatelliteVTO>> getAll() {

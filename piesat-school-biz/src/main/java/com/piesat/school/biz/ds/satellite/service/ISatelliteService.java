@@ -5,6 +5,7 @@ import com.piesat.school.biz.ds.satellite.entity.SatelliteEntity;
 import com.piesat.school.satellite.vto.SatelliteVTO;
 import com.smartwork.api.Result;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,4 +17,6 @@ import java.util.List;
  */
 public interface ISatelliteService extends IService<SatelliteEntity> {
     Result<List<SatelliteVTO>> getAll();
+
+    Result<List<SatelliteVTO>> test();
 }

@@ -31,6 +31,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -84,6 +85,7 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
                 Date date=new Date();
                 shareInfVTO.setUpdatedAt(date);
                 shareInfVTO.setCreatedAt(date);
+                shareInfVTO.setCheckId(-1L);
                 if (shareInfVTO.getApplyStatus()==2){
                     BeanUtils.copyProperties(shareInfVTO,dataShareinf);
                     dataShareinfMapper.updateById(dataShareinf);
@@ -220,10 +222,12 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
         if (dataShareParamData.getMark() != null) {
 //            不通过
             dataShareinf.setApplyStatus(0);
+            dataShareinf.setCheckManId(-1L);
             dataShareinf.setMark(dataShareParamData.getMark());
         } else {
 //            通过，信息发送到邮箱
             dataShareinf.setApplyStatus(1);
+            dataShareinf.setCheckManId(-1L);
             dataShareinf.setMark("");
             try {
                 //建立邮件消息
@@ -282,24 +286,22 @@ public class DataShareinfServiceImpl extends ServiceImpl<DataShareinfMapper, Dat
     public List<AuditApplyListVTO> checkinOrOut(List<Long> dataList, Long userId, Integer checkStatus) {
         List<DataShareinf> dataShareinfs=baseMapper.selectList(new QueryWrapper<DataShareinf>().in("id", dataList));
         List<AuditApplyListVTO> auditApplyListVTOS=new ArrayList<>();
-
-        if (checkStatus == 1){//签入
-            for (DataShareinf dataShareinf:dataShareinfs) {
-                AuditApplyListVTO auditApplyListVTO = new AuditApplyListVTO();
+        for (DataShareinf dataShareinf:dataShareinfs) {
+            AuditApplyListVTO auditApplyListVTO = new AuditApplyListVTO();
+            if (dataShareinf.getApplyStatus()!=2){
+                return null;
+            }
+            if (checkStatus == 1){//签入
                 dataShareinf.setCheckManId(userId);
                 BeanUtils.copyProperties(dataShareinf,auditApplyListVTO);
                 auditApplyListVTO.setCheckMan(userMapper.selectById(userId).getName());
                 auditApplyListVTOS.add(auditApplyListVTO);
                 baseMapper.updateById(dataShareinf);
             }
-        }
-        if (checkStatus==0){//签出
-            for (DataShareinf dataShareinf:dataShareinfs){
-                AuditApplyListVTO auditApplyListVTO=new AuditApplyListVTO();
+            if (checkStatus==0){//签出
                 dataShareinf.setCheckManId(-1L);
                 BeanUtils.copyProperties(dataShareinf,auditApplyListVTO);
                 auditApplyListVTO.setCheckMan("");
-
                 auditApplyListVTOS.add(auditApplyListVTO);
                 baseMapper.updateById(dataShareinf);
             }

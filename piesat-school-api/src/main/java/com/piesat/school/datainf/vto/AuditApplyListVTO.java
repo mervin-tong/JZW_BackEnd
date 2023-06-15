@@ -16,7 +16,7 @@ public class AuditApplyListVTO implements Serializable{
     private String name;
     @ApiModelProperty(value = "不通过原因")
     private String mark;
-    @ApiModelProperty(value = "申请状态")
+    @ApiModelProperty(value = "申请状态 0未通过，1已通过，2待审核")
     private Integer applyStatus;
     @ApiModelProperty(value = "用户表的id")
     private Long id;

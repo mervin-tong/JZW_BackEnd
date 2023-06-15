@@ -43,7 +43,9 @@ public class SatelliteServiceImpl extends ServiceImpl<SatelliteMapper, Satellite
                 }
             }
         }
-
+        if (fileName.size()==0){
+            return Result.ofFail("1","文件夹为空");
+        }
         Date dome= Collections.max(fileName);
         String simpleDateFormat=new SimpleDateFormat("yyyyMMdd").format(dome);
         File target=new File(file.getPath()+"/"+simpleDateFormat+"/images");
@@ -55,16 +57,57 @@ public class SatelliteServiceImpl extends ServiceImpl<SatelliteMapper, Satellite
                 File targ=new File(it.getParent());
                 File sec=new File(targ.getParent());
                 satelliteVTO.setDate(sec.getName());
-                try {
-                    BufferedImage image= ImageIO.read(new FileInputStream(it.getPath()));
-                    satelliteVTO.setSize(image.getWidth()+"x"+image.getHeight());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    BufferedImage image= ImageIO.read(new FileInputStream(it.getPath()));
+//                    satelliteVTO.setSize(image.getWidth()+"x"+image.getHeight());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
                 satelliteVTOS.add(satelliteVTO);
             }
         }
         return Result.ofSuccess(satelliteVTOS);
     }
 
+    @Override
+    public Result<List<SatelliteVTO>> test() {
+        List<SatelliteVTO> satelliteVTOS=new ArrayList<>();
+        List<Date> fileName=new ArrayList<>();
+        File file=new File("/LERSDA/JPSS");
+        File[] listFiles= file.listFiles();
+        if (listFiles != null) {
+            for (File item:listFiles){
+                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyyMMdd");
+                try {
+                    fileName.add(simpleDateFormat.parse(item.getName()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (fileName.size()==0){
+            return Result.ofFail("1","文件夹为空");
+        }
+        Date dome= Collections.max(fileName);
+        String simpleDateFormat=new SimpleDateFormat("yyyyMMdd").format(dome);
+        File target=new File(file.getPath()+"/"+simpleDateFormat+"/images");
+        File [] pic=target.listFiles();
+        if (!Objects.isNull(pic)) {
+            for (File it : pic) {
+                SatelliteVTO satelliteVTO=new SatelliteVTO();
+                satelliteVTO.setLocation(it.getPath().replace("\\","/"));
+                File targ=new File(it.getParent());
+                File sec=new File(targ.getParent());
+                satelliteVTO.setDate(sec.getName());
+//                try {
+//                    BufferedImage image= ImageIO.read(new FileInputStream(it.getPath()));
+//                    satelliteVTO.setSize(image.getWidth()+"x"+image.getHeight());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+                satelliteVTOS.add(satelliteVTO);
+            }
+        }
+        return Result.ofSuccess(satelliteVTOS);
+    }
 }
