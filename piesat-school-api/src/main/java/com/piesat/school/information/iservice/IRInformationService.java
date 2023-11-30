@@ -14,4 +14,6 @@ public interface IRInformationService {
     Result<InformationVTO> detail(Long id);
 
     Result<TailPage<InformationVTO>> informationPage(InformationPageParam paramData);
+
+
 }

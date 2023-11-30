@@ -158,7 +158,8 @@
             a.pic,
             a.data_amount,
             a.upload_user_id,
-            a.generation_mode
+            a.generation_mode,
+            a.is_map_data
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id
         LEFT JOIN t_generation g on g.id=a.generation_mode
@@ -214,7 +215,8 @@
             a.data_amount,
             a.upload_user_id,
             a.generation_mode,
-            g.comment
+            g.comment,
+            a.is_map_data
         from t_data_inf a
                  LEFT JOIN t_contact b on b.id = a.con_id
                  left join t_generation g on g.id=a.generation_mode
@@ -297,6 +299,7 @@
         a.upload_user_id,
         a.generation_mode,
         g.comment,
+        a.is_map_data,
         r.status throughReview
         from t_data_inf a
         LEFT JOIN t_contact b on b.id = a.con_id

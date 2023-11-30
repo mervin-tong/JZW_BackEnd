@@ -92,6 +92,7 @@
             d.address,
             d.publisher_status publisherStatus,
             u.name,
+            d.is_map_data,
             d.upload_user_id,
             d.start_at startAt,
             d.end_at endAt

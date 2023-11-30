@@ -81,4 +81,6 @@ public class OrderFromAttentionVTO implements Serializable {
     @ApiModelProperty(value = "数据是否已加入订单0未加入 1加入")
     private Integer isAddOrder;
 
+    @ApiModelProperty(value = "是否地图数据")
+    private Integer isMapData;
 }

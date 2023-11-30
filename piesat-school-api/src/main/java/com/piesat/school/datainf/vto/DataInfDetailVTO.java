@@ -212,4 +212,7 @@ public class DataInfDetailVTO implements Serializable {
     private Integer throughReview;
     @ApiModelProperty(value = "创建时间")
     private Date createdAt;
+
+    @ApiModelProperty(value = "是否地图数据")
+    private Integer isMapData;
 }

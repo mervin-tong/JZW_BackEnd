@@ -112,6 +112,9 @@ public class DatainfServiceImpl extends ServiceImpl<DatainfMapper, Datainf> impl
         Datainf datainf = new Datainf();
         if(paramData.getId()!=null){
             datainf=datainfMapper.selectById(paramData.getId());
+            if(paramData.getStatus()!=null) {
+                datainf.setStatus(paramData.getStatus());
+            }
             if(StringUtils.isNotBlank(paramData.getDoi())){
                 datainf.setDoi(paramData.getDoi());
             }
