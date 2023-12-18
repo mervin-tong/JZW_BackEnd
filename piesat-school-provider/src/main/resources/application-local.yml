@@ -6,17 +6,10 @@ var:
         zookeeper: zookeeper://localhost:2181
   datasource:
     username: root
-#    password: okmijn
     password: root
-#    master: 127.0.0.1
-#    slave1: 127.0.0.1
-#    slave2: 127.0.0.1
     master: 49.52.28.118
     slave1: 49.52.28.118
     slave2: 49.52.28.118
-#    master: 47.100.53.132
-#    slave1: 47.100.53.132
-#    slave2: 47.100.53.132
   kafka:
     servers: localhost:9092
 
